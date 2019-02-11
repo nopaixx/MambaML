@@ -1,0 +1,6 @@
+-create mysql db
+-install sqlalchemist on mlpython side
+-populate tables
+-instal oatuh
+-generate tokens
+
