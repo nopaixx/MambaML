@@ -1,0 +1,20 @@
+FROM localhost:5000/mypython:latest
+
+
+EXPOSE 8080
+
+RUN apt-get update -y && \
+    apt-get install -y python-pip python-dev
+
+# We copy just the requirements.txt first to leverage Docker cache
+COPY ./req.txt /app/req.txt
+
+WORKDIR /app
+
+RUN pip install -r req.txt
+
+COPY . /app
+
+ENTRYPOINT [ "python" ]
+
+CMD [ "app.py" ]

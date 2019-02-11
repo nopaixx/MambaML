@@ -1,0 +1,3 @@
+sudo docker kill $(docker ps -q) -f
+sudo docker rm $(docker ps -a -q) -f
+sudo docker rmi $(docker images -q) -f
