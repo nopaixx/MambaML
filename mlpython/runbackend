@@ -1,7 +1,7 @@
 
 
-
-export FLASK_APP=service
+export FLASK_APP=mlpython/__init__.py
 export FLASK_DEBUG=true
 
+pip install  -e .
 flask run --host=0.0.0.0 --port=82
