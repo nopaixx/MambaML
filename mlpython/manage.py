@@ -1,6 +1,5 @@
 import os
 from  mlpython.config import DevelopmentConfig
-#from flask.ext.script import Manager
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from mlpython.app import app, db
