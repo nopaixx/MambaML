@@ -19,3 +19,4 @@ if __name__ == '__main__':
  #python manage.py db init
  #python manage.py db migrate
  #python manage.py db upgrade
+ #service mysql restart
