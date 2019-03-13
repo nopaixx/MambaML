@@ -43,3 +43,8 @@ class Client(db.Model):
         if self._default_scopes:
             return self._default_scopes.split()
         return []
+
+    @classmethod
+    def get_client(client_id):
+        client = Client.filter(Client.client_id==client_id).first()    
+        return client

@@ -1,4 +1,7 @@
 // array in local storage for registered users
+import axios from 'axios';
+import Querystring from 'query-string'
+import { TOKEN_URL} from '../endpoint.js'
 let users = JSON.parse(localStorage.getItem('users')) || [];
     
 export function configureFakeBackend() {
@@ -6,14 +9,35 @@ export function configureFakeBackend() {
     window.fetch = function (url, opts) {
         return new Promise((resolve, reject) => {
             // wrap in timeout to simulate server api call
-            setTimeout(() => {
-
                 // authenticate
-                if (url.endsWith('/users/authenticate') && opts.method === 'POST') {
+                if (url === TOKEN_URL && opts.method === 'POST') {
                     // get parameters from post request
                     let params = JSON.parse(opts.body);
 
+                    // adebug aqui hacer la llamada a la api de token
                     // find if any user matches login credentials
+                    console.log(url)
+                    const response = axios.post(TOKEN_URL, Querystring.stringify(params))   
+                       .then(response => {
+                          console.log(response.data);
+
+                          let responseJson = {
+                            /*id: user.id,
+                            username: response.username,
+                            firstName: response.firstName,
+                            lastName: response.lastName,*/
+                            token: response.access_token
+
+                          };
+                          resolve({ ok: true, text: () => Promise.resolve(JSON.stringify(responseJson)) });
+
+                          // console.log('userresponse ' + response.data.access_token); 
+                        })   
+                       .catch((error) => {
+                          console.log('error ' + error);
+                       });
+                    console.log(response)
+                    /*
                     let filteredUsers = users.filter(user => {
                         return user.username === params.username && user.password === params.password;
                     });
@@ -32,7 +56,7 @@ export function configureFakeBackend() {
                     } else {
                         // else return error
                         reject('Username or password is incorrect');
-                    }
+                    }*/
 
                     return;
                 }
@@ -123,7 +147,6 @@ export function configureFakeBackend() {
                 // pass through any requests not handled above
                 realFetch(url, opts).then(response => resolve(response));
 
-            }, 500);
         });
     }
 }

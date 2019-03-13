@@ -1,6 +1,6 @@
 import config from 'config';
 import { authHeader } from '../_helpers';
-
+import { TOKEN_URL} from '../endpoint.js'
 export const userService = {
     login,
     logout,
@@ -18,7 +18,7 @@ function login(username, password) {
         body: JSON.stringify({ username, password })
     };
 
-    return fetch(`${config.apiUrl}/users/authenticate`, requestOptions)
+    return fetch(`${TOKEN_URL}`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes

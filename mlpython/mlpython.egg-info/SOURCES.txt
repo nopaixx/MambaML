@@ -1,6 +1,7 @@
 README.md
 setup.py
 mlpython/__init__.py
+mlpython/manager.py
 mlpython/views.py
 mlpython.egg-info/PKG-INFO
 mlpython.egg-info/SOURCES.txt

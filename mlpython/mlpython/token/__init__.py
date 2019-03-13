@@ -31,3 +31,16 @@ class Token(db.Model):
         if self._scopes:
             return self._scopes.split()
         return []
+
+    @classmethod
+    def bearer_token(access_token=None, refresh_token=None):
+        if access_token:
+            return Token.filter(Token.access_token==access_token).first()
+        if refresh_token:
+            return Token.filter(Token.refresh_token==refresh_token).first()
+        return None
+
+    @classmethod    
+    def set_token(token, request, *args, **kwargs):
+        #save_token(token, request.client, request.user)
+        print("OK", file=sys.stdout)
