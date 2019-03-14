@@ -14,7 +14,7 @@ class RequestValidator(OAuth2RequestValidator):
         self._usergetter = User.get_user
         self._clientgetter = Client.get_client
         self._tokengetter = Token.bearer_token
-        self._tokensetter = Token.set_token
+        self._tokensetter = Token.save
 
 
 provider.init_app(app)
@@ -24,6 +24,7 @@ provider._validator = RequestValidator()
 @app.route('/token', methods=['POST','GET'])
 @provider.token_handler
 #@crossdomain(origin='*') 
-def access_token():
-    print("OK", file=sys.stdout)
+def access_token(*args, **kwargs):
+    print(kwargs, file=sys.stdout)
+    print(args, file=sys.stdout)
     return None

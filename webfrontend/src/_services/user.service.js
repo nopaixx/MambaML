@@ -1,6 +1,7 @@
 import config from 'config';
 import { authHeader } from '../_helpers';
-import { TOKEN_URL} from '../endpoint.js'
+import { TOKEN_URL, MYUSER_URL} from '../endpoint.js'
+import { CLIENT_ID} from '../global_constants.js'
 export const userService = {
     login,
     logout,
@@ -12,19 +13,40 @@ export const userService = {
 };
 
 function login(username, password) {
+    
+    const grant_type = 'password'
+    const client_id = CLIENT_ID
+
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+
+        body: JSON.stringify({ username, password, grant_type, client_id})
     };
+
 
     return fetch(`${TOKEN_URL}`, requestOptions)
         .then(handleResponse)
-        .then(user => {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('user', JSON.stringify(user));
+        .then(response => {
+            console.log(response)
+            // set header for all next peticions
+            localStorage.setItem('token', response.data.access_token);
+            localStorage.setItem('refresh_token', response.data.refresh_token);
+            const requestOptions = {
+                method: 'GET',
+                headers: authHeader()
+            };
+            //if get token success then try to get our data with myuser endpoint
+            fetch(`${MYUSER_URL}`, requestOptions)
+                .then(handleResponse)
+                .then(user=>{
+                        localStorage.setItem('user', user.data);
+                        console.log(user.data)
+                        console.log("ENDMY USER")
+                    ///aqui cogemos el my user con el header!
+                    return user.data;
+            });
 
-            return user;
         });
 }
 

@@ -1,7 +1,8 @@
 // array in local storage for registered users
 import axios from 'axios';
 import Querystring from 'query-string'
-import { TOKEN_URL} from '../endpoint.js'
+import { TOKEN_URL, MYUSER_URL} from '../endpoint.js'
+
 let users = JSON.parse(localStorage.getItem('users')) || [];
     
 export function configureFakeBackend() {
@@ -10,31 +11,73 @@ export function configureFakeBackend() {
         return new Promise((resolve, reject) => {
             // wrap in timeout to simulate server api call
                 // authenticate
-                if (url === TOKEN_URL && opts.method === 'POST') {
+                if (opts.method ==='POST'){
+                    let params = JSON.parse(opts.body);
+                    const response = axios.post(url, Querystring.stringify(params))   
+                       .then(response => {
+                            resolve({ ok: true, text: () => Promise.resolve(JSON.stringify(response))});
+                        })   
+                       .catch((error) => {
+                          console.log(error);
+                       });
+                }else if(opts.method ==='GET'){
+                    console.log(opts)
+                    //let params = JSON.parse(opts.body);
+                    const response = axios.get(url,{
+                        headers:opts.headers
+                    }).then(response=>{
+                            resolve({ ok: true, text: () => Promise.resolve(JSON.stringify(response))});
+                    }).catch((error)=>{
+                        console.log("ERRRRRRO")
+                        console.log(error)
+                    });
+                }
+                
+
+
+
+            /////////////////////////TOBEREMOVED/////////////////////////
+                /*realFetch(url, {
+                                method: 'post',
+                                body: Querystring.stringify(params)
+                            } 
+                          )
+                    .then(response => resolve(response));*/
+                console.log("END")
+    //JSON.parse(requestOptions.body)
+                if (url === "AAAAa" && opts.method === 'POST') {
                     // get parameters from post request
                     let params = JSON.parse(opts.body);
 
-                    // adebug aqui hacer la llamada a la api de token
-                    // find if any user matches login credentials
-                    console.log(url)
                     const response = axios.post(TOKEN_URL, Querystring.stringify(params))   
                        .then(response => {
-                          console.log(response.data);
-
+                          //console.log(response.data);
+                          console.log("MYUSEREEEEEEEEEEEEEEEEEE")
                           let responseJson = {
                             /*id: user.id,
                             username: response.username,
                             firstName: response.firstName,
                             lastName: response.lastName,*/
-                            token: response.access_token
-
+                            token: response.access_token,
+                            refresh_token: response.refresh_token
+                            //after token need call the user  
                           };
+
+                          /*axios.defaults.headers.common['Authorization'] = 'Bearer '+ response.access_token;
+                          const myuser = axios.post(MYUSER_URL)
+                            .then(myuser=>{
+                                console.log("ENDINGGGGGGGGGGGGGGGGGGGGGGG")
+                                console.log(myuser)
+                            }).catch((error) =>{
+                                console.log('Myuser ' + error);
+                            });*/
+
                           resolve({ ok: true, text: () => Promise.resolve(JSON.stringify(responseJson)) });
 
                           // console.log('userresponse ' + response.data.access_token); 
                         })   
                        .catch((error) => {
-                          console.log('error ' + error);
+                          console.log('Token ' + error);
                        });
                     console.log(response)
                     /*
@@ -145,7 +188,7 @@ export function configureFakeBackend() {
                 }
 
                 // pass through any requests not handled above
-                realFetch(url, opts).then(response => resolve(response));
+                //realFetch(url, opts).then(response => resolve(response));
 
         });
     }

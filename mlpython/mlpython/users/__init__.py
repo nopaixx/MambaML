@@ -1,4 +1,7 @@
 from mlpython.app import db
+from flask import request
+from flask import jsonify 
+from ..token import Token
 import sys
 
 
@@ -10,21 +13,30 @@ class User(db.Model):
     firstName = db.Column(db.String(30))
     lastName = db.Column(db.String(30))
 
-    def validatie_password(self, password):
+    def serialize(self):
+    	
+    	model={}
+    	model['username'] = self.username
+    	model['firstName'] = self.firstName
+    	model['lastName'] = self.lastName
+
+    	return jsonify(model)
+
+    def validate_password(self, password):
         # check if password is ok
         # TODO PASSWORD ENCRYPTION
-        if self.password == password:
+        if self.pwd == password:
         	return True
         return False
 
     # @provider.usergetter
-    @classmethod
+    @staticmethod
     def get_user(username, password, client, request,
              *args, **kwargs):
         # client: current request client
         #if not client.has_password_credential_permission:
             #return None
-        print("username", file=sys.stderr)
+        print(username, file=sys.stderr)
         user = User.get_user_by_username(username)
         if not user.validate_password(password):
             return None
@@ -32,10 +44,23 @@ class User(db.Model):
         # maybe you will need it somewhere
         return user
 
-    @classmethod
+    @staticmethod
     def get_user_by_username(username):
         # alquemist query return user or return none
-        print("HOLA",file=sys.stderr)
-        user = User.filter(User.username == username).first()
+        print(db.session, file=sys.stderr)
+        # query = db.session.query(User).filter(username = username)
+
+        query = User.query.filter_by(username=username)
+        print(query,file=sys.stderr)
+        user = query.first()
 
         return user
+
+    @staticmethod
+    def get_authorized():
+        """Returns the currently authorized user."""
+        
+        access_token = request.oauth.headers.get('Authorization').split(' ')[1]
+        token = Token.query.filter_by(access_token=access_token).first()
+        print(token.user,file=sys.stderr)
+        return token.user

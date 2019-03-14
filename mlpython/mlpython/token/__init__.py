@@ -1,4 +1,5 @@
 from mlpython.app import db
+from datetime import datetime, timedelta
 
 class Token(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -32,15 +33,35 @@ class Token(db.Model):
             return self._scopes.split()
         return []
 
-    @classmethod
+    @staticmethod
     def bearer_token(access_token=None, refresh_token=None):
+        
         if access_token:
-            return Token.filter(Token.access_token==access_token).first()
+            return Token.query.filter_by(access_token=access_token).first()
         if refresh_token:
-            return Token.filter(Token.refresh_token==refresh_token).first()
+            return Token.query.filter_by(refresh_token=refresh_token).first()
         return None
 
-    @classmethod    
-    def set_token(token, request, *args, **kwargs):
-        #save_token(token, request.client, request.user)
-        print("OK", file=sys.stdout)
+    @staticmethod
+    def save(token, request, *args, **kwargs):
+        """Creates a new token per client and user."""
+        
+        tokens = Token.query.filter_by(
+            client_id=request.client.client_id, user_id=request.user.id)
+
+        # Make sure there is only one token for every client and user.
+        [db.session.delete(t) for t in tokens]
+
+        expires_in = token.pop('expires_in')
+        expires = datetime.utcnow() + timedelta(seconds=expires_in)
+
+        tok = Token(
+            access_token=token['access_token'],
+            refresh_token=token['refresh_token'],
+            token_type=token['token_type'],
+            expires=expires,
+            client_id=request.client.client_id,
+            user_id=request.user.id)
+
+        db.session.add(tok)
+        db.session.commit()
