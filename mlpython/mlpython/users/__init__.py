@@ -12,6 +12,8 @@ class User(db.Model):
     username = db.Column(db.String(50), unique=True)
     firstName = db.Column(db.String(30))
     lastName = db.Column(db.String(30))
+    comentario = db.Column(db.String(30))
+
 
     def serialize(self):
     	
