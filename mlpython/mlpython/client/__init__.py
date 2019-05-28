@@ -10,6 +10,7 @@ class Client(db.Model):
 
     _redirect_uris = db.Column(db.Text)
     _default_scopes = db.Column(db.Text)
+    
 
     @property
     def allowed_grant_types(self):
@@ -42,3 +43,23 @@ class Client(db.Model):
         print("getclient",file=sys.stderr)
         client = Client.query.filter(Client.client_id==client_id).first()    
         return client
+
+    @classmethod
+    def set_client(cls):
+        # adebug set as enviroment variable for SaaS
+        main_client = 'mambamlclient'
+
+        client = cls.query.filter(Client.client_id==main_client).first()
+        if client:
+            return None
+        else:
+            cls.create(main_client)
+        return None
+
+    @classmethod
+    def create(cls, client_id):
+        model = cls()
+        model.client_id = client_id
+        db.session.add(model)
+        db.session.commit()
+        return model
