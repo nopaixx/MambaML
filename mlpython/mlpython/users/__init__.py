@@ -29,6 +29,25 @@ class User(db.Model):
         	return True
         return False
 
+    @classmethod
+    def set_initial_data(cls):
+        admin_user = cls.query.filter(cls.username=='admin').first()
+        if admin_user is None:
+            cls.create('admin','admin','admin user','admin lastname')
+        return admin_user
+
+    
+    @classmethod
+    def create(cls, pwd, username, firstname, lastname):
+        model = cls()
+        model.pwd = pwd
+        model.username = username
+        model.firstname = firstname
+        model.lastname = lastname
+        db.session.add(model)
+        db.session.commit()
+        return model
+
     # @provider.usergetter
     @staticmethod
     def get_user(username, password, client, request,

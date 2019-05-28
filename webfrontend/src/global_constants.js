@@ -1,1 +1,1 @@
-export const CLIENT_ID = "mambaml20192019" 
+export const CLIENT_ID = "mambamlclient" 
