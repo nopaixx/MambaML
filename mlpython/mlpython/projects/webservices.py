@@ -3,6 +3,7 @@ from ..oauth import provider
 from flask_restful import abort, Resource
 from . import Project
 from ..users import User
+from flask import request
 import requests
 import sys
 
@@ -79,3 +80,21 @@ def run_project():
             
             return 'Forbidden', 403
         return 'Not Found', 404
+
+
+@app.route('/projects/task_simulation', method=['POST'])
+@provider.requiere_oauth()
+def run_task():
+        #TODO ESTA FUNCION EJECTURA Y PARSEA EL JSON DEL PROYECT
+        project_id = request.args.get('id', None )
+
+#        project = Project.
+        return None
+
+
+
+
+
+
+
+

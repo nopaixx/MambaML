@@ -7,7 +7,7 @@ import sys
 @app.route('/task/status', methods=['GET'])
 @provider.require_oauth()
 def task_status():
-    task_id = request.args.get('page', Query.DEFAULT_PAGE)
+    task_id = request.args.get('task_id', Query.DEFAULT_PAGE)
 
     # TODO OK at this moment this method train de model
     # but only need only return status
