@@ -12,7 +12,7 @@ export const projectService = {
 };
 
 function save(project) {
-	console.log('project', project, ...authHeader());
+	console.log('project', project);
 	const requestOptions = {
 		method: 'POST',
 		headers: { ...authHeader(), 'Content-Type': 'application/json' },

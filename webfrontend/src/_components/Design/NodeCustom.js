@@ -5,7 +5,10 @@ import { Page } from './Page';
 import { chartSimple } from './chartSimple';
 
 const Outer = styled.div`
-	padding: 3px;
+	padding: 15px;
+	margin: 10px;
+	font-size: 12px;
+	text-align: center;
 `;
 
 const Input = styled.input`
@@ -42,16 +45,14 @@ export const NodeInnerCustom = ({ node }) => {
 	} else {
 		return (
 			<Outer>
-				<p>Add custom displays for each node.type</p>
-				<p>You may need to stop event propagation so your forms work.</p>
-				<br />
-				<Input
+				<div>{node.type}</div>
+				{/* <Input
 					placeholder="Add forms etc if required"
 					onClick={e => console.log(e)}
 					onChange={e => console.log(e.target.value)}
 					onMouseUp={e => e.stopPropagation()}
 					onMouseDown={e => e.stopPropagation()}
-				/>
+				/> */}
 			</Outer>
 		);
 	}

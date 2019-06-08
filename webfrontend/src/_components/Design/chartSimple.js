@@ -1,3 +1,5 @@
+import { PythonModule_PythonScript } from './NodeTypes';
+
 export const chartSimple = {
 	offset: {
 		x: 0,
@@ -6,8 +8,10 @@ export const chartSimple = {
 	nodes: {
 		node1: {
 			id: 'node1',
-			type: 'dataset-1',
-			payload: 'DataSet1',
+			type: 'Dataset-CSV',
+			payload: {
+				idResource: 123,
+			},
 			position: {
 				x: 300,
 				y: 100,
@@ -16,88 +20,58 @@ export const chartSimple = {
 				port1: {
 					id: 'port1',
 					type: 'output',
+				},
+			},
+		},
+		node2: PythonModule_PythonScript,
+		node3: {
+			id: 'node3',
+			type: 'Python Module-Python Script',
+			payload: {
+				code:
+					'def FUNCTION_ID_2(input1=None, input2=None, input3=None, input4=None, input5=None):\n' +
+					'val = input1 + input2 + input3 + input4\n' +
+					'return val',
+			},
+			position: {
+				x: 300,
+				y: 500,
+			},
+			ports: {
+				port1: {
+					id: 'port1',
+					type: 'input',
 					properties: {
 						value: 'yes',
 					},
 				},
 				port2: {
 					id: 'port2',
-					type: 'output',
+					type: 'input',
 					properties: {
 						value: 'no',
 					},
 				},
-			},
-		},
-		node2: {
-			id: 'node2',
-			type: 'dataset-2',
-			position: {
-				x: 300,
-				y: 300,
-			},
-			ports: {
-				port1: {
-					id: 'port1',
+				port3: {
+					id: 'port3',
 					type: 'input',
+					properties: {
+						value: 'no',
+					},
 				},
-				port2: {
-					id: 'port2',
-					type: 'output',
-				},
-			},
-		},
-		node3: {
-			id: 'node3',
-			type: 'input-output',
-			position: {
-				x: 100,
-				y: 600,
-			},
-			ports: {
-				port1: {
-					id: 'port1',
+				port4: {
+					id: 'port4',
 					type: 'input',
+					properties: {
+						value: 'no',
+					},
 				},
-				port2: {
-					id: 'port2',
+				port5: {
+					id: 'port5',
 					type: 'output',
-				},
-			},
-		},
-		node4: {
-			id: 'node4',
-			type: 'input-output',
-			position: {
-				x: 500,
-				y: 600,
-			},
-			ports: {
-				port1: {
-					id: 'port1',
-					type: 'input',
-				},
-				port2: {
-					id: 'port2',
-					type: 'output',
-				},
-			},
-		},
-		node5: {
-			id: 'node5',
-			type: 'input-output',
-			position: {
-				x: 700,
-				y: 800,
-			},
-			ports: {
-				port1: {
-					id: 'port1',
-					type: 'input',
-				},
-				port2: {
-					id: 'port2',
-					type: 'output',
+					properties: {
+						value: 'no',
+					},
 				},
 			},
 		},
@@ -107,7 +81,7 @@ export const chartSimple = {
 			id: 'link1',
 			from: {
 				nodeId: 'node1',
-				portId: 'port2',
+				portId: 'port1',
 			},
 			to: {
 				nodeId: 'node2',
@@ -121,7 +95,7 @@ export const chartSimple = {
 			id: 'link2',
 			from: {
 				nodeId: 'node2',
-				portId: 'port2',
+				portId: 'port6',
 			},
 			to: {
 				nodeId: 'node3',
@@ -135,33 +109,33 @@ export const chartSimple = {
 			id: 'link3',
 			from: {
 				nodeId: 'node2',
-				portId: 'port2',
+				portId: 'port7',
 			},
 			to: {
-				nodeId: 'node4',
-				portId: 'port1',
+				nodeId: 'node3',
+				portId: 'port2',
 			},
 		},
 		link4: {
 			id: 'link4',
 			from: {
-				nodeId: 'node5',
-				portId: 'port2',
+				nodeId: 'node2',
+				portId: 'port8',
 			},
 			to: {
-				nodeId: 'node4',
-				portId: 'port1',
+				nodeId: 'node3',
+				portId: 'port3',
 			},
 		},
 		link5: {
 			id: 'link5',
 			from: {
-				nodeId: 'node1',
-				portId: 'port1',
+				nodeId: 'node2',
+				portId: 'port9',
 			},
 			to: {
-				nodeId: 'node5',
-				portId: 'port1',
+				nodeId: 'node3',
+				portId: 'port4',
 			},
 		},
 	},

@@ -29,7 +29,7 @@ function save(
 
 		projectService.save(project).then(
 			project => {
-				console.log('project');
+				console.log('project', project);
 				dispatch(success(project));
 				history.push('/');
 			},
@@ -59,9 +59,8 @@ function create(projectName, frontVersion, backVersion) {
 
 		projectService.create(project).then(
 			project => {
-				console.log('project');
 				dispatch(success(project));
-				history.push(`/project/${project.id}`);
+				history.push(`/project`);
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -86,7 +85,6 @@ function load(projectId) {
 
 		projectService.create(project).then(
 			project => {
-				console.log('project');
 				dispatch(success(project));
 				history.push(`/project/${project.id}`);
 			},

@@ -11,7 +11,6 @@ export function configureFakeBackend() {
 		return new Promise((resolve, reject) => {
 			// wrap in timeout to simulate server api call
 			// authenticate
-			console.log('hola', url, opts);
 			if (opts.method === 'POST') {
 				let params = JSON.parse(opts.body);
 				if (url === TOKEN_URL) {

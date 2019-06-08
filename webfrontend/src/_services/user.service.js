@@ -1,6 +1,6 @@
 import config from 'config';
 import { authHeader } from '../_helpers';
-import { TOKEN_URL, MYUSER_URL } from '../endpoint.js';
+import { TOKEN_URL, MYUSER_URL, GET_ACTORS_URL } from '../endpoint.js';
 import { CLIENT_ID } from '../global_constants.js';
 export const userService = {
 	login,
@@ -34,7 +34,12 @@ function login(username, password) {
 				method: 'GET',
 				headers: authHeader(),
 			};
-			console.log('MyUser', requestOptions);
+			console.log(GET_ACTORS_URL, requestOptions);
+
+			fetch(
+				`${GET_ACTORS_URL}?frontendVersion=V1&backendVersion=V1`,
+				requestOptions
+			).then(res => console.log(res));
 			//if get token success then try to get our data with myuser endpoint
 			fetch(`${MYUSER_URL}`, requestOptions)
 				.then(handleResponse)

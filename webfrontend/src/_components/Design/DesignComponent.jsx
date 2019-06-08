@@ -21,7 +21,6 @@ class DesignComponent extends React.Component {
 	handleSaveProject = chart => {
 		const { dispatch } = this.props;
 		console.log('chart', chart);
-		console.log('projectActions', projectActions);
 		dispatch(projectActions.save('id', 'projectoManhattan', chart, 'V1', 'V1'));
 	};
 
@@ -42,7 +41,6 @@ class DesignComponent extends React.Component {
 
 function mapStateToProps(state) {
 	const { project, gettingProject } = state.project;
-	console.log('gettingProject', gettingProject);
 	return {
 		project,
 		gettingProject,
