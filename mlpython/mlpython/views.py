@@ -1,6 +1,8 @@
 from mlpython.app import app
 import mlpython.oauth
 import mlpython.users.webservices
+import mlpython.projects.webservices
+import mlpython.tasks.webservices
 #from .app import app
 
 @app.route('/')

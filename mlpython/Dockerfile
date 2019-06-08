@@ -19,7 +19,8 @@ RUN pip install -r requirements.txt
 COPY . /app
 
 # ENTRYPOINT [ "python" ]
-CMD python manage.py db upgrade ; \
+CMD python manage.py db migrate ; \
+    python manage.py db upgrade ; \
     python initial_data.py ; \ 
     flask run --host=0.0.0.0 --port=8081
 
