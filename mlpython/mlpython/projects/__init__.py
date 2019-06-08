@@ -4,6 +4,7 @@ from flask import jsonify
 from ..token import Token
 from ..users import User
 import sys
+import json
 
 
 class Project(db.Model):
@@ -58,5 +59,12 @@ class Project(db.Model):
     def security_check(cls, project, userLogged, action):
         # TODO given action project and user return if can do
         return True
+
+    @classmethod
+    def run(self):
+        jsondata = self.json
+        jsondata = json.dump(jsondata)
+        db.session.commit()
+        return self
 
 

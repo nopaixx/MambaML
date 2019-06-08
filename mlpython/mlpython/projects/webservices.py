@@ -33,7 +33,7 @@ def update():
                 return '', 401
         #nothing to request
         id = request.form.get('id')
-        project = Project.query().filterby(Project.id == id).first()
+        project = Project.query().filter_by(Project.id == id).first()
         if Project.security_check(project, userLogged, 'PUT'):
             name = request.form.get('name')
             json = request.form.get('json')
@@ -56,7 +56,7 @@ def get():
                 return '', 401
         #nothing to request
         id = request.form.get('id')
-        project = Project.query().filterby(Project.id == id).first()        
+        project = Project.query().filter_by(Project.id == id).first()        
         if project:
             if Project.security_check(project, userLogged, 'GET'):
                 return project.serialize(), 200
@@ -72,7 +72,7 @@ def run_project():
         if not userLogged:
                 return '', 401
         id = request.form.get('id')
-        project = Project.query().filterby(Project.id == id).first()
+        project = Project.query().filter_by(Project.id == id).first()
 
         if project:
             if Project.security_check(project, userLogged, 'RUN'):
@@ -81,17 +81,22 @@ def run_project():
             return 'Forbidden', 403
         return 'Not Found', 404
 
-#@app.route('/projects/task_simulation', method=['POST'])
-#@provider.requiere_oauth()
-#def run_simul():
-#        #TODO ESTA FUNCION EJECTURA Y PARSEA EL JSON DEL PROYECT
-#        userLogged = User.get_authorized()
-#        print(userLogged.username,"get project")
-#        if not userLogged:
-#                return '', 401
+@app.route('/projects/run_simul', methods=['GET'])
+@provider.require_oauth()
+def run_simul():
+        userLogged = User.get_authorized()
+        print(userLogged.username,"get project")
+        if not userLogged:
+                return '', 401
+        id = request.form.get('id')
+        project = Project.query().filter_by(Project.id == id).first()
 
-#        project_id = request.args.get('id',None)
+        if project:
+            if Project.security_check(project, userLogged, 'RUN'):
+                project.run()
+                return project.serialize, 200
 
-#        # project = Project.
-#        return None
+            return 'Forbidden', 403
+        return 'Not Found', 404
+
 

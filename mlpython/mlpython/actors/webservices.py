@@ -14,9 +14,9 @@ def allactors():
         print(userLogged.username,"create project")
         if not userLogged:
                 return '', 401
-        frontendVersion = request.data['frontendVersion']
-        backendVersion = request.data['backendVersion']
-        actors = Actor.query.filter(Actor.frontendVersion==frontendVersion,
+        frontendVersion = request.form.get('frmntendVersion')
+        backendVersion = request.form.get('backendVersion')
+        actors = Actor.query.filter_by(Actor.frontendVersion==frontendVersion,
                                     Actor.backendVersion==backendVersion).all()
         actors_list=[]
         for actor in actors:

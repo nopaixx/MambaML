@@ -17,7 +17,7 @@ class Actor(db.Model):
     n_input_ports = db.Column(db.Integer())
     n_output_ports = db.Column(db.Integer())
    
-    def serialied(self):
+    def serialized(self):
         model={}
         model['id'] = self.id
         model['type'] = self.type
