@@ -17,8 +17,7 @@ def allactors():
                 return '', 401
         frontendVersion = request.form.get('frontendVersion')
         backendVersion = request.form.get('backendVersion')
-        actors = Actor.query.filter_by(Actor.frontendVersion==frontendVersion,
-                                    Actor.backendVersion==backendVersion).all()
+        actors = Actor.query.filter_by(Actor.frontendVersion==frontendVersion).filter_by(Actor.backendVersion==backendVersion).all()
         actors_list=[]
         for actor in actors:
             actors_list.append(actor.serialized())
