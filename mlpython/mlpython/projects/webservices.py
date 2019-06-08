@@ -32,7 +32,7 @@ def update():
         if not userLogged:
                 return '', 401
         #nothing to request
-        id = request.form['id']
+        id = request.form.get('id')
         project = Project.query().filterby(Project.id == id).first()
         if Project.security_check(project, userLogged, 'PUT'):
             name = request.form.get('name')
@@ -85,8 +85,13 @@ def run_project():
 #@provider.requiere_oauth()
 #def run_simul():
 #        #TODO ESTA FUNCION EJECTURA Y PARSEA EL JSON DEL PROYECT
-#        project_id = request.args.get('id', None )
-#
+#        userLogged = User.get_authorized()
+#        print(userLogged.username,"get project")
+#        if not userLogged:
+#                return '', 401
+
+#        project_id = request.args.get('id',None)
+
 #        # project = Project.
 #        return None
 
