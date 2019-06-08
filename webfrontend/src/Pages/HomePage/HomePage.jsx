@@ -1,8 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import brace from 'brace';
+import { render } from 'react-dom';
+import AceEditor from 'react-ace';
 
-import { userActions, projectActions } from '../_actions';
+import 'brace/mode/python';
+import 'brace/theme/monokai';
+
+function onChangeCodeScript(newValue) {
+	console.log('change', newValue);
+}
+
+import { userActions, projectActions } from '../../_actions';
 
 class HomePage extends React.Component {
 	componentDidMount() {
@@ -30,6 +40,13 @@ class HomePage extends React.Component {
 				<p>
 					<Link to="/login">Logout</Link>
 				</p>
+				<AceEditor
+					mode="python"
+					theme="monokai"
+					onChange={onChangeCodeScript}
+					name="UNIQUE_ID_OF_DIV"
+					editorProps={{ $blockScrolling: true }}
+				/>
 			</div>
 		);
 	}

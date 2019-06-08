@@ -29,9 +29,9 @@ export const chartSimple = {
 			type: 'Python Module-Python Script',
 			payload: {
 				code:
-					'def FUNCTION_ID_2(input1=None, input2=None, input3=None, input4=None, input5=None):\n' +
-					'val = input1 + input2 + input3 + input4\n' +
-					'return val',
+					'def FUNCTION_ID_2(input1=None, input2=None, input3=None, input4=None, input5=None):\n\r' +
+					'\tval = input1 + input2 + input3 + input4\n\r' +
+					'\treturn val',
 			},
 			position: {
 				x: 300,
