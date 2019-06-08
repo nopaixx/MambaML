@@ -21,6 +21,7 @@ class Project(db.Model):
 
     def serialize(self):
         model={}
+        model['id'] = self.id
         model['name'] = self.name
         model['json'] = self.json
         model['user_id'] = self.user_id
