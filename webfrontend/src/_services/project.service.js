@@ -1,18 +1,14 @@
 //import config from 'config';
 import { authHeader } from '../_helpers';
-import {
-	MYUSER_URL,
-	SAVE_PROJECT_URL,
-	CREATE_PROJECT_URL,
-} from '../endpoint.js';
+import { SAVE_PROJECT_URL, CREATE_PROJECT_URL } from '../endpoint.js';
 export const projectService = {
 	save,
-	get,
+	//get,
 	create,
 };
 
 function save(project) {
-	console.log('project', project);
+	console.log('project.service SAVE', project);
 	const requestOptions = {
 		method: 'POST',
 		headers: { ...authHeader(), 'Content-Type': 'application/json' },
@@ -21,27 +17,25 @@ function save(project) {
 
 	console.log('requestOptions', requestOptions);
 
-	return fetch(`${SAVE_PROJECT_URL}`, requestOptions).then(response =>
-		handleResponse(response)
-	);
+	return fetch(`${SAVE_PROJECT_URL}`, requestOptions).then(handleResponse);
 }
-function get(project) {
-	console.log('project', project);
-	const requestOptions = {
-		method: 'GET',
-		headers: { ...authHeader(), 'Content-Type': 'application/json' },
-		body: JSON.stringify(project),
-	};
+// function get(project) {
+// 	console.log('project', project);
+// 	const requestOptions = {
+// 		method: 'GET',
+// 		headers: { ...authHeader(), 'Content-Type': 'application/json' },
+// 		body: JSON.stringify(project),
+// 	};
 
-	console.log('requestOptions', requestOptions);
+// 	console.log('requestOptions', requestOptions);
 
-	return fetch(`${SAVE_PROJECT_URL}`, requestOptions).then(response =>
-		handleResponse(response)
-	);
-}
+// 	return fetch(`${SAVE_PROJECT_URL}`, requestOptions).then(response =>
+// 		handleResponse(response)
+// 	);
+// }
 
 function create(project) {
-	console.log('project', authHeader());
+	console.log('project.service CREATE', project);
 	const requestOptions = {
 		method: 'POST',
 		headers: authHeader(),
@@ -56,7 +50,6 @@ function create(project) {
 }
 
 function handleResponse(response) {
-	console.log('response', response);
 	return response.text().then(text => {
 		const data = text && JSON.parse(text);
 		if (!response.ok) {

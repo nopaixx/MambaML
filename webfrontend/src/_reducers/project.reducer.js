@@ -2,17 +2,26 @@ import { projectConstants } from '../_constants';
 
 export function project(state = {}, action) {
 	switch (action.type) {
+		case projectConstants.CREATE_PROJECT_REQUEST:
+			return {
+				...state,
+				creatingProject: true,
+			};
+		case projectConstants.CREATE_PROJECT_SUCCESS:
+			return {
+				...state,
+				creatingProject: false,
+				project: action.payload,
+			};
 		case projectConstants.GET_PROJECT_REQUEST:
-			console.log('action', action);
 			return {
 				...state,
 				gettingProject: true,
 			};
 		case projectConstants.GET_PROJECT_SUCCESS:
-			console.log('action', action);
 			return {
 				...state,
-				project: action,
+				project: action.payload,
 				gettingProject: false,
 			};
 
