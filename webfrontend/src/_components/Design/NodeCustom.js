@@ -18,13 +18,27 @@ const Input = styled.input`
  * Create the custom component,
  * Make sure it has the same prop signature
  */
-const NodeInnerCustom = ({ node }) => {
+
+const dataSet = specifics => {
+	return (
+		<Outer id={'mambaMl'} onClick={e => console.log(e.target)}>
+			<p>Use Node inner to customise the content of the node</p>
+			<p>{specifics}</p>
+		</Outer>
+	);
+};
+
+export const NodeInnerCustom = ({ node }) => {
 	if (node.type === 'output-only') {
 		return (
 			<Outer id={'mambaMl'} onClick={e => console.log(e.target)}>
 				<p>Use Node inner to customise the content of the node</p>
 			</Outer>
 		);
+	} else if (node.type === 'dataset-1') {
+		return dataSet('csv');
+	} else if (node.type === 'dataset-2') {
+		return dataSet('xml');
 	} else {
 		return (
 			<Outer>

@@ -9,16 +9,30 @@ import { InternalReactState } from './InternalReactState';
 import { CustomNodeInnerDemo } from './NodeCustom';
 import { DragDropState } from './DragDropState';
 
+import { connect } from 'react-redux';
+import { projectActions } from '../../_actions';
+
 class DesignComponent extends React.Component {
+	componentDidMount() {
+		const { dispatch } = this.props;
+		dispatch(projectActions.get('id'));
+	}
+
+	handleSaveProject = chart => {
+		const { dispatch } = this.props;
+		console.log('chart', chart);
+		console.log('projectActions', projectActions);
+		dispatch(projectActions.save('id', 'projectoManhattan', chart, 'V1', 'V1'));
+	};
+
 	render() {
 		return (
 			<React.Fragment>
 				<img src={MambaLogo} />
-
 				{/* <DragAndDropSidebar /> */}
 				{/* <ExternalReactState /> */}
 				{/* <InternalReactState /> */}
-				<DragDropState />
+				<DragDropState saveProject={this.handleSaveProject} />
 				{/* <CustomNodeInnerDemo /> */}
 				{/* <FlowChartWithState initialValue={chartSimple} /> */}
 			</React.Fragment>
@@ -26,4 +40,14 @@ class DesignComponent extends React.Component {
 	}
 }
 
-export default DesignComponent;
+function mapStateToProps(state) {
+	const { project, gettingProject } = state.project;
+	console.log('gettingProject', gettingProject);
+	return {
+		project,
+		gettingProject,
+	};
+}
+
+const connectedDesignComponent = connect(mapStateToProps)(DesignComponent);
+export { connectedDesignComponent as DesignComponent };

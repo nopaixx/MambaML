@@ -10,8 +10,8 @@ import { configureFakeBackend } from './_helpers';
 configureFakeBackend();
 
 render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
-    document.getElementById('app')
+	<Provider store={store}>
+		<App />
+	</Provider>,
+	document.getElementById('app')
 );

@@ -8,7 +8,7 @@ import { PrivateRoute } from '../_components';
 import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
-import DesignComponent from '../_components/Design/DesignComponent';
+import { DesignComponent } from '../_components/Design/DesignComponent';
 
 class App extends React.Component {
 	constructor(props) {
@@ -35,7 +35,8 @@ class App extends React.Component {
 								<PrivateRoute exact path="/" component={HomePage} />
 								<Route path="/login" component={LoginPage} />
 								<Route path="/register" component={RegisterPage} />
-								<Route path="/design" component={DesignComponent} />
+								<Route exact path="/project" component={DesignComponent} />
+								<Route path="/home" component={HomePage} />
 							</div>
 						</Router>
 					</div>

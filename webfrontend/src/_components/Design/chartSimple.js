@@ -6,7 +6,7 @@ export const chartSimple = {
 	nodes: {
 		node1: {
 			id: 'node1',
-			type: 'output-only',
+			type: 'dataset-1',
 			payload: 'DataSet1',
 			position: {
 				x: 300,
@@ -31,7 +31,7 @@ export const chartSimple = {
 		},
 		node2: {
 			id: 'node2',
-			type: 'input-output',
+			type: 'dataset-2',
 			position: {
 				x: 300,
 				y: 300,
