@@ -13,15 +13,15 @@ import { connect } from 'react-redux';
 import { projectActions } from '../../_actions';
 
 class DesignComponent extends React.Component {
-	componentDidMount() {
-		const { dispatch } = this.props;
-		dispatch(projectActions.get('id'));
-	}
+	// componentDidMount() {
+	// 	const { dispatch } = this.props;
+	// 	dispatch(projectActions.get('id'));
+	// }
 
 	handleSaveProject = chart => {
-		const { dispatch } = this.props;
+		const { dispatch, project } = this.props;
 		console.log('chart', chart);
-		dispatch(projectActions.save('id', 'projectoManhattan', chart, 'V1', 'V1'));
+		dispatch(projectActions.save(project.id, project.name, chart, 'V1', 'V1'));
 	};
 
 	render() {
@@ -40,10 +40,12 @@ class DesignComponent extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const { project, gettingProject } = state.project;
+	const { project, gettingProject, creatingProject } = state.project;
+	console.log('State props project', project);
 	return {
 		project,
 		gettingProject,
+		creatingProject,
 	};
 }
 
