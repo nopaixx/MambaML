@@ -9,4 +9,5 @@ from .token import Token
 
 
 if __name__ == '__main__':
+    print("RUN AQUI")
     app.run()

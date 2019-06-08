@@ -10,3 +10,4 @@ app.config.from_object(DevelopmentConfig)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
