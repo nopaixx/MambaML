@@ -21,7 +21,7 @@ def create():
                                 frontendVersion, backendVersion)
         return project.serialize(), 200
 
-@app.route('/projects/update', methods=['PUT'])
+@app.route('/projects/update', methods=['PUT', 'POST'])
 @provider.require_oauth()
 def update():
         userLogged = User.get_authorized()
