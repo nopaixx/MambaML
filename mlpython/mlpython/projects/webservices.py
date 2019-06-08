@@ -33,6 +33,7 @@ def update():
                 return '', 401
         #nothing to request
         id = request.form.get('id')
+        print("IDDDDDDDDDDDDD", id)
         project = Project.query.filter(Project.id == id).first()
         if not project:
             return 'Not Found', 404

@@ -11,7 +11,7 @@ function save(project) {
 	console.log('project.service SAVE', project);
 	const requestOptions = {
 		method: 'POST',
-		headers: { ...authHeader(), 'Content-Type': 'application/json' },
+		headers: authHeader(),
 		body: JSON.stringify(project),
 	};
 
