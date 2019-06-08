@@ -16,10 +16,10 @@ def create():
                 return '', 401
         #nothing to request
         # request.args.get('page', Query.DEFAULT_PAGE)
-        name = request.data['name']
-        json = request.data['json']
-        frontendVersion = request.data['frontendVersion']
-        backendVersion = request.data['backendVersion']
+        name = request.form['name']
+        json = request.form['json']
+        frontendVersion = request.form['frontendVersion']
+        backendVersion = request.form['backendVersion']
         project = Project.create(name, json, userLogged.id, 
                                 frontendVersion, backendVersion)
         return project.serialize(), 200
@@ -81,19 +81,12 @@ def run_project():
             return 'Forbidden', 403
         return 'Not Found', 404
 
-#@app.route('/projects/task_simulation', method=['POST'])
-#@provider.requiere_oauth()
-#def run_simul():
+@app.route('/projects/task_simulation', method=['POST'])
+@provider.requiere_oauth()
+def run_simul():
         #TODO ESTA FUNCION EJECTURA Y PARSEA EL JSON DEL PROYECT
-#        project_id = request.args.get('id', None )
+        project_id = request.args.get('id', None )
 
-#        project = Project.
-#        return None
-
-
-
-
-
-
-
+        # project = Project.
+        return None
 
