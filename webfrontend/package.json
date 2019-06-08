@@ -11,6 +11,7 @@
 		"build": "tsc && cp package.json dist/ && cp README.md ./dist"
 	},
 	"dependencies": {
+		"@mrblenny/react-flow-chart": "0.0.6",
 		"@types/lodash": "^4.14.133",
 		"@types/node": "^12.0.4",
 		"@types/react": "^16.8.19",
@@ -24,6 +25,7 @@
 		"history": "^4.6.3",
 		"query-string": "^6.5.0",
 		"react": "^16.8.6",
+		"react-ace": "^7.0.2",
 		"react-dom": "^16.8.6",
 		"react-draggable": "^3.0.5",
 		"react-json-view": "^1.19.1",
@@ -33,16 +35,16 @@
 		"redux-logger": "^3.0.6",
 		"redux-thunk": "^2.3.0",
 		"styled-components": "^4.2.1",
-		"uuid": "^3.3.2",
-		"@mrblenny/react-flow-chart": "0.0.6"
+		"uuid": "^3.3.2"
 	},
 	"devDependencies": {
+		"@babel/core": "^7.4.5",
+		"@babel/plugin-proposal-class-properties": "^7.4.4",
+		"@babel/preset-env": "^7.4.5",
+		"@babel/preset-react": "^7.0.0",
+		"@babel/preset-stage-0": "^7.0.0",
 		"awesome-typescript-loader": "^5.2.1",
-		"babel-core": "^6.26.0",
-		"babel-loader": "^7.1.5",
-		"babel-preset-env": "^1.6.1",
-		"babel-preset-react": "^6.16.0",
-		"babel-preset-stage-0": "^6.24.1",
+		"babel-loader": "^8.0.6",
 		"file-loader": "^3.0.1",
 		"html-webpack-plugin": "^3.2.0",
 		"path": "^0.12.7",
