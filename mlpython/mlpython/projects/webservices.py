@@ -33,7 +33,9 @@ def update():
                 return '', 401
         #nothing to request
         id = request.form.get('id')
-        project = Project.query().filter_by(Project.id == id).first()
+        project = Project.query.filter(Project.id == id).first()
+        if not project:
+            return 'Not Found', 404
         if Project.security_check(project, userLogged, 'PUT'):
             name = request.form.get('name')
             json = request.form.get('json')
