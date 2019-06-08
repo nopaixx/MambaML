@@ -2,6 +2,7 @@ from mlpython.app import app, db
 from ..oauth import provider
 from flask_restful import abort, Resource
 from . import Project
+from ..users import User
 import sys
 
 @app.route('/projects/create', methods=['POST'])
