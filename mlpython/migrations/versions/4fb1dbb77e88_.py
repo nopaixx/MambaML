@@ -23,7 +23,7 @@ def upgrade():
     sa.Column('type', sa.String(length=80), nullable=True),
     sa.Column('frontendVersion', sa.String(length=10), nullable=True),
     sa.Column('backendVersion', sa.String(length=10), nullable=True),
-    sa.Column('python_code', sa.String(length=65000), nullable=True),
+    sa.Column('python_code', sa.String(length=25000), nullable=True),
     sa.Column('n_input_ports', sa.Integer(), nullable=True),
     sa.Column('n_output_ports', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')

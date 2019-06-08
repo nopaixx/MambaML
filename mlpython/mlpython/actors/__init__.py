@@ -4,6 +4,7 @@ from flask import jsonify
 from ..token import Token
 from ..users import User
 import sys
+import json
 
 
 class Actor(db.Model):
@@ -12,23 +13,37 @@ class Actor(db.Model):
     type = db.Column(db.String(80))
     frontendVersion = db.Column(db.String(10))
     backendVersion = db.Column(db.String(10))
-    python_code = db.Column(db.String(65000))
-    dependencies_code = db.String(db.String(65000))
+    python_code = db.Column(db.String(25000))
+    depen_code = db.Column(db.String(25000))
     n_input_ports = db.Column(db.Integer())
     n_output_ports = db.Column(db.Integer())
    
-    def serialized(self):
-        model={}
-        model['id'] = self.id
-        model['type'] = self.type
-        model['frontendVersion'] = self.frontendVersion
-        model['backendVersion'] = self.backendVersion
-        model['python_code'] = self.python_code
-        model['dependencies_code'] = self.dependencies_code
-        model['n_input_ports'] = self.n_input_ports
-        model['n_output_ports'] = self.n_output_ports
-
-        return jsonify(model)
+    def serialized(self, xjson=True):
+        model={
+            "id":  self.id,
+            "type": self.type,
+            "frontendVersion": self.frontendVersion,
+            "backendVersion": self.backendVersion,
+            "python_code": self.python_code,
+            "dependencies_code": self.depen_code,
+            "n_input_ports": self.n_input_ports,
+            "n_output_ports": self.n_output_ports
+                }
+#        model['id'] = self.id
+#        model['type'] = self.type
+#        model['frontendVersion'] = self.frontendVersion
+#        model['backendVersion'] = self.backendVersion
+#        model['python_code'] = self.python_code
+#        model['dependencies_code'] = self.dependencies_code
+#        model['n_input_ports'] = self.n_input_ports
+#        model['n_output_ports'] = self.n_output_ports
+        print(model, "EL MODELO!QQ")
+        x = {
+          "name": "John",
+          "age": 30,
+          "city": "New York"
+        }
+        return json.dumps(model)
 
 
     @classmethod
@@ -42,6 +57,7 @@ class Actor(db.Model):
         model.python_code = python_code
         model.n_input_ports = n_input_ports
         model.n_output_ports = n_output_ports
+        model.depen_code = dependencies_code
         db.session.add(model)
         db.session.commit()
         return model
@@ -99,3 +115,12 @@ class Actor(db.Model):
                 1,
                 2)
 
+
+#           'def %ID(input_1, input_2, input_3, input_4, input_5):\
+#                    output_1 = None\
+#                    output_2 = None\
+#                    output_3 = None\
+#                    output_4 = None\
+#                    output_5 = None\
+#                    return output_1, output_2, output_3, output_4, output_5\
+#                '

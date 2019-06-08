@@ -5,8 +5,11 @@ from flask_restful import abort, Resource
 from ..projects import Project
 from ..users import User
 from flask import request
+from flask import jsonify
 import requests
 import sys
+import json
+
 
 @app.route('/actors/allactors', methods=['GET'])
 @provider.require_oauth()
@@ -15,11 +18,17 @@ def allactors():
         print(userLogged.username,"create project")
         if not userLogged:
                 return '', 401
-        frontendVersion = request.form.get('frontendVersion')
-        backendVersion = request.form.get('backendVersion')
-        actors = Actor.query().filter_by(Actor.frontendVersion==frontendVersion).filter_by(Actor.backendVersion==backendVersion).all()
+        frontendVersion = request.args.get('frontendVersion')
+        backendVersion = request.args.get('backendVersion')
+        actors = Actor.query.filter(Actor.frontendVersion==frontendVersion,
+                Actor.backendVersion==backendVersion).all()
 
+        print("EL ACTOR", actors)
+        # return actors.serialized(), 200
         actors_list = []
+        print("INITTTTTTTTTTTTTTT")
         for actor in actors:
             actors_list.append(actor.serialized())
-        return actors_list, 200
+      #  print(actors_list, 'LISTOF ACTORS')
+#        return '', 200
+        return json.dumps(actors_list), 200

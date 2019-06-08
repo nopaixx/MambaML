@@ -39,7 +39,7 @@ function login(username, password) {
 			fetch(
 				`${GET_ACTORS_URL}?frontendVersion=V1&backendVersion=V1`,
 				requestOptions
-			).then(res => console.log(res));
+			).then(res => console.log('AAAAAAAAAAAAAAAAA', res));
 			//if get token success then try to get our data with myuser endpoint
 			fetch(`${MYUSER_URL}`, requestOptions)
 				.then(handleResponse)
