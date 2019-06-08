@@ -16,10 +16,10 @@ def create():
                 return '', 401
         #nothing to request
         # request.args.get('page', Query.DEFAULT_PAGE)
-        name = request.form['name']
-        json = request.form['json']
-        frontendVersion = request.form['frontendVersion']
-        backendVersion = request.form['backendVersion']
+        name = request.form.get('name')
+        json = request.form.get('json')
+        frontendVersion = request.form.get('frontendVersion')
+        backendVersion = request.form.get('backendVersion')
         project = Project.create(name, json, userLogged.id, 
                                 frontendVersion, backendVersion)
         return project.serialize(), 200
@@ -35,10 +35,10 @@ def update():
         id = request.form['id']
         project = Project.query().filterby(Project.id == id).first()
         if Project.security_check(project, userLogged, 'PUT'):
-            name = request.form['name']
-            json = request.form['json']
-            frontendVersion = request.form['frontendVersion']
-            backendVersion = request.form['backendVersion']
+            name = request.form.get('name')
+            json = request.form.get('json')
+            frontendVersion = request.form.get('frontendVersion')
+            backendVersion = request.form.get('backendVersion')
 
             upd_project = Project.update(project, name, json, 
                                          userLogged.id,
@@ -55,7 +55,7 @@ def get():
         if not userLogged:
                 return '', 401
         #nothing to request
-        id = request.data['id']
+        id = request.form.get('id')
         project = Project.query().filterby(Project.id == id).first()        
         if project:
             if Project.security_check(project, userLogged, 'GET'):
@@ -71,7 +71,7 @@ def run_project():
         print(userLogged.username,"get project")
         if not userLogged:
                 return '', 401
-        id = request.data['id']
+        id = request.form.get('id')
         project = Project.query().filterby(Project.id == id).first()
 
         if project:
