@@ -32,13 +32,13 @@ def update():
         if not userLogged:
                 return '', 401
         #nothing to request
-        id = request.data['id']
+        id = request.form['id']
         project = Project.query().filterby(Project.id == id).first()
         if Project.security_check(project, userLogged, 'PUT'):
-            name = request.data['name']
-            json = request.data['json']
-            frontendVersion = request.data['frontendVersion']
-            backendVersion = request.data['backendVersion']
+            name = request.form['name']
+            json = request.form['json']
+            frontendVersion = request.form['frontendVersion']
+            backendVersion = request.form['backendVersion']
 
             upd_project = Project.update(project, name, json, 
                                          userLogged.id,
@@ -81,12 +81,12 @@ def run_project():
             return 'Forbidden', 403
         return 'Not Found', 404
 
-@app.route('/projects/task_simulation', method=['POST'])
-@provider.requiere_oauth()
-def run_simul():
-        #TODO ESTA FUNCION EJECTURA Y PARSEA EL JSON DEL PROYECT
-        project_id = request.args.get('id', None )
-
-        # project = Project.
-        return None
+#@app.route('/projects/task_simulation', method=['POST'])
+#@provider.requiere_oauth()
+#def run_simul():
+#        #TODO ESTA FUNCION EJECTURA Y PARSEA EL JSON DEL PROYECT
+#        project_id = request.args.get('id', None )
+#
+#        # project = Project.
+#        return None
 
