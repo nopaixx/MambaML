@@ -2,7 +2,7 @@ from . import Actor
 from mlpython.app import app, db
 from ..oauth import provider
 from flask_restful import abort, Resource
-from . import Project
+from ..projects import Project
 from ..users import User
 import requests
 import sys
