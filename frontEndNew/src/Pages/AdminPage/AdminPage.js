@@ -45,7 +45,7 @@ class AdminPage extends React.Component {
 			backendVersion: 'V1',
 			n_input_ports: inputPorts,
 			n_output_ports: outputPorts,
-			dependencies_code: dependencies,
+			depen_code: dependencies,
 			python_code: code,
 		};
 		dispatch(adminActions.createBox(box));
