@@ -1,0 +1,11 @@
+.fill-btn {
+	background: white;
+	width: 150px;
+	color: #b43539;
+	border: 2px solid #b43539;
+	border-radius: 5px;
+}
+.fill-btn:hover {
+	background: #b43539;
+	color: white;
+}
