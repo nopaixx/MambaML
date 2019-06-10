@@ -60,7 +60,7 @@ def create():
         return actor.serialize(), 200
 
 
-@app.route('/projects/update', methods=['PUT', 'POST'])
+@app.route('/actors/update', methods=['PUT', 'POST'])
 @provider.require_oauth()
 def update():
         userLogged = User.get_authorized()
