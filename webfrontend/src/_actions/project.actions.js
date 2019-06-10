@@ -10,43 +10,6 @@ export const projectActions = {
 	get,
 };
 
-function save(
-	projectId,
-	projectName,
-	chartStructure,
-	frontendVersion,
-	backendVersion
-) {
-	return dispatch => {
-		const project = {
-			id: projectId,
-			name: projectName,
-			json: JSON.stringify(chartStructure),
-			frontendVersion: frontendVersion,
-			backendVersion: backendVersion,
-		};
-		dispatch(request(project));
-		projectService.save(project).then(
-			project => {
-				console.log('projectActions SAVE', project);
-				dispatch(success(project));
-				history.push('/');
-			},
-			error => {
-				dispatch(failure(error.toString()));
-				dispatch(alertActions.error(error.toString()));
-			}
-		);
-	};
-
-	function request(project) {
-		return { type: projectConstants.SAVE_PROJECT_REQUEST, payload: project };
-	}
-	function success(project) {
-		return { type: projectConstants.SAVE_PROJECT_SUCCESS, payload: project };
-	}
-}
-
 function create(projectName, frontendVersion, backendVersion) {
 	return dispatch => {
 		const project = {
@@ -59,7 +22,7 @@ function create(projectName, frontendVersion, backendVersion) {
 		projectService.create(project).then(
 			project => {
 				dispatch(success(project.data));
-				history.push(`/project`);
+				history.push(`/project/20`);
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -81,6 +44,37 @@ function create(projectName, frontendVersion, backendVersion) {
 		};
 	}
 }
+
+function get(project) {
+	return dispatch => {
+		dispatch(request(project));
+
+		projectService.get(project).then(
+			project => {
+				project = {
+					id: '2',
+					projectName: 'prueba1',
+					chartStructure: '112',
+					frontendVersion: 'V1',
+					backendVersion: 'V1',
+				};
+				dispatch(success(project));
+			},
+			error => {
+				dispatch(failure(error.toString()));
+				dispatch(alertActions.error(error.toString()));
+			}
+		);
+	};
+
+	function request(project) {
+		return { type: projectConstants.GET_PROJECT_REQUEST, payload: project };
+	}
+	function success(project) {
+		return { type: projectConstants.GET_PROJECT_SUCCESS, payload: project };
+	}
+}
+
 function load(projectId) {
 	return dispatch => {
 		const project = {
@@ -108,23 +102,26 @@ function load(projectId) {
 	}
 }
 
-function get(projectId) {
+function save(
+	projectId,
+	projectName,
+	chartStructure,
+	frontendVersion,
+	backendVersion
+) {
 	return dispatch => {
 		const project = {
-			projectId,
+			id: projectId,
+			name: projectName,
+			json: JSON.stringify(chartStructure),
+			frontendVersion: frontendVersion,
+			backendVersion: backendVersion,
 		};
 		dispatch(request(project));
-
-		projectService.create(project).then(
+		projectService.save(project).then(
 			project => {
-				project = {
-					id: '2',
-					projectName: 'prueba1',
-					chartStructure: '112',
-					frontendVersion: 'V1',
-					backendVersion: 'V1',
-				};
 				dispatch(success(project));
+				history.push('/');
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -134,9 +131,9 @@ function get(projectId) {
 	};
 
 	function request(project) {
-		return { type: projectConstants.GET_PROJECT_REQUEST, payload: project };
+		return { type: projectConstants.SAVE_PROJECT_REQUEST, payload: project };
 	}
 	function success(project) {
-		return { type: projectConstants.GET_PROJECT_SUCCESS, payload: project };
+		return { type: projectConstants.SAVE_PROJECT_SUCCESS, payload: project };
 	}
 }

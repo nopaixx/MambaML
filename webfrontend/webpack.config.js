@@ -1,6 +1,15 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+
 var path = require('path');
 module.exports = {
+	entry: './src/index.jsx',
+
+	output: {
+		filename: 'bundle.js',
+		publicPath: '',
+	},
+
 	mode: 'development',
 	resolve: {
 		extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -9,6 +18,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.jsx?$/,
+				exclude: /node_modules/,
 				loader: 'babel-loader',
 				options: {
 					presets: ['@babel/preset-env'],
@@ -38,18 +48,21 @@ module.exports = {
 			},
 		],
 	},
+	// output: {
+	// 	path: __dirname + '/dist',
+	// 	publicPath: '',
+	// 	filename: 'bundle.js',
+	// },
+	devServer: {
+		//contentBase: './dist',
+		historyApiFallback: true,
+		//hot: true,
+	},
 	plugins: [
+		//new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
 			template: './src/index.html',
+			filename: './index.html',
 		}),
 	],
-	devServer: {
-		historyApiFallback: true,
-	},
-	externals: {
-		// global app config object
-		config: JSON.stringify({
-			apiUrl: 'http://localhost:4000',
-		}),
-	},
 };

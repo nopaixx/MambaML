@@ -12,15 +12,20 @@ import { DragDropState } from './DragDropState';
 import { connect } from 'react-redux';
 import { projectActions } from '../../_actions';
 
+const ID = 'id';
+
 class DesignComponent extends React.Component {
-	// componentDidMount() {
-	// 	const { dispatch } = this.props;
-	// 	dispatch(projectActions.get('id'));
-	// }
+	componentDidMount() {
+		const { dispatch, project, match } = this.props;
+		if (!project) {
+			console.log('params', match);
+			const project = { ID: 1 };
+			//dispatch(projectActions.get(project));
+		}
+	}
 
 	handleSaveProject = chart => {
 		const { dispatch, project } = this.props;
-		console.log('chart', chart);
 		dispatch(projectActions.save(project.id, project.name, chart, 'V1', 'V1'));
 	};
 
@@ -41,7 +46,6 @@ class DesignComponent extends React.Component {
 
 function mapStateToProps(state) {
 	const { project, gettingProject, creatingProject } = state.project;
-	console.log('State props project', project);
 	return {
 		project,
 		gettingProject,

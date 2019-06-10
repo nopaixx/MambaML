@@ -9,7 +9,7 @@ import { HomePage } from '../Pages/HomePage';
 import { LoginPage } from '../Pages/LoginPage';
 import { RegisterPage } from '../Pages/RegisterPage';
 import { DesignComponent } from '../_components/Design/DesignComponent';
-
+import { hot } from 'react-hot-loader/root';
 class App extends React.Component {
 	constructor(props) {
 		super(props);
@@ -33,10 +33,10 @@ class App extends React.Component {
 						<Router history={history}>
 							<div>
 								<PrivateRoute exact path="/" component={HomePage} />
+								<PrivateRoute path="/project/20" component={DesignComponent} />
 								<Route path="/login" component={LoginPage} />
-								<Route path="/register" component={RegisterPage} />
-								<Route exact path="/project" component={DesignComponent} />
-								<Route path="/home" component={HomePage} />
+								<Route path="/register/2" component={RegisterPage} />
+								{/* <Route path="/register" component={RegisterPage} /> */}
 							</div>
 						</Router>
 					</div>
