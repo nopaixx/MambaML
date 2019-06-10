@@ -25,7 +25,7 @@ class Actor(db.Model):
             "frontendVersion": self.frontendVersion,
             "backendVersion": self.backendVersion,
             "python_code": self.python_code,
-            "dependencies_code": self.depen_code,
+            "depen_code": self.depen_code,
             "n_input_ports": self.n_input_ports,
             "n_output_ports": self.n_output_ports
                 }
@@ -45,6 +45,9 @@ class Actor(db.Model):
         }
         return json.dumps(model)
 
+    @classmethod
+    def security_check(actor, userLogged, action):
+        return True
 
     @classmethod
     def create(cls, type, frontendVersion, backendVersion,
