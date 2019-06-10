@@ -16,10 +16,11 @@ const Outer = styled.div`
 	  }
 `;
 
-export const SidebarItem = ({ type, ports, properties }) => {
+export const SidebarItem = ({ type, ports, properties, onClick }) => {
 	return (
 		<Outer
-			onClick={e => console.log(type, properties)}
+			id={type}
+			onClick={onClick}
 			draggable={true}
 			onDragStart={event => {
 				event.dataTransfer.setData(

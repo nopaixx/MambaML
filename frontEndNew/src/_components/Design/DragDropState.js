@@ -5,11 +5,12 @@ import styled from 'styled-components';
 import { FlowChart } from '@mrblenny/react-flow-chart/';
 import { Page } from './Page';
 import { Content } from './Content';
-import { Sidebar } from './Sidebar';
+import { Sidebar } from './SideBar/Sidebar';
 import * as actions from '@mrblenny/react-flow-chart/src/container/actions';
 import { NodeInnerCustom } from './NodeCustom';
-import { SidebarItem } from './SidebarItem';
+import { SidebarItem } from './SideBar/SidebarItem';
 import { chartSimple } from './chartSimple';
+import { sidebarItemList } from './SideBar/ItemsList';
 
 export class DragDropState extends React.Component {
 	state = cloneDeep(chartSimple);
@@ -20,6 +21,7 @@ export class DragDropState extends React.Component {
 	};
 
 	render() {
+		const { openDropdown, open } = this.props;
 		const chart = this.state;
 		const stateActions = mapValues(actions, func => (...args) => {
 			this.setState(func(...args));
@@ -38,54 +40,15 @@ export class DragDropState extends React.Component {
 						/>
 					</Content>
 					<Sidebar>
-						<SidebarItem
-							onClick={e => console.log(e)}
-							type="Data"
-							ports={{
-								port1: {
-									id: 'port1',
-									type: 'bottom',
-									properties: {
-										custom: 'property',
-									},
-								},
-							}}
-							properties={{
-								payload: 'dataset1',
-								custom: 'property',
-							}}
-						/>
-						<SidebarItem
-							type="Model"
-							ports={{
-								port1: {
-									id: 'port1',
-									type: 'bottom',
-									properties: {
-										custom: 'property',
-									},
-								},
-							}}
-						/>
-						<SidebarItem
-							type="Endpoint"
-							ports={{
-								port1: {
-									id: 'port1',
-									type: 'left',
-									properties: {
-										custom: 'property',
-									},
-								},
-								port2: {
-									id: 'port2',
-									type: 'right',
-									properties: {
-										custom: 'property',
-									},
-								},
-							}}
-						/>
+						{sidebarItemList.map((item, key) => (
+							<SidebarItem
+								key={key}
+								onClick={openDropdown}
+								type={item.type}
+								ports={item.port}
+								properties={item.properties}
+							/>
+						))}
 					</Sidebar>
 				</Page>
 			</React.Fragment>

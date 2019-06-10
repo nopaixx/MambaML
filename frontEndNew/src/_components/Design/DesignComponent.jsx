@@ -13,6 +13,9 @@ import { connect } from 'react-redux';
 import { projectActions } from '../../_actions';
 
 class DesignComponent extends React.Component {
+	state = {
+		open: undefined,
+	};
 	componentDidMount() {
 		const { dispatch, project, match } = this.props;
 		if (!project) {
@@ -31,15 +34,23 @@ class DesignComponent extends React.Component {
 		const { dispatch, project } = this.props;
 		dispatch(projectActions.save(project.id, project.name, chart, 'V1', 'V1'));
 	};
+	openDropdown = e => {
+		this.setState({ open: e.target.id });
+	};
 
 	render() {
+		const { open } = this.state;
 		return (
 			<React.Fragment>
 				<div className={'design-window'}>
 					{/* <DragAndDropSidebar /> */}
 					{/* <ExternalReactState /> */}
 					{/* <InternalReactState /> */}
-					<DragDropState saveProject={this.onSaveProject} />
+					<DragDropState
+						saveProject={this.onSaveProject}
+						openDropdown={this.openDropdown}
+						open={open}
+					/>
 					{/* <CustomNodeInnerDemo /> */}
 					{/* <FlowChartWithState initialValue={chartSimple} /> */}
 				</div>
