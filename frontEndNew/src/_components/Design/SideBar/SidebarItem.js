@@ -16,7 +16,7 @@ const Outer = styled.div`
 	  }
 `;
 
-export const SidebarItem = ({ type, ports, properties, onClick }) => {
+export const SidebarItem = ({ type, ports, properties, onClick }, props) => {
 	return (
 		<Outer
 			id={type}

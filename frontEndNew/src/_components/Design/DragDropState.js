@@ -45,8 +45,8 @@ export class DragDropState extends React.Component {
 								key={key}
 								onClick={openDropdown}
 								type={item.type}
-								ports={item.port}
-								properties={item.properties}
+								ports={item.ports}
+								properties={item.properties || {}}
 							/>
 						))}
 					</Sidebar>

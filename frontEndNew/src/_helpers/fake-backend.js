@@ -6,7 +6,6 @@ import { TOKEN_URL } from '../endpoint.js';
 // let users = JSON.parse(localStorage.getItem('users')) || [];
 
 export function configureFakeBackend() {
-	console.log('hola');
 	// let realFetch = window.fetch;
 	window.fetch = function(url, opts) {
 		return new Promise((resolve, reject) => {
