@@ -1,5 +1,5 @@
 export const PythonModule_PythonScript = {
-	id: 'node2',
+	id: `node2`,
 	type: 'Python Module-Python Script',
 	payload: {
 		code:

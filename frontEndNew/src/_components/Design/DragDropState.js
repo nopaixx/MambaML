@@ -24,21 +24,13 @@ export class DragDropState extends React.Component {
 		const { openDropdown, open } = this.props;
 		const chart = this.state;
 		const stateActions = mapValues(actions, func => (...args) => {
+			console.log(chart);
 			this.setState(func(...args));
 		});
 		return (
 			<React.Fragment>
 				<button onClick={this.onClickSave}>Save</button>
 				<Page>
-					<Content>
-						<FlowChart
-							chart={chart}
-							callbacks={stateActions}
-							Components={{
-								NodeInner: NodeInnerCustom,
-							}}
-						/>
-					</Content>
 					<Sidebar>
 						{sidebarItemList.map((item, key) => (
 							<SidebarItem
@@ -50,6 +42,15 @@ export class DragDropState extends React.Component {
 							/>
 						))}
 					</Sidebar>
+					<Content>
+						<FlowChart
+							chart={chart}
+							callbacks={stateActions}
+							Components={{
+								NodeInner: NodeInnerCustom,
+							}}
+						/>
+					</Content>
 				</Page>
 			</React.Fragment>
 		);
