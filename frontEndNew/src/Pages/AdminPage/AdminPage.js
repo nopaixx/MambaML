@@ -1,35 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import brace from 'brace';
-import { render } from 'react-dom';
 import AceEditor from 'react-ace';
-import { userActions, projectActions } from '../../_actions';
 import { Input } from '../../_components/Utils/';
 import { Button } from '../../_components/Utils/';
-
+import { adminActions } from '../../_actions';
 import 'brace/mode/python';
 import 'brace/theme/monokai';
-
-function onChangeCodeScript(newValue) {
-	console.log('change', newValue);
-}
 
 class AdminPage extends React.Component {
 	state = {
 		code: '',
 	};
-	componentDidMount() {
-		//this.props.dispatch(userActions.getAll());
-	}
 
 	onChangeCodeScript = newValue => {
 		console.log('code', newValue);
 		this.setState({ code: newValue });
-	};
-
-	updateState = code => {
-		//this.setState({ code });
 	};
 
 	handleChange = e => {
@@ -39,7 +24,15 @@ class AdminPage extends React.Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		console.log(this.state);
+		const { type, inputPorts, outputPorts, code } = this.state;
+		const box = {
+			type,
+			inputPorts,
+			outputPorts,
+			code,
+		};
+		adminActions.createBox(box);
+		console.log(box);
 	};
 
 	render() {
@@ -61,7 +54,7 @@ class AdminPage extends React.Component {
 						<br />
 						<Input
 							type="number"
-							name="input-ports"
+							name="inputPorts"
 							onChange={this.handleChange}
 						/>
 						<br />
@@ -69,7 +62,7 @@ class AdminPage extends React.Component {
 						<br />
 						<Input
 							type="number"
-							name="output-ports"
+							name="outputPorts"
 							onChange={this.handleChange}
 						/>
 						<br />
@@ -81,7 +74,7 @@ class AdminPage extends React.Component {
 					<AceEditor
 						mode="python"
 						theme="monokai"
-						width={600}
+						width={'650px'}
 						value={code}
 						onChange={this.onChangeCodeScript}
 						name="UNIQUE_ID_OF_DIV"
