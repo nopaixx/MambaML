@@ -75,7 +75,7 @@ export const sidebarItemList = [
 		},
 	},
 	{
-		type: 'Model',
+		type: 'Modules',
 		ports: {
 			port1: {
 				id: 'port1',

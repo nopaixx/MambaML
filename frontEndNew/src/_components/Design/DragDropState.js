@@ -11,7 +11,10 @@ import { NodeInnerCustom } from './NodeCustom';
 import { SidebarItem } from './SideBar/SidebarItem';
 import { chartSimple } from './chartSimple';
 import { sidebarItemList } from './SideBar/ItemsList';
+import { SidebarClassifier } from './SideBar/SidebarClassifier';
 import { BoxInfo } from './BoxInfo';
+import { Button } from '../Utils/Button/Button';
+
 export class DragDropState extends React.Component {
 	state = cloneDeep(chartSimple);
 
@@ -24,23 +27,14 @@ export class DragDropState extends React.Component {
 		const { openDropdown, open } = this.props;
 		const chart = this.state;
 		const stateActions = mapValues(actions, func => (...args) => {
-			console.log(chart);
 			this.setState(func(...args));
 		});
 		return (
 			<React.Fragment>
-				<button onClick={this.onClickSave}>Save</button>
+				<Button label={'save'} onClick={this.onClickSave} />
 				<Page>
 					<Sidebar>
-						{sidebarItemList.map((item, key) => (
-							<SidebarItem
-								key={key}
-								onClick={openDropdown}
-								type={item.type}
-								ports={item.ports}
-								properties={item.properties || {}}
-							/>
-						))}
+						<SidebarClassifier sidebarItemList={sidebarItemList} />
 					</Sidebar>
 					<Content>
 						<FlowChart

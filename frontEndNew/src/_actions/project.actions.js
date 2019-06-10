@@ -149,3 +149,28 @@ function save(
 		return { type: projectConstants.LOGIN_FAILURE, error };
 	}
 }
+function getAllActors() {
+	return dispatch => {
+		dispatch(request());
+		projectService.getAllActors().then(
+			actors => {
+				dispatch(success(actors));
+				history.push('/');
+			},
+			error => {
+				dispatch(failure(error.toString()));
+				dispatch(alertActions.error(error.toString()));
+			}
+		);
+	};
+
+	function request(project) {
+		return { type: projectConstants.SAVE_PROJECT_REQUEST, payload: project };
+	}
+	function success(project) {
+		return { type: projectConstants.SAVE_PROJECT_SUCCESS, payload: project };
+	}
+	function failure(error) {
+		return { type: projectConstants.LOGIN_FAILURE, error };
+	}
+}

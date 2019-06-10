@@ -39,6 +39,15 @@ function save(project) {
 
 	return fetch(`${SAVE_PROJECT_URL}`, requestOptions).then(handleResponse);
 }
+function getAllActors() {
+	const requestOptions = {
+		method: 'POST',
+		headers: { ...authHeader(), 'Content-Type': 'application/json' },
+		body: JSON.stringify(project),
+	};
+
+	return fetch(`${SAVE_PROJECT_URL}`, requestOptions).then(handleResponse);
+}
 
 function handleResponse(response) {
 	return response.text().then(text => {

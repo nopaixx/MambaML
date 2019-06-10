@@ -15,8 +15,29 @@ const Outer = styled.div`
 		color: white;
 	  }
 `;
+const Outer2 = styled.div`
+	padding: 20px 30px;
+	margin-bottom: 5px;
+	font-size: 14px;
+	color: white;
+	background: #d38c8c;
+	border: 1px solid #b43539
+	cursor: move;
+	:hover {
+		background: #b43539;
+		color: white;
+	  }
+`;
 
 export const SidebarItem = ({ type, ports, properties, onClick }, props) => {
+	if (type === 'Python Module' || type === 'Modules') {
+		return (
+			<Outer2 id={type} onClick={onClick} draggable={false}>
+				{type}
+			</Outer2>
+		);
+	}
+
 	return (
 		<Outer
 			id={type}

@@ -9,13 +9,11 @@ import 'brace/mode/python';
 import 'brace/theme/monokai';
 
 export const BoxInfo = props => {
-	console.log(props.chart);
 	if (!props) {
 		return null;
 	}
 	const selected = props.chart.selected.id;
 	const node = props.chart.nodes[selected];
-	console.log('selected', node);
 	if (node) {
 		let codeScript;
 		let inputPorts;
@@ -25,8 +23,6 @@ export const BoxInfo = props => {
 			codeScript = code;
 			inputPorts = ninput;
 			outputPorts = nouts;
-
-			console.log('inputPorts', inputPorts);
 		}
 		return (
 			<div className={'BoxInfo'}>

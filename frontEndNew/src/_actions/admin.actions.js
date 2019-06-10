@@ -1,36 +1,32 @@
 import { userConstants } from '../_constants';
-import { userService } from '../_services';
+import { adminService } from '../_services';
 import { alertActions } from './';
-import { history } from '../_helpers';
 
 export const adminActions = {
 	createBox,
 };
 
 function createBox(box) {
-	const newBox = boxFactory(box);
-	console.log('newBox', newBox);
+	console.log('box', box);
+	return dispatch => {
+		//const newBox = boxFactory(box);
+		dispatch(request(box));
 
-	// return dispatch => {
-
-	// 	userService.login(username, password).then(
-	// 		user => {
-	// 			dispatch(success(user));
-	// 			history.push('/');
-	// 		},
-	// 		error => {
-	// 			console.log('dispatch failure');
-	// 			dispatch(failure(error.toString()));
-	// 			dispatch(alertActions.error(error.toString()));
-	// 		}
-	// 	);
-	// };
+		adminService.createBox(box).then(
+			box => {
+				dispatch(success(box));
+			},
+			error => {
+				dispatch(failure(error.toString()));
+				dispatch(alertActions.error(error.toString()));
+			}
+		);
+	};
 
 	function request(user) {
 		return { type: userConstants.LOGIN_REQUEST, user };
 	}
 	function success(user) {
-		console.log('user', user);
 		return { type: userConstants.LOGIN_SUCCESS, user };
 	}
 	function failure(error) {
@@ -38,7 +34,15 @@ function createBox(box) {
 	}
 }
 
-const boxFactory = ({ type, inputPorts, outputPorts, code }) => {
+const boxFactory = ({
+	type,
+	inputPorts,
+	outputPorts,
+	code,
+	boxClass,
+	backendVersion,
+	frontendVersion,
+}) => {
 	const ports = {};
 	for (let i = 1; i <= inputPorts; ++i) {
 		ports[`port${i}`] = {
@@ -64,13 +68,16 @@ const boxFactory = ({ type, inputPorts, outputPorts, code }) => {
 	}
 	const boxStructure = {
 		type: type,
+		boxClass: boxClass,
 		ports,
 		properties: {
 			payload: {
-				code: code,
+				python_code: code,
 			},
-			ninput: inputPorts,
-			nouts: outputPorts,
+			n_input_ports: inputPorts,
+			n_output_ports: outputPorts,
+			frontendVersion,
+			backendVersion,
 		},
 	};
 	return boxStructure;
