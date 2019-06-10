@@ -63,6 +63,22 @@ class Actor(db.Model):
         return model
 
     @classmethod
+    def update(cls, model, type, frontendVersion, backendVersion,
+              python_code, dependencies_code, n_input_ports, n_output_ports):
+
+        model.type = type
+        model.frontendVersion = frontendVersion
+        model.backendVersion = backendVersion
+        model.python_code = python_cpde
+        model.depen_code = dependencies_code
+        model.n_input_ports = n_input_ports
+        model.n_output_ports = n_output_ports
+#        db.session.add(model)
+        db.session.commit()
+        return model
+
+
+    @classmethod
     def create_if_not_exist(cls, 
                             type, 
                             frontendVersion, 
