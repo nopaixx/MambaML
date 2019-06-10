@@ -57,7 +57,7 @@ def create_actor():
         actor = Actor.create( type, frontendVersion, backendVersion,
               python_code, dependencies_code, n_input_ports, n_output_ports)
 
-        return actor.serialize(), 200
+        return actor.serialized(), 200
 
 
 @app.route('/actors/update', methods=['PUT', 'POST'])
@@ -89,7 +89,7 @@ def update_actor():
                     backendVersion, python_code, dependencies_code,
                     n_input_ports, n_output_ports)
 
-            return upd_actor.serialize(), 200
+            return upd_actor.serialized(), 200
 
         return 'Forbidden', 403
 
