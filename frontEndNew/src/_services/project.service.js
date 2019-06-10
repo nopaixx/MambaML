@@ -1,9 +1,14 @@
 import { authHeader } from '../_helpers';
-import { SAVE_PROJECT_URL, CREATE_PROJECT_URL } from '../endpoint.js';
+import {
+	SAVE_PROJECT_URL,
+	CREATE_PROJECT_URL,
+	GET_ACTORS_URL,
+} from '../endpoint.js';
 export const projectService = {
 	save,
 	get,
 	create,
+	getAllActors,
 };
 
 function create(project) {
@@ -41,11 +46,11 @@ function save(project) {
 }
 function getAllActors() {
 	const requestOptions = {
-		method: 'POST',
-		headers: { ...authHeader(), 'Content-Type': 'application/json' },
+		method: 'GET',
+		headers: authHeader(),
 	};
 
-	return fetch(`${SAVE_PROJECT_URL}`, requestOptions).then(handleResponse);
+	return fetch(`${GET_ACTORS_URL}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

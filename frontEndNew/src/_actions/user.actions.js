@@ -21,7 +21,6 @@ function login(username, password) {
 				history.push('/');
 			},
 			error => {
-				console.log('dispatch failure');
 				dispatch(failure(error.toString()));
 				dispatch(alertActions.error(error.toString()));
 			}
@@ -32,7 +31,6 @@ function login(username, password) {
 		return { type: userConstants.LOGIN_REQUEST, user };
 	}
 	function success(user) {
-		console.log('user', user);
 		return { type: userConstants.LOGIN_SUCCESS, user };
 	}
 	function failure(error) {

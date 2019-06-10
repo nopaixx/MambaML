@@ -8,6 +8,7 @@ export const projectActions = {
 	create,
 	load,
 	get,
+	getAllActors,
 };
 
 function create(projectName, frontendVersion, backendVersion) {
@@ -154,8 +155,14 @@ function getAllActors() {
 		dispatch(request());
 		projectService.getAllActors().then(
 			actors => {
-				dispatch(success(actors));
-				history.push('/');
+				console.log('actors', actors.data);
+				const constructedActors = [];
+				actors.data.forEach(actor => {
+					const newActor = boxFactory(JSON.parse(actor));
+					constructedActors.push(newActor);
+				});
+				console.log('actors', constructedActors);
+				dispatch(success(constructedActors));
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -164,13 +171,62 @@ function getAllActors() {
 		);
 	};
 
-	function request(project) {
-		return { type: projectConstants.SAVE_PROJECT_REQUEST, payload: project };
+	function request() {
+		return { type: projectConstants.GET_ALL_ACTORS_REQUEST };
 	}
-	function success(project) {
-		return { type: projectConstants.SAVE_PROJECT_SUCCESS, payload: project };
+	function success(actors) {
+		return { type: projectConstants.GET_ALL_ACTORS_SUCCESS, payload: actors };
 	}
 	function failure(error) {
-		return { type: projectConstants.LOGIN_FAILURE, error };
+		return { type: projectConstants.GET_ALL_ACTORS_FAILURE, error };
 	}
 }
+
+const boxFactory = ({
+	type,
+	n_input_ports,
+	n_output_ports,
+	python_code,
+	depen_code,
+	backendVersion,
+	frontendVersion,
+}) => {
+	const ports = {};
+	for (let i = 1; i <= n_input_ports; ++i) {
+		ports[`port${i}`] = {
+			id: `port${i}`,
+			type: 'input',
+			properties: {
+				value: 'yes',
+			},
+		};
+	}
+	for (
+		let j = +n_input_ports + 1;
+		j <= Number(+n_output_ports) + Number(n_input_ports);
+		++j
+	) {
+		ports[`port${j}`] = {
+			id: `port${j}`,
+			type: 'output',
+			properties: {
+				value: 'yes',
+			},
+		};
+	}
+	const boxStructure = {
+		type: type,
+		ports,
+		properties: {
+			payload: {
+				python_code: python_code,
+				depen_code: depen_code,
+				n_input_ports,
+				n_output_ports,
+				frontendVersion,
+				backendVersion,
+			},
+		},
+	};
+	return boxStructure;
+};

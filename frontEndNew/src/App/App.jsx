@@ -19,7 +19,6 @@ class App extends React.Component {
 		const { dispatch } = this.props;
 		history.listen((location, action) => {
 			// clear alert on location change
-			console.log('dispatchAlertClear');
 			dispatch(alertActions.clear());
 		});
 	}

@@ -7,7 +7,6 @@ export const adminActions = {
 };
 
 function createBox(box) {
-	console.log('box', box);
 	return dispatch => {
 		//const newBox = boxFactory(box);
 		dispatch(request(box));

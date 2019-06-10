@@ -22,7 +22,6 @@ export const throttleRender = (wait, options) => {
 				this.throttledSetState({ props: this.props });
 			}
 			componentWillReceiveProps(nextProps) {
-				console.log('nextProps', nextProps);
 				this.throttledSetState({ props: nextProps });
 			}
 			componentWillUnmount() {

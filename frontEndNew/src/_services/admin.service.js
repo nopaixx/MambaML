@@ -5,7 +5,6 @@ export const adminService = {
 };
 
 function createBox(newbox) {
-	console.log('newBox', newbox);
 	const requestOptions = {
 		method: 'POST',
 		headers: authHeader(),

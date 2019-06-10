@@ -19,7 +19,6 @@ export class ExternalReactState extends React.Component {
 		});
 		return (
 			<Page>
-				{console.log('this.state', chart)}
 				<FlowChart chart={chart} callbacks={stateActions} />
 				<ReactJsonThrottled
 					src={chart}

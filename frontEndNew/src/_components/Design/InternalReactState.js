@@ -15,7 +15,6 @@ export class InternalReactState extends React.Component {
 		});
 		return (
 			<Page>
-				{console.log('this.state', chart)}
 				<FlowChart chart={chart} callbacks={stateActions} />
 			</Page>
 		);

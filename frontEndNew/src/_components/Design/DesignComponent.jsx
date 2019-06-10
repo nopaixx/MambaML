@@ -18,8 +18,8 @@ class DesignComponent extends React.Component {
 	};
 	componentDidMount() {
 		const { dispatch, project, match } = this.props;
+		dispatch(projectActions.getAllActors());
 		if (!project) {
-			console.log('params', match);
 			const ID = match.params.id;
 			//dispatch(projectActions.get(+ID));
 		}
@@ -60,11 +60,12 @@ class DesignComponent extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const { project, gettingProject, creatingProject } = state.project;
+	const { project, gettingProject, actors, creatingProject } = state.project;
 	return {
 		project,
 		gettingProject,
 		creatingProject,
+		actors,
 	};
 }
 
