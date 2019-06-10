@@ -36,7 +36,7 @@ def allactors():
 
 @app.route('/actors/create', methods=['POST'])
 @provider.require_oauth()
-def create():
+def create_actor():
         userLogged = User.get_authorized()
         print(userLogged.username,"create project")
         if not userLogged:
@@ -62,7 +62,7 @@ def create():
 
 @app.route('/actors/update', methods=['PUT', 'POST'])
 @provider.require_oauth()
-def update():
+def update_actor():
         userLogged = User.get_authorized()
         print(userLogged.username,"update project")
         if not userLogged:
