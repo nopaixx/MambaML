@@ -8,7 +8,8 @@ export const adminActions = {
 };
 
 function createBox(box) {
-	boxFactory(box);
+	const newBox = boxFactory(box);
+	console.log('newBox', newBox);
 
 	// return dispatch => {
 
@@ -48,7 +49,11 @@ const boxFactory = ({ type, inputPorts, outputPorts, code }) => {
 			},
 		};
 	}
-	for (let j = +inputPorts + 1; j <= outputPorts; ++j) {
+	for (
+		let j = +inputPorts + 1;
+		j <= Number(+outputPorts) + Number(inputPorts);
+		++j
+	) {
 		ports[`port${j}`] = {
 			id: `port${j}`,
 			type: 'output',
