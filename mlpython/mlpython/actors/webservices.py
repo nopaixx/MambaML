@@ -54,7 +54,7 @@ def create_actor():
         n_input_ports = request.form.get('n_input_ports')
         n_output_ports = request.form.get('n_output_ports')
 
-        actor= Actors.create( type, frontendVersion, backendVersion,
+        actor = Actor.create( type, frontendVersion, backendVersion,
               python_code, dependencies_code, n_input_ports, n_output_ports)
 
         return actor.serialize(), 200
@@ -70,7 +70,7 @@ def update_actor():
         #nothing to request
         id = request.form.get('id')
 
-        actor= Actors.query.filter(Actors.id == id).first()
+        actor= Actor.query.filter(Actors.id == id).first()
         if not actor:
             return 'Not Found', 404
 
@@ -85,7 +85,7 @@ def update_actor():
             n_input_ports = request.form.get('n_input_ports')
             n_output_ports = request.form.get('n_output_ports')
 
-            upd_actor= Actors.update(actor, type, frontendVersion, 
+            upd_actor= Actor.update(actor, type, frontendVersion, 
                     backendVersion, python_code, dependencies_code,
                     n_input_ports, n_output_ports)
 
