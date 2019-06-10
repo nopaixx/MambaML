@@ -11,7 +11,7 @@ import { NodeInnerCustom } from './NodeCustom';
 import { SidebarItem } from './SideBar/SidebarItem';
 import { chartSimple } from './chartSimple';
 import { sidebarItemList } from './SideBar/ItemsList';
-
+import { BoxInfo } from './BoxInfo';
 export class DragDropState extends React.Component {
 	state = cloneDeep(chartSimple);
 
@@ -51,6 +51,7 @@ export class DragDropState extends React.Component {
 							}}
 						/>
 					</Content>
+					<BoxInfo chart={chart} />
 				</Page>
 			</React.Fragment>
 		);

@@ -13,7 +13,6 @@ class AdminPage extends React.Component {
 	};
 
 	onChangeCodeScript = newValue => {
-		console.log('code', newValue);
 		this.setState({ code: newValue });
 	};
 
@@ -32,7 +31,6 @@ class AdminPage extends React.Component {
 			code,
 		};
 		adminActions.createBox(box);
-		console.log(box);
 	};
 
 	render() {

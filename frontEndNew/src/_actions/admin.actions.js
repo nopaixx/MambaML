@@ -69,6 +69,8 @@ const boxFactory = ({ type, inputPorts, outputPorts, code }) => {
 			payload: {
 				code: code,
 			},
+			ninput: inputPorts,
+			nouts: outputPorts,
 		},
 	};
 	return boxStructure;

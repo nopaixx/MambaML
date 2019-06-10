@@ -7,7 +7,8 @@ export const Input = props => {
 			onChange={props.onChange}
 			className="input-box"
 			type={props.type}
-			name={props.name}>
+			name={props.name}
+			defaultValue={props.defaultValue}>
 			{props.label}
 		</input>
 	);

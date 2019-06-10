@@ -11,7 +11,11 @@ export const sidebarItemList = [
 			},
 		},
 		properties: {
-			payload: 'dataset1',
+			payload: {
+				code: undefined,
+				ninput: 0,
+				nouts: 1,
+			},
 			custom: 'property',
 		},
 	},
@@ -65,6 +69,8 @@ export const sidebarItemList = [
 			payload: {
 				code:
 					'def FUNCTION_ID_1(input1=None, input2=None, input3=None, input4=None, input5=None):\n\tout1=None\n\tout1=None\n\tout3=None\n\tout4=None\n\tout2=None\n\tval = 5*5\n\tout1 = val\n\tout2 = val*5\n\tout3 = out2*5\n\treturn val, out1, out2, out3',
+				ninput: 3,
+				nouts: 3,
 			},
 		},
 	},
@@ -96,7 +102,7 @@ export const sidebarItemList = [
 					'\tout2 = val*5\n\r' +
 					'\tout3 = out2*5\n\r' +
 					'\treturn val, out1, out2, out3\n\r',
-				nimput: 5,
+				ninput: 5,
 				nouts: 4,
 			},
 		},

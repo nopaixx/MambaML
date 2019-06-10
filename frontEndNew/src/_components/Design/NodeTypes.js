@@ -1,21 +1,23 @@
 export const PythonModule_PythonScript = {
 	id: `node2`,
 	type: 'Python Module-Python Script',
-	payload: {
-		code:
-			'def FUNCTION_ID_1(input1=None, input2=None, input3=None, input4=None, input5=None):\n\r' +
-			'\tout1=None\n\r' +
-			'\tout1=None\n\r' +
-			'\tout3=None\n\r' +
-			'\tout4=None\n\r' +
-			'\tout2=None\n\r' +
-			'\tval = 5*5\n\r' +
-			'\tout1 = val\n\r' +
-			'\tout2 = val*5\n\r' +
-			'\tout3 = out2*5\n\r' +
-			'\treturn val, out1, out2, out3\n\r',
-		nimput: 5,
-		nouts: 1,
+	properties: {
+		payload: {
+			code:
+				'def FUNCTION_ID_1(input1=None, input2=None, input3=None, input4=None, input5=None):\n\r' +
+				'\tout1=None\n\r' +
+				'\tout1=None\n\r' +
+				'\tout3=None\n\r' +
+				'\tout4=None\n\r' +
+				'\tout2=None\n\r' +
+				'\tval = 5*5\n\r' +
+				'\tout1 = val\n\r' +
+				'\tout2 = val*5\n\r' +
+				'\tout3 = out2*5\n\r' +
+				'\treturn val, out1, out2, out3\n\r',
+			ninput: 5,
+			nouts: 4,
+		},
 	},
 	position: {
 		x: 300,

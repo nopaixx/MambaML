@@ -9,8 +9,12 @@ export const chartSimple = {
 		node1: {
 			id: 'node1',
 			type: 'Dataset-CSV',
-			payload: {
-				idResource: 123,
+			properties: {
+				payload: {
+					idResource: 123,
+					ninput: 0,
+					nouts: 1,
+				},
 			},
 			position: {
 				x: 300,
@@ -27,11 +31,15 @@ export const chartSimple = {
 		node3: {
 			id: 'node3',
 			type: 'Python Module-Python Script',
-			payload: {
-				code:
-					'def FUNCTION_ID_2(input1=None, input2=None, input3=None, input4=None, input5=None):\n\r' +
-					'\tval = input1 + input2 + input3 + input4\n\r' +
-					'\treturn val',
+			properties: {
+				payload: {
+					code:
+						'def FUNCTION_ID_2(input1=None, input2=None, input3=None, input4=None, input5=None):\n\r' +
+						'\tval = input1 + input2 + input3 + input4\n\r' +
+						'\treturn val',
+					ninput: 4,
+					nouts: 1,
+				},
 			},
 			position: {
 				x: 300,
