@@ -2,15 +2,54 @@ version: '3.5'
 services:
  backend:
   build: .
+  command: ["./webserver"]
   ports:
    - "8081:8081"
   environment:
    - PORT=8081
    - FLASK_APP=mlpython
    - FLASK_DEBUG=true
+   - rabbitmq_ampq=pyamqp://guest@rabbitmq//
+   - redis_backend=redis://redis
+
   depends_on:
    - mysql_db
- 
+   - rabbitmq
+   - celery
+   - redis
+
+ celery:
+  build: .
+  command: ["./celery"]
+  ports:
+   - "5001:5001"
+  environment:
+   - PORT=8081
+   - FLASK_APP=mlpython
+   - FLASK_DEBUG=true
+   - rabbitmq_ampq=pyamqp://guest@rabbitmq//
+   - redis_backend=redis://redis
+  depends_on:
+   - mysql_db
+   - rabbitmq
+   - redis
+
+ rabbitmq:
+  image: "rabbitmq:3-management"
+  hostname: "rabbit"
+  ports:
+   - "15672:15672"
+   - "5672:5672"
+  labels:
+   NAME: "rabbitmq"
+
+
+ redis:
+  image: redis
+  container_name: redis
+  expose:
+    - 6379
+
  mysql_db:
     image: mysql:5.7
     restart: always
