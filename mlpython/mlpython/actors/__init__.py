@@ -45,6 +45,9 @@ class Actor(db.Model):
         }
         return json.dumps(model)
 
+    @classmethod
+    def security_check(actor, userLogged, action):
+        return True
 
     @classmethod
     def create(cls, type, frontendVersion, backendVersion,
