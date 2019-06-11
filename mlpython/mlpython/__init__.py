@@ -6,7 +6,7 @@ from mlpython.app import app
 from .client import Client
 from .users import User
 from .token import Token
-
+import mlpython.test_task
 
 if __name__ == '__main__':
     print("RUN AQUI")

@@ -59,7 +59,7 @@ def get():
                 return '', 401
         #nothing to request
         id = request.form.get('id')
-        project = Project.query().filter_by(Project.id == id).first()        
+        project = Project.query.filter(Project.id == id).first()        
         if project:
             if Project.security_check(project, userLogged, 'GET'):
                 return project.serialize(), 200
@@ -75,7 +75,7 @@ def run_project():
         if not userLogged:
                 return '', 401
         id = request.form.get('id')
-        project = Project.query().filter_by(Project.id == id).first()
+        project = Project.query.filter(Project.id == id).first()
 
         if project:
             if Project.security_check(project, userLogged, 'RUN'):
@@ -92,7 +92,7 @@ def run_simul():
         if not userLogged:
                 return '', 401
         id = request.form.get('id')
-        project = Project.query().filter_by(Project.id == id).first()
+        project = Project.query.filter(Project.id == id).first()
 
         if project:
             if Project.security_check(project, userLogged, 'RUN'):

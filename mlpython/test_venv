@@ -1,3 +1,5 @@
 export rabbitmq_ampq=pyamqp://guest@rabbitmq//
-export redis_backend=redis://redis
+export redis_backend=redis://redis:6379/0
+export FLASK_APP=mlpython
+export FLASK_DEBUG=1
 
