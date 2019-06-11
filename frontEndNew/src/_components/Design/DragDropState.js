@@ -24,17 +24,20 @@ export class DragDropState extends React.Component {
 	};
 
 	render() {
-		const { openDropdown, open } = this.props;
+		const { actors } = this.props;
 		const chart = this.state;
 		const stateActions = mapValues(actions, func => (...args) => {
 			this.setState(func(...args));
 		});
+		if (!actors) {
+			return null;
+		}
 		return (
 			<React.Fragment>
 				<Button label={'save'} onClick={this.onClickSave} />
 				<Page>
 					<Sidebar>
-						<SidebarClassifier sidebarItemList={sidebarItemList} />
+						<SidebarClassifier sidebarItemList={actors} />
 					</Sidebar>
 					<Content>
 						<FlowChart
