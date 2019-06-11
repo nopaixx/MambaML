@@ -36,3 +36,5 @@ urllib3
 Werkzeug
 celery
 flask_redis
+pandas
+numpy
