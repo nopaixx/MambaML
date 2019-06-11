@@ -21,7 +21,7 @@ class DesignComponent extends React.Component {
 		dispatch(projectActions.getAllActors());
 		if (!project) {
 			const ID = match.params.id;
-			//dispatch(projectActions.get(+ID));
+			dispatch(projectActions.get(+ID));
 		}
 	}
 
@@ -32,6 +32,7 @@ class DesignComponent extends React.Component {
 
 	onSaveProject = chart => {
 		const { dispatch, project } = this.props;
+		console.log('project', project);
 		dispatch(projectActions.save(project.id, project.name, chart, 'V1', 'V1'));
 	};
 	openDropdown = e => {
@@ -39,7 +40,7 @@ class DesignComponent extends React.Component {
 	};
 
 	render() {
-		const { open } = this.state;
+		const { actors } = this.props;
 		return (
 			<React.Fragment>
 				<div className={'design-window'}>
@@ -49,7 +50,7 @@ class DesignComponent extends React.Component {
 					<DragDropState
 						saveProject={this.onSaveProject}
 						openDropdown={this.openDropdown}
-						open={open}
+						actors={actors}
 					/>
 					{/* <CustomNodeInnerDemo /> */}
 					{/* <FlowChartWithState initialValue={chartSimple} /> */}
@@ -61,6 +62,7 @@ class DesignComponent extends React.Component {
 
 function mapStateToProps(state) {
 	const { project, gettingProject, actors, creatingProject } = state.project;
+	console.log(actors);
 	return {
 		project,
 		gettingProject,
