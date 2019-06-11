@@ -12,6 +12,10 @@ class User(db.Model):
     username = db.Column(db.String(50), unique=True)
     firstName = db.Column(db.String(30))
     lastName = db.Column(db.String(30))
+    company_id = db.Column(
+       db.Integer, db.ForeignKey('company.id')
+    )
+    company = db.relationship('Company')
 
     def serialize(self):
     	
@@ -19,6 +23,7 @@ class User(db.Model):
     	model['username'] = self.username
     	model['firstName'] = self.firstName
     	model['lastName'] = self.lastName
+    	model['company_id'] = self.company_id
 
     	return jsonify(model)
 
@@ -30,20 +35,21 @@ class User(db.Model):
         return False
 
     @classmethod
-    def set_initial_data(cls):
+    def set_initial_data(cls, comp):
         admin_user = cls.query.filter(cls.username=='admin').first()
         if admin_user is None:
-            cls.create('admin','admin','admin user','admin lastname')
+            cls.create('admin','admin','admin user','admin lastname', comp.id)
         return admin_user
 
     
     @classmethod
-    def create(cls, pwd, username, firstname, lastname):
+    def create(cls, pwd, username, firstname, lastname, company_id):
         model = cls()
         model.pwd = pwd
         model.username = username
         model.firstname = firstname
         model.lastname = lastname
+        model.company_id = company_id
         db.session.add(model)
         db.session.commit()
         return model

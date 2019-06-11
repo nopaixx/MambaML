@@ -6,6 +6,7 @@ from flask_restful import abort, Resource
 from ..users import User
 from flask import request
 from celery import chain
+from celery import group
 import pandas as pd
 import numpy as np
 import requests
@@ -23,7 +24,15 @@ def task_add():
     lista = []
     lista.append(send.to_json())
     lista.append(send.to_json())
-    result = chain(run_str_code.s(lista), run_str_code.s(), run_str_code.s())()
+#    result = chain(run_str_code.s(lista), run_str_code.s(), run_str_code.s())()
+    enlinea1 = chain(run_str_code.s(lista), run_str_code.s(), run_str_code.s())
+    enlinea2 = chain(run_str_code.s(lista), run_str_code.s(), run_str_code.s())
+    group1 = group([enlinea1, enlinea2])
+
+    enlinea3 = chain(run_str_code.s(lista), run_str_code.s(), run_str_code.s())
+    enlinea4 = chain(run_str_code.s(lista), run_str_code.s(), run_str_code.s())
+    group2 = group([enlinea3, enlinea3])
+
 #    result = run_str_code.delay(23, 42)
     # result.wait()
     while not result.ready():

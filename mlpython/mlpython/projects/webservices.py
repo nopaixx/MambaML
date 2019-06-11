@@ -9,7 +9,7 @@ import sys
 
 @app.route('/projects/create', methods=['POST'])
 @provider.require_oauth()
-def create():
+def create_project():
         userLogged = User.get_authorized()
         print(userLogged.username,"create project")
         if not userLogged:
@@ -26,7 +26,7 @@ def create():
 
 @app.route('/projects/update', methods=['PUT', 'POST'])
 @provider.require_oauth()
-def update():
+def update_project():
         userLogged = User.get_authorized()
         print(userLogged.username,"update project")
         if not userLogged:
@@ -52,7 +52,7 @@ def update():
 
 @app.route('/projects/get', methods=['GET'])
 @provider.require_oauth()
-def get():
+def get_project():
         userLogged = User.get_authorized()
         print(userLogged.username,"get project")
         if not userLogged:
@@ -66,6 +66,24 @@ def get():
             return 'Forbiddedn', 403
 
         return 'Not found', 404
+
+
+@app.route('/projects/getall', methods=['GET'])
+@provider.require_oauth()
+def get_allproject():
+        userLogged = User.get_authorized()
+        if not userLogged:
+                return '', 401
+
+        projects = Project.query.filter(Project.user_id == userLogged.id).all()
+
+        projects_list = []
+        for project in projects:
+            projects_list.append(project.serialize())
+      #  print(actors_list, 'LISTOF ACTORS')
+#        return '', 200
+        return json.dumps(projects_list), 200
+
 
 @app.route('/projects/run', methods=['POST'])
 @provider.require_oauth()
