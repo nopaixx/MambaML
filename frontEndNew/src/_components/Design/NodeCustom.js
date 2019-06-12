@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FlowChartWithState } from '@mrblenny/react-flow-chart/';
 import { Page } from './Page';
 import { chartSimple } from './chartSimple';
+import pythonLogo from '../../python.png';
 
 const Outer = styled.div`
 	padding: 15px;
@@ -45,14 +46,12 @@ export const NodeInnerCustom = ({ node }) => {
 	} else {
 		return (
 			<Outer>
-				<div>{node.type}</div>
-				{/* <Input
-					placeholder="Add forms etc if required"
-					onClick={e => console.log(e)}
-					onChange={e => console.log(e.target.value)}
-					onMouseUp={e => e.stopPropagation()}
-					onMouseDown={e => e.stopPropagation()}
-				/> */}
+				<img
+					alt={'python'}
+					style={{ width: 30, position: 'absolute', left: 10, top: 10 }}
+					src={pythonLogo}
+				/>
+				<div>{node.type.split('-')[1]}</div>
 			</Outer>
 		);
 	}

@@ -9,6 +9,7 @@ export const projectActions = {
 	load,
 	get,
 	getAllActors,
+	getAllProjects,
 };
 
 function create(projectName, frontendVersion, backendVersion) {
@@ -82,6 +83,37 @@ function get(ID) {
 	}
 }
 
+function getAllProjects() {
+	return dispatch => {
+		dispatch(request());
+		projectService.getAll().then(
+			projects => {
+				dispatch(success(projects));
+			},
+			error => {
+				dispatch(failure(error.toString()));
+				dispatch(alertActions.error(error.toString()));
+			}
+		);
+	};
+
+	function request(projects) {
+		return {
+			type: projectConstants.GET_ALL_PROJECT_REQUEST,
+			payload: projects,
+		};
+	}
+	function success(projects) {
+		return {
+			type: projectConstants.GET_ALL_PROJECT_SUCCESS,
+			payload: projects,
+		};
+	}
+	function failure(error) {
+		return { type: projectConstants.GET_ALL_PROJECT_FAILURE, error };
+	}
+}
+
 function load(projectId) {
 	return dispatch => {
 		const project = {
@@ -139,7 +171,6 @@ function save(
 		projectService.save(project).then(
 			project => {
 				dispatch(success(project));
-				history.push('/');
 			},
 			error => {
 				dispatch(failure(error.toString()));

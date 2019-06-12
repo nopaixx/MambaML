@@ -1,21 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import brace from 'brace';
-import { render } from 'react-dom';
-import AceEditor from 'react-ace';
 import { userActions, projectActions } from '../../_actions';
 import { Button } from '../../_components/Utils/Button/Button';
-import 'brace/mode/python';
-import 'brace/theme/monokai';
-
-function onChangeCodeScript(newValue) {
-	console.log('change', newValue);
-}
 
 class HomePage extends React.Component {
 	componentDidMount() {
-		//this.props.dispatch(userActions.getAll());
+		this.props.dispatch(projectActions.getAllProjects());
 	}
 
 	handleDeleteUser(id) {
@@ -36,19 +27,10 @@ class HomePage extends React.Component {
 				<p>You're logged into MambaML!!</p>
 				<h3>Actions:</h3>
 				<Button onClick={this.handleLoadProject} label={'Load Project'} />
-				{/* <button onClick={this.handleLoadProject}>Load Project</button> */}
 				<Button onClick={this.handleCreateProject} label={'Create Project'} />
-				{/* <button onClick={this.handleCreateProject}>Create Project</button> */}
 				<p className={'mt-3'}>
 					<Link to="/login">Logout</Link>
 				</p>
-				{/* <AceEditor
-					mode="python"
-					theme="monokai"
-					onChange={onChangeCodeScript}
-					name="UNIQUE_ID_OF_DIV"
-					editorProps={{ $blockScrolling: true }}
-				/> */}
 			</div>
 		);
 	}

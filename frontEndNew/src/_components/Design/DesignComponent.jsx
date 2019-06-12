@@ -1,29 +1,30 @@
 import React from 'react';
 
-import MambaLogo from '../../logo_peque.png';
-import { FlowChartWithState } from '@mrblenny/react-flow-chart';
-import { chartSimple } from './chartSimple';
-import { DragAndDropSidebar } from './DragAndDrop';
-import { ExternalReactState } from './ExternalReactState';
-import { InternalReactState } from './InternalReactState';
-import { CustomNodeInnerDemo } from './NodeCustom';
 import { DragDropState } from './DragDropState';
 import './DesignComponent.css';
 import { connect } from 'react-redux';
 import { projectActions } from '../../_actions';
+import { Button } from '../Utils/Button/Button';
+import { Input } from '../Utils/Input/Input';
+
+import html2canvas from 'html2canvas';
 
 class DesignComponent extends React.Component {
 	state = {
 		open: undefined,
+		projectName: undefined,
+		chart: undefined,
 	};
 	componentDidMount() {
 		const { dispatch, project, match } = this.props;
 		dispatch(projectActions.getAllActors());
 		if (!project) {
 			const ID = match.params.id;
-			dispatch(projectActions.get(+ID));
+			dispatch(projectActions.get(ID));
 		}
 	}
+
+	updateBoxInfo = () => {};
 
 	onClickLogo = () => {
 		const { history } = this.props;
@@ -32,28 +33,44 @@ class DesignComponent extends React.Component {
 
 	onSaveProject = chart => {
 		const { dispatch, project } = this.props;
-		console.log('project', project);
-		dispatch(projectActions.save(project.id, project.name, chart, 'V1', 'V1'));
+		const { projectName } = this.state;
+		dispatch(
+			projectActions.save(
+				project.id,
+				projectName || project.name,
+				chart,
+				'V1',
+				'V1'
+			)
+		);
 	};
-	openDropdown = e => {
-		this.setState({ open: e.target.id });
+
+	onChangeName = e => {
+		this.setState({ projectName: e.target.value });
+	};
+
+	screenShot = () => {
+		html2canvas(document.querySelector('#flowchartCanvas')).then(canvas =>
+			console.log(canvas.toDataURL())
+		);
 	};
 
 	render() {
 		const { actors } = this.props;
+		const { projectName } = this.state;
 		return (
 			<React.Fragment>
+				<nav>
+					<Button label={'screenshot'} onClick={this.screenShot} />
+					<Input onChange={this.onChangeName} value={projectName || ''} />
+					<Button label={'darkMode'} />
+				</nav>
 				<div className={'design-window'}>
-					{/* <DragAndDropSidebar /> */}
-					{/* <ExternalReactState /> */}
-					{/* <InternalReactState /> */}
 					<DragDropState
-						saveProject={this.onSaveProject}
-						openDropdown={this.openDropdown}
+						onSaveProject={this.onSaveProject}
 						actors={actors}
+						updateBoxInfo={this.updateBoxInfo}
 					/>
-					{/* <CustomNodeInnerDemo /> */}
-					{/* <FlowChartWithState initialValue={chartSimple} /> */}
 				</div>
 			</React.Fragment>
 		);

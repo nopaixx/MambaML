@@ -4,12 +4,14 @@ import {
 	CREATE_PROJECT_URL,
 	GET_ACTORS_URL,
 	GET_PROJECT_URL,
+	GET_ALL_PROJECTS_URL,
 } from '../endpoint.js';
 export const projectService = {
 	save,
 	get,
 	create,
 	getAllActors,
+	getAll,
 };
 
 function create(project) {
@@ -30,6 +32,15 @@ function get(id) {
 		headers: authHeader(),
 	};
 	return fetch(`${GET_PROJECT_URL}?id=${id}`, requestOptions).then(response =>
+		handleResponse(response)
+	);
+}
+function getAll() {
+	const requestOptions = {
+		method: 'GET',
+		headers: authHeader(),
+	};
+	return fetch(`${GET_ALL_PROJECTS_URL}`, requestOptions).then(response =>
 		handleResponse(response)
 	);
 }
