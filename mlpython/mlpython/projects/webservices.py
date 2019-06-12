@@ -6,6 +6,8 @@ from ..users import User
 from flask import request
 import requests
 import sys
+import json
+
 
 @app.route('/projects/create', methods=['POST'])
 @provider.require_oauth()
