@@ -24,8 +24,6 @@ class DesignComponent extends React.Component {
 		}
 	}
 
-	updateBoxInfo = () => {};
-
 	onClickLogo = () => {
 		const { history } = this.props;
 		history.push(`/`);
@@ -69,7 +67,7 @@ class DesignComponent extends React.Component {
 					<DragDropState
 						onSaveProject={this.onSaveProject}
 						actors={actors}
-						updateBoxInfo={this.updateBoxInfo}
+						updateBoxInfo={this.onSaveProject}
 					/>
 				</div>
 			</React.Fragment>

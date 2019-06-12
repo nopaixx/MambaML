@@ -9,7 +9,7 @@ import 'brace/mode/python';
 import 'brace/theme/monokai';
 
 export class BoxInfo extends React.Component {
-	state = { code: '', dependencies: '' };
+	state = { code: '', dependencies: '', selectedNode: '' };
 	onChangeCodeScript = newValue => {
 		this.setState({ code: newValue });
 	};
@@ -18,37 +18,64 @@ export class BoxInfo extends React.Component {
 	};
 
 	updateBoxInfo = () => {
-		const { updateBox } = this.props;
+		const { updateBox, chart } = this.props;
 		const { code, dependencies } = this.state;
-		updateBox(code, dependencies);
+		const selectedId = chart.selected.id;
+
+		chart.nodes[selectedId].properties.payload.code = code;
+		chart.nodes[selectedId].properties.payload.dependencies = dependencies;
+
+		updateBox(chart);
 	};
+
+	handleChange = e => {
+		const { name, value } = e.target;
+		this.setState({ [name]: value });
+	};
+
+	componentDidUpdate(prevProps) {
+		const { chart } = this.props;
+		const prevSelectedId = prevProps.chart.selected.id;
+		const selectedId = chart.selected.id;
+		const node = chart.nodes[selectedId];
+		if (prevSelectedId !== this.state.selectedNode && node) {
+			const { code, ninput, nouts, code_depen } = node.properties.payload;
+			this.setState({
+				codeScript: code,
+				dependencies: code_depen,
+				inputPorts: ninput,
+				outputPorts: nouts,
+				selectedNode: selectedId,
+			});
+		}
+	}
 
 	render() {
 		const { boxActions } = this.props;
+		const { codeScript, dependencies, inputPorts, outputPorts } = this.state;
 		const selected = this.props.chart.selected.id;
 		const node = this.props.chart.nodes[selected];
 		if (node) {
-			let codeScript;
-			let dependencies;
-			let inputPorts;
-			let outputPorts;
-			if (node.properties.payload) {
-				const { code, ninput, nouts, code_depen } = node.properties.payload;
-				codeScript = code;
-				dependencies = code_depen;
-				inputPorts = ninput;
-				outputPorts = nouts;
-			}
 			return (
 				<div className={'BoxInfo'}>
 					<h3>{node.type || ''}</h3>
 					Input Ports:
-					<Input type="number" key={inputPorts} defaultValue={inputPorts} />
+					<Input
+						type="number"
+						name="inputPorts"
+						value={inputPorts || 0}
+						onChange={this.handleChange}
+					/>
 					<br />
 					Output Ports:
-					<Input type="number" key={outputPorts} defaultValue={outputPorts} />
+					<Input
+						type="number"
+						value={outputPorts || 0}
+						name="outputPorts"
+						onChange={this.handleChange}
+					/>
 					<br />
-					{codeScript ? (
+					{this.state.codeScript ? (
 						<React.Fragment>
 							<div>Python Code</div>
 							<AceEditor
