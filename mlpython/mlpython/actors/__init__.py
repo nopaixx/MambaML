@@ -72,7 +72,7 @@ class Actor(db.Model):
         model.type = type
         model.frontendVersion = frontendVersion
         model.backendVersion = backendVersion
-        model.python_code = python_cpde
+        model.python_code = python_code
         model.depen_code = dependencies_code
         model.n_input_ports = n_input_ports
         model.n_output_ports = n_output_ports

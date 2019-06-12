@@ -1,5 +1,6 @@
 from ..celery_tasks.tasks import add_together
 from ..celery_tasks.tasks import run_str_code
+from ..celery_tasks.tasks import run_celery_project
 from mlpython.app import app, db
 from ..oauth import provider
 from flask_restful import abort, Resource
@@ -11,6 +12,14 @@ import pandas as pd
 import numpy as np
 import requests
 import sys
+
+
+@app.route('/start_run_project', methods=['GET'])
+def task_run_project():
+    id = 1
+    result = run_celery_project.delay(id)
+    return '', 200
+
 
 @app.route('/test_task_add', methods=['GET'])
 def task_add():
