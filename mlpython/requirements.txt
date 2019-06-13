@@ -38,3 +38,4 @@ celery
 flask_redis
 pandas
 numpy
+sklearn
