@@ -89,7 +89,8 @@ def update_actor():
                     backendVersion, python_code, dependencies_code,
                     n_input_ports, n_output_ports)
 
-            return upd_actor.serialized(), 200
+            return json.dumps(upd_actor.serialized()), 200
+#            return "OK", 200
 
         return 'Forbidden', 403
 

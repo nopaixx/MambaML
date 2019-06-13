@@ -41,16 +41,20 @@ def update_project():
             return 'Not Found', 404
         if Project.security_check(project, userLogged, 'PUT'):
             name = request.form.get('name')
-            json = request.form.get('json')
+            i_json = request.form.get('json')
             frontendVersion = request.form.get('frontendVersion')
             backendVersion = request.form.get('backendVersion')
 
-            upd_project = Project.update(project, name, json, 
+            upd_project = Project.update(project, name, i_json, 
                                          userLogged.id,
                                          frontendVersion, backendVersion)
-            return upd_project.serialize(), 200
+            
+            return json.dumps(upd_project.serialize()), 200
 
         return 'Forbidden', 403
+
+
+
 
 @app.route('/projects/get', methods=['GET'])
 @provider.require_oauth()
