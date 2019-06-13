@@ -22,7 +22,7 @@ function createBox(box) {
 	};
 
 	function request(box) {
-		return { type: adminConstants.SAVE_BOX_REQUES, box };
+		return { type: adminConstants.SAVE_BOX_REQUEST, box };
 	}
 	function success(box) {
 		return { type: adminConstants.SAVE_BOX_SUCCESS, box };
