@@ -57,9 +57,9 @@ function get(ID) {
 		projectService.get(ID).then(
 			project => {
 				project = {
-					id: '2',
-					projectName: 'prueba1',
-					chartStructure: '112',
+					id: project.data.id,
+					projectName: project.data.name,
+					chartStructure: JSON.parse(project.data.json),
 					frontendVersion: 'V1',
 					backendVersion: 'V1',
 				};

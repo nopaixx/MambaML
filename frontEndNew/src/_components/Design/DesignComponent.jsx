@@ -47,30 +47,40 @@ class DesignComponent extends React.Component {
 	// };
 
 	render() {
-		const { actors } = this.props;
+		const { actors, project } = this.props;
 		const { projectName } = this.state;
-		return (
-			<React.Fragment>
-				<nav>
-					<Button label={'screenshot'} onClick={this.screenShot} />
-					<Input onChange={this.onChangeName} value={projectName || ''} />
-					<Button label={'darkMode'} />
-				</nav>
-				<div className={'design-window'}>
-					<DragDropState
-						onSaveProject={this.onSaveProject}
-						actors={actors}
-						updateBoxInfo={this.onSaveProject}
-					/>
-				</div>
-			</React.Fragment>
-		);
+
+		if (!project) {
+			return null;
+		}
+		if (project) {
+			console.log('before render', project);
+			console.log('we render');
+			return (
+				<React.Fragment>
+					<nav>
+						<Button label={'screenshot'} onClick={this.screenShot} />
+						<Input onChange={this.onChangeName} value={projectName || ''} />
+						<Button label={'darkMode'} />
+					</nav>
+					<div className={'design-window'}>
+						<DragDropState
+							onSaveProject={this.onSaveProject}
+							actors={actors}
+							updateBoxInfo={this.onSaveProject}
+							project={project}
+						/>
+					</div>
+				</React.Fragment>
+			);
+		} else {
+			return null;
+		}
 	}
 }
 
 function mapStateToProps(state) {
 	const { project, gettingProject, actors, creatingProject } = state.project;
-	console.log(actors);
 	return {
 		project,
 		gettingProject,

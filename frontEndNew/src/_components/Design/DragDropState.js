@@ -60,6 +60,10 @@ const CanvasOuterCustom = styled.div`
 export class DragDropState extends React.Component {
 	state = cloneDeep(chartSimple);
 
+	componentDidMount() {
+		const chart = this.props.project.chartStructure;
+		this.setState(cloneDeep(chart));
+	}
 	render() {
 		const { actors, onSaveProject, updateBoxInfo } = this.props;
 		const chart = this.state;
