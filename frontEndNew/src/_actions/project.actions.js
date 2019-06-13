@@ -152,14 +152,6 @@ function save(
 	backendVersion
 ) {
 	return dispatch => {
-		console.log(
-			'project',
-			projectId,
-			projectName,
-			chartStructure,
-			frontendVersion,
-			backendVersion
-		);
 		const project = {
 			id: projectId,
 			name: projectName,

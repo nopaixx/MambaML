@@ -32,26 +32,19 @@ class DesignComponent extends React.Component {
 	onSaveProject = chart => {
 		const { dispatch, project } = this.props;
 		const { projectName } = this.state;
-		dispatch(
-			projectActions.save(
-				project.id,
-				projectName || project.name,
-				chart,
-				'V1',
-				'V1'
-			)
-		);
+		console.log('chart', chart);
+		dispatch(projectActions.save(1, 'casae', chart, 'V1', 'V1'));
 	};
 
 	onChangeName = e => {
 		this.setState({ projectName: e.target.value });
 	};
 
-	screenShot = () => {
-		html2canvas(document.querySelector('#flowchartCanvas')).then(canvas =>
-			console.log(canvas.toDataURL())
-		);
-	};
+	// screenShot = () => {
+	// 	html2canvas(document.querySelector('#flowchartCanvas')).then(canvas =>
+	// 		console.log(canvas.toDataURL())
+	// 	);
+	// };
 
 	render() {
 		const { actors } = this.props;

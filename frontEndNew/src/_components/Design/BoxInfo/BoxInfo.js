@@ -21,9 +21,12 @@ export class BoxInfo extends React.Component {
 		const { updateBox, chart } = this.props;
 		const { code, dependencies } = this.state;
 		const selectedId = chart.selected.id;
-
-		chart.nodes[selectedId].properties.payload.code = code;
-		chart.nodes[selectedId].properties.payload.dependencies = dependencies;
+		if (code.length > 0) {
+			chart.nodes[selectedId].properties.payload.code = code;
+		}
+		if (dependencies.length > 0) {
+			chart.nodes[selectedId].properties.payload.dependencies = dependencies;
+		}
 
 		updateBox(chart);
 	};
@@ -39,12 +42,17 @@ export class BoxInfo extends React.Component {
 		const selectedId = chart.selected.id;
 		const node = chart.nodes[selectedId];
 		if (prevSelectedId !== this.state.selectedNode && node) {
-			const { code, ninput, nouts, code_depen } = node.properties.payload;
+			const {
+				python_code,
+				n_input_ports,
+				n_output_ports,
+				depen_code,
+			} = node.properties.payload;
 			this.setState({
-				codeScript: code,
-				dependencies: code_depen,
-				inputPorts: ninput,
-				outputPorts: nouts,
+				codeScript: python_code,
+				dependencies: depen_code,
+				inputPorts: n_input_ports,
+				outputPorts: n_output_ports,
 				selectedNode: selectedId,
 			});
 		}
@@ -90,16 +98,18 @@ export class BoxInfo extends React.Component {
 							/>
 							<br />
 							<div>Python depen</div>
-							<AceEditor
-								mode="python"
-								theme="monokai"
-								width={'300px'}
-								height={'200px'}
-								value={dependencies}
-								onChange={this.onChangeDependencies}
-								name="UNIQUE_ID_OF_DIV"
-								editorProps={{ $blockScrolling: true }}
-							/>
+							<div>
+								<AceEditor
+									mode="python"
+									theme="monokai"
+									width={'300px'}
+									height={'200px'}
+									value={dependencies}
+									onChange={this.onChangeDependencies}
+									name="UNIQUE_ID_OF_DIV"
+									editorProps={{ $blockScrolling: true }}
+								/>
+							</div>
 						</React.Fragment>
 					) : (
 						''
