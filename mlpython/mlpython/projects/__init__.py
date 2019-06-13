@@ -29,7 +29,7 @@ class Project(db.Model):
         model['frontendVersion'] = self.frontendVersion
         model['backendVersion'] = self.backendVersion
 
-        return jsonify(model)
+        return model
 
     @classmethod
     def create(cls, name, json, user_id, frontendVersion, backendVersion):

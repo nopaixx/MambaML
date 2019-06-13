@@ -60,11 +60,13 @@ def get_project():
         if not userLogged:
                 return '', 401
         #nothing to request
-        id = request.form.get('id')
+        print(request.args)
+        print(request.data)
+        id = request.args['id']
         project = Project.query.filter(Project.id == id).first()        
         if project:
             if Project.security_check(project, userLogged, 'GET'):
-                return project.serialize(), 200
+                return json.dumps(project.serialize()), 200
             return 'Forbiddedn', 403
 
         return 'Not found', 404
