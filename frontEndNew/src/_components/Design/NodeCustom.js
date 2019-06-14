@@ -5,56 +5,25 @@ import { Page } from './Page';
 import { chartSimple } from './chartSimple';
 import pythonLogo from '../../python.png';
 
-const Outer = styled.div`
+const BoxStyleWrapper = styled.div`
 	padding: 15px;
 	margin: 10px;
 	font-size: 12px;
 	text-align: center;
 `;
 
-const Input = styled.input`
-	padding: 5px;
-	border: 1px solid cornflowerblue;
-	width: 100%;
-`;
-
-/**
- * Create the custom component,
- * Make sure it has the same prop signature
- */
-
-const dataSet = specifics => {
+export const NodeCustom = ({ node }) => {
+	const boxTitle = node.type.split('-')[1] || node.type;
 	return (
-		<Outer id={'mambaMl'} onClick={e => console.log(e.target)}>
-			<p>Use Node inner to customise the content of the node</p>
-			<p>{specifics}</p>
-		</Outer>
+		<BoxStyleWrapper>
+			<img
+				alt={'python'}
+				style={{ width: 30, position: 'absolute', left: 10, top: 10 }}
+				src={pythonLogo}
+			/>
+			<div>{boxTitle}</div>
+		</BoxStyleWrapper>
 	);
-};
-
-export const NodeInnerCustom = ({ node }) => {
-	if (node.type === 'output-only') {
-		return (
-			<Outer id={'mambaMl'} onClick={e => console.log(e.target)}>
-				<p>Use Node inner to customise the content of the node</p>
-			</Outer>
-		);
-	} else if (node.type === 'dataset-1') {
-		return dataSet('csv');
-	} else if (node.type === 'dataset-2') {
-		return dataSet('xml');
-	} else {
-		return (
-			<Outer>
-				<img
-					alt={'python'}
-					style={{ width: 30, position: 'absolute', left: 10, top: 10 }}
-					src={pythonLogo}
-				/>
-				<div>{node.type.split('-')[1]}</div>
-			</Outer>
-		);
-	}
 };
 
 export const CustomNodeInnerDemo = () => {
@@ -63,7 +32,7 @@ export const CustomNodeInnerDemo = () => {
 			<FlowChartWithState
 				initialValue={chartSimple}
 				Components={{
-					NodeInner: NodeInnerCustom,
+					NodeInner: NodeCustom,
 				}}
 			/>
 		</Page>

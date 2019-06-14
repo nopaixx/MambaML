@@ -9,9 +9,9 @@ import 'brace/mode/python';
 import 'brace/theme/monokai';
 
 export class BoxInfo extends React.Component {
-	state = { code: '', dependencies: '', selectedNode: '' };
+	state = { codeScript: ' ', dependencies: '', selectedNode: '' };
 	onChangeCodeScript = newValue => {
-		this.setState({ code: newValue });
+		this.setState({ codeScript: newValue });
 	};
 	onChangeDependencies = newValue => {
 		this.setState({ dependencies: newValue });
@@ -19,15 +19,14 @@ export class BoxInfo extends React.Component {
 
 	updateBoxInfo = () => {
 		const { updateBox, chart } = this.props;
-		const { code, dependencies } = this.state;
+		const { codeScript, dependencies } = this.state;
 		const selectedId = chart.selected.id;
-		if (code.length > 0) {
-			chart.nodes[selectedId].properties.payload.code = code;
+		if (codeScript.length > 0) {
+			chart.nodes[selectedId].properties.payload.python_code = codeScript;
 		}
 		if (dependencies.length > 0) {
 			chart.nodes[selectedId].properties.payload.dependencies = dependencies;
 		}
-
 		updateBox(chart);
 	};
 
@@ -48,19 +47,27 @@ export class BoxInfo extends React.Component {
 				n_output_ports,
 				depen_code,
 			} = node.properties.payload;
+			const hasCode = typeof python_code !== 'undefined';
 			this.setState({
 				codeScript: python_code,
 				dependencies: depen_code,
 				inputPorts: n_input_ports,
 				outputPorts: n_output_ports,
 				selectedNode: selectedId,
+				hasCode,
 			});
 		}
 	}
 
 	render() {
 		const { boxActions } = this.props;
-		const { codeScript, dependencies, inputPorts, outputPorts } = this.state;
+		const {
+			codeScript,
+			dependencies,
+			inputPorts,
+			outputPorts,
+			hasCode,
+		} = this.state;
 		const selected = this.props.chart.selected.id;
 		const node = this.props.chart.nodes[selected];
 		if (node) {
@@ -83,7 +90,7 @@ export class BoxInfo extends React.Component {
 						onChange={this.handleChange}
 					/>
 					<br />
-					{this.state.codeScript ? (
+					{hasCode ? (
 						<React.Fragment>
 							<div>Python Code</div>
 							<AceEditor
@@ -92,7 +99,7 @@ export class BoxInfo extends React.Component {
 								width={'300px'}
 								height={'300px'}
 								value={codeScript}
-								onChange={this.onChangeCode}
+								onChange={this.onChangeCodeScript}
 								name="UNIQUE_ID_OF_DIV"
 								editorProps={{ $blockScrolling: true }}
 							/>

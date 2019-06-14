@@ -97,16 +97,15 @@ function getAllProjects() {
 		);
 	};
 
-	function request(projects) {
+	function request() {
 		return {
 			type: projectConstants.GET_ALL_PROJECT_REQUEST,
-			payload: projects,
 		};
 	}
 	function success(projects) {
 		return {
 			type: projectConstants.GET_ALL_PROJECT_SUCCESS,
-			payload: projects,
+			payload: projects.data,
 		};
 	}
 	function failure(error) {

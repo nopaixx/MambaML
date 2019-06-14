@@ -1,13 +1,14 @@
 import React from 'react';
 
 import { DragDropState } from './DragDropState';
-import './DesignComponent.css';
 import { connect } from 'react-redux';
 import { projectActions } from '../../_actions';
 import { Button } from '../Utils/Button/Button';
 import { Input } from '../Utils/Input/Input';
 
-import html2canvas from 'html2canvas';
+import './DesignComponent.css';
+
+//import html2canvas from 'html2canvas';
 
 class DesignComponent extends React.Component {
 	state = {
@@ -32,8 +33,7 @@ class DesignComponent extends React.Component {
 	onSaveProject = chart => {
 		const { dispatch, project } = this.props;
 		const { projectName } = this.state;
-		console.log('chart', chart);
-		dispatch(projectActions.save(1, 'casae', chart, 'V1', 'V1'));
+		dispatch(projectActions.save(1, projectName || 'casae', chart, 'V1', 'V1'));
 	};
 
 	onChangeName = e => {
