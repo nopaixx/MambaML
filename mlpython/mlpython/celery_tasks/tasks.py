@@ -107,7 +107,7 @@ def run_celery_project(project_id):
         # TODO do it better
         def getboxby_name(box_name):
             for x in allboxes:
-                if x.box_id ==box_name:
+                if x.box_id == box_name:
                     return x
             return None
         # TODO do it better
@@ -134,7 +134,7 @@ def run_celery_project(project_id):
             dest_box.inputs.append(input_port)
 
 
-        # now select one untrined box and train until allboxes trained
+        # now select one untrained box and train until allboxes trained
         # TODO IN random way
         pendingTrain = True
         while pendingTrain:
