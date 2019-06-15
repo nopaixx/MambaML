@@ -31,9 +31,12 @@ class DesignComponent extends React.Component {
 	};
 
 	onSaveProject = chart => {
-		const { dispatch, project } = this.props;
+		const { dispatch, project, match } = this.props;
+		const ID = match.params.id;
 		const { projectName } = this.state;
-		dispatch(projectActions.save(1, projectName || 'casae', chart, 'V1', 'V1'));
+		dispatch(
+			projectActions.save(ID, projectName || 'casae', chart, 'V1', 'V1')
+		);
 	};
 
 	onChangeName = e => {
