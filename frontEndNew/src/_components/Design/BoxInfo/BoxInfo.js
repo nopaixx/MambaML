@@ -10,6 +10,7 @@ import 'brace/theme/monokai';
 
 export class BoxInfo extends React.Component {
 	state = { codeScript: ' ', dependencies: '', selectedNode: '' };
+
 	onChangeCodeScript = newValue => {
 		this.setState({ codeScript: newValue });
 	};
@@ -19,13 +20,14 @@ export class BoxInfo extends React.Component {
 
 	updateBoxInfo = () => {
 		const { updateBox, chart } = this.props;
-		const { codeScript, dependencies } = this.state;
-		const selectedId = chart.selected.id;
-		if (codeScript.length > 0) {
-			chart.nodes[selectedId].properties.payload.python_code = codeScript;
-		}
-		if (dependencies.length > 0) {
-			chart.nodes[selectedId].properties.payload.dependencies = dependencies;
+		const { codeScript, dependencies, selectedId } = this.state;
+		if (selectedId) {
+			if (codeScript && codeScript.length > 0) {
+				chart.nodes[selectedId].properties.payload.python_code = codeScript;
+			}
+			if (dependencies) {
+				chart.nodes[selectedId].properties.payload.dependencies = dependencies;
+			}
 		}
 		updateBox(chart);
 	};
@@ -40,13 +42,16 @@ export class BoxInfo extends React.Component {
 		const prevSelectedId = prevProps.chart.selected.id;
 		const selectedId = chart.selected.id;
 		const node = chart.nodes[selectedId];
+
 		if (prevSelectedId !== this.state.selectedNode && node) {
+			this.updateBoxInfo();
 			const {
 				python_code,
 				n_input_ports,
 				n_output_ports,
 				depen_code,
 			} = node.properties.payload;
+
 			const hasCode = typeof python_code !== 'undefined';
 			this.setState({
 				codeScript: python_code,
@@ -54,10 +59,18 @@ export class BoxInfo extends React.Component {
 				inputPorts: n_input_ports,
 				outputPorts: n_output_ports,
 				selectedNode: selectedId,
+				selectedId,
 				hasCode,
 			});
 		}
 	}
+
+	openFullScreenMode = e => {
+		const id = e.target.id;
+		const { pythonCode } = this.state;
+		console.log('id', id);
+		this.setState({ [id]: !pythonCode });
+	};
 
 	render() {
 		const { boxActions } = this.props;
@@ -67,9 +80,12 @@ export class BoxInfo extends React.Component {
 			inputPorts,
 			outputPorts,
 			hasCode,
+			pythonCode,
 		} = this.state;
+
 		const selected = this.props.chart.selected.id;
 		const node = this.props.chart.nodes[selected];
+
 		if (node) {
 			return (
 				<div className={'BoxInfo'}>
@@ -93,20 +109,45 @@ export class BoxInfo extends React.Component {
 					{hasCode ? (
 						<React.Fragment>
 							<div>Python Code</div>
-							<AceEditor
-								mode="python"
-								theme="monokai"
-								width={'300px'}
-								height={'300px'}
-								value={codeScript}
-								onChange={this.onChangeCodeScript}
-								name="UNIQUE_ID_OF_DIV"
-								editorProps={{ $blockScrolling: true }}
-							/>
+							<div
+								id="pythonCode"
+								onClick={this.openFullScreenMode}
+								style={
+									pythonCode
+										? {
+												position: 'absolute',
+												left: 0,
+												top: 0,
+												width: window.innerWidth,
+												height: window.innerHeight,
+												backgroundColor: 'rgba(255, 255, 255, 0.8)',
+												zIndex: 9999,
+										  }
+										: {}
+								}>
+								x<div>Python Code</div>
+								<div
+									style={{
+										display: 'flex',
+										justifyContent: 'center',
+									}}>
+									<AceEditor
+										mode="python"
+										theme="monokai"
+										width={!pythonCode ? '300px' : '80vh'}
+										height={!pythonCode ? '300px' : '80vh'}
+										value={codeScript}
+										onChange={this.onChangeCodeScript}
+										name="UNIQUE_ID_OF_DIV"
+										editorProps={{ $blockScrolling: true }}
+									/>
+								</div>
+							</div>
 							<br />
 							<div>Python depen</div>
 							<div>
 								<AceEditor
+									id={'pythonDepen'}
 									mode="python"
 									theme="monokai"
 									width={'300px'}

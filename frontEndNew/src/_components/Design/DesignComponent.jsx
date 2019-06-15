@@ -59,9 +59,9 @@ class DesignComponent extends React.Component {
 			return (
 				<React.Fragment>
 					<nav>
-						<Button label={'screenshot'} onClick={this.screenShot} />
+						{/* <Button label={'screenshot'} onClick={this.screenShot} /> */}
 						<Input onChange={this.onChangeName} value={projectName || ''} />
-						<Button label={'darkMode'} />
+						{/* <Button label={'darkMode'} /> */}
 					</nav>
 					<div className={'design-window'}>
 						<DragDropState
