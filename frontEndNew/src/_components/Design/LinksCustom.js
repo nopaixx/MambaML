@@ -1,5 +1,5 @@
 import React from 'react';
-import { LinkDefault } from '@mrblenny/react-flow-chart/';
+import { LinkDefault } from '@gonzalo10/react-diagrams/';
 
 import styled from 'styled-components';
 

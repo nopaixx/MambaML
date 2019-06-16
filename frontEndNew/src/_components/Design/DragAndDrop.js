@@ -1,6 +1,6 @@
 // import * as React from 'react';
 // import styled from 'styled-components';
-// import { FlowChartWithState } from '@mrblenny/react-flow-chart/';
+// import { FlowChartWithState } from '@gonzalo10/react-diagrams/';
 // import { Page } from './Page';
 // import { Content } from './Content';
 // import { Sidebar } from './Sidebar';

@@ -10,6 +10,13 @@ import './DesignComponent.css';
 
 //import html2canvas from 'html2canvas';
 
+const actors2 = {
+	Datasets: {
+		dataset1: { id: 'dataset1' },
+		dataset2: { id: 'dataset2' },
+	},
+};
+
 class DesignComponent extends React.Component {
 	state = {
 		open: undefined,
@@ -57,8 +64,6 @@ class DesignComponent extends React.Component {
 			return null;
 		}
 		if (project) {
-			console.log('before render', project);
-			console.log('we render');
 			return (
 				<React.Fragment>
 					<nav>
@@ -69,7 +74,8 @@ class DesignComponent extends React.Component {
 					<div className={'design-window'}>
 						<DragDropState
 							onSaveProject={this.onSaveProject}
-							actors={actors}
+							//actors={actors}
+							actors={actors2}
 							updateBoxInfo={this.onSaveProject}
 							project={project}
 						/>

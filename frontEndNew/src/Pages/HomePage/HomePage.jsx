@@ -26,7 +26,7 @@ const ProjectsList = ({ projects, handleLoadProject }) => {
 		return (
 			<ProjectBox key={key}>
 				{project.name}
-				<Button onClick={handleLoadProject} label={'Load Project'} />
+				<Link to={`/project/${project.id}`}>Load Project</Link>
 			</ProjectBox>
 		);
 	});
@@ -50,7 +50,6 @@ class HomePage extends React.Component {
 
 	render() {
 		const { user, projects } = this.props;
-		console.log('render projects', projects);
 		return (
 			<div className="col-md-6 col-md-offset-3">
 				<h1>Hi {user.username}!</h1>
