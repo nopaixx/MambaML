@@ -2,11 +2,11 @@ import * as React from 'react';
 import { cloneDeep, mapValues } from 'lodash';
 
 import styled from 'styled-components';
-import { FlowChart } from '@mrblenny/react-flow-chart/';
+import { FlowChart } from '@gonzalo10/react-diagrams/';
 import { Page } from './Page';
 import { Content } from './Content';
 import { Sidebar } from './SideBar/Sidebar';
-import * as actions from '@mrblenny/react-flow-chart/src/container/actions';
+import * as actions from '@gonzalo10/react-diagrams/src/container/actions';
 
 import { NodeCustom } from './NodeCustom';
 import { LinksCustom } from './LinksCustom';

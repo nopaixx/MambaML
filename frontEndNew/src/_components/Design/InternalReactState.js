@@ -1,7 +1,7 @@
 import { cloneDeep, mapValues } from 'lodash';
 import * as React from 'react';
-import { FlowChart } from '@mrblenny/react-flow-chart/';
-import * as actions from '@mrblenny/react-flow-chart/src/container/actions';
+import { FlowChart } from '@gonzalo10/react-diagrams/';
+import * as actions from '@gonzalo10/react-diagrams/src/container/actions';
 import { Page } from './Page';
 import { chartSimple } from './chartSimple';
 
