@@ -190,6 +190,7 @@ function getAllActors() {
 					const newActor = boxFactory(JSON.parse(actor));
 					constructedActors.push(newActor);
 				});
+				const tree = treeConstructor(constructedActors);
 				dispatch(success(constructedActors));
 			},
 			error => {
@@ -218,6 +219,8 @@ const boxFactory = ({
 	depen_code,
 	backendVersion,
 	frontendVersion,
+	parameters,
+	friendly_name,
 }) => {
 	const ports = {};
 	for (let i = 1; i <= n_input_ports; ++i) {
@@ -244,6 +247,7 @@ const boxFactory = ({
 	}
 	const boxStructure = {
 		type: type,
+		name: 'Tratamiento de Datos-Manipulacion Filas-Split',
 		ports,
 		properties: {
 			payload: {
@@ -253,8 +257,46 @@ const boxFactory = ({
 				n_output_ports,
 				frontendVersion,
 				backendVersion,
+				parameters,
 			},
 		},
 	};
 	return boxStructure;
+};
+
+const treeConstructor = data => {
+	const firstIndex = data.length;
+	const tree = {};
+	for (let i = 0; i < firstIndex; ++i) {
+		const actualData = data[i];
+		tree[i] = treeBranchConstructor(actualData, tree, i);
+		console.log('tree', tree);
+	}
+};
+
+const treeBranchConstructor = (branch, index) => {
+	const levels = branch.name.split('-');
+	const size = levels.length;
+	let counter = 0;
+	let tree = {};
+	build(counter, size, levels, branch, tree);
+	return levels[0];
+};
+
+const build = (counter, size, levels, branch, tree) => {
+	counter++;
+	let prevCounter = counter - 1;
+	if (counter === 1) {
+		levels[size - counter] = {
+			lable: levels[size - counter],
+			payload: branch,
+		};
+		build(counter, size, levels, branch, tree);
+	} else if (counter <= size) {
+		levels[size - counter] = {
+			lable: levels[size - counter],
+			node: levels[size - prevCounter],
+		};
+		build(counter, size, levels, branch, tree);
+	}
 };

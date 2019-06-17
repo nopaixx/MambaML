@@ -33,18 +33,11 @@ export class SidebarClassifier extends React.Component {
 		// });
 	};
 
-	createTree = payload => {
-		const name = payload.id;
-		delete payload.id;
-		console.log('payload', payload);
-		Object.keys(payload).forEach(item => {
-			const nextLevel = payload[item];
-
-			console.log('nextLevel', nextLevel);
-			console.log('item', item);
-			console.log(Object.keys(nextLevel).length > 1);
-		});
-	};
+	// createTree = payload => {
+	// 	for (let i = 0; i < payload.length; ++i) {
+	// 		const name = type
+	// 	}
+	// };
 
 	createTree2 = itemToOpen => {
 		console.log();
@@ -84,6 +77,7 @@ export class SidebarClassifier extends React.Component {
 		const { activeBoxesList, PythonModel } = this.state;
 		return (
 			<React.Fragment>
+				{console.log('SidebarClassifier')}
 				<div onClick={this.onClickBack}>Back</div>
 				{PythonModel ? <SidebarItem type={'Python Module'} /> : ''}
 				{activeBoxesList.map((item, key) => (

@@ -1,14 +1,8 @@
 import React from 'react';
 import { debounce } from 'lodash';
 
-import walk, {
-	TreeNode,
-	Item,
-	TreeNodeInArray,
-	LocaleFunction,
-	MatchSearchFunction,
-} from './walk';
-import { defaultChildren, TreeMenuChildren, TreeMenuItem } from './renderProps';
+import walk from './walk';
+import { defaultChildren } from './renderProps';
 import KeyDown from './KeyDown';
 
 const defaultOnClick = props => console.log(props); // eslint-disable-line no-console

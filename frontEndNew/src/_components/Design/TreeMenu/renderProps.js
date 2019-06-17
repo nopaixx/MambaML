@@ -1,5 +1,4 @@
 import React from 'react';
-import { Item } from './walk';
 import { REACT_FLOW_CHART } from '@gonzalo10/react-diagrams/';
 
 const DEFAULT_PADDING = 0.75;
@@ -64,7 +63,7 @@ const renderItem = ({
 				<ToggleIcon on={isOpen} />
 			</div>
 		)}
-		Gonzalo {label}
+		{label}
 	</li>
 );
 
