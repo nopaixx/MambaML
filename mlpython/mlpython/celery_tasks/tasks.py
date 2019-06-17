@@ -91,13 +91,20 @@ def run_celery_project(project_id):
             if (box_type[0:7] == 'Dataset'):
                 # node_name = d_json['nodes'][x]['id']
                 node_name = x
-                # TODO OK for now special case for dataset!
-                import numpy as np
-                from sklearn.linear_model import LinearRegression
-                X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
+                # TODO OK for now special case for dataset!i
+                from sklearn.datasets import load_boston
+                from sklearn.model_selection import cross_val_score
+                from sklearn.tree import DecisionTreeRegressor
+                boston = load_boston()
+
+                # regressor = DecisionTreeRegressor(random_state=0)
+                # cross_val_score(regressor, boston.data, boston.target, cv=10)                  
+                # import numpy as np
+                # from sklearn.linear_model import LinearRegression
+                # X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
                 box = BoxCode("", node_name, 0, 1)
                 box.setStatus('RUNNED')
-                box.outputs.append(X)
+                box.outputs.append(boston)
                 # for now dummy data on dataset
                 allboxes.append(box)
 

@@ -19,12 +19,13 @@ def create_project():
         #nothing to request
         # request.args.get('page', Query.DEFAULT_PAGE)
         name = request.form.get('name')
-        json = request.form.get('json')
+        i_json = request.form.get('json')
         frontendVersion = request.form.get('frontendVersion')
         backendVersion = request.form.get('backendVersion')
-        project = Project.create(name, json, userLogged.id, 
-                                frontendVersion, backendVersion)
-        return project.serialize(), 200
+        # return '', 200
+        project = Project.create(name, i_json, userLogged.id, 
+                                 frontendVersion, backendVersion)
+        return json.dumps(project.serialize()), 200
 
 @app.route('/projects/update', methods=['PUT', 'POST'])
 @provider.require_oauth()

@@ -54,8 +54,12 @@ def create_actor():
         n_input_ports = request.form.get('n_input_ports')
         n_output_ports = request.form.get('n_output_ports')
 
+        friendly_name = request.form.get('friendly_name')
+        parameters = request.form.get('parameters')
+
         actor = Actor.create( type, frontendVersion, backendVersion,
-              python_code, dependencies_code, n_input_ports, n_output_ports)
+              python_code, dependencies_code, n_input_ports, n_output_ports,
+              parameters, friendly_name)
 
         return actor.serialized(), 200
 
@@ -85,9 +89,13 @@ def update_actor():
             n_input_ports = request.form.get('n_input_ports')
             n_output_ports = request.form.get('n_output_ports')
 
+            friendly_name = request.form.get('friendly_name')
+            parameters = request.form.get('parameters')
+
             upd_actor= Actor.update(actor, type, frontendVersion, 
                     backendVersion, python_code, dependencies_code,
-                    n_input_ports, n_output_ports)
+                    n_input_ports, n_output_ports, parameters, 
+                    friendly_name)
 
             return json.dumps(upd_actor.serialized()), 200
 #            return "OK", 200
