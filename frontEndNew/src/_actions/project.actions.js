@@ -247,7 +247,11 @@ const boxFactory = ({
 	}
 	const boxStructure = {
 		type: type,
-		name: 'Tratamiento de Datos-Manipulacion Filas-Split',
+		name:
+			'Tratamiento de Datos-Manipulacion Filas-Split' +
+			Math.random() +
+			'-Casa' +
+			Math.random(),
 		ports,
 		properties: {
 			payload: {
@@ -266,19 +270,19 @@ const boxFactory = ({
 
 const treeConstructor = data => {
 	const firstIndex = data.length;
-	const tree = {};
+	let tree = {};
 	for (let i = 0; i < firstIndex; ++i) {
 		const actualData = data[i];
 		tree[i] = treeBranchConstructor(actualData, tree, i);
-		console.log('tree', tree);
 	}
+	var mergeDeepResult = supermerge(tree[0], tree[1]);
+	console.log('mergedtrees2', mergeDeepResult);
 };
 
-const treeBranchConstructor = (branch, index) => {
+const treeBranchConstructor = (branch, tree, index) => {
 	const levels = branch.name.split('-');
 	const size = levels.length;
 	let counter = 0;
-	let tree = {};
 	build(counter, size, levels, branch, tree);
 	return levels[0];
 };
@@ -288,15 +292,38 @@ const build = (counter, size, levels, branch, tree) => {
 	let prevCounter = counter - 1;
 	if (counter === 1) {
 		levels[size - counter] = {
-			lable: levels[size - counter],
-			payload: branch,
+			[levels[size - counter]]: {
+				lable: levels[size - counter],
+				payload: branch,
+			},
 		};
 		build(counter, size, levels, branch, tree);
 	} else if (counter <= size) {
 		levels[size - counter] = {
-			lable: levels[size - counter],
-			node: levels[size - prevCounter],
+			[levels[size - counter]]: {
+				lable: levels[size - counter],
+				node: levels[size - prevCounter],
+			},
 		};
+
 		build(counter, size, levels, branch, tree);
 	}
+};
+
+const supermerge = (target, source) => {
+	for (let key of Object.keys(source)) {
+		if (source[key] instanceof Object) {
+			if (!target[key]) {
+				target = {
+					...target,
+					...source,
+				};
+			} else {
+				Object.assign(source[key], supermerge(target[key], source[key]));
+			}
+		}
+	}
+	Object.assign(target || {}, source);
+
+	return target;
 };
