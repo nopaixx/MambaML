@@ -20,7 +20,6 @@ oauthlib==1.1.2
 paramiko
 pexpect
 pyasn1
-pycairo
 pycrypto
 pyxdg
 requests
@@ -37,3 +36,6 @@ urllib3
 Werkzeug
 celery
 flask_redis
+pandas
+numpy
+sklearn

@@ -7,12 +7,13 @@ import mlpython.client as CLI
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from mlpython.app import app, db
-
+from mlpython.companys import Company
 
 app.config.from_object(DevelopmentConfig)
 
 if __name__ == '__main__':
    Client.set_client()
-   User.set_initial_data()
+   comp = Company.set_initial_data()
+   User.set_initial_data(comp)
    Actor.set_initial_data()
 

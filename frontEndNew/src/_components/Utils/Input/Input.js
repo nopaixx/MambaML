@@ -8,8 +8,8 @@ export const Input = props => {
 			className="input-box"
 			type={props.type}
 			name={props.name}
-			defaultValue={props.defaultValue}>
-			{props.label}
-		</input>
+			value={props.value}
+			defaultValue={props.defaultValue}
+		/>
 	);
 };

@@ -2,6 +2,7 @@
 
 python manage.py db upgrade
 python initial_data.py
-cd mlpython/celery
-celery -A tasks worker --loglevel=info
+# cd mlpython/celery_tasks
+# celery -A tasks worker  -Q low-priority  --loglevel=info
+celery -A mlpython.app.celery worker --loglevel=info
 

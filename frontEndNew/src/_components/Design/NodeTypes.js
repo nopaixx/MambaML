@@ -3,7 +3,7 @@ export const PythonModule_PythonScript = {
 	type: 'Python Module-Python Script',
 	properties: {
 		payload: {
-			code:
+			python_code:
 				'def FUNCTION_ID_1(input1=None, input2=None, input3=None, input4=None, input5=None):\n\r' +
 				'\tout1=None\n\r' +
 				'\tout1=None\n\r' +
@@ -15,8 +15,9 @@ export const PythonModule_PythonScript = {
 				'\tout2 = val*5\n\r' +
 				'\tout3 = out2*5\n\r' +
 				'\treturn val, out1, out2, out3\n\r',
-			ninput: 5,
-			nouts: 4,
+			depen_code: '',
+			n_input_ports: 5,
+			n_output_ports: 4,
 		},
 	},
 	position: {

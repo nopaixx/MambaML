@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { REACT_FLOW_CHART } from '@mrblenny/react-flow-chart/';
-
+import { REACT_FLOW_CHART } from '@gonzalo10/react-diagrams/';
+import TreeMenu from '../TreeMenu/TreeMenu';
 const Outer = styled.div`
-	padding: 20px 30px;
+	padding: 5px 10px;
 	margin-bottom: 5px;
 	font-size: 14px;
 	color: #b43539;
@@ -16,7 +16,7 @@ const Outer = styled.div`
 	  }
 `;
 const Outer2 = styled.div`
-	padding: 20px 30px;
+	padding: 5px 10px;
 	margin-bottom: 5px;
 	font-size: 14px;
 	color: white;
@@ -29,6 +29,24 @@ const Outer2 = styled.div`
 	  }
 `;
 
+const treeData = {
+	Data: {
+		label: 'Data',
+		nodes: {
+			CSV: {
+				label: 'CSV',
+			},
+			Kaggle: {
+				label: 'Kaggle',
+				payload: { type: 'data', ports: 'ports', properites: 'props' },
+			},
+		},
+	},
+	machienLearning: {
+		label: 'machine learning',
+	},
+};
+
 export const SidebarItem = ({ type, ports, properties, onClick }, props) => {
 	if (type === 'Python Module' || type === 'Modules') {
 		return (
@@ -37,19 +55,19 @@ export const SidebarItem = ({ type, ports, properties, onClick }, props) => {
 			</Outer2>
 		);
 	}
-
-	return (
-		<Outer
-			id={type}
-			onClick={onClick}
-			draggable={true}
-			onDragStart={event => {
-				event.dataTransfer.setData(
-					REACT_FLOW_CHART,
-					JSON.stringify({ type, ports, properties })
-				);
-			}}>
-			{type}
-		</Outer>
-	);
+	return <TreeMenu data={treeData} />;
+	// return (
+	// 	<Outer
+	// 		id={type}
+	// 		onClick={onClick}
+	// 		draggable={true}
+	// 		onDragStart={event => {
+	// 			event.dataTransfer.setData(
+	// 				REACT_FLOW_CHART,
+	// 				JSON.stringify({ type, ports, properties })
+	// 			);
+	// 		}}>
+	// 		{type}
+	// 	</Outer>
+	// );
 };

@@ -1,4 +1,4 @@
-import { userConstants } from '../_constants';
+import { adminConstants } from '../_constants';
 import { adminService } from '../_services';
 import { alertActions } from './';
 
@@ -8,7 +8,6 @@ export const adminActions = {
 
 function createBox(box) {
 	return dispatch => {
-		//const newBox = boxFactory(box);
 		dispatch(request(box));
 
 		adminService.createBox(box).then(
@@ -22,62 +21,13 @@ function createBox(box) {
 		);
 	};
 
-	function request(user) {
-		return { type: userConstants.LOGIN_REQUEST, user };
+	function request(box) {
+		return { type: adminConstants.SAVE_BOX_REQUEST, box };
 	}
-	function success(user) {
-		return { type: userConstants.LOGIN_SUCCESS, user };
+	function success(box) {
+		return { type: adminConstants.SAVE_BOX_SUCCESS, box };
 	}
 	function failure(error) {
-		return { type: userConstants.LOGIN_FAILURE, error };
+		return { type: adminConstants.SAVE_BOX_FAILURE, error };
 	}
 }
-
-const boxFactory = ({
-	type,
-	inputPorts,
-	outputPorts,
-	code,
-	boxClass,
-	backendVersion,
-	frontendVersion,
-}) => {
-	const ports = {};
-	for (let i = 1; i <= inputPorts; ++i) {
-		ports[`port${i}`] = {
-			id: `port${i}`,
-			type: 'input',
-			properties: {
-				value: 'yes',
-			},
-		};
-	}
-	for (
-		let j = +inputPorts + 1;
-		j <= Number(+outputPorts) + Number(inputPorts);
-		++j
-	) {
-		ports[`port${j}`] = {
-			id: `port${j}`,
-			type: 'output',
-			properties: {
-				value: 'yes',
-			},
-		};
-	}
-	const boxStructure = {
-		type: type,
-		boxClass: boxClass,
-		ports,
-		properties: {
-			payload: {
-				python_code: code,
-			},
-			n_input_ports: inputPorts,
-			n_output_ports: outputPorts,
-			frontendVersion,
-			backendVersion,
-		},
-	};
-	return boxStructure;
-};

@@ -1,21 +1,41 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import brace from 'brace';
-import { render } from 'react-dom';
-import AceEditor from 'react-ace';
 import { userActions, projectActions } from '../../_actions';
 import { Button } from '../../_components/Utils/Button/Button';
-import 'brace/mode/python';
-import 'brace/theme/monokai';
+import styled from 'styled-components';
 
-function onChangeCodeScript(newValue) {
-	console.log('change', newValue);
-}
+const ProjectBox = styled.div`
+	border: 1px solid #b43539;
+	border-radius: 5px;
+	width: 500px;
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+	margin-bottom: 10px;
+	:hover {
+		background-color: #d38c8c;
+	}
+`;
+
+const ProjectsList = ({ projects, handleLoadProject }) => {
+	if (!projects) {
+		return null;
+	}
+	return projects.map((project, key) => {
+		return (
+			<ProjectBox key={key}>
+				{project.name}
+				<Link to={`/project/${project.id}`}>Load Project</Link>
+			</ProjectBox>
+		);
+	});
+};
 
 class HomePage extends React.Component {
 	componentDidMount() {
-		//this.props.dispatch(userActions.getAll());
+		const { dispatch } = this.props;
+		dispatch(projectActions.getAllProjects());
 	}
 
 	handleDeleteUser(id) {
@@ -29,26 +49,20 @@ class HomePage extends React.Component {
 	handleLoadProject = () => {};
 
 	render() {
-		const { user } = this.props;
+		const { user, projects } = this.props;
 		return (
 			<div className="col-md-6 col-md-offset-3">
 				<h1>Hi {user.username}!</h1>
 				<p>You're logged into MambaML!!</p>
-				<h3>Actions:</h3>
-				<Button onClick={this.handleLoadProject} label={'Load Project'} />
-				{/* <button onClick={this.handleLoadProject}>Load Project</button> */}
+				<h3>Projects:</h3>
+				<ProjectsList
+					handleLoadProject={this.handleLoadProject}
+					projects={projects}
+				/>
 				<Button onClick={this.handleCreateProject} label={'Create Project'} />
-				{/* <button onClick={this.handleCreateProject}>Create Project</button> */}
 				<p className={'mt-3'}>
 					<Link to="/login">Logout</Link>
 				</p>
-				{/* <AceEditor
-					mode="python"
-					theme="monokai"
-					onChange={onChangeCodeScript}
-					name="UNIQUE_ID_OF_DIV"
-					editorProps={{ $blockScrolling: true }}
-				/> */}
 			</div>
 		);
 	}
@@ -56,10 +70,12 @@ class HomePage extends React.Component {
 
 function mapStateToProps(state) {
 	const { users, authentication } = state;
+	const { projects } = state.project;
 	const { user } = authentication;
 	return {
 		user,
 		users,
+		projects,
 	};
 }
 

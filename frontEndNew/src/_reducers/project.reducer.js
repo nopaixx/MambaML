@@ -13,6 +13,11 @@ export function project(state = {}, action) {
 				creatingProject: false,
 				project: action.payload,
 			};
+		case projectConstants.GET_ALL_PROJECT_SUCCESS:
+			return {
+				...state,
+				projects: action.payload,
+			};
 		case projectConstants.GET_PROJECT_REQUEST:
 			return {
 				...state,

@@ -85,7 +85,46 @@ class AdminPage extends React.Component {
 							name="outputPorts"
 							onChange={this.handleChange}
 						/>
+						{/* <br />
+						Numero of parametres:
 						<br />
+						<div>5</div>
+						<Button label={'+'} />
+						<div>
+							Type:
+							<br />
+							<select>
+								<option value="String">String</option>
+								<option value="int">int</option>
+								<option value="float">float</option>
+								<option value="list">list</option>
+							</select>
+							<br />
+							Name:
+							<br />
+							<Input
+								type="string"
+								name="paramName"
+								onChange={this.handleChange}
+							/>
+							<br />
+							Parameter help:
+							<br />
+							<Input
+								type="string"
+								name="paramHelp"
+								onChange={this.handleChange}
+							/>
+							<br />
+							Parameter url:
+							<br />
+							<Input
+								type="string"
+								name="paramUrl"
+								onChange={this.handleChange}
+							/>
+						</div>
+						<br /> */}
 						<Button onClick={this.CreateBox} label={'Create Box'} />
 					</form>
 				</div>

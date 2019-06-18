@@ -12,8 +12,8 @@ export const chartSimple = {
 			properties: {
 				payload: {
 					idResource: 123,
-					ninput: 0,
-					nouts: 1,
+					n_input_ports: 0,
+					n_output_ports: 1,
 				},
 			},
 			position: {
@@ -33,12 +33,13 @@ export const chartSimple = {
 			type: 'Python Module-Python Script',
 			properties: {
 				payload: {
-					code:
+					python_code:
 						'def FUNCTION_ID_2(input1=None, input2=None, input3=None, input4=None, input5=None):\n\r' +
 						'\tval = input1 + input2 + input3 + input4\n\r' +
 						'\treturn val',
-					ninput: 4,
-					nouts: 1,
+					depen_code: '',
+					n_input_ports: 4,
+					n_output_ports: 1,
 				},
 			},
 			position: {
