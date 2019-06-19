@@ -11,6 +11,7 @@ import * as actions from '@gonzalo10/react-diagrams/src/container/actions';
 import { NodeCustom } from './NodeCustom';
 import { LinksCustom } from './LinksCustom';
 import { CanvasCustom } from './CanvasCustom';
+import TreeMenu from './TreeMenu/TreeMenu';
 
 import { chartSimple } from './chartSimple';
 import { SidebarClassifier } from './SideBar/SidebarClassifier';
@@ -28,34 +29,7 @@ export class DragDropState extends React.Component {
 		const { actors, onSaveProject, updateBoxInfo } = this.props;
 		const chart = this.state;
 		const stateActions = mapValues(actions, func => (...args) => {
-			// if (args && args[0]) {
-			// 	console.log('args', args[0]);
-			// } else {
-			// 	this.setState(func(...args));
-			// }
-			// let fromPort;
-			// let toPort;
-			// if (chart.nodes[args[0].fromNodeId]) {
-			// 	fromPort = chart.nodes[args[0].fromNodeId].ports[args[0].fromPortId];
-			// } else {
-			// 	this.setState(func(...args));
-			// }
-			// if (chart.nodes[args[0].toNodeId]) {
-			// 	toPort = chart.nodes[args[0].toNodeId].ports[args[0].toPortId];
-			// } else {
-			// 	this.setState(func(...args));
-			// }
-			// if (fromPort && toPort) {
-			// 	if (fromPort.type === toPort.type) {
-			// 		console.log('they are the same###########');
-			// 		console.log('Gonzalo', actions.onLinkComplete(args[0].linkId));
-			// 		this.setState(func(...args));
-			// 	} else {
-			// 		this.setState(func(...args));
-			// 	}
-			// } else {
 			this.setState(func(...args));
-			// }
 		});
 		if (!actors) {
 			return null;
@@ -65,7 +39,8 @@ export class DragDropState extends React.Component {
 				<Button label={'save'} onClick={() => onSaveProject(chart)} />
 				<Page>
 					<Sidebar>
-						<SidebarClassifier sidebarItemList={actors} />
+						<TreeMenu data={actors} />;
+						{/* <SidebarClassifier sidebarItemList={actors} /> */}
 					</Sidebar>
 					<Content>
 						<div id={'flowchartCanvas'}>

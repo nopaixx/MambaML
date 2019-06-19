@@ -190,8 +190,9 @@ function getAllActors() {
 					const newActor = boxFactory(JSON.parse(actor));
 					constructedActors.push(newActor);
 				});
+				console.log('constructedActors', constructedActors);
 				const tree = treeConstructor(constructedActors);
-				dispatch(success(constructedActors));
+				dispatch(success(tree));
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -269,14 +270,25 @@ const boxFactory = ({
 };
 
 const treeConstructor = data => {
-	const firstIndex = data.length;
+	//const firstIndex = data.length;
+	const firstIndex = actor1.length;
+	console.log('data', firstIndex);
 	let tree = {};
 	for (let i = 0; i < firstIndex; ++i) {
-		const actualData = data[i];
+		// actor1['name'] =
+		// 	'Tratamiento de Datos-Manipulacion Filas' +
+		// 	Math.random() +
+		// 	'-Split' +
+		// 	Math.random() +
+		// 	'-Casa' +
+		// 	Math.random();
+		const actualData = actor1[i];
+		console.log('actualData', actualData);
 		tree[i] = treeBranchConstructor(actualData, tree, i);
+		tree = supermerge(tree, tree[i]);
 	}
-	var mergeDeepResult = supermerge(tree[0], tree[1]);
-	console.log('mergedtrees2', mergeDeepResult);
+	console.log('mergedtrees2', tree[firstIndex - 1]);
+	return tree[firstIndex - 1];
 };
 
 const treeBranchConstructor = (branch, tree, index) => {
@@ -293,7 +305,7 @@ const build = (counter, size, levels, branch, tree) => {
 	if (counter === 1) {
 		levels[size - counter] = {
 			[levels[size - counter]]: {
-				lable: levels[size - counter],
+				label: levels[size - counter],
 				payload: branch,
 			},
 		};
@@ -301,8 +313,8 @@ const build = (counter, size, levels, branch, tree) => {
 	} else if (counter <= size) {
 		levels[size - counter] = {
 			[levels[size - counter]]: {
-				lable: levels[size - counter],
-				node: levels[size - prevCounter],
+				label: levels[size - counter],
+				nodes: levels[size - prevCounter],
 			},
 		};
 
@@ -327,3 +339,190 @@ const supermerge = (target, source) => {
 
 	return target;
 };
+
+const actor1 = [
+	{
+		type: 'Python Script',
+		name:
+			'Actor-Tratamiento de Datos-Manipulacion Filas-Split' +
+			Math.random() +
+			'-Casa' +
+			Math.random(),
+		ports: {
+			port1: {
+				id: 'port1',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port2: {
+				id: 'port2',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port3: {
+				id: 'port3',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port4: {
+				id: 'port4',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port5: {
+				id: 'port5',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port6: {
+				id: 'port6',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port7: {
+				id: 'port7',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port8: {
+				id: 'port8',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port9: {
+				id: 'port9',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port10: {
+				id: 'port10',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+		},
+		properties: {
+			payload: {
+				python_code:
+					'def %ID(input_1=None, input_2=None, input_3=None, input_4=None, input_5=None):\n    output_1 = None\n    output_2 = None\n    output_3 = None\n    output_4 = None\n    output_5 = None\n    return output_1, output_2, output_3, output_4, output_5\n                ',
+				depen_code: '',
+				n_input_ports: 5,
+				n_output_ports: 5,
+				frontendVersion: 'V1',
+				backendVersion: 'V1',
+				parameters: '{}',
+			},
+		},
+	},
+	{
+		type: 'Data',
+		name:
+			'Actor-Machine Learning-Manipulacion Filas-Split' +
+			Math.random() +
+			'-Casa' +
+			Math.random(),
+		ports: {
+			port1: {
+				id: 'port1',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port2: {
+				id: 'port2',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port3: {
+				id: 'port3',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port4: {
+				id: 'port4',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port5: {
+				id: 'port5',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port6: {
+				id: 'port6',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port7: {
+				id: 'port7',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port8: {
+				id: 'port8',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port9: {
+				id: 'port9',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port10: {
+				id: 'port10',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+		},
+		properties: {
+			payload: {
+				python_code:
+					'def %ID(input_1=None, input_2=None, input_3=None, input_4=None, input_5=None):\n    output_1 = None\n    output_2 = None\n    output_3 = None\n    output_4 = None\n    output_5 = None\n    return output_1, output_2, output_3, output_4, output_5\n                ',
+				depen_code: '',
+				n_input_ports: 5,
+				n_output_ports: 5,
+				frontendVersion: 'V1',
+				backendVersion: 'V1',
+				parameters: '{}',
+			},
+		},
+	},
+];

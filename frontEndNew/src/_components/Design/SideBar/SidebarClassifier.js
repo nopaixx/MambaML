@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SidebarItem } from './SidebarItem';
+import TreeMenu from '../TreeMenu/TreeMenu';
 
 export class SidebarClassifier extends React.Component {
 	state = {
@@ -12,32 +13,10 @@ export class SidebarClassifier extends React.Component {
 
 	filterBoxesWithoutPython = () => {
 		const { sidebarItemList } = this.props;
+		console.log('sidebarItemList', sidebarItemList);
 		const activeBoxesList = [];
-		this.setState({ activeBoxesList: Object.keys(sidebarItemList) });
-		//console.log('sidebarItemList', sidebarItemList);
-		// sidebarItemList.forEach(box => {
-		// 	if (box.type && box.type.indexOf('Python') === -1) {
-		// 		activeBoxesList.push(box);
-		// 	}
-		// });
-		// const mainKeys = Object.keys(sidebarItemList);
-		// console.log('keys', mainKeys);
-		// for (let key in sidebarItemList) {
-		// 	console.log('key', sidebarItemList[key], key);
-		// }
-		//this.createTree(sidebarItemList);
-
-		// this.setState({
-		// 	activeBoxesList: Object.keys(sidebarItemList),
-		// 	PythonModel: false,
-		// });
+		this.setState({ activeBoxesList: sidebarItemList });
 	};
-
-	// createTree = payload => {
-	// 	for (let i = 0; i < payload.length; ++i) {
-	// 		const name = type
-	// 	}
-	// };
 
 	createTree2 = itemToOpen => {
 		console.log();
@@ -74,24 +53,30 @@ export class SidebarClassifier extends React.Component {
 	};
 
 	render() {
-		const { activeBoxesList, PythonModel } = this.state;
+		const { activeBoxesList } = this.state;
 		return (
 			<React.Fragment>
-				{console.log('SidebarClassifier')}
-				<div onClick={this.onClickBack}>Back</div>
-				{PythonModel ? <SidebarItem type={'Python Module'} /> : ''}
-				{activeBoxesList.map((item, key) => (
+				{console.log('SidebarClassifier', activeBoxesList)}
+				<SidebarItem
+					onClick={this.onClickBox}
+					type={Object.keys(activeBoxesList)}
+					ports={'item.ports'}
+					properties={'item.properties' || {}}
+					data={activeBoxesList}
+				/>
+				{/* {activeBoxesList.map((item, key) => (
 					<React.Fragment>
 						{console.log('item', item)}
+
 						<SidebarItem
 							key={key}
 							onClick={this.onClickBox}
-							type={item}
+							type={Object.keys(activeBoxesList)}
 							ports={item.ports}
 							properties={item.properties || {}}
 						/>
 					</React.Fragment>
-				))}
+				))} */}
 			</React.Fragment>
 		);
 	}

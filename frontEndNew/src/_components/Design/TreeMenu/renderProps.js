@@ -1,5 +1,6 @@
 import React from 'react';
 import { REACT_FLOW_CHART } from '@gonzalo10/react-diagrams/';
+import styled from 'styled-components';
 
 const DEFAULT_PADDING = 0.75;
 const LEVEL_SPACE = 1.75;
@@ -17,6 +18,19 @@ const ToggleIcon = ({ on }) => (
 		{on ? '-' : '+'}
 	</div>
 );
+const Outer = styled.div`
+	padding: 5px 10px;
+	margin-bottom: 5px;
+	font-size: 14px;
+	color: #b43539;
+	background: white;
+	border: 1px solid #b43539
+	cursor: move;
+	:hover {
+		background: #b43539;
+		color: white;
+	  }
+`;
 
 const renderItem = ({
 	hasNodes = false,
@@ -27,6 +41,7 @@ const renderItem = ({
 	active,
 	focused,
 	key,
+	payload,
 	label = 'unknown',
 }) => (
 	<li
@@ -43,16 +58,24 @@ const renderItem = ({
 			position: 'relative',
 		}}
 		role="button"
-		aria-pressed={active}
-		key={key}
-		onClick={onClick}
-		draggable={true}
-		onDragStart={event => {
-			event.dataTransfer.setData(
-				REACT_FLOW_CHART,
-				JSON.stringify('type', 'ports', 'properties')
-			);
-		}}>
+		aria-pressed={active}>
+		{!hasNodes && (
+			<Outer
+				key={key}
+				onClick={onClick}
+				draggable={true}
+				onDragStart={event => {
+					const type = payload.type;
+					const ports = payload.ports;
+					const properties = payload.properties;
+					event.dataTransfer.setData(
+						REACT_FLOW_CHART,
+						JSON.stringify({ type, ports, properties })
+					);
+				}}>
+				{label}
+			</Outer>
+		)}
 		{hasNodes && (
 			<div
 				style={{ display: 'inline-block' }}
@@ -61,9 +84,9 @@ const renderItem = ({
 					e.stopPropagation();
 				}}>
 				<ToggleIcon on={isOpen} />
+				{label}
 			</div>
 		)}
-		{label}
 	</li>
 );
 
@@ -72,6 +95,7 @@ export const defaultChildren = ({ search, items }) => {
 		const { value } = e.target;
 		search && search(value);
 	};
+	console.log('items', items);
 	return (
 		<>
 			{search && (

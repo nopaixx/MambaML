@@ -29,25 +29,10 @@ const Outer2 = styled.div`
 	  }
 `;
 
-const treeData = {
-	Data: {
-		label: 'Data',
-		nodes: {
-			CSV: {
-				label: 'CSV',
-			},
-			Kaggle: {
-				label: 'Kaggle',
-				payload: { type: 'data', ports: 'ports', properites: 'props' },
-			},
-		},
-	},
-	machienLearning: {
-		label: 'machine learning',
-	},
-};
-
-export const SidebarItem = ({ type, ports, properties, onClick }, props) => {
+export const SidebarItem = (
+	{ type, ports, properties, onClick, data },
+	props
+) => {
 	if (type === 'Python Module' || type === 'Modules') {
 		return (
 			<Outer2 id={type} onClick={onClick} draggable={false}>
@@ -55,7 +40,7 @@ export const SidebarItem = ({ type, ports, properties, onClick }, props) => {
 			</Outer2>
 		);
 	}
-	return <TreeMenu data={treeData} />;
+	return <TreeMenu data={data} />;
 	// return (
 	// 	<Outer
 	// 		id={type}
