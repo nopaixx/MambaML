@@ -9,6 +9,9 @@ import './AdminPage.css';
 import 'brace/mode/python';
 import 'brace/theme/monokai';
 
+import { Table } from '../../_components/Utils/Table/Table';
+import { TableBox } from '../../_components/Utils/Table/TableBox';
+
 class AdminPage extends React.Component {
 	state = {
 		code: '',
@@ -55,10 +58,10 @@ class AdminPage extends React.Component {
 		const { code, dependencies } = this.state;
 		return (
 			<React.Fragment>
-				<div className="col-md-3">
+				<div>
 					<h1>You are in the Admin Page</h1>
 					<h3>Create Box:</h3>
-					<form
+					{/* <form
 						name="form"
 						onSubmit={this.handleSubmit}
 						className={'text-center'}>
@@ -85,62 +88,15 @@ class AdminPage extends React.Component {
 							name="outputPorts"
 							onChange={this.handleChange}
 						/>
-						{/* <br />
-						Numero of parametres:
 						<br />
-						<div>5</div>
-						<Button label={'+'} />
-						<div>
-							Type:
-							<br />
-							<select>
-								<option value="String">String</option>
-								<option value="int">int</option>
-								<option value="float">float</option>
-								<option value="list">list</option>
-							</select>
-							<br />
-							Name:
-							<br />
-							<Input
-								type="string"
-								name="paramName"
-								onChange={this.handleChange}
-							/>
-							<br />
-							Parameter help:
-							<br />
-							<Input
-								type="string"
-								name="paramHelp"
-								onChange={this.handleChange}
-							/>
-							<br />
-							Parameter url:
-							<br />
-							<Input
-								type="string"
-								name="paramUrl"
-								onChange={this.handleChange}
-							/>
-						</div>
-						<br /> */}
 						<Button onClick={this.CreateBox} label={'Create Box'} />
-					</form>
+					</form> */}
+					<TableBox />
+					<br />
+					<br />
+					<Table />
 				</div>
 				<div className="col-md-6 editor-column">
-					<h3>Write Python code for the Box:</h3>
-					<AceEditor
-						mode="python"
-						theme="monokai"
-						width={'650px'}
-						value={code}
-						onChange={this.onChangeCodeScript}
-						name="UNIQUE_ID_OF_DIV"
-						editorProps={{ $blockScrolling: true }}
-					/>
-				</div>
-				<div className="col-md-3 editor-column">
 					<h3>Write dependencies:</h3>
 					<AceEditor
 						mode="python"
@@ -149,6 +105,19 @@ class AdminPage extends React.Component {
 						height={'200px'}
 						value={dependencies}
 						onChange={this.onChangeDependencies}
+						name="UNIQUE_ID_OF_DIV"
+						editorProps={{ $blockScrolling: true }}
+					/>
+				</div>
+				<div className="col-md-6 editor-column">
+					<h3>Write Python code for the Box:</h3>
+					<AceEditor
+						mode="python"
+						theme="monokai"
+						width={'650px'}
+						height={'300px'}
+						value={code}
+						onChange={this.onChangeCodeScript}
 						name="UNIQUE_ID_OF_DIV"
 						editorProps={{ $blockScrolling: true }}
 					/>
