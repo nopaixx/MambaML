@@ -45,6 +45,7 @@ const renderItem = ({
 	label = 'unknown',
 }) => (
 	<li
+		key={key}
 		style={{
 			padding: ` .75rem  1rem  .75rem ${DEFAULT_PADDING +
 				ICON_SIZE * (hasNodes ? 0 : 1) +
@@ -95,7 +96,6 @@ export const defaultChildren = ({ search, items }) => {
 		const { value } = e.target;
 		search && search(value);
 	};
-	console.log('items', items);
 	return (
 		<>
 			{search && (

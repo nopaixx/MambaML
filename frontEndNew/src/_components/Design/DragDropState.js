@@ -39,8 +39,7 @@ export class DragDropState extends React.Component {
 				<Button label={'save'} onClick={() => onSaveProject(chart)} />
 				<Page>
 					<Sidebar>
-						<TreeMenu data={actors} />;
-						{/* <SidebarClassifier sidebarItemList={actors} /> */}
+						<TreeMenu data={actors} />
 					</Sidebar>
 					<Content>
 						<div id={'flowchartCanvas'}>

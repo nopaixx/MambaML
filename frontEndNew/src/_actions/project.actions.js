@@ -270,33 +270,51 @@ const boxFactory = ({
 };
 
 const treeConstructor = data => {
-	//const firstIndex = data.length;
 	const firstIndex = actor1.length;
-	console.log('data', firstIndex);
 	let tree = {};
+	let treeArray = [];
+	let head = [];
 	for (let i = 0; i < firstIndex; ++i) {
-		// actor1['name'] =
-		// 	'Tratamiento de Datos-Manipulacion Filas' +
-		// 	Math.random() +
-		// 	'-Split' +
-		// 	Math.random() +
-		// 	'-Casa' +
-		// 	Math.random();
 		const actualData = actor1[i];
-		console.log('actualData', actualData);
-		tree[i] = treeBranchConstructor(actualData, tree, i);
-		tree = supermerge(tree, tree[i]);
+		let soloTree = treeBranchConstructor(actualData, tree, head);
+		treeArray.push(soloTree);
 	}
-	console.log('mergedtrees2', tree[firstIndex - 1]);
-	return tree[firstIndex - 1];
+	let finalTree = {};
+	treeArray.forEach(tree => {
+		const treeKey = Object.keys(tree);
+		if (!head.includes(treeKey[0])) {
+			head.push(treeKey[0]);
+		}
+	});
+	head.forEach(treehead => {
+		const treesToMerge = treeArray.filter(
+			tree => Object.keys(tree)[0] === treehead
+		);
+		if (treesToMerge.length > 1) {
+			let tree2;
+			for (let i = 0; i < treesToMerge.length; i++) {
+				if (treesToMerge[i] && treesToMerge[i + 1]) {
+					tree2 = supermerge(treesToMerge[i], treesToMerge[i + 1]);
+				}
+			}
+			finalTree = { ...finalTree, ...tree2 };
+		} else {
+			finalTree = { ...finalTree, ...treesToMerge[0] };
+		}
+	});
+	return finalTree;
 };
 
-const treeBranchConstructor = (branch, tree, index) => {
+const treeBranchConstructor = (branch, tree, head) => {
 	const levels = branch.name.split('-');
+	let finishedTree;
+
 	const size = levels.length;
 	let counter = 0;
 	build(counter, size, levels, branch, tree);
-	return levels[0];
+	finishedTree = levels[0];
+
+	return finishedTree;
 };
 
 const build = (counter, size, levels, branch, tree) => {
@@ -344,7 +362,7 @@ const actor1 = [
 	{
 		type: 'Python Script',
 		name:
-			'Actor-Tratamiento de Datos-Manipulacion Filas-Split' +
+			'Tratamiento de Datos-Manipulacion Filas-Split' +
 			Math.random() +
 			'-Casa' +
 			Math.random(),
@@ -436,7 +454,191 @@ const actor1 = [
 	{
 		type: 'Data',
 		name:
-			'Actor-Machine Learning-Manipulacion Filas-Split' +
+			'Machine Learning-Manipulacion Filas-Split' +
+			Math.random() +
+			'-Casa' +
+			Math.random(),
+		ports: {
+			port1: {
+				id: 'port1',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port2: {
+				id: 'port2',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port3: {
+				id: 'port3',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port4: {
+				id: 'port4',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port5: {
+				id: 'port5',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port6: {
+				id: 'port6',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port7: {
+				id: 'port7',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port8: {
+				id: 'port8',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port9: {
+				id: 'port9',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port10: {
+				id: 'port10',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+		},
+		properties: {
+			payload: {
+				python_code:
+					'def %ID(input_1=None, input_2=None, input_3=None, input_4=None, input_5=None):\n    output_1 = None\n    output_2 = None\n    output_3 = None\n    output_4 = None\n    output_5 = None\n    return output_1, output_2, output_3, output_4, output_5\n                ',
+				depen_code: '',
+				n_input_ports: 5,
+				n_output_ports: 5,
+				frontendVersion: 'V1',
+				backendVersion: 'V1',
+				parameters: '{}',
+			},
+		},
+	},
+	{
+		type: 'Data',
+		name:
+			'Machine Learning-Manipulacion Filas-Split' +
+			Math.random() +
+			'-Casa' +
+			Math.random(),
+		ports: {
+			port1: {
+				id: 'port1',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port2: {
+				id: 'port2',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port3: {
+				id: 'port3',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port4: {
+				id: 'port4',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port5: {
+				id: 'port5',
+				type: 'input',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port6: {
+				id: 'port6',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port7: {
+				id: 'port7',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port8: {
+				id: 'port8',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port9: {
+				id: 'port9',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+			port10: {
+				id: 'port10',
+				type: 'output',
+				properties: {
+					value: 'yes',
+				},
+			},
+		},
+		properties: {
+			payload: {
+				python_code:
+					'def %ID(input_1=None, input_2=None, input_3=None, input_4=None, input_5=None):\n    output_1 = None\n    output_2 = None\n    output_3 = None\n    output_4 = None\n    output_5 = None\n    return output_1, output_2, output_3, output_4, output_5\n                ',
+				depen_code: '',
+				n_input_ports: 5,
+				n_output_ports: 5,
+				frontendVersion: 'V1',
+				backendVersion: 'V1',
+				parameters: '{}',
+			},
+		},
+	},
+	{
+		type: 'Data',
+		name:
+			'Machine Learning-Manipulacion Filas-Split' +
 			Math.random() +
 			'-Casa' +
 			Math.random(),

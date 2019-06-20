@@ -56,7 +56,6 @@ export class SidebarClassifier extends React.Component {
 		const { activeBoxesList } = this.state;
 		return (
 			<React.Fragment>
-				{console.log('SidebarClassifier', activeBoxesList)}
 				<SidebarItem
 					onClick={this.onClickBox}
 					type={Object.keys(activeBoxesList)}
