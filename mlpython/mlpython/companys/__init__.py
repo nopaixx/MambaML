@@ -34,7 +34,8 @@ class Company(db.Model):
 
     @classmethod
     def create(cls, legal_name, comercial_name, 
-               logo, cif, phone, email, admin_name):
+               logo, cif, phone, email, admin_name, aws_key,
+               aws_secret):
         model = cls()
         model.legal_name = legal_name
         model.comercial_name = comercial_name
@@ -43,6 +44,8 @@ class Company(db.Model):
         model.phone = phone
         model.email = email
         model.admin_name = admin_name
+        model.aws_key = aws_key
+        model.aws_secret = aws_secret
         db.session.add(model)
         db.session.commit()
         return model
@@ -73,5 +76,7 @@ class Company(db.Model):
         if com is None:
             ret = cls.create('Demo legal name', 'Demo comercial name',
                              'http://logo.jpg', 'CIF', '666666 phone', 
-                             'aaa@aaa.es', 'Nombre admin')
+                             'aaa@aaa.es', 'Nombre admin',
+                              'AKIAZ5AL7LOHLBOLNV44',
+                              'jKULMjOzJ91rlXb/5R3hLr2MxJStH4zxKIWR/xiq')
         return ret
