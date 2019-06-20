@@ -5,6 +5,8 @@ import json
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
+import traceback
+
 
 def c_run_str_code(inputs, str_code):
 #    return 'RUNED'
@@ -28,7 +30,7 @@ class InputPort():
 
 class BoxCode():
 
-    def __init__(self, str_code, box_id, n_inputs, n_outputs):
+    def __init__(self, str_code, box_id, n_inputs, n_outputs, json):
         self.str_code = str_code
         self.n_inputs = n_inputs
         self.n_outputs = n_outputs
@@ -36,6 +38,7 @@ class BoxCode():
         self.outputs = []
         self.box_id = box_id
         self.status = 'INIT'
+        self.json = json
 
     def isRunned(self):
         return self.status == 'RUNNED'    
@@ -49,26 +52,41 @@ class BoxCode():
 
     def run(self):
         print("Start running", self.box_id, self.isRunned())
-        if self.isRunned():
-            return True
+        try:
+            if self.isRunned():
+                return True
        
-        self.setStatus('RUNNING')
+            self.setStatus('RUNNING')
 
-        myinputs = []
+            myinputs = []
 
-        for i_input in self.inputs:
-            i_input.parentBox.run()
-            print("NUM TOTAL OUTS", len(i_input.parentBox.outputs))
-            print("BUSCANDO INPUT PORT", i_input.numport)
-            myinputs.append(i_input.parentBox.outputs[i_input.numport-i_input.parentBox.n_inputs])
+            for i_input in self.inputs:
+                i_input.parentBox.run()
+                print("NUM TOTAL OUTS", len(i_input.parentBox.outputs))
+                print("BUSCANDO INPUT PORT", i_input.numport)
+                myinputs.append(i_input.parentBox.outputs[i_input.numport-i_input.parentBox.n_inputs])
 
-        out = c_run_str_code(myinputs, self.str_code)
+            out = c_run_str_code(myinputs, self.str_code)
 
-        for p_out in out:
-            print("añadiendo out", p_out)
-            self.outputs.append(p_out)
+            for p_out in out:
+                print("añadiendo out", p_out)
+                self.outputs.append(p_out)
+        # after run 
+            index = 0
+            for out in self.outputs:
+                self.json['nodes'][self.box_id]['properties']['payload']['result']['out'+str(index)]['status'] = 'OK'
+                self.json['nodes'][self.box_id]['properties']['payload']['result']['out'+str(index)]['first100'] = out.head(100).to_json()
+                self.json['nodes'][self.box_id]['properties']['payload']['result']['out'+str(index)]['columns'] = out.columns.to_json()
 
-        self.setStatus('RUNNED')
+
+                index = index + 1
+            self.setStatus('RUNNED')
+        except Exception as e:
+            self.json['nodes'][self.box_id]['properties']['payload']['result']['error_message'] = e.message
+            self.json['nodes'][self.box_id]['properties']['payload']['result']['error_args'] = e.args
+            self.json['nodes'][self.box_id]['properties']['payload']['result']['error_trace'] = traceback.print_exc()
+            raise Exception('Run error check error message results!')
+            return False
         print("End running", self.box_id, self.isRunned())
         return self.isRunned()
 
@@ -102,7 +120,7 @@ def run_celery_project(project_id):
                 # import numpy as np
                 # from sklearn.linear_model import LinearRegression
                 # X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
-                box = BoxCode("", node_name, 0, 1)
+                box = BoxCode("", node_name, 0, 1, d_json)
                 box.setStatus('RUNNED')
                 box.outputs.append(boston)
                 # for now dummy data on dataset
@@ -118,8 +136,7 @@ def run_celery_project(project_id):
                 python_code = d_json['nodes'][x]['properties']['payload']['python_code']
                 n_inputs = d_json['nodes'][x]['properties']['payload']['n_input_ports']
                 n_outputs = d_json['nodes'][x]['properties']['payload']['n_output_ports']
-                box = BoxCode(python_code, node_name, n_inputs, n_outputs)
-                print("python script", node_name)
+                box = BoxCode(python_code, node_name, n_inputs, n_outputs, d_json)
                 allboxes.append(box)
 
         # TODO do it better
@@ -147,8 +164,6 @@ def run_celery_project(project_id):
             dest_box = getboxby_name(dest_box_id)
             dest_id = getportid_to_index(dest_input_port)
             if dest_box.box_id != orig_box.box_id:
-                print("AÑADIENDO DESTINO", dest_box.box_id)
-                print("AÑADIENDO ORIGEN", orig_box.box_id)
                 input_port = InputPort(orig_input_port, int(orig_id)-1, orig_box)
                 dest_box.inputs.append(input_port)
 

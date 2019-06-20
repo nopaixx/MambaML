@@ -18,6 +18,12 @@ class Project(db.Model):
         db.Integer, db.ForeignKey('user.id')
     )
     user = db.relationship('User')
+    machine_ami_id = db.Column(db.String(100))
+
+    def run_machine(self):
+        if machine_ami_id is None:
+            print('dummy')
+        return None
 
 
     def serialize(self):
