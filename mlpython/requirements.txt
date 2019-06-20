@@ -39,3 +39,4 @@ flask_redis
 pandas
 numpy
 sklearn
+boto3

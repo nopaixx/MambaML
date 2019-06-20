@@ -17,7 +17,8 @@ class Company(db.Model):
     phone = db.Column(db.String(20))
     email = db.Column(db.String(10))
     admin_name = db.Column(db.String(50))
-
+    aws_key = db.Column(db.String(255))
+    aws_secret = db.Column(db.String(255))
     def serialize(self):
         model={}
         model['id'] = self.id
