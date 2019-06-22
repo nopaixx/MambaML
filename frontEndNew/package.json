@@ -3,7 +3,8 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
-		"@mrblenny/react-flow-chart": "0.0.6",
+		"@gonzalo10/react-diagrams": "0.0.2",
+		"fast-memoize": "^2.5.1",
 		"history": "^4.6.3",
 		"html2canvas": "^1.0.0-rc.3",
 		"query-string": "^6.5.0",
