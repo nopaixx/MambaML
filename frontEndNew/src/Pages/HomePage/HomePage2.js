@@ -1,17 +1,14 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -22,9 +19,9 @@ function MadeWithLove() {
 	return (
 		<Typography variant='body2' color='textSecondary' align='center'>
 			{'Built with love by the '}
-			<Link color='inherit' to='https://material-ui.com/'>
-				Material-UI
-			</Link>
+			<RouterLink color='inherit' to='#'>
+				MambaML
+			</RouterLink>
 			{' team.'}
 		</Typography>
 	);
@@ -61,8 +58,6 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 const ProjectsCards = ({ projects }) => {
 	const classes = useStyles();
 
@@ -88,9 +83,10 @@ const ProjectsCards = ({ projects }) => {
 						</Typography>
 					</CardContent>
 					<CardActions>
-						<Link to={`/project/${project.id}`}>Load Project</Link>
 						<Button size='small' color='primary'>
-							View
+							<RouterLink to={`/project/${project.id}`}>
+								Load Project
+							</RouterLink>
 						</Button>
 						<Button size='small' color='primary'>
 							Edit
@@ -105,8 +101,6 @@ const ProjectsCards = ({ projects }) => {
 const HomePage2 = props => {
 	const classes = useStyles();
 	const { projects } = props;
-
-	console.log('projects', props);
 
 	useEffect(() => {
 		const { dispatch } = props;
@@ -123,7 +117,6 @@ const HomePage2 = props => {
 		<React.Fragment>
 			<CssBaseline />
 			<main>
-				{/* Hero unit */}
 				<div className={classes.heroContent}>
 					<Container maxWidth='sm'>
 						<Typography
@@ -153,17 +146,11 @@ const HomePage2 = props => {
 										Create project
 									</Button>
 								</Grid>
-								<Grid item>
-									<Button variant='outlined' color='primary'>
-										Secondary action
-									</Button>
-								</Grid>
 							</Grid>
 						</div>
 					</Container>
 				</div>
 				<Container className={classes.cardGrid} maxWidth='md'>
-					{/* End hero unit */}
 					<Grid container spacing={4}>
 						<ProjectsCards projects={projects} />
 					</Grid>

@@ -11,9 +11,7 @@ import './DesignComponent.css';
 
 class DesignComponent extends React.Component {
 	state = {
-		open: undefined,
 		projectName: undefined,
-		chart: undefined,
 	};
 	componentDidMount() {
 		const { dispatch, project, match } = this.props;
@@ -29,12 +27,18 @@ class DesignComponent extends React.Component {
 		history.push(`/`);
 	};
 
-	onSaveProject = chart => {
-		const { dispatch, project, match } = this.props;
+	onSaveProject = () => {
+		const { dispatch, project, match, chartStructure } = this.props;
 		const ID = match.params.id;
 		const { projectName } = this.state;
 		dispatch(
-			projectActions.save(ID, projectName || 'casae', chart, 'V1', 'V1')
+			projectActions.save(
+				ID,
+				projectName || 'casae',
+				chartStructure,
+				'V1',
+				'V1'
+			)
 		);
 	};
 
@@ -42,17 +46,9 @@ class DesignComponent extends React.Component {
 		this.setState({ projectName: e.target.value });
 	};
 
-	// screenShot = () => {
-	// 	html2canvas(document.querySelector('#flowchartCanvas')).then(canvas =>
-	// 		console.log(canvas.toDataURL())
-	// 	);
-	// };
-
 	render() {
 		const { actors, project } = this.props;
 		const { projectName } = this.state;
-
-		console.log('actors', actors);
 
 		if (!project) {
 			return null;
@@ -61,9 +57,9 @@ class DesignComponent extends React.Component {
 			return (
 				<React.Fragment>
 					<nav style={{ backgroundColor: 'green' }}>
-						{/* <Button label={'screenshot'} onClick={this.screenShot} /> */}
 						<Input onChange={this.onChangeName} value={projectName || ''} />
 						<Button label={'darkMode'} />
+						<Button onClick={this.onSaveProject} label={'save'} />
 					</nav>
 					<div className={'design-window'}>
 						<DragDropState
@@ -71,6 +67,7 @@ class DesignComponent extends React.Component {
 							actors={actors}
 							updateBoxInfo={this.onSaveProject}
 							project={project}
+							dispatch={this.props.dispatch}
 						/>
 					</div>
 				</React.Fragment>
@@ -82,12 +79,19 @@ class DesignComponent extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const { project, gettingProject, actors, creatingProject } = state.project;
+	const {
+		project,
+		gettingProject,
+		actors,
+		creatingProject,
+		chartStructure,
+	} = state.project;
 	return {
 		project,
 		gettingProject,
 		creatingProject,
 		actors,
+		chartStructure,
 	};
 }
 

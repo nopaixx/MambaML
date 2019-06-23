@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AceEditor from 'react-ace';
-import { Button } from '../../_components/Utils/';
+import { Button as ButtonGonzalo } from '../../_components/Utils/';
 import { adminActions } from '../../_actions';
 import TextField from '@material-ui/core/TextField';
 import './BoxFactory.css';
@@ -11,6 +11,18 @@ import 'brace/theme/monokai';
 
 import MaterialTableDemo from '../../_components/Utils/Table/Table2';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles(theme => ({
+	button: {
+		margin: theme.spacing(1),
+	},
+	input: {
+		display: 'none',
+	},
+}));
+
 const TextEditors = ({
 	dependencies,
 	code,
@@ -19,38 +31,49 @@ const TextEditors = ({
 	onCickDisplayEditor,
 	activeCodeEditor,
 }) => {
+	const classes = useStyles();
 	return (
 		<div className={'code-editors-admin'}>
-			<div className="col-md-6 editor-column">
-				<h3 id={'Dependencies'} onClick={onCickDisplayEditor}>
+			<div className='col-md-6 editor-column'>
+				<Button
+					onClick={() => onCickDisplayEditor('Dependencies')}
+					id={'Dependencies'}
+					variant='outlined'
+					color='primary'
+					className={classes.button}>
 					Dependencies
-				</h3>
+				</Button>
 				{activeCodeEditor['Dependencies'] ? (
 					<AceEditor
-						mode="python"
-						theme="monokai"
+						mode='python'
+						theme='monokai'
 						width={'350px'}
 						height={'200px'}
 						value={dependencies}
 						onChange={onChangeDependencies}
-						name="UNIQUE_ID_OF_DIV"
+						name='UNIQUE_ID_OF_DIV'
 						editorProps={{ $blockScrolling: true }}
 					/>
 				) : null}
 			</div>
-			<div className="col-md-6 editor-column">
-				<h3 id={'PythonScript'} onClick={onCickDisplayEditor}>
+			<div className='col-md-6 editor-column'>
+				<Button
+					id={'PythonScript'}
+					onClick={() => onCickDisplayEditor('PythonScript')}
+					variant='outlined'
+					color='primary'
+					className={classes.button}>
 					Python Script
-				</h3>
+				</Button>
 				{activeCodeEditor['PythonScript'] ? (
 					<AceEditor
-						mode="python"
-						theme="monokai"
+						mode='python'
+						theme='monokai'
 						width={'650px'}
 						height={'300px'}
 						value={code}
 						onChange={onChangeCodeScript}
-						name="UNIQUE_ID_OF_DIV"
+						name='UNIQUE_ID_OF_DIV'
 						editorProps={{ $blockScrolling: true }}
 					/>
 				) : null}
@@ -103,11 +126,11 @@ class BoxFactory extends React.Component {
 		dispatch(adminActions.createBox(box));
 	};
 
-	onCickDisplayEditor = e => {
-		const { id } = e.target;
+	onCickDisplayEditor = id => {
 		this.setState(prevstate => {
 			return {
 				activeCodeEditor: {
+					...prevstate.activeCodeEditor,
 					[id]: !prevstate.activeCodeEditor[id],
 				},
 			};
@@ -125,47 +148,47 @@ class BoxFactory extends React.Component {
 							justifyContent: 'space-around',
 							padding: 15,
 						}}>
-						<Button label={'Create Box'} />
+						<ButtonGonzalo onClick={this.handleSubmit} label={'Create Box'} />
 					</div>
 					<div className={'complete-fields-box'}>
 						<form
-							name="form"
+							name='form'
 							onSubmit={this.handleSubmit}
 							className={'box-info-form'}>
 							<TextField
-								id="outputPorts"
-								label="boxClass"
+								id='outputPorts'
+								label='boxClass'
 								className={''}
 								name={'boxClass'}
 								defaultValue={'Python Module'}
 								onChange={this.handleChange}
-								margin="normal"
+								margin='normal'
 							/>
 							<TextField
-								id="type"
-								label="Type"
+								id='type'
+								label='Type'
 								className={''}
 								name={'type'}
 								onChange={this.handleChange}
-								margin="normal"
+								margin='normal'
 							/>
 							<TextField
-								id="input"
-								label="Input"
-								type="number"
+								id='input'
+								label='Input'
+								type='number'
 								className={''}
 								name={'input'}
 								onChange={this.handleChange}
-								margin="normal"
+								margin='normal'
 							/>
 							<TextField
-								id="outputPorts"
-								label="Output"
-								type="number"
+								id='outputPorts'
+								label='Output'
+								type='number'
 								className={''}
 								name={'outputPorts'}
 								onChange={this.handleChange}
-								margin="normal"
+								margin='normal'
 							/>
 						</form>
 						<div className={'table-wrapper'}>

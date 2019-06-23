@@ -40,6 +40,11 @@ export function project(state = {}, action) {
 				...state,
 				gettingActors: true,
 			};
+		case projectConstants.CHART_PROJECT_UPDATE:
+			return {
+				...state,
+				chartStructure: action.chartStructure,
+			};
 
 		default:
 			return state;

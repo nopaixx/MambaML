@@ -7,6 +7,7 @@ import { Page } from './Page';
 import { Content } from './Content';
 import { Sidebar } from './SideBar/Sidebar';
 import * as actions from '@gonzalo10/react-diagrams/src/container/actions';
+import { projectActions } from '../../_actions';
 
 import { NodeCustom } from './NodeCustom';
 import { LinksCustom } from './LinksCustom';
@@ -17,6 +18,12 @@ import { chartSimple } from './chartSimple';
 import { SidebarClassifier } from './SideBar/SidebarClassifier';
 import { BoxInfo } from './BoxInfo';
 import { Button } from '../Utils/Button/Button';
+import IconButton from '@material-ui/core/IconButton';
+
+// import ResizableBox from '../Utils/Resize/ResizableBox';
+import { Resizable, ResizableBox } from 'react-resizable';
+import PersistentDrawerLeft from '../Utils/ToolsDrawer/Drawer';
+import './DesignComponent.css';
 
 export class DragDropState extends React.Component {
 	state = cloneDeep(chartSimple);
@@ -24,6 +31,10 @@ export class DragDropState extends React.Component {
 	componentDidMount() {
 		const chart = this.props.project.chartStructure;
 		this.setState(cloneDeep(chart));
+	}
+	componentDidUpdate() {
+		const { dispatch } = this.props;
+		dispatch(projectActions.updateChartStructure(this.state));
 	}
 	render() {
 		const { actors, onSaveProject, updateBoxInfo } = this.props;
@@ -34,13 +45,18 @@ export class DragDropState extends React.Component {
 		if (!actors) {
 			return null;
 		}
+		var h = window.innerHeight;
 		return (
 			<React.Fragment>
-				<Button label={'save'} onClick={() => onSaveProject(chart)} />
 				<Page>
-					<Sidebar>
+					<ResizableBox
+						className='box'
+						width={100}
+						height={h}
+						axis='x'
+						handle={<span className='custom-handle custom-handle-se' />}>
 						<TreeMenu data={actors} />
-					</Sidebar>
+					</ResizableBox>
 					<Content>
 						<div id={'flowchartCanvas'}>
 							<FlowChart
@@ -54,6 +70,20 @@ export class DragDropState extends React.Component {
 							/>
 						</div>
 					</Content>
+					{/* <ResizableBox
+						className='box'
+						width={100}
+						height={h}
+						axis='x'
+						resizeHandles={['sw']}
+						handle={<span className='custom-handle custom-handle-sw' />}>
+						<BoxInfo
+							chart={chart}
+							boxActions={stateActions}
+							updateBox={updateBoxInfo}
+						/>
+					</ResizableBox> */}
+
 					<BoxInfo
 						chart={chart}
 						boxActions={stateActions}

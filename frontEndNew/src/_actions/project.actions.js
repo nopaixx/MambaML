@@ -10,6 +10,7 @@ export const projectActions = {
 	get,
 	getAllActors,
 	getAllProjects,
+	updateChartStructure,
 };
 
 function create(
@@ -219,6 +220,15 @@ function getAllActors() {
 	}
 	function failure(error) {
 		return { type: projectConstants.GET_ALL_ACTORS_FAILURE, error };
+	}
+}
+function updateChartStructure(chartStructure) {
+	return dispatch => {
+		dispatch(update(chartStructure));
+	};
+
+	function update() {
+		return { type: projectConstants.CHART_PROJECT_UPDATE, chartStructure };
 	}
 }
 
