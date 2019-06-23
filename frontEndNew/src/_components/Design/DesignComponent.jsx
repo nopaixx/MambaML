@@ -1,36 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { DragDropState } from './DragDropState';
 import { connect } from 'react-redux';
 import { projectActions } from '../../_actions';
+
+import { ProjectToolbar } from '../Utils/Toolbar/Toolbar';
 import { Button } from '../Utils/Button/Button';
 import { Input } from '../Utils/Input/Input';
 import './DesignComponent.css';
 
-//import html2canvas from 'html2canvas';
+const DesignComponent = props => {
+	const [projectName, setProjectName] = useState('');
 
-class DesignComponent extends React.Component {
-	state = {
-		projectName: undefined,
-	};
-	componentDidMount() {
-		const { dispatch, project, match } = this.props;
+	useEffect(() => {
+		const { dispatch, project, match } = props;
 		dispatch(projectActions.getAllActors());
 		if (!project) {
 			const ID = match.params.id;
 			dispatch(projectActions.get(ID));
 		}
-	}
+	}, []);
 
-	onClickLogo = () => {
-		const { history } = this.props;
-		history.push(`/`);
-	};
+	useEffect(() => {
+		const { project } = props;
+		if (!projectName && project) {
+			setProjectName(project.projectName);
+		}
+	}, [props, projectName]);
 
-	onSaveProject = () => {
-		const { dispatch, project, match, chartStructure } = this.props;
+	const onSaveProject = () => {
+		const { dispatch, project, match, chartStructure } = props;
 		const ID = match.params.id;
-		const { projectName } = this.state;
 		dispatch(
 			projectActions.save(
 				ID,
@@ -42,41 +42,32 @@ class DesignComponent extends React.Component {
 		);
 	};
 
-	onChangeName = e => {
-		this.setState({ projectName: e.target.value });
-	};
+	const { actors, project } = props;
 
-	render() {
-		const { actors, project } = this.props;
-		const { projectName } = this.state;
-
-		if (!project) {
-			return null;
-		}
-		if (project) {
-			return (
-				<React.Fragment>
-					<nav style={{ backgroundColor: 'green' }}>
-						<Input onChange={this.onChangeName} value={projectName || ''} />
-						<Button label={'darkMode'} />
-						<Button onClick={this.onSaveProject} label={'save'} />
-					</nav>
-					<div className={'design-window'}>
-						<DragDropState
-							onSaveProject={this.onSaveProject}
-							actors={actors}
-							updateBoxInfo={this.onSaveProject}
-							project={project}
-							dispatch={this.props.dispatch}
-						/>
-					</div>
-				</React.Fragment>
-			);
-		} else {
-			return null;
-		}
+	if (!project) {
+		return null;
 	}
-}
+	if (project) {
+		return (
+			<React.Fragment>
+				<ProjectToolbar
+					projectName={projectName}
+					onSaveProject={onSaveProject}
+				/>
+				<div className={'design-window'}>
+					<DragDropState
+						actors={actors}
+						updateBoxInfo={onSaveProject}
+						project={project}
+						dispatch={props.dispatch}
+					/>
+				</div>
+			</React.Fragment>
+		);
+	} else {
+		return null;
+	}
+};
 
 function mapStateToProps(state) {
 	const {

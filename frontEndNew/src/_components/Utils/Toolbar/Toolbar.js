@@ -1,123 +1,56 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+
 const useStyles = makeStyles(theme => ({
-	palette: {
-		primary: {
-			light: '#757ce8',
-			main: '#3f50b5',
-			dark: '#002884',
-			contrastText: '#fff',
-		},
-		secondary: 'green',
+	button: {
+		margin: theme.spacing(1),
 	},
-	root: {
-		flexGrow: 1,
+	input: {
+		display: 'none',
 	},
-	menuButton: {
-		marginRight: theme.spacing(2),
+	navBar: {
+		backgroundColor: theme.palette.primary.contrastText,
+		border: `1px solid ${theme.palette.primary.main}`,
+		height: 50,
 	},
-	title: {
-		flexGrow: 1,
+	textField: {
+		marginLeft: theme.spacing(1),
+		marginRight: theme.spacing(1),
+		width: 200,
 	},
 }));
 
-export default function ToolBar() {
+export const ProjectToolbar = ({ projectName, onSaveProject }) => {
 	const classes = useStyles();
-	const [auth, setAuth] = React.useState(true);
-	const [anchorEl, setAnchorEl] = React.useState(null);
-	const open = Boolean(anchorEl);
-
-	function handleChange(event) {
-		setAuth(event.target.checked);
-	}
-
-	function handleMenu(event) {
-		setAnchorEl(event.currentTarget);
-	}
-
-	function handleClose() {
-		setAnchorEl(null);
-	}
-
 	return (
-		<div className={classes.root}>
-			<AppBar position="static" className={classes.palette.secondary}>
-				<Toolbar>
-					<FormGroup>
-						<FormControlLabel
-							control={
-								<Switch
-									checked={auth}
-									onChange={handleChange}
-									aria-label="LoginSwitch"
-								/>
-							}
-							label={auth ? 'Advance' : 'Simple'}
-						/>
-					</FormGroup>
-					<IconButton
-						edge="start"
-						className={classes.menuButton}
-						color="inherit"
-						aria-label="Menu">
-						<MenuIcon />
-					</IconButton>
-					<IconButton
-						edge="start"
-						className={classes.menuButton}
-						color="inherit"
-						aria-label="Menu">
-						<MenuIcon />
-					</IconButton>
-					<Button variant="outlined" color="secondary">
-						Save
-					</Button>
-					<Typography variant="h6" className={classes.title}>
-						Settings
-					</Typography>
-					{auth && (
-						<div>
-							<IconButton
-								aria-label="Account of current user"
-								aria-controls="menu-appbar"
-								aria-haspopup="true"
-								onClick={handleMenu}
-								color="inherit">
-								<AccountCircle />
-							</IconButton>
-							<Menu
-								id="menu-appbar"
-								anchorEl={anchorEl}
-								anchorOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								keepMounted
-								transformOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								open={open}
-								onClose={handleClose}>
-								<MenuItem onClick={handleClose}>Profile</MenuItem>
-								<MenuItem onClick={handleClose}>My account</MenuItem>
-							</Menu>
-						</div>
-					)}
-				</Toolbar>
-			</AppBar>
-		</div>
+		<nav className={classes.navBar}>
+			<TextField
+				id='standard-name'
+				label='Project name'
+				className={classes.textField}
+				name={'projectName'}
+				value={projectName}
+				//onChange={props.handleChange}
+				margin='none'
+			/>
+			{/* <Input
+				onChange={e => setProjectName(e.target.value)}
+				value={projectName}
+			/> */}
+			<Button
+				id={'PythonScript'}
+				variant='outlined'
+				color='primary'
+				className={classes.button}
+				onClick={onSaveProject}>
+				Save
+			</Button>
+
+			{/* <Button label={'darkMode'} />
+			<Button onClick={onSaveProject} label={'save'} /> */}
+		</nav>
 	);
-}
+};
