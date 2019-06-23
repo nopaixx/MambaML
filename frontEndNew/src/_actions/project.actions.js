@@ -24,10 +24,10 @@ function create(
 		const project = {
 			name: projectName,
 			json,
-			user_id: userId,
+			//user_id: userId,
 			frontendVersion,
 			backendVersion,
-			machine_ami_id: machine_id,
+			//machine_ami_id: machine_id,
 		};
 		dispatch(request(project));
 

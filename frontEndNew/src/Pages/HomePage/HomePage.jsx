@@ -49,7 +49,7 @@ class HomePage extends React.Component {
 	handleCreateProject = () => {
 		const { dispatch } = this.props;
 		dispatch(
-			projectActions.create(`Project ${Math.random()}`, '{}', 1, 'V1', 'V1', 1)
+			projectActions.create(`Project ${Math.random()}`, '{}', 'V1', 'V1')
 		);
 	};
 	handleLoadProject = () => {};

@@ -6,6 +6,8 @@ import { history } from '../_helpers';
 import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
 import { HomePage } from '../Pages/HomePage';
+import { HomePage2 } from '../Pages/HomePage/HomePage2';
+import { LoginPage2 } from '../Pages/LoginPage/LoginPage2';
 import { LoginPage } from '../Pages/LoginPage';
 import { RegisterPage } from '../Pages/RegisterPage';
 import { AdminPage } from '../Pages/AdminPage';
@@ -18,7 +20,6 @@ class App extends React.Component {
 
 		const { dispatch } = this.props;
 		history.listen((location, action) => {
-			// clear alert on location change
 			dispatch(alertActions.clear());
 		});
 	}
@@ -34,10 +35,10 @@ class App extends React.Component {
 						)}
 						<Router history={history}>
 							<div>
-								<PrivateRoute exact path="/" component={HomePage} />
+								<PrivateRoute exact path="/" component={HomePage2} />
 								<PrivateRoute path="/project/:id" component={DesignComponent} />
 								<PrivateRoute path="/admin" component={AdminPage} />
-								<Route path="/login" component={LoginPage} />
+								<Route path="/login" component={LoginPage2} />
 								<Route path="/register" component={RegisterPage} />
 							</div>
 						</Router>

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { projectActions } from '../../_actions';
 import { Button } from '../Utils/Button/Button';
 import { Input } from '../Utils/Input/Input';
-
 import './DesignComponent.css';
 
 //import html2canvas from 'html2canvas';
@@ -61,10 +60,10 @@ class DesignComponent extends React.Component {
 		if (project) {
 			return (
 				<React.Fragment>
-					<nav>
+					<nav style={{ backgroundColor: 'green' }}>
 						{/* <Button label={'screenshot'} onClick={this.screenShot} /> */}
 						<Input onChange={this.onChangeName} value={projectName || ''} />
-						{/* <Button label={'darkMode'} /> */}
+						<Button label={'darkMode'} />
 					</nav>
 					<div className={'design-window'}>
 						<DragDropState
