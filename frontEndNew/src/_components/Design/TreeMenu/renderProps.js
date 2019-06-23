@@ -2,13 +2,13 @@ import React from 'react';
 import { REACT_FLOW_CHART } from '@gonzalo10/react-diagrams/';
 import styled from 'styled-components';
 
-const DEFAULT_PADDING = 0.75;
-const LEVEL_SPACE = 1.75;
+const DEFAULT_PADDING = 0.5;
+const LEVEL_SPACE = 1;
 const ICON_SIZE = 2;
 const ToggleIcon = ({ on }) => (
 	<div
-		role="img"
-		aria-label="Toggle"
+		role='img'
+		aria-label='Toggle'
 		style={{
 			width: `${ICON_SIZE}rem`,
 			height: `${ICON_SIZE}rem`,
@@ -58,7 +58,7 @@ const renderItem = ({
 			zIndex: focused ? 999 : 'unset',
 			position: 'relative',
 		}}
-		role="button"
+		role='button'
 		aria-pressed={active}>
 		{!hasNodes && (
 			<Outer
@@ -100,10 +100,10 @@ export const defaultChildren = ({ search, items }) => {
 		<>
 			{search && (
 				<input
-					style={{ padding: '1rem 1.5rem', border: 'none', width: '100%' }}
-					aria-label="Type and search"
-					type="search"
-					placeholder="Type and search"
+					style={{ padding: '1rem 0.5rem', border: 'none', width: '100%' }}
+					aria-label='Type and search'
+					type='search'
+					placeholder='Type and search'
 					onChange={onSearch}
 				/>
 			)}

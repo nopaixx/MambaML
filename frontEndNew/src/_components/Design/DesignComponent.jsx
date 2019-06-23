@@ -42,6 +42,10 @@ const DesignComponent = props => {
 		);
 	};
 
+	const handleChangeName = e => {
+		setProjectName(e.target.value);
+	};
+
 	const { actors, project } = props;
 
 	if (!project) {
@@ -53,6 +57,7 @@ const DesignComponent = props => {
 				<ProjectToolbar
 					projectName={projectName}
 					onSaveProject={onSaveProject}
+					handleChangeName={handleChangeName}
 				/>
 				<div className={'design-window'}>
 					<DragDropState
