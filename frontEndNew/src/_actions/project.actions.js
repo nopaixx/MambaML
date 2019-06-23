@@ -12,12 +12,22 @@ export const projectActions = {
 	getAllProjects,
 };
 
-function create(projectName, frontendVersion, backendVersion) {
+function create(
+	projectName,
+	json,
+	userId,
+	frontendVersion,
+	backendVersion,
+	machine_id = 1
+) {
 	return dispatch => {
 		const project = {
 			name: projectName,
+			json,
+			user_id: userId,
 			frontendVersion,
 			backendVersion,
+			machine_ami_id: machine_id,
 		};
 		dispatch(request(project));
 
