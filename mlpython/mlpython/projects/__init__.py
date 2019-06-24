@@ -79,7 +79,16 @@ class Project(db.Model):
                         InstanceType=machine_type,
                         KeyName="MambaMLEUEast",
                         Placement={'AvailabilityZone':'us-east-1b'},
-                        HibernationOptions={'Configured': True},
+                        HibernationOptions={'Configured': False},
+                        BlockDeviceMappings=[{
+                            'DeviceName': 'xvdh',
+                            'Ebs':{
+                                'VolumeSize': 123,
+                                'Encrypted': False,
+#                                'KmsKeyId': 'MambaMLEUEast'
+                                }
+                            }
+                            ]
                         )
                 self.machine_ami_id = instance[0].id
                 self.machine_type  = machine_type
@@ -87,17 +96,17 @@ class Project(db.Model):
                 db.session.commit()
                 print("INSTANCE-->", instance)
                 return instance[0].id
-        elif:
+        else:
             # si el proyecto ya tiene maquina asignada
             if ((machine_type != self.machine_type) or 
-                    (cloud != self.cloud):
+                    (cloud != self.cloud)):
                     print("remove actual instance and create new one")
                     self.terminate_machine()
                     db.session.commit()
                     self.run_machine(machine_type, cloud)
-             elif:
+            else:
                 # si la maquina esta stopped then we UP again
-                    self.up_again_machine()
+                self.up_again_machine()
         return None
 
 

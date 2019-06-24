@@ -19,6 +19,9 @@ def cloud_manager_run_machine():
         # request.args.get('page', Query.DEFAULT_PAGE)
         project_id = request.args.get('project_id')
         machine_type = request.args.get('machine_type')
+        # c5.large
+        # t2.micro
+        machine_type = 't2.micro'
         cloud = request.args.get('cloud') #aws, gcc, azure
         print(project_id)
         # return '', 200
