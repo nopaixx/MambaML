@@ -7,11 +7,26 @@ import { store } from './_helpers';
 import * as serviceWorker from './serviceWorker';
 import { configureFakeBackend } from './_helpers';
 
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+	palette: {
+		primary: {
+			light: '#d38c8c',
+			main: '#b43539',
+			dark: '#a52024',
+			contrastText: '#fff',
+		},
+	},
+	appBar: { height: 50 },
+});
 configureFakeBackend();
 ReactDOM.render(
-	<Provider store={store}>
-		<App />
-	</Provider>,
+	<MuiThemeProvider theme={theme}>
+		<Provider store={store}>
+			<App />
+		</Provider>
+	</MuiThemeProvider>,
 	document.getElementById('root')
 );
 

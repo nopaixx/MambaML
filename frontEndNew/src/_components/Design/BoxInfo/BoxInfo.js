@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { Input } from '../../Utils/Input/Input';
-import { Button } from '../../Utils/Button/Button';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 import './BoxInfo.css';
 
@@ -8,166 +10,202 @@ import AceEditor from 'react-ace';
 import 'brace/mode/python';
 import 'brace/theme/monokai';
 
-export class BoxInfo extends React.Component {
-	state = { codeScript: ' ', dependencies: '', selectedNode: '' };
+import { makeStyles } from '@material-ui/core/styles';
 
-	onChangeCodeScript = newValue => {
-		this.setState({ codeScript: newValue });
+const useStyles = makeStyles(theme => ({
+	button: {
+		margin: theme.spacing(1),
+	},
+	ports: {
+		width: 50,
+		marginRight: 10,
+		marginLeft: 10,
+	},
+}));
+
+export const BoxInfo = props => {
+	const classes = useStyles();
+
+	const [code, setCode] = useState({
+		script: '',
+		dependencies: '',
+		hasScript: false,
+		fullScreen: false,
+	});
+	const [ports, setPorts] = useState({
+		input: '',
+		output: '',
+	});
+	const [selectedNode, setNode] = useState();
+	const onChangeCodeScript = newValue => {
+		setCode({ ...code, script: newValue });
 	};
-	onChangeDependencies = newValue => {
-		this.setState({ dependencies: newValue });
+	const onChangeDependencies = newValue => {
+		setCode({ ...code, dependencies: newValue });
 	};
 
-	updateBoxInfo = () => {
-		const { updateBox, chart } = this.props;
-		const { codeScript, dependencies, selectedId } = this.state;
-		if (selectedId) {
-			if (codeScript && codeScript.length > 0) {
-				chart.nodes[selectedId].properties.payload.python_code = codeScript;
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const updateBoxInfo = () => {
+		const { updateBox, chart } = props;
+		if (selectedNode) {
+			if (code.script && code.script.length > 0) {
+				chart.nodes[selectedNode].properties.payload.python_code = code.script;
 			}
-			if (dependencies) {
-				chart.nodes[selectedId].properties.payload.dependencies = dependencies;
+			if (code.dependencies) {
+				chart.nodes[selectedNode].properties.payload.dependencies =
+					code.dependencies;
 			}
 		}
 		updateBox(chart);
 	};
 
-	handleChange = e => {
-		const { name, value } = e.target;
-		this.setState({ [name]: value });
+	const handleDeleteBox = () => {
+		setNode(undefined);
+		boxActions.onDeleteKey();
 	};
 
-	componentDidUpdate(prevProps) {
-		const { chart } = this.props;
-		const prevSelectedId = prevProps.chart.selected.id;
+	const handleChange = e => {
+		const { name, value } = e.target;
+		setPorts({ ...ports, [name]: value });
+	};
+
+	useEffect(() => {
+		const { chart } = props;
+		const prevSelectedId = props.chart.selected.id;
 		const selectedId = chart.selected.id;
 		const node = chart.nodes[selectedId];
-
-		if (prevSelectedId !== this.state.selectedNode && node) {
-			this.updateBoxInfo();
+		if (prevSelectedId !== selectedNode && node) {
+			updateBoxInfo();
 			const {
 				python_code,
 				n_input_ports,
 				n_output_ports,
 				depen_code,
 			} = node.properties.payload;
-
-			const hasCode = typeof python_code !== 'undefined';
-			this.setState({
-				codeScript: python_code,
+			const hasScript = typeof python_code !== 'undefined';
+			setCode({
+				script: python_code,
 				dependencies: depen_code,
-				inputPorts: n_input_ports,
-				outputPorts: n_output_ports,
-				selectedNode: selectedId,
-				selectedId,
-				hasCode,
+				hasScript,
+			});
+			setNode(selectedId);
+			setPorts({
+				input: n_input_ports,
+				output: n_output_ports,
 			});
 		}
-	}
+	}, [props, selectedNode, updateBoxInfo]);
 
-	openFullScreenMode = e => {
-		const id = e.target.id;
-		const { pythonCode } = this.state;
-		console.log('id', id);
-		this.setState({ [id]: !pythonCode });
+	const openFullScreenMode = e => {
+		setCode({ ...code, fullScreen: !code.fullScreen });
 	};
 
-	render() {
-		const { boxActions } = this.props;
-		const {
-			codeScript,
-			dependencies,
-			inputPorts,
-			outputPorts,
-			hasCode,
-			pythonCode,
-		} = this.state;
+	const { boxActions } = props;
 
-		const selected = this.props.chart.selected.id;
-		const node = this.props.chart.nodes[selected];
+	const selected = props.chart.selected.id;
+	const node = props.chart.nodes[selected];
 
-		if (node) {
-			return (
-				<div className={'BoxInfo'}>
-					<h3>{node.type || ''}</h3>
-					Input Ports:
-					<Input
-						type="number"
-						name="inputPorts"
-						value={inputPorts || 0}
-						onChange={this.handleChange}
+	if (node) {
+		return (
+			<div className={'BoxInfo'}>
+				<h3>{node.type || ''}</h3>
+				{ports.input ? (
+					<TextField
+						id='input'
+						label='Input'
+						type='number'
+						className={classes.ports}
+						name={'input'}
+						value={ports.input}
+						onChange={handleChange}
+						margin='normal'
 					/>
-					<br />
-					Output Ports:
-					<Input
-						type="number"
-						value={outputPorts || 0}
-						name="outputPorts"
-						onChange={this.handleChange}
+				) : null}
+				{ports.output ? (
+					<TextField
+						id='input'
+						label='Output'
+						type='number'
+						name={'output'}
+						className={classes.ports}
+						value={ports.output}
+						onChange={handleChange}
+						margin='normal'
 					/>
-					<br />
-					{hasCode ? (
-						<React.Fragment>
-							<div>Python Code</div>
+				) : null}
+
+				<br />
+				{code.hasScript ? (
+					<React.Fragment>
+						<div
+							id='pythonCode'
+							style={
+								code.fullScreen
+									? {
+											position: 'absolute',
+											left: 0,
+											top: 0,
+											width: window.innerWidth,
+											height: window.innerHeight,
+											backgroundColor: 'rgba(255, 255, 255, 0.8)',
+											zIndex: 9999,
+									  }
+									: {}
+							}>
+							<div onClick={openFullScreenMode}>Python Code</div>
 							<div
-								id="pythonCode"
-								onClick={this.openFullScreenMode}
-								style={
-									pythonCode
-										? {
-												position: 'absolute',
-												left: 0,
-												top: 0,
-												width: window.innerWidth,
-												height: window.innerHeight,
-												backgroundColor: 'rgba(255, 255, 255, 0.8)',
-												zIndex: 9999,
-										  }
-										: {}
-								}>
-								x<div>Python Code</div>
-								<div
-									style={{
-										display: 'flex',
-										justifyContent: 'center',
-									}}>
-									<AceEditor
-										mode="python"
-										theme="monokai"
-										width={!pythonCode ? '300px' : '80vh'}
-										height={!pythonCode ? '300px' : '80vh'}
-										value={codeScript}
-										onChange={this.onChangeCodeScript}
-										name="UNIQUE_ID_OF_DIV"
-										editorProps={{ $blockScrolling: true }}
-									/>
-								</div>
-							</div>
-							<br />
-							<div>Python depen</div>
-							<div>
+								style={{
+									display: 'flex',
+									justifyContent: 'center',
+								}}>
 								<AceEditor
-									id={'pythonDepen'}
-									mode="python"
-									theme="monokai"
-									width={'300px'}
-									height={'200px'}
-									value={dependencies}
-									onChange={this.onChangeDependencies}
-									name="UNIQUE_ID_OF_DIV"
+									mode='python'
+									theme='monokai'
+									width={!code.fullScreen ? '300px' : '80vh'}
+									height={!code.fullScreen ? '300px' : '80vh'}
+									value={code.script}
+									onChange={onChangeCodeScript}
+									name='UNIQUE_ID_OF_DIV'
 									editorProps={{ $blockScrolling: true }}
 								/>
 							</div>
-						</React.Fragment>
-					) : (
-						''
-					)}
-					<Button onClick={() => boxActions.onDeleteKey()} label={'delete'} />
-					<Button label={'update'} onClick={this.updateBoxInfo} />
-				</div>
-			);
-		} else {
-			return null;
-		}
+						</div>
+						<br />
+						<div>Python depen</div>
+						<div>
+							<AceEditor
+								id={'pythonDepen'}
+								mode='python'
+								theme='monokai'
+								width={'300px'}
+								height={'200px'}
+								value={code.dependencies}
+								onChange={onChangeDependencies}
+								name='UNIQUE_ID_OF_DIV'
+								editorProps={{ $blockScrolling: true }}
+							/>
+						</div>
+					</React.Fragment>
+				) : (
+					''
+				)}
+				<Button
+					onClick={handleDeleteBox}
+					variant='outlined'
+					color='primary'
+					className={classes.button}>
+					Delete
+				</Button>
+				<Button
+					onClick={updateBoxInfo}
+					variant='outlined'
+					color='primary'
+					className={classes.button}>
+					Update
+				</Button>
+			</div>
+		);
+	} else {
+		return null;
 	}
-}
+};

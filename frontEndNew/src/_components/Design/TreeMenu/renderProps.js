@@ -1,13 +1,14 @@
 import React from 'react';
 import { REACT_FLOW_CHART } from '@gonzalo10/react-diagrams/';
+import styled from 'styled-components';
 
-const DEFAULT_PADDING = 0.75;
-const LEVEL_SPACE = 1.75;
+const DEFAULT_PADDING = 0.5;
+const LEVEL_SPACE = 1;
 const ICON_SIZE = 2;
 const ToggleIcon = ({ on }) => (
 	<div
-		role="img"
-		aria-label="Toggle"
+		role='img'
+		aria-label='Toggle'
 		style={{
 			width: `${ICON_SIZE}rem`,
 			height: `${ICON_SIZE}rem`,
@@ -17,6 +18,19 @@ const ToggleIcon = ({ on }) => (
 		{on ? '-' : '+'}
 	</div>
 );
+const Outer = styled.div`
+	padding: 5px 10px;
+	margin-bottom: 5px;
+	font-size: 14px;
+	color: #b43539;
+	background: white;
+	border: 1px solid #b43539
+	cursor: move;
+	:hover {
+		background: #b43539;
+		color: white;
+	  }
+`;
 
 const renderItem = ({
 	hasNodes = false,
@@ -27,9 +41,11 @@ const renderItem = ({
 	active,
 	focused,
 	key,
+	payload,
 	label = 'unknown',
 }) => (
 	<li
+		key={key}
 		style={{
 			padding: ` .75rem  1rem  .75rem ${DEFAULT_PADDING +
 				ICON_SIZE * (hasNodes ? 0 : 1) +
@@ -42,17 +58,25 @@ const renderItem = ({
 			zIndex: focused ? 999 : 'unset',
 			position: 'relative',
 		}}
-		role="button"
-		aria-pressed={active}
-		key={key}
-		onClick={onClick}
-		draggable={true}
-		onDragStart={event => {
-			event.dataTransfer.setData(
-				REACT_FLOW_CHART,
-				JSON.stringify('type', 'ports', 'properties')
-			);
-		}}>
+		role='button'
+		aria-pressed={active}>
+		{!hasNodes && (
+			<Outer
+				key={key}
+				onClick={onClick}
+				draggable={true}
+				onDragStart={event => {
+					const type = payload.type;
+					const ports = payload.ports;
+					const properties = payload.properties;
+					event.dataTransfer.setData(
+						REACT_FLOW_CHART,
+						JSON.stringify({ type, ports, properties })
+					);
+				}}>
+				{label}
+			</Outer>
+		)}
 		{hasNodes && (
 			<div
 				style={{ display: 'inline-block' }}
@@ -61,9 +85,9 @@ const renderItem = ({
 					e.stopPropagation();
 				}}>
 				<ToggleIcon on={isOpen} />
+				{label}
 			</div>
 		)}
-		{label}
 	</li>
 );
 
@@ -76,10 +100,10 @@ export const defaultChildren = ({ search, items }) => {
 		<>
 			{search && (
 				<input
-					style={{ padding: '1rem 1.5rem', border: 'none', width: '100%' }}
-					aria-label="Type and search"
-					type="search"
-					placeholder="Type and search"
+					style={{ padding: '1rem 0.5rem', border: 'none', width: '100%' }}
+					aria-label='Type and search'
+					type='search'
+					placeholder='Type and search'
 					onChange={onSearch}
 				/>
 			)}

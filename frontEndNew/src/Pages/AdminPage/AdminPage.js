@@ -1,158 +1,40 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AceEditor from 'react-ace';
-import { Input, Button } from '../../_components/Utils/';
-import { adminActions } from '../../_actions';
-
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import './AdminPage.css';
 
-import 'brace/mode/python';
-import 'brace/theme/monokai';
+import { BoxFactory } from '../../_components/BoxFactory/BoxFactory';
 
 class AdminPage extends React.Component {
 	state = {
-		code: '',
-		dependencies: '',
+		selectedTab: 0,
 	};
 
-	onChangeCodeScript = newValue => {
-		this.setState({ code: newValue });
-	};
-	onChangeDependencies = newValue => {
-		this.setState({ dependencies: newValue });
-	};
-
-	handleChange = e => {
-		const { name, value } = e.target;
-		this.setState({ [name]: value });
-	};
-
-	handleSubmit = e => {
-		const { dispatch } = this.props;
-		e.preventDefault();
-		const {
-			type,
-			inputPorts,
-			outputPorts,
-			code,
-			dependencies,
-			boxClass,
-		} = this.state;
-		const box = {
-			boxClass: 'Python Module',
-			type,
-			frontendVersion: 'V1',
-			backendVersion: 'V1',
-			n_input_ports: inputPorts,
-			n_output_ports: outputPorts,
-			depen_code: dependencies,
-			python_code: code,
-		};
-		dispatch(adminActions.createBox(box));
+	handleTabsChange = (event, newValue) => {
+		this.setState({ selectedTab: newValue });
 	};
 
 	render() {
-		const { code, dependencies } = this.state;
+		const { selectedTab } = this.state;
 		return (
 			<React.Fragment>
-				<div className="col-md-3">
-					<h1>You are in the Admin Page</h1>
-					<h3>Create Box:</h3>
-					<form
-						name="form"
-						onSubmit={this.handleSubmit}
-						className={'text-center'}>
-						boxClass:
-						<br />
-						<Input type="text" name="boxClass" defaultValue={'Python Module'} />
-						<br />
-						Type:
-						<br />
-						<Input type="text" name="type" onChange={this.handleChange} />
-						<br />
-						Input:
-						<br />
-						<Input
-							type="number"
-							name="inputPorts"
-							onChange={this.handleChange}
-						/>
-						<br />
-						Output:
-						<br />
-						<Input
-							type="number"
-							name="outputPorts"
-							onChange={this.handleChange}
-						/>
-						{/* <br />
-						Numero of parametres:
-						<br />
-						<div>5</div>
-						<Button label={'+'} />
-						<div>
-							Type:
-							<br />
-							<select>
-								<option value="String">String</option>
-								<option value="int">int</option>
-								<option value="float">float</option>
-								<option value="list">list</option>
-							</select>
-							<br />
-							Name:
-							<br />
-							<Input
-								type="string"
-								name="paramName"
-								onChange={this.handleChange}
-							/>
-							<br />
-							Parameter help:
-							<br />
-							<Input
-								type="string"
-								name="paramHelp"
-								onChange={this.handleChange}
-							/>
-							<br />
-							Parameter url:
-							<br />
-							<Input
-								type="string"
-								name="paramUrl"
-								onChange={this.handleChange}
-							/>
-						</div>
-						<br /> */}
-						<Button onClick={this.CreateBox} label={'Create Box'} />
-					</form>
-				</div>
-				<div className="col-md-6 editor-column">
-					<h3>Write Python code for the Box:</h3>
-					<AceEditor
-						mode="python"
-						theme="monokai"
-						width={'650px'}
-						value={code}
-						onChange={this.onChangeCodeScript}
-						name="UNIQUE_ID_OF_DIV"
-						editorProps={{ $blockScrolling: true }}
-					/>
-				</div>
-				<div className="col-md-3 editor-column">
-					<h3>Write dependencies:</h3>
-					<AceEditor
-						mode="python"
-						theme="monokai"
-						width={'350px'}
-						height={'200px'}
-						value={dependencies}
-						onChange={this.onChangeDependencies}
-						name="UNIQUE_ID_OF_DIV"
-						editorProps={{ $blockScrolling: true }}
-					/>
-				</div>
+				<Paper>
+					<Tabs
+						value={selectedTab}
+						onChange={this.handleTabsChange}
+						indicatorColor="primary"
+						textColor="primary"
+						centered>
+						<Tab label="Box Factory" />
+						<Tab label="Item Two" />
+						<Tab label="Item Three" />
+					</Tabs>
+				</Paper>
+				{selectedTab === 0 ? <BoxFactory /> : null}
+				{selectedTab === 1 ? <div>Nothing Yet</div> : null}
+				{selectedTab === 2 ? <div>Nothing Yet</div> : null}
 			</React.Fragment>
 		);
 	}

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { userActions, projectActions } from '../../_actions';
 import { Button } from '../../_components/Utils/Button/Button';
 import styled from 'styled-components';
+import { ProjectCard } from '../../_components/Utils/Card/Card';
 
 const ProjectBox = styled.div`
 	border: 1px solid #b43539;
@@ -24,10 +25,13 @@ const ProjectsList = ({ projects, handleLoadProject }) => {
 	}
 	return projects.map((project, key) => {
 		return (
-			<ProjectBox key={key}>
-				{project.name}
-				<Link to={`/project/${project.id}`}>Load Project</Link>
-			</ProjectBox>
+			<React.Fragment>
+				<ProjectCard />
+				<ProjectBox key={key}>
+					{project.name}
+					<Link to={`/project/${project.id}`}>Load Project</Link>
+				</ProjectBox>
+			</React.Fragment>
 		);
 	});
 };
@@ -44,7 +48,9 @@ class HomePage extends React.Component {
 
 	handleCreateProject = () => {
 		const { dispatch } = this.props;
-		dispatch(projectActions.create(`Project ${Math.random()}`, 'V1', 'V1'));
+		dispatch(
+			projectActions.create(`Project ${Math.random()}`, '{}', 'V1', 'V1')
+		);
 	};
 	handleLoadProject = () => {};
 

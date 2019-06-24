@@ -23,6 +23,7 @@ class Actor(db.Model):
     def serialized(self, xjson=True):
         model={
             "id":  self.id,
+            "friendly_name": self.friendly_name,
             "type": self.type,
             "frontendVersion": self.frontendVersion,
             "backendVersion": self.backendVersion,
