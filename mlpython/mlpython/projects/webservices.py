@@ -129,4 +129,16 @@ def run_simul():
             return 'Forbidden', 403
         return 'Not Found', 404
 
+@app.route('/projects/get_internal', methods=['GET'])
+def get_project_internal():
+        print(request.args)
+        print(request.data)
+        id = request.args['id']
+        project = Project.query.filter(Project.id == id).first()
+        if project:
+            if Project.security_check(project, userLogged, 'GET'):
+                return json.dumps(project.serialize()), 200
+            return 'Forbiddedn', 403
+
+        return 'Not found', 404
 
