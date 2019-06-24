@@ -136,9 +136,8 @@ def get_project_internal():
         id = request.args['id']
         project = Project.query.filter(Project.id == id).first()
         if project:
-            if Project.security_check(project, userLogged, 'GET'):
-                return json.dumps(project.serialize()), 200
-            return 'Forbiddedn', 403
+            return json.dumps(project.serialize()), 200
+            # return 'Forbiddedn', 403
 
         return 'Not found', 404
 
