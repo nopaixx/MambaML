@@ -36,7 +36,7 @@ export class DragDropState extends React.Component {
 		dispatch(projectActions.updateChartStructure(this.state));
 	}
 	render() {
-		const { actors, onSaveProject, updateBoxInfo } = this.props;
+		const { actors, updateBoxInfo } = this.props;
 		const chart = this.state;
 		const stateActions = mapValues(actions, func => (...args) => {
 			this.setState(func(...args));

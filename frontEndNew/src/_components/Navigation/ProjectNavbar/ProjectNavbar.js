@@ -176,7 +176,7 @@ export default function ProjectNavbar({ history }) {
 						<MenuIcon />
 					</IconButton>
 					<img
-						onClick={() => history.push('/')}
+						onClick={() => history.push('/projects')}
 						className={classes.logo}
 						src={MambaLogo}
 						alt={'logo'}
@@ -198,7 +198,7 @@ export default function ProjectNavbar({ history }) {
 					<div className={classes.grow} />
 					<div className={classes.sectionDesktop}>
 						<IconButton
-							onClick={() => history.push('/')}
+							onClick={() => history.push('/projects')}
 							aria-label='Home'
 							color='inherit'>
 							<HomeIcon />

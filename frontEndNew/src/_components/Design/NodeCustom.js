@@ -13,7 +13,18 @@ const BoxStyleWrapper = styled.div`
 `;
 
 export const NodeCustom = ({ node }) => {
-	const boxTitle = node.type.split('-')[1] || node.type;
+	let name;
+	let boxTitle;
+	if (node.properties.payload.name) {
+		name = node.properties.payload.name;
+		name = name.split('-');
+		name = name[name.length - 1];
+	}
+	if (name) {
+		boxTitle = name;
+	} else {
+		boxTitle = node.type.split('-')[1] || node.type;
+	}
 	return (
 		<BoxStyleWrapper>
 			<img
