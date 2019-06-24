@@ -54,11 +54,6 @@ const DesignComponent = props => {
 	if (project) {
 		return (
 			<React.Fragment>
-				<ProjectToolbar
-					projectName={projectName}
-					onSaveProject={onSaveProject}
-					handleChangeName={handleChangeName}
-				/>
 				<div className={'design-window'}>
 					<DragDropState
 						actors={actors}
@@ -67,6 +62,11 @@ const DesignComponent = props => {
 						dispatch={props.dispatch}
 					/>
 				</div>
+				<ProjectToolbar
+					projectName={projectName}
+					onSaveProject={onSaveProject}
+					handleChangeName={handleChangeName}
+				/>
 			</React.Fragment>
 		);
 	} else {

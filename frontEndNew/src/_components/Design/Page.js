@@ -21,7 +21,7 @@ const PageContent = styled.div`
 	flex-direction: row;
 	flex: 1;
 	max-width: 100vw;
-	max-height: 85vh;
+	max-height: 90vh;
 `;
 
 export const Page = ({ children }) => (

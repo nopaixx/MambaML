@@ -19,6 +19,11 @@ const useStyles = makeStyles(theme => ({
 		border: `1px solid ${theme.palette.primary.main}`,
 		height: 60,
 		padding: 5,
+		position: 'absolute',
+		bottom: 0,
+		width: '100vw',
+		zIndex: 4,
+		display: 'flex',
 	},
 	textField: {
 		marginLeft: theme.spacing(1),
@@ -27,11 +32,23 @@ const useStyles = makeStyles(theme => ({
 	},
 	icon: {
 		cursor: 'pointer',
-		marginRight: 10,
+		'&:hover': {
+			color: theme.palette.primary.main,
+		},
+	},
+	iconSave: {
+		textAlign: 'center',
+		paddingLeft: 10,
 	},
 	closeToolbar: {
 		display: 'flex',
 		border: `1px solid ${theme.palette.primary.main}`,
+		position: 'absolute',
+		width: '100vw',
+		padding: 3,
+		bottom: 0,
+		backgroundColor: theme.palette.primary.contrastText,
+		zIndex: 4,
 	},
 }));
 
@@ -63,14 +80,20 @@ export const ProjectToolbar = ({
 						onChange={handleChangeName}
 						margin='none'
 					/>
-					<Button
+					<div className={classes.iconSave}>
+						<Icon className={classes.icon} onClick={onSaveProject}>
+							save
+						</Icon>
+						<div>Save</div>
+					</div>
+					{/* <Button
 						id={'PythonScript'}
 						variant='outlined'
 						color='primary'
 						className={classes.button}
 						onClick={onSaveProject}>
 						Save
-					</Button>
+					</Button> */}
 				</nav>
 			) : (
 				<div className={classes.closeToolbar}>
@@ -79,7 +102,7 @@ export const ProjectToolbar = ({
 							menu
 						</Icon>
 					</Tooltip>
-					<div>Toolbar</div>
+					<div style={{ marginLeft: 10 }}>Toolbar</div>
 				</div>
 			)}
 		</React.Fragment>
