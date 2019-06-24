@@ -18,12 +18,12 @@ const useStyles = makeStyles({
 	navbarMenuBtn: {
 		color: 'white',
 		fontWeight: 600,
-		fontSize: 18,
+		fontSize: 14,
 	},
 	navMenus: {
 		display: 'flex',
-		justifyContent: 'space-around',
-		width: '80vw',
+		flexDirection: 'row-reverse',
+		width: '90vw',
 	},
 });
 
