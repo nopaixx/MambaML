@@ -291,6 +291,7 @@ const boxFactory = ({
 				frontendVersion,
 				backendVersion,
 				parameters,
+				name: friendly_name,
 			},
 		},
 	};
@@ -298,12 +299,12 @@ const boxFactory = ({
 };
 
 const treeConstructor = data => {
-	const firstIndex = actor1.length;
+	const firstIndex = data.length;
 	let tree = {};
 	let treeArray = [];
 	let head = [];
 	for (let i = 0; i < firstIndex; ++i) {
-		const actualData = actor1[i];
+		const actualData = data[i];
 		let soloTree = treeBranchConstructor(actualData, tree, head);
 		treeArray.push(soloTree);
 	}
