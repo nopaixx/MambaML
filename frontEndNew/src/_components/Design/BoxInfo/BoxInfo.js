@@ -59,6 +59,11 @@ export const BoxInfo = props => {
 		updateBox(chart);
 	};
 
+	const handleDeleteBox = () => {
+		setNode(undefined);
+		boxActions.onDeleteKey();
+	};
+
 	const handleChange = e => {
 		const { name, value } = e.target;
 		setPorts({ ...ports, [name]: value });
@@ -132,7 +137,6 @@ export const BoxInfo = props => {
 				<br />
 				{code.hasScript ? (
 					<React.Fragment>
-						<div>Python Code</div>
 						<div
 							id='pythonCode'
 							style={
@@ -148,7 +152,7 @@ export const BoxInfo = props => {
 									  }
 									: {}
 							}>
-							x<div onClick={openFullScreenMode}>Python Code</div>
+							<div onClick={openFullScreenMode}>Python Code</div>
 							<div
 								style={{
 									display: 'flex',
@@ -186,7 +190,7 @@ export const BoxInfo = props => {
 					''
 				)}
 				<Button
-					onClick={() => boxActions.onDeleteKey()}
+					onClick={handleDeleteBox}
 					variant='outlined'
 					color='primary'
 					className={classes.button}>
