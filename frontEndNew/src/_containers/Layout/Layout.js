@@ -2,14 +2,20 @@ import React, { Component } from 'react';
 
 import './Layout.css';
 import Navbar from '../../_components/Navigation/Navbar/Navbar';
-
+import ProjectNavbar from '../../_components/Navigation/ProjectNavbar/ProjectNavbar';
 class Layout extends Component {
 	render() {
 		const { history } = this.props;
+		console.log('match', history);
+		const url = history.location.pathname;
 		return (
 			<React.Fragment>
-				<Navbar history={history} />
-				<main className={''}>{this.props.children}</main>
+				{url.includes('project') ? (
+					<ProjectNavbar history={history} />
+				) : (
+					<Navbar history={history} />
+				)}
+				<main>{this.props.children}</main>
 			</React.Fragment>
 		);
 	}

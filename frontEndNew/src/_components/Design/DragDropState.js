@@ -21,8 +21,7 @@ import { Button } from '../Utils/Button/Button';
 import IconButton from '@material-ui/core/IconButton';
 
 // import ResizableBox from '../Utils/Resize/ResizableBox';
-import { Resizable, ResizableBox } from 'react-resizable';
-import PersistentDrawerLeft from '../Utils/ToolsDrawer/Drawer';
+import { ResizableBox } from 'react-resizable';
 import './DesignComponent.css';
 
 export class DragDropState extends React.Component {
