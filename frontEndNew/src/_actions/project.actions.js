@@ -197,6 +197,7 @@ function getAllActors() {
 		projectService.getAllActors().then(
 			actors => {
 				const constructedActors = [];
+				console.log('actors', actors);
 				actors.data.forEach(actor => {
 					const newActor = boxFactory(JSON.parse(actor));
 					constructedActors.push(newActor);
@@ -243,6 +244,17 @@ const boxFactory = ({
 	parameters,
 	friendly_name,
 }) => {
+	console.log(
+		type,
+		n_input_ports,
+		n_output_ports,
+		python_code,
+		depen_code,
+		backendVersion,
+		frontendVersion,
+		parameters,
+		friendly_name
+	);
 	const ports = {};
 	for (let i = 1; i <= n_input_ports; ++i) {
 		ports[`port${i}`] = {
@@ -268,11 +280,7 @@ const boxFactory = ({
 	}
 	const boxStructure = {
 		type: type,
-		name:
-			'Tratamiento de Datos-Manipulacion Filas-Split' +
-			Math.random() +
-			'-Casa' +
-			Math.random(),
+		name: friendly_name,
 		ports,
 		properties: {
 			payload: {
