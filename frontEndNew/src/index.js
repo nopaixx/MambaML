@@ -8,7 +8,6 @@ import * as serviceWorker from './serviceWorker';
 import { configureFakeBackend } from './_helpers';
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import red from '@material-ui/core/colors/red';
 
 const theme = createMuiTheme({
 	palette: {
@@ -19,6 +18,7 @@ const theme = createMuiTheme({
 			contrastText: '#fff',
 		},
 	},
+	appBar: { height: 50 },
 });
 configureFakeBackend();
 ReactDOM.render(

@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 		width: '100vw',
 		zIndex: 4,
 		display: 'flex',
+		alignItems: 'center',
 	},
 	textField: {
 		marginLeft: theme.spacing(1),
@@ -32,13 +33,18 @@ const useStyles = makeStyles(theme => ({
 	},
 	icon: {
 		cursor: 'pointer',
+		fontSize: 26,
 		'&:hover': {
 			color: theme.palette.primary.main,
 		},
 	},
-	iconSave: {
+	iconWrapper: {
 		textAlign: 'center',
-		paddingLeft: 10,
+		paddingLeft: 20,
+		paddingRight: 20,
+	},
+	iconText: {
+		fontSize: 11,
 	},
 	closeToolbar: {
 		display: 'flex',
@@ -80,20 +86,16 @@ export const ProjectToolbar = ({
 						onChange={handleChangeName}
 						margin='none'
 					/>
-					<div className={classes.iconSave}>
+					<div className={classes.iconWrapper}>
 						<Icon className={classes.icon} onClick={onSaveProject}>
 							save
 						</Icon>
-						<div>Save</div>
+						<div className={classes.iconText}>Save</div>
 					</div>
-					{/* <Button
-						id={'PythonScript'}
-						variant='outlined'
-						color='primary'
-						className={classes.button}
-						onClick={onSaveProject}>
-						Save
-					</Button> */}
+					<div className={classes.iconWrapper}>
+						<Icon className={classes.icon}>play_circle_filled</Icon>
+						<div className={classes.iconText}>Play</div>
+					</div>
 				</nav>
 			) : (
 				<div className={classes.closeToolbar}>
@@ -102,7 +104,10 @@ export const ProjectToolbar = ({
 							menu
 						</Icon>
 					</Tooltip>
-					<div style={{ marginLeft: 10 }}>Toolbar</div>
+					<div
+						style={{ marginLeft: 10, display: 'flex', alignItems: 'center' }}>
+						Toolbar
+					</div>
 				</div>
 			)}
 		</React.Fragment>

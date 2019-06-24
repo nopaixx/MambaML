@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -12,6 +12,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 import { projectActions } from '../../_actions';
 
@@ -56,6 +59,7 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: theme.palette.background.paper,
 		padding: theme.spacing(6),
 	},
+	uploaData: { display: 'none !important' },
 }));
 
 const ProjectsCards = ({ projects }) => {
@@ -66,7 +70,7 @@ const ProjectsCards = ({ projects }) => {
 	}
 	return projects.map((project, key) => {
 		return (
-			<Grid item key={project} xs={12} sm={6} md={4}>
+			<Grid item key={key} xs={12} sm={6} md={4}>
 				<Card className={classes.card}>
 					<CardMedia
 						className={classes.cardMedia}
@@ -98,8 +102,15 @@ const ProjectsCards = ({ projects }) => {
 	});
 };
 
+const handleUploadData = () => {
+	const fileupload = document.getElementById('uploadData-input');
+	fileupload.click();
+};
+
 const HomePage2 = props => {
 	const classes = useStyles();
+	const [selectedTab, setTab] = useState(0);
+
 	const { projects } = props;
 
 	useEffect(() => {
@@ -113,6 +124,16 @@ const HomePage2 = props => {
 			projectActions.create(`Project ${Math.random()}`, '{}', 'V1', 'V1')
 		);
 	};
+
+	const handleTabsChange = (e, newValue) => {
+		setTab(newValue);
+	};
+	const datasets = [
+		{ name: 'dateset1' },
+		{ name: 'dateset2' },
+		{ name: 'dateset3' },
+		{ name: 'dateset4' },
+	];
 	return (
 		<React.Fragment>
 			<CssBaseline />
@@ -125,17 +146,14 @@ const HomePage2 = props => {
 							align='center'
 							color='textPrimary'
 							gutterBottom>
-							Album layout
+							MambaML Home Page
 						</Typography>
 						<Typography
 							variant='h5'
 							align='center'
 							color='textSecondary'
-							paragraph>
-							Something short and leading about the collection below—its
-							contents, the creator, etc. Make it short and sweet, but not too
-							short so folks don&apos;t simply skip over it entirely.
-						</Typography>
+							paragraph
+						/>
 						<div className={classes.heroButtons}>
 							<Grid container spacing={2} justify='center'>
 								<Grid item>
@@ -146,14 +164,42 @@ const HomePage2 = props => {
 										Create project
 									</Button>
 								</Grid>
+								<Grid item>
+									<input
+										id='uploadData-input'
+										className={classes.uploaData}
+										type='file'
+									/>
+									<Button
+										onClick={handleUploadData}
+										variant='outlined'
+										color='primary'>
+										Upload dataset
+									</Button>
+								</Grid>
 							</Grid>
 						</div>
 					</Container>
 				</div>
+				<Tabs
+					value={selectedTab}
+					onChange={handleTabsChange}
+					indicatorColor='primary'
+					textColor='primary'
+					centered>
+					<Tab label='Projects' />
+					<Tab label='DataSets' />
+				</Tabs>
 				<Container className={classes.cardGrid} maxWidth='md'>
-					<Grid container spacing={4}>
-						<ProjectsCards projects={projects} />
-					</Grid>
+					{selectedTab === 0 ? (
+						<Grid container spacing={4}>
+							<ProjectsCards projects={projects} />
+						</Grid>
+					) : (
+						<Grid container spacing={4}>
+							<ProjectsCards projects={datasets} />
+						</Grid>
+					)}
 				</Container>
 			</main>
 			<footer className={classes.footer}>
