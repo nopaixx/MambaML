@@ -8,6 +8,13 @@ class Layout extends Component {
 		const { history } = this.props;
 		console.log('match', history);
 		const url = history.location.pathname;
+		if (url.includes('login')) {
+			return (
+				<React.Fragment>
+					<main>{this.props.children}</main>
+				</React.Fragment>
+			);
+		}
 		return (
 			<React.Fragment>
 				{url.includes('project') ? (

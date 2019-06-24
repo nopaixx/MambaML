@@ -32,7 +32,7 @@ function MadeWithLove() {
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		height: '93vh',
+		height: '100vh',
 	},
 	image: {
 		backgroundImage:

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+
 import { Input } from '../../Utils/Input/Input';
-import { Button } from '../../Utils/Button/Button';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 import './BoxInfo.css';
 
@@ -8,7 +10,22 @@ import AceEditor from 'react-ace';
 import 'brace/mode/python';
 import 'brace/theme/monokai';
 
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+	button: {
+		margin: theme.spacing(1),
+	},
+	ports: {
+		width: 50,
+		marginRight: 10,
+		marginLeft: 10,
+	},
+}));
+
 export const BoxInfo = props => {
+	const classes = useStyles();
+
 	const [code, setCode] = useState({
 		script: '',
 		dependencies: '',
@@ -87,21 +104,31 @@ export const BoxInfo = props => {
 		return (
 			<div className={'BoxInfo'}>
 				<h3>{node.type || ''}</h3>
-				Input Ports:
-				<Input
-					type='number'
-					name='input'
-					value={ports.input || 0}
-					onChange={handleChange}
-				/>
-				<br />
-				Output Ports:
-				<Input
-					type='number'
-					value={ports.output || 0}
-					name='output'
-					onChange={handleChange}
-				/>
+				{ports.input ? (
+					<TextField
+						id='input'
+						label='Input'
+						type='number'
+						className={classes.ports}
+						name={'input'}
+						value={ports.input}
+						onChange={handleChange}
+						margin='normal'
+					/>
+				) : null}
+				{ports.output ? (
+					<TextField
+						id='input'
+						label='Output'
+						type='number'
+						name={'output'}
+						className={classes.ports}
+						value={ports.output}
+						onChange={handleChange}
+						margin='normal'
+					/>
+				) : null}
+
 				<br />
 				{code.hasScript ? (
 					<React.Fragment>
@@ -158,8 +185,20 @@ export const BoxInfo = props => {
 				) : (
 					''
 				)}
-				<Button onClick={() => boxActions.onDeleteKey()} label={'delete'} />
-				<Button label={'update'} onClick={updateBoxInfo} />
+				<Button
+					onClick={() => boxActions.onDeleteKey()}
+					variant='outlined'
+					color='primary'
+					className={classes.button}>
+					Delete
+				</Button>
+				<Button
+					onClick={updateBoxInfo}
+					variant='outlined'
+					color='primary'
+					className={classes.button}>
+					Update
+				</Button>
 			</div>
 		);
 	} else {
