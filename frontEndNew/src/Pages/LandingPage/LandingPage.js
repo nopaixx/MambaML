@@ -1,22 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
+
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-
-import { projectActions } from '../../_actions';
 
 function MadeWithLove() {
 	return (
@@ -33,33 +23,20 @@ const useStyles = makeStyles(theme => ({
 	icon: {
 		marginRight: theme.spacing(2),
 	},
-	heroContent: {
-		backgroundColor: theme.palette.background.paper,
-		padding: theme.spacing(8, 0, 6),
+	image: {
+		backgroundImage:
+			'url(https://source.unsplash.com/1600x900/?artificial-intelligence)',
+
+		backgroundRepeat: 'no-repeat',
+		backgroundSize: 'cover',
+		backgroundPosition: 'center',
+		height: '100vh',
 	},
-	heroButtons: {
-		marginTop: theme.spacing(4),
-	},
-	cardGrid: {
-		paddingTop: theme.spacing(8),
-		paddingBottom: theme.spacing(8),
-	},
-	card: {
-		height: '100%',
-		display: 'flex',
-		flexDirection: 'column',
-	},
-	cardMedia: {
-		paddingTop: '56.25%', // 16:9
-	},
-	cardContent: {
-		flexGrow: 1,
-	},
+
 	footer: {
 		backgroundColor: theme.palette.background.paper,
 		padding: theme.spacing(6),
 	},
-	uploaData: { display: 'none !important' },
 }));
 
 const LandingPage = props => {
@@ -70,21 +47,28 @@ const LandingPage = props => {
 			<CssBaseline />
 			<main>
 				<div className={classes.heroContent}>
-					<Container maxWidth='sm'>
+					<Container className={classes.image}>
 						<Typography
 							component='h1'
 							variant='h2'
 							align='center'
 							color='textPrimary'
 							gutterBottom>
-							MambaML Home Page
+							MambaML
 						</Typography>
 						<Typography
 							variant='h5'
 							align='center'
 							color='textSecondary'
 							paragraph>
-							Landing Page{' '}
+							Enabling the AI-Driven Enterprise
+						</Typography>
+						<Typography
+							variant='h5'
+							align='center'
+							color='textSecondary'
+							paragraph>
+							with Automated Machine Learning
 						</Typography>
 					</Container>
 				</div>
