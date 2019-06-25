@@ -197,12 +197,10 @@ function getAllActors() {
 		projectService.getAllActors().then(
 			actors => {
 				const constructedActors = [];
-				console.log('actors', actors);
 				actors.data.forEach(actor => {
 					const newActor = boxFactory(JSON.parse(actor));
 					constructedActors.push(newActor);
 				});
-				console.log('constructedActors', constructedActors);
 				const tree = treeConstructor(constructedActors);
 				dispatch(success(tree));
 			},

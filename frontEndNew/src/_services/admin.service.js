@@ -10,7 +10,6 @@ function createBox(newbox) {
 		headers: authHeader(),
 		body: JSON.stringify(newbox),
 	};
-
 	return fetch(`${CREATE_ACTOR_URL}`, requestOptions).then(response =>
 		handleResponse(response)
 	);

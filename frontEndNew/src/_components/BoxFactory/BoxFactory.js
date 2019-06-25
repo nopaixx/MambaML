@@ -102,6 +102,10 @@ class BoxFactory extends React.Component {
 		this.setState({ [name]: value });
 	};
 
+	setParamsState = data => {
+		this.setState({ parameters: data });
+	};
+
 	handleSubmit = e => {
 		const { dispatch } = this.props;
 		e.preventDefault();
@@ -111,10 +115,11 @@ class BoxFactory extends React.Component {
 			outputPorts,
 			code,
 			dependencies,
-			boxClass,
+			friendly_name,
+			parameters,
 		} = this.state;
 		const box = {
-			boxClass: 'Python Module',
+			friendly_name,
 			type,
 			frontendVersion: 'V1',
 			backendVersion: 'V1',
@@ -122,6 +127,7 @@ class BoxFactory extends React.Component {
 			n_output_ports: outputPorts,
 			depen_code: dependencies,
 			python_code: code,
+			parameters: JSON.stringify(parameters),
 		};
 		dispatch(adminActions.createBox(box));
 	};
@@ -156,11 +162,10 @@ class BoxFactory extends React.Component {
 							onSubmit={this.handleSubmit}
 							className={'box-info-form'}>
 							<TextField
-								id='outputPorts'
-								label='boxClass'
+								id='friendly_name'
+								label='Fiendly Name'
 								className={''}
-								name={'boxClass'}
-								defaultValue={'Python Module'}
+								name={'friendly_name'}
 								onChange={this.handleChange}
 								margin='normal'
 							/>
@@ -173,11 +178,11 @@ class BoxFactory extends React.Component {
 								margin='normal'
 							/>
 							<TextField
-								id='input'
+								id='inputPorts'
 								label='Input'
 								type='number'
 								className={''}
-								name={'input'}
+								name={'inputPorts'}
 								onChange={this.handleChange}
 								margin='normal'
 							/>
@@ -192,7 +197,7 @@ class BoxFactory extends React.Component {
 							/>
 						</form>
 						<div className={'table-wrapper'}>
-							<MaterialTableDemo />
+							<MaterialTableDemo updateBoxState={this.setParamsState} />
 						</div>
 					</div>
 				</div>

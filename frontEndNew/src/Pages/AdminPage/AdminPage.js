@@ -24,12 +24,12 @@ class AdminPage extends React.Component {
 					<Tabs
 						value={selectedTab}
 						onChange={this.handleTabsChange}
-						indicatorColor="primary"
-						textColor="primary"
+						indicatorColor='primary'
+						textColor='primary'
 						centered>
-						<Tab label="Box Factory" />
-						<Tab label="Item Two" />
-						<Tab label="Item Three" />
+						<Tab label='Box Factory' />
+						<Tab label='Item Two' />
+						<Tab label='Item Three' />
 					</Tabs>
 				</Paper>
 				{selectedTab === 0 ? <BoxFactory /> : null}
