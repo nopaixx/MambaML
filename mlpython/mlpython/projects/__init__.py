@@ -170,8 +170,8 @@ class Project(db.Model):
         if status:
             status.status = stat
             status.error = error
-            if stat == 'OK':
-                self.json = data                
+           # if stat == 'OK':
+            self.json = data                
             print("aaa", status)
             db.session.commit()
         return None
