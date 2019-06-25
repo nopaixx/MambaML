@@ -3,6 +3,7 @@ from flask import request
 from flask import jsonify
 from ..token import Token
 from ..users import User
+from ..status_project import Status_Project
 import sys
 import json
 import boto3
@@ -150,11 +151,27 @@ class Project(db.Model):
         # TODO given action project and user return if can do
         return True
 
-    @classmethod
-    def run(self):
-        jsondata = self.json
-        jsondata = json.dump(jsondata)
-        db.session.commit()
+    def run(self, task):
+        status = Status_Project.query.filter(Status_Project.project_id==self.id).first()
+        if status:
+            status.task = task
+            status.status = 'PENDING'
+            db.session.commit()
+        else:
+            new = Status_Project.create(self.id, task,'PENDING')
+        
+        # jsondata = self.json
+        # jsondata = json.dump(jsondata)
+        # db.session.commit()
         return self
 
-
+    def update_status(self, data, stat, error):
+        status = Status_Project.query.filter(Status_Project.project_id==self.id).first()
+        if status:
+            status.status = stat
+            status.error = error
+            if stat == 'OK':
+                self.json = data                
+            print("aaa", status)
+            db.session.commit()
+        return None
