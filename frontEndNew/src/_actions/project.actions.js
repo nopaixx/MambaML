@@ -294,17 +294,6 @@ const boxFactory = ({
 	parameters,
 	friendly_name,
 }) => {
-	console.log(
-		type,
-		n_input_ports,
-		n_output_ports,
-		python_code,
-		depen_code,
-		backendVersion,
-		frontendVersion,
-		parameters,
-		friendly_name
-	);
 	const ports = {};
 	for (let i = 1; i <= n_input_ports; ++i) {
 		ports[`port${i}`] = {
