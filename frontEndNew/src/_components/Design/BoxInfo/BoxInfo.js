@@ -114,11 +114,30 @@ export const BoxInfo = props => {
 		const nodeSplitName = node.properties.payload.name.split('-');
 		nodeName = nodeSplitName[nodeSplitName.length - 1];
 	}
+	let params;
+	let paramHelpText, paramhelpUrl, paramName;
+	if (node && node.properties.payload.parameters) {
+		params = JSON.parse(node.properties.payload.parameters);
+	}
 
 	if (node) {
 		return (
 			<div className={'BoxInfo'}>
 				<h3>{nodeName || node.type || ''}</h3>
+				<div>Params</div>
+				{params
+					? params.map((param, key) => {
+							return (
+								<React.Fragment key={key}>
+									<div>{key}</div>
+									<div>{param.name}</div>
+									<div>{param.param_friend_name}</div>
+									<div>{param.param_help}</div>
+									<div>{param.param_url}</div>
+								</React.Fragment>
+							);
+					  })
+					: null}
 				<br />
 				{code.hasScript ? (
 					<React.Fragment>
