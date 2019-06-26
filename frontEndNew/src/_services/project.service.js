@@ -5,6 +5,7 @@ import {
 	GET_ACTORS_URL,
 	GET_PROJECT_URL,
 	GET_ALL_PROJECTS_URL,
+	RUN_PROJECT_URL,
 } from '../endpoint.js';
 export const projectService = {
 	save,
@@ -12,6 +13,8 @@ export const projectService = {
 	create,
 	getAllActors,
 	getAll,
+	run,
+	runBox,
 };
 
 function create(project) {
@@ -53,6 +56,27 @@ function save(project) {
 	};
 
 	return fetch(`${SAVE_PROJECT_URL}`, requestOptions).then(handleResponse);
+}
+
+function run(projectId) {
+	const requestOptions = {
+		method: 'GET',
+		headers: authHeader(),
+	};
+
+	return fetch(`${RUN_PROJECT_URL}?id=${projectId}`, requestOptions).then(
+		handleResponse
+	);
+}
+function runBox(projectId, boxId) {
+	const requestOptions = {
+		method: 'GET',
+		headers: authHeader(),
+	};
+	return fetch(
+		`${RUN_PROJECT_URL}?id=${projectId}&task_id=${boxId}`,
+		requestOptions
+	).then(handleResponse);
 }
 
 function getAllActors() {

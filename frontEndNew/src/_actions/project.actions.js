@@ -11,6 +11,8 @@ export const projectActions = {
 	getAllActors,
 	getAllProjects,
 	updateChartStructure,
+	run,
+	runBox,
 };
 
 function create(
@@ -151,6 +153,56 @@ function load(projectId) {
 	}
 	function failure(error) {
 		return { type: projectConstants.LOGIN_FAILURE, error };
+	}
+}
+function run(projectId) {
+	return dispatch => {
+		dispatch(request(projectId));
+
+		projectService.run(projectId).then(
+			project => {
+				dispatch(success(project));
+			},
+			error => {
+				dispatch(failure(error.toString()));
+				dispatch(alertActions.error(error.toString()));
+			}
+		);
+	};
+
+	function request(project) {
+		return { type: projectConstants.RUN_PROJECT_REQUEST, project };
+	}
+	function success(project) {
+		return { type: projectConstants.RUN_PROJECT_SUCCESS, project };
+	}
+	function failure(error) {
+		return { type: projectConstants.RUN_PROJECT_FAILURE, error };
+	}
+}
+function runBox(projectId, boxId) {
+	return dispatch => {
+		dispatch(request(projectId, boxId));
+
+		projectService.runBox(projectId, boxId).then(
+			project => {
+				dispatch(success(project));
+			},
+			error => {
+				dispatch(failure(error.toString()));
+				dispatch(alertActions.error(error.toString()));
+			}
+		);
+	};
+
+	function request(project) {
+		return { type: projectConstants.RUN_NODE_REQUEST, project };
+	}
+	function success(project) {
+		return { type: projectConstants.RUN_NODE_SUCCESS, project };
+	}
+	function failure(error) {
+		return { type: projectConstants.RUN_NODE_FAILURE, error };
 	}
 }
 

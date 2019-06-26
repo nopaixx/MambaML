@@ -35,6 +35,10 @@ export class DragDropState extends React.Component {
 		const { dispatch } = this.props;
 		dispatch(projectActions.updateChartStructure(this.state));
 	}
+	runBoxCode = id => {
+		const { runBox } = this.props;
+		runBox(id);
+	};
 	render() {
 		const { actors, updateBoxInfo } = this.props;
 		const chart = this.state;
@@ -62,7 +66,7 @@ export class DragDropState extends React.Component {
 								chart={chart}
 								callbacks={stateActions}
 								Components={{
-									NodeInner: NodeCustom,
+									NodeInner: props => NodeCustom(props, this.runBoxCode),
 									Link: props => LinksCustom(props, stateActions),
 									CanvasOuter: CanvasCustom,
 								}}

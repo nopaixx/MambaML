@@ -62,6 +62,7 @@ export const ProjectToolbar = ({
 	projectName,
 	onSaveProject,
 	handleChangeName,
+	runFullProject,
 }) => {
 	const [isOpen, setOpen] = useState(false);
 	const classes = useStyles();
@@ -93,7 +94,9 @@ export const ProjectToolbar = ({
 						<div className={classes.iconText}>Save</div>
 					</div>
 					<div className={classes.iconWrapper}>
-						<Icon className={classes.icon}>play_circle_filled</Icon>
+						<Icon onClick={runFullProject} className={classes.icon}>
+							play_circle_filled
+						</Icon>
 						<div className={classes.iconText}>Play</div>
 					</div>
 				</nav>

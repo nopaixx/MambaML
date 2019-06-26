@@ -29,21 +29,24 @@ const DesignComponent = props => {
 	}, [props, projectName]);
 
 	const onSaveProject = () => {
-		const { dispatch, project, match, chartStructure } = props;
+		const { dispatch, match, chartStructure } = props;
 		const ID = match.params.id;
-		dispatch(
-			projectActions.save(
-				ID,
-				projectName || 'casae',
-				chartStructure,
-				'V1',
-				'V1'
-			)
-		);
+		dispatch(projectActions.save(ID, projectName, chartStructure, 'V1', 'V1'));
 	};
 
 	const handleChangeName = e => {
 		setProjectName(e.target.value);
+	};
+
+	const runFullProject = () => {
+		const { dispatch, match } = props;
+		const projectId = match.params.id;
+		dispatch(projectActions.run(projectId));
+	};
+	const runBox = boxId => {
+		const { dispatch, match } = props;
+		const projectId = match.params.id;
+		dispatch(projectActions.runBox(projectId, boxId));
 	};
 
 	const { actors, project } = props;
@@ -60,12 +63,14 @@ const DesignComponent = props => {
 						updateBoxInfo={onSaveProject}
 						project={project}
 						dispatch={props.dispatch}
+						runBox={runBox}
 					/>
 				</div>
 				<ProjectToolbar
 					projectName={projectName}
 					onSaveProject={onSaveProject}
 					handleChangeName={handleChangeName}
+					runFullProject={runFullProject}
 				/>
 			</React.Fragment>
 		);
