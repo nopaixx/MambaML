@@ -39,7 +39,6 @@ export function configureFakeBackend() {
 						});
 				}
 			} else if (opts.method === 'GET') {
-				console.log(opts);
 				//let params = JSON.parse(opts.body);
 				axios
 					.get(url, {
@@ -51,9 +50,8 @@ export function configureFakeBackend() {
 							text: () => Promise.resolve(JSON.stringify(response)),
 						});
 					})
-					.catch(error => {
-						console.log('ERRRRRROR');
-						console.log(error);
+					.catch(err => {
+						console.log('Error', err);
 					});
 			}
 		});

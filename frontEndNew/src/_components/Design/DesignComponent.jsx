@@ -49,8 +49,7 @@ const DesignComponent = props => {
 		dispatch(projectActions.runBox(projectId, boxId));
 	};
 
-	const { actors, project } = props;
-
+	const { actors, project, projectStatus } = props;
 	if (!project) {
 		return null;
 	}
@@ -64,6 +63,7 @@ const DesignComponent = props => {
 						project={project}
 						dispatch={props.dispatch}
 						runBox={runBox}
+						projectStatus={projectStatus}
 					/>
 				</div>
 				<ProjectToolbar
@@ -86,6 +86,7 @@ function mapStateToProps(state) {
 		actors,
 		creatingProject,
 		chartStructure,
+		projectStatus,
 	} = state.project;
 	return {
 		project,
@@ -93,6 +94,7 @@ function mapStateToProps(state) {
 		creatingProject,
 		actors,
 		chartStructure,
+		projectStatus,
 	};
 }
 

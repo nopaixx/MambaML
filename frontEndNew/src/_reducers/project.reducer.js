@@ -45,6 +45,16 @@ export function project(state = {}, action) {
 				...state,
 				chartStructure: action.chartStructure,
 			};
+		case projectConstants.RUN_PROJECT_REQUEST:
+			return {
+				...state,
+				projectStatus: action.projectStatus,
+			};
+		case projectConstants.CHECK_PROJECT_SUCCESS:
+			return {
+				...state,
+				projectStatus: action.projectStatus,
+			};
 
 		default:
 			return state;

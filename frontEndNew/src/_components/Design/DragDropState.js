@@ -24,6 +24,38 @@ import IconButton from '@material-ui/core/IconButton';
 import { ResizableBox } from 'react-resizable';
 import './DesignComponent.css';
 
+Object.compare = function(obj1, obj2) {
+	//Loop through properties in object 1
+	for (var p in obj1) {
+		//Check property exists on both objects
+		if (obj1.hasOwnProperty(p) !== obj2.hasOwnProperty(p)) return false;
+
+		switch (typeof obj1[p]) {
+			//Deep compare objects
+			case 'object':
+				if (!Object.compare(obj1[p], obj2[p])) return false;
+				break;
+			//Compare function code
+			case 'function':
+				if (
+					typeof obj2[p] == 'undefined' ||
+					(p != 'compare' && obj1[p].toString() != obj2[p].toString())
+				)
+					return false;
+				break;
+			//Compare values
+			default:
+				if (obj1[p] != obj2[p]) return false;
+		}
+	}
+
+	//Check object 2 for any extra properties
+	for (var p in obj2) {
+		if (typeof obj1[p] == 'undefined') return false;
+	}
+	return true;
+};
+
 export class DragDropState extends React.Component {
 	state = cloneDeep(chartSimple);
 
@@ -31,14 +63,28 @@ export class DragDropState extends React.Component {
 		const chart = this.props.project.chartStructure;
 		this.setState(cloneDeep(chart));
 	}
-	componentDidUpdate() {
+	componentDidUpdate(prevProps, prevState) {
 		const { dispatch } = this.props;
-		dispatch(projectActions.updateChartStructure(this.state));
+
+		if (this.checkForChartUpdates(prevProps, prevState)) {
+			dispatch(projectActions.updateChartStructure(this.state));
+		}
 	}
+
+	checkForChartUpdates = (prevProps, prevState) => {
+		return this.hasHoveredChanged(prevProps, prevState);
+	};
+
+	hasHoveredChanged = (prevProps, prevState) => {
+		const hasHovered = JSON.stringify(prevState.hovered) === this.state.hovered;
+		return hasHovered;
+	};
+
 	runBoxCode = id => {
 		const { runBox } = this.props;
 		runBox(id);
 	};
+
 	render() {
 		const { actors, updateBoxInfo } = this.props;
 		const chart = this.state;
@@ -49,6 +95,8 @@ export class DragDropState extends React.Component {
 			return null;
 		}
 		var h = window.innerHeight;
+
+		console.log(this.props.projectStatus);
 		return (
 			<React.Fragment>
 				<Page>

@@ -6,6 +6,7 @@ import {
 	GET_PROJECT_URL,
 	GET_ALL_PROJECTS_URL,
 	RUN_PROJECT_URL,
+	CHECK_PROJECT_STATUS_URL,
 } from '../endpoint.js';
 export const projectService = {
 	save,
@@ -15,6 +16,7 @@ export const projectService = {
 	getAll,
 	run,
 	runBox,
+	checkRunStatus,
 };
 
 function create(project) {
@@ -68,6 +70,17 @@ function run(projectId) {
 		handleResponse
 	);
 }
+function checkRunStatus(projectId) {
+	const requestOptions = {
+		method: 'GET',
+		headers: authHeader(),
+	};
+	return fetch(
+		`${CHECK_PROJECT_STATUS_URL}?id=${projectId}`,
+		requestOptions
+	).then(handleResponse);
+}
+
 function runBox(projectId, boxId) {
 	const requestOptions = {
 		method: 'GET',

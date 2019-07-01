@@ -155,13 +155,21 @@ function load(projectId) {
 		return { type: projectConstants.LOGIN_FAILURE, error };
 	}
 }
-function run(projectId) {
+const checkProjectStatus = (projectId, counter) => {
 	return dispatch => {
-		dispatch(request(projectId));
-
-		projectService.run(projectId).then(
-			project => {
-				dispatch(success(project));
+		projectService.checkRunStatus(projectId).then(
+			projectData => {
+				const projectStatus = projectData.data.status;
+				if (projectStatus === 'PENDING' && counter < 5) {
+					counter++;
+					setTimeout(
+						() => dispatch(checkProjectStatus(projectId, counter)),
+						1000
+					);
+					console.log(counter);
+				} else {
+					dispatch(success(projectStatus));
+				}
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -170,16 +178,37 @@ function run(projectId) {
 		);
 	};
 
-	function request(project) {
-		return { type: projectConstants.RUN_PROJECT_REQUEST, project };
+	function success(projectStatus) {
+		return { type: projectConstants.CHECK_PROJECT_SUCCESS, projectStatus };
 	}
-	function success(project) {
-		return { type: projectConstants.RUN_PROJECT_SUCCESS, project };
+	function failure(error) {
+		return { type: projectConstants.CHECK_PROJECT_FAILURE, error };
+	}
+};
+function run(projectId) {
+	return dispatch => {
+		dispatch(request('running'));
+		let counter = 0;
+		projectService.run(projectId).then(
+			project => {
+				console.log('projectService.run', project);
+				dispatch(checkProjectStatus(projectId, counter));
+			},
+			error => {
+				dispatch(failure(error.toString()));
+				dispatch(alertActions.error(error.toString()));
+			}
+		);
+	};
+
+	function request(projectStatus) {
+		return { type: projectConstants.RUN_PROJECT_REQUEST, projectStatus };
 	}
 	function failure(error) {
 		return { type: projectConstants.RUN_PROJECT_FAILURE, error };
 	}
 }
+
 function runBox(projectId, boxId) {
 	return dispatch => {
 		dispatch(request(projectId, boxId));
@@ -425,374 +454,3 @@ const supermerge = (target, source) => {
 
 	return target;
 };
-
-const actor1 = [
-	{
-		type: 'Python Script',
-		name:
-			'Tratamiento de Datos-Manipulacion Filas-Split' +
-			Math.random() +
-			'-Casa' +
-			Math.random(),
-		ports: {
-			port1: {
-				id: 'port1',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port2: {
-				id: 'port2',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port3: {
-				id: 'port3',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port4: {
-				id: 'port4',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port5: {
-				id: 'port5',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port6: {
-				id: 'port6',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port7: {
-				id: 'port7',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port8: {
-				id: 'port8',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port9: {
-				id: 'port9',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port10: {
-				id: 'port10',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-		},
-		properties: {
-			payload: {
-				python_code:
-					'def %ID(input_1=None, input_2=None, input_3=None, input_4=None, input_5=None):\n    output_1 = None\n    output_2 = None\n    output_3 = None\n    output_4 = None\n    output_5 = None\n    return output_1, output_2, output_3, output_4, output_5\n                ',
-				depen_code: '',
-				n_input_ports: 5,
-				n_output_ports: 5,
-				frontendVersion: 'V1',
-				backendVersion: 'V1',
-				parameters: '{}',
-			},
-		},
-	},
-	{
-		type: 'Data',
-		name:
-			'Machine Learning-Manipulacion Filas-Split' +
-			Math.random() +
-			'-Casa' +
-			Math.random(),
-		ports: {
-			port1: {
-				id: 'port1',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port2: {
-				id: 'port2',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port3: {
-				id: 'port3',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port4: {
-				id: 'port4',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port5: {
-				id: 'port5',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port6: {
-				id: 'port6',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port7: {
-				id: 'port7',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port8: {
-				id: 'port8',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port9: {
-				id: 'port9',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port10: {
-				id: 'port10',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-		},
-		properties: {
-			payload: {
-				python_code:
-					'def %ID(input_1=None, input_2=None, input_3=None, input_4=None, input_5=None):\n    output_1 = None\n    output_2 = None\n    output_3 = None\n    output_4 = None\n    output_5 = None\n    return output_1, output_2, output_3, output_4, output_5\n                ',
-				depen_code: '',
-				n_input_ports: 5,
-				n_output_ports: 5,
-				frontendVersion: 'V1',
-				backendVersion: 'V1',
-				parameters: '{}',
-			},
-		},
-	},
-	{
-		type: 'Data',
-		name:
-			'Machine Learning-Manipulacion Filas-Split' +
-			Math.random() +
-			'-Casa' +
-			Math.random(),
-		ports: {
-			port1: {
-				id: 'port1',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port2: {
-				id: 'port2',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port3: {
-				id: 'port3',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port4: {
-				id: 'port4',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port5: {
-				id: 'port5',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port6: {
-				id: 'port6',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port7: {
-				id: 'port7',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port8: {
-				id: 'port8',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port9: {
-				id: 'port9',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port10: {
-				id: 'port10',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-		},
-		properties: {
-			payload: {
-				python_code:
-					'def %ID(input_1=None, input_2=None, input_3=None, input_4=None, input_5=None):\n    output_1 = None\n    output_2 = None\n    output_3 = None\n    output_4 = None\n    output_5 = None\n    return output_1, output_2, output_3, output_4, output_5\n                ',
-				depen_code: '',
-				n_input_ports: 5,
-				n_output_ports: 5,
-				frontendVersion: 'V1',
-				backendVersion: 'V1',
-				parameters: '{}',
-			},
-		},
-	},
-	{
-		type: 'Data',
-		name:
-			'Machine Learning-Manipulacion Filas-Split' +
-			Math.random() +
-			'-Casa' +
-			Math.random(),
-		ports: {
-			port1: {
-				id: 'port1',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port2: {
-				id: 'port2',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port3: {
-				id: 'port3',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port4: {
-				id: 'port4',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port5: {
-				id: 'port5',
-				type: 'input',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port6: {
-				id: 'port6',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port7: {
-				id: 'port7',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port8: {
-				id: 'port8',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port9: {
-				id: 'port9',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-			port10: {
-				id: 'port10',
-				type: 'output',
-				properties: {
-					value: 'yes',
-				},
-			},
-		},
-		properties: {
-			payload: {
-				python_code:
-					'def %ID(input_1=None, input_2=None, input_3=None, input_4=None, input_5=None):\n    output_1 = None\n    output_2 = None\n    output_3 = None\n    output_4 = None\n    output_5 = None\n    return output_1, output_2, output_3, output_4, output_5\n                ',
-				depen_code: '',
-				n_input_ports: 5,
-				n_output_ports: 5,
-				frontendVersion: 'V1',
-				backendVersion: 'V1',
-				parameters: '{}',
-			},
-		},
-	},
-];

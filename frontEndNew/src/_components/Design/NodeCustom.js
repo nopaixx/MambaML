@@ -6,7 +6,7 @@ import { chartSimple } from './chartSimple';
 import pythonLogo from '../../python.png';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { ClockLoader } from '../../_components/Utils/Loader/Loader';
 const useStyles = makeStyles(theme => ({
 	icon: {
 		cursor: 'pointer',
@@ -55,6 +55,8 @@ export const NodeCustom = (props, runBoxCode) => {
 			<Icon onClick={() => runBoxCode(node.id)} className={classes.icon}>
 				play_circle_filled
 			</Icon>
+			<Icon className={classes.icon}>check_circle_outline</Icon>
+			<ClockLoader />
 		</BoxStyleWrapper>
 	);
 };
