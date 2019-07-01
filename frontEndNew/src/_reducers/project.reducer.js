@@ -1,4 +1,5 @@
 import { projectConstants } from '../_constants';
+import { CardActions } from '@material-ui/core';
 
 export function project(state = {}, action) {
 	switch (action.type) {
@@ -32,7 +33,8 @@ export function project(state = {}, action) {
 		case projectConstants.GET_ALL_ACTORS_SUCCESS:
 			return {
 				...state,
-				actors: action.payload,
+				actorsTree: action.actorsTree,
+				actorsList: action.actorsList,
 				gettingActors: false,
 			};
 		case projectConstants.GET_ALL_ACTORS_REQUEST:

@@ -95,8 +95,7 @@ export class DragDropState extends React.Component {
 			return null;
 		}
 		var h = window.innerHeight;
-
-		console.log(this.props.projectStatus);
+		const { projectStatus } = this.props;
 		return (
 			<React.Fragment>
 				<Page>
@@ -114,7 +113,8 @@ export class DragDropState extends React.Component {
 								chart={chart}
 								callbacks={stateActions}
 								Components={{
-									NodeInner: props => NodeCustom(props, this.runBoxCode),
+									NodeInner: props =>
+										NodeCustom(props, this.runBoxCode, projectStatus),
 									Link: props => LinksCustom(props, stateActions),
 									CanvasOuter: CanvasCustom,
 								}}

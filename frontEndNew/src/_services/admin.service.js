@@ -1,7 +1,8 @@
 import { authHeader } from '../_helpers';
-import { CREATE_ACTOR_URL } from '../endpoint.js';
+import { CREATE_ACTOR_URL, UPDATE_ACTOR_URL } from '../endpoint.js';
 export const adminService = {
 	createBox,
+	updateBox,
 };
 
 function createBox(newbox) {
@@ -11,6 +12,16 @@ function createBox(newbox) {
 		body: JSON.stringify(newbox),
 	};
 	return fetch(`${CREATE_ACTOR_URL}`, requestOptions).then(response =>
+		handleResponse(response)
+	);
+}
+function updateBox(newbox) {
+	const requestOptions = {
+		method: 'PUT',
+		headers: authHeader(),
+		body: JSON.stringify(newbox),
+	};
+	return fetch(`${UPDATE_ACTOR_URL}`, requestOptions).then(response =>
 		handleResponse(response)
 	);
 }

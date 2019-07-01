@@ -17,6 +17,7 @@ export const projectService = {
 	run,
 	runBox,
 	checkRunStatus,
+	checkRunBoxStatus,
 };
 
 function create(project) {
@@ -71,6 +72,16 @@ function run(projectId) {
 	);
 }
 function checkRunStatus(projectId) {
+	const requestOptions = {
+		method: 'GET',
+		headers: authHeader(),
+	};
+	return fetch(
+		`${CHECK_PROJECT_STATUS_URL}?id=${projectId}`,
+		requestOptions
+	).then(handleResponse);
+}
+function checkRunBoxStatus(projectId) {
 	const requestOptions = {
 		method: 'GET',
 		headers: authHeader(),

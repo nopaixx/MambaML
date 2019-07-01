@@ -33,6 +33,13 @@ export default class MaterialTableDemo extends React.Component {
 		};
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		const { data } = this.props;
+		if (prevState.data !== this.props.data) {
+			this.setState({ data: data });
+		}
+	}
+
 	addRow = newData => {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {

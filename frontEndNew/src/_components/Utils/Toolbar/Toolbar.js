@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Icon from '@material-ui/core/Icon';
 
+import { ClockLoader } from '../Loader/Loader';
+
 const useStyles = makeStyles(theme => ({
 	button: {
 		margin: theme.spacing(1),
@@ -56,6 +58,14 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: theme.palette.primary.contrastText,
 		zIndex: 4,
 	},
+	confirmationIcon: {
+		cursor: 'pointer',
+		fontSize: 26,
+		'&:hover': {
+			color: theme.palette.primary.main,
+		},
+		color: 'green',
+	},
 }));
 
 export const ProjectToolbar = ({
@@ -63,6 +73,7 @@ export const ProjectToolbar = ({
 	onSaveProject,
 	handleChangeName,
 	runFullProject,
+	projectStatus,
 }) => {
 	const [isOpen, setOpen] = useState(false);
 	const classes = useStyles();
@@ -94,10 +105,10 @@ export const ProjectToolbar = ({
 						<div className={classes.iconText}>Save</div>
 					</div>
 					<div className={classes.iconWrapper}>
-						<Icon onClick={runFullProject} className={classes.icon}>
-							play_circle_filled
-						</Icon>
-						<div className={classes.iconText}>Play</div>
+						<LoadingWarapper
+							projectStatus={projectStatus}
+							runFullProject={runFullProject}
+						/>
 					</div>
 				</nav>
 			) : (
@@ -115,4 +126,27 @@ export const ProjectToolbar = ({
 			)}
 		</React.Fragment>
 	);
+};
+
+const LoadingWarapper = ({ projectStatus, runFullProject }) => {
+	const classes = useStyles();
+	if (projectStatus === undefined) {
+		return (
+			<React.Fragment>
+				<Icon onClick={runFullProject} className={classes.icon}>
+					play_circle_filled
+				</Icon>
+				<div className={classes.iconText}>Play</div>
+			</React.Fragment>
+		);
+	} else if (projectStatus === 'PENDING') {
+		return (
+			<React.Fragment>
+				<Icon className={classes.confirmationIcon}>check_circle_outline</Icon>
+				<div className={classes.iconText}>Done</div>
+			</React.Fragment>
+		);
+	} else {
+		return <ClockLoader />;
+	}
 };

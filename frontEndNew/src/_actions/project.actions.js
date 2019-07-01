@@ -278,12 +278,15 @@ function getAllActors() {
 		projectService.getAllActors().then(
 			actors => {
 				const constructedActors = [];
+				const actorsList = [];
 				actors.data.forEach(actor => {
 					const newActor = boxFactory(JSON.parse(actor));
+					const actorItem = JSON.parse(actor);
 					constructedActors.push(newActor);
+					actorsList.push(actorItem);
 				});
 				const tree = treeConstructor(constructedActors);
-				dispatch(success(tree));
+				dispatch(success(tree, actorsList));
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -295,8 +298,12 @@ function getAllActors() {
 	function request() {
 		return { type: projectConstants.GET_ALL_ACTORS_REQUEST };
 	}
-	function success(actors) {
-		return { type: projectConstants.GET_ALL_ACTORS_SUCCESS, payload: actors };
+	function success(actorsTree, actorsList) {
+		return {
+			type: projectConstants.GET_ALL_ACTORS_SUCCESS,
+			actorsTree: actorsTree,
+			actorsList: actorsList,
+		};
 	}
 	function failure(error) {
 		return { type: projectConstants.GET_ALL_ACTORS_FAILURE, error };

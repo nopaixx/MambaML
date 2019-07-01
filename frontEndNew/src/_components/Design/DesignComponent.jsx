@@ -49,7 +49,7 @@ const DesignComponent = props => {
 		dispatch(projectActions.runBox(projectId, boxId));
 	};
 
-	const { actors, project, projectStatus } = props;
+	const { actorsTree, project, projectStatus } = props;
 	if (!project) {
 		return null;
 	}
@@ -58,7 +58,7 @@ const DesignComponent = props => {
 			<React.Fragment>
 				<div className={'design-window'}>
 					<DragDropState
-						actors={actors}
+						actors={actorsTree}
 						updateBoxInfo={onSaveProject}
 						project={project}
 						dispatch={props.dispatch}
@@ -71,6 +71,7 @@ const DesignComponent = props => {
 					onSaveProject={onSaveProject}
 					handleChangeName={handleChangeName}
 					runFullProject={runFullProject}
+					projectStatus={projectStatus}
 				/>
 			</React.Fragment>
 		);
@@ -83,7 +84,7 @@ function mapStateToProps(state) {
 	const {
 		project,
 		gettingProject,
-		actors,
+		actorsTree,
 		creatingProject,
 		chartStructure,
 		projectStatus,
@@ -92,7 +93,7 @@ function mapStateToProps(state) {
 		project,
 		gettingProject,
 		creatingProject,
-		actors,
+		actorsTree,
 		chartStructure,
 		projectStatus,
 	};

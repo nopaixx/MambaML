@@ -15,6 +15,14 @@ const useStyles = makeStyles(theme => ({
 			color: theme.palette.primary.main,
 		},
 	},
+	confirmationIcon: {
+		cursor: 'pointer',
+		fontSize: 18,
+		'&:hover': {
+			color: theme.palette.primary.main,
+		},
+		color: 'green',
+	},
 	boxTitle: {
 		width: '95%',
 	},
@@ -29,7 +37,7 @@ const BoxStyleWrapper = styled.div`
 	justify-content: space-around;
 `;
 
-export const NodeCustom = (props, runBoxCode) => {
+export const NodeCustom = (props, runBoxCode, projectStatus) => {
 	const classes = useStyles();
 	const node = props.node;
 	let name;
@@ -52,13 +60,30 @@ export const NodeCustom = (props, runBoxCode) => {
 				src={pythonLogo}
 			/>
 			<div className={classes.boxTitle}>{boxTitle}</div>
+			<LoadingWarapper
+				projectStatus={projectStatus}
+				runBoxCode={runBoxCode}
+				node={node}
+			/>
+		</BoxStyleWrapper>
+	);
+};
+
+const LoadingWarapper = ({ projectStatus, runBoxCode, node }) => {
+	const classes = useStyles();
+	if (projectStatus === undefined) {
+		return (
 			<Icon onClick={() => runBoxCode(node.id)} className={classes.icon}>
 				play_circle_filled
 			</Icon>
-			<Icon className={classes.icon}>check_circle_outline</Icon>
-			<ClockLoader />
-		</BoxStyleWrapper>
-	);
+		);
+	} else if (projectStatus === 'PENDING') {
+		return (
+			<Icon className={classes.confirmationIcon}>check_circle_outline</Icon>
+		);
+	} else {
+		return <ClockLoader />;
+	}
 };
 
 export const CustomNodeInnerDemo = () => {
