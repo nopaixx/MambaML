@@ -35,9 +35,10 @@ function createBox(box) {
 function updateBox(box) {
 	return dispatch => {
 		dispatch(request(box));
-
+		console.log('after request');
 		adminService.updateBox(box).then(
 			box => {
+				console.log('box', box);
 				dispatch(success(box));
 			},
 			error => {

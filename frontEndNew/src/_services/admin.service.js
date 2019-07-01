@@ -15,14 +15,16 @@ function createBox(newbox) {
 		handleResponse(response)
 	);
 }
-function updateBox(newbox) {
+function updateBox(updatedBox) {
+	const boxId = updatedBox.id;
 	const requestOptions = {
 		method: 'PUT',
 		headers: authHeader(),
-		body: JSON.stringify(newbox),
+		body: JSON.stringify(updatedBox),
 	};
-	return fetch(`${UPDATE_ACTOR_URL}`, requestOptions).then(response =>
-		handleResponse(response)
+	console.log('updateBox', updatedBox, boxId);
+	return fetch(`${UPDATE_ACTOR_URL}/?id=${boxId}`, requestOptions).then(
+		response => handleResponse(response)
 	);
 }
 

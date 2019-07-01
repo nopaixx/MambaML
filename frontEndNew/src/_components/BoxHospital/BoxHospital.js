@@ -93,10 +93,10 @@ class BoxHospital extends React.Component {
 		activeCodeEditor: { Dependencies: false, PythonScript: false },
 		selectedTab: 0,
 	};
-	componentDidMount() {
-		const { dispatch } = this.props;
-		dispatch(projectActions.getAllActors());
-	}
+	// componentDidMount() {
+	// 	const { dispatch } = this.props;
+	// 	dispatch(projectActions.getAllActors());
+	// }
 
 	onChangeCodeScript = newValue => {
 		this.setState({ code: newValue });
@@ -128,7 +128,7 @@ class BoxHospital extends React.Component {
 			id,
 		} = this.state;
 		console.log('id', id);
-		const box = {
+		const updatedBox = {
 			friendly_name,
 			type,
 			frontendVersion: 'V1',
@@ -138,8 +138,9 @@ class BoxHospital extends React.Component {
 			depen_code: dependencies,
 			python_code: code,
 			parameters: JSON.stringify(parameters),
+			id,
 		};
-		dispatch(adminActions.updateBox(box));
+		dispatch(adminActions.updateBox(updatedBox));
 	};
 
 	onCickDisplayEditor = id => {
@@ -283,13 +284,13 @@ class BoxHospital extends React.Component {
 
 function mapStateToProps(state) {
 	const { users, authentication } = state;
-	const { actorsList, actorsTree } = state.project;
+	//const { actorsList, actorsTree } = state.project;
 	const { user } = authentication;
 	return {
 		user,
 		users,
-		actorsList,
-		actorsTree,
+		// actorsList,
+		// actorsTree,
 	};
 }
 
