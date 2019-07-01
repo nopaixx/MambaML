@@ -18,12 +18,15 @@ function createBox(newbox) {
 function updateBox(updatedBox) {
 	const boxId = updatedBox.id;
 	const requestOptions = {
-		method: 'PUT',
+		method: 'POST',
 		headers: authHeader(),
 		body: JSON.stringify(updatedBox),
 	};
-	console.log('updateBox', updatedBox, boxId);
-	return fetch(`${UPDATE_ACTOR_URL}/?id=${boxId}`, requestOptions).then(
+	//console.log('al-', updatedBox, boxId);
+	//let dest = `${UPDATE_ACTOR_URL}?id=${boxId}`
+	//console.log('al-',dest)
+	//console.log('al-', requestOptions)
+	return fetch(`${UPDATE_ACTOR_URL}?id=${boxId}`, requestOptions).then(
 		response => handleResponse(response)
 	);
 }
