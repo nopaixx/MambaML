@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
+import _ from 'lodash';
+
 import { Input } from '../../Utils/Input/Input';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
 import './BoxInfo.css';
 
 import AceEditor from 'react-ace';
@@ -53,19 +54,41 @@ export const BoxInfo = props => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const updateBoxInfo = () => {
 		const { updateBox, chart } = props;
+		let hasChange = false;
 		if (selectedNode) {
 			if (code.script && code.script.length > 0) {
+				if (
+					chart.nodes[selectedNode].properties.payload.python_code !==
+					code.script
+				) {
+					hasChange = true;
+				}
 				chart.nodes[selectedNode].properties.payload.python_code = code.script;
 			}
 			if (code.dependencies) {
+				if (
+					chart.nodes[selectedNode].properties.payload.dependencies !==
+					code.dependencies
+				) {
+					hasChange = true;
+				}
 				chart.nodes[selectedNode].properties.payload.dependencies =
 					code.dependencies;
 			}
 			if (params.parameters) {
+				if (
+					!_.isEqual(
+						JSON.parse(chart.nodes[selectedNode].properties.payload.parameters),
+						params.parameters
+					)
+				) {
+					hasChange = true;
+				}
 				chart.nodes[
 					selectedNode
 				].properties.payload.parameters = JSON.stringify(params.parameters);
 			}
+			chart.nodes[selectedNode].properties.payload.hasChange = hasChange;
 		}
 		updateBox(chart);
 	};
@@ -164,8 +187,7 @@ export const BoxInfo = props => {
 									display: 'flex',
 									justifyContent: 'center',
 									padding: 60,
-								}}
-								onBlur={() => console.log('blur')}>
+								}}>
 								<MaterialTableDemo
 									data={params.parameters}
 									updateBoxState={updateParams}
@@ -175,7 +197,6 @@ export const BoxInfo = props => {
 					) : null}
 				</div>
 
-				<br />
 				{code.hasScript ? (
 					<React.Fragment>
 						<div

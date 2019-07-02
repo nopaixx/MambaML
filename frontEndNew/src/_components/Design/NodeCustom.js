@@ -85,16 +85,3 @@ const LoadingWarapper = ({ projectStatus, runBoxCode, node }) => {
 		return <ClockLoader />;
 	}
 };
-
-export const CustomNodeInnerDemo = () => {
-	return (
-		<Page>
-			<FlowChartWithState
-				initialValue={chartSimple}
-				Components={{
-					NodeInner: NodeCustom,
-				}}
-			/>
-		</Page>
-	);
-};

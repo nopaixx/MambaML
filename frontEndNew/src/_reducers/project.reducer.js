@@ -14,6 +14,16 @@ export function project(state = {}, action) {
 				creatingProject: false,
 				project: action.payload,
 			};
+		case projectConstants.SAVE_PROJECT_SUCCESS:
+			return {
+				...state,
+				savedProject: true,
+			};
+		case projectConstants.UNSAVED_PROJECT_SUCCESS:
+			return {
+				...state,
+				savedProject: false,
+			};
 		case projectConstants.GET_ALL_PROJECT_SUCCESS:
 			return {
 				...state,
@@ -43,10 +53,10 @@ export function project(state = {}, action) {
 				gettingActors: true,
 			};
 		case projectConstants.CHART_PROJECT_UPDATE:
-			console.log('reducer, action', action);
 			return {
 				...state,
 				chartStructure: action.chartStructure,
+				savedProject: false,
 			};
 		case projectConstants.RUN_PROJECT_REQUEST:
 			return {

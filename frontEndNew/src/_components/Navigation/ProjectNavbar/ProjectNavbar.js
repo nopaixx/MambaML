@@ -168,13 +168,13 @@ export default function ProjectNavbar({ history }) {
 		<div>
 			<AppBar position='static'>
 				<Toolbar className={classes.appBar}>
-					<IconButton
+					{/* <IconButton
 						edge='start'
 						className={classes.menuButton}
 						color='inherit'
 						aria-label='Open drawer'>
 						<MenuIcon />
-					</IconButton>
+					</IconButton> */}
 					<img
 						onClick={() => history.push('/projects')}
 						className={classes.logo}
@@ -197,7 +197,7 @@ export default function ProjectNavbar({ history }) {
 					</div> */}
 					<div className={classes.grow} />
 					<div className={classes.sectionDesktop}>
-						<IconButton
+						{/* <IconButton
 							onClick={() => history.push('/projects')}
 							aria-label='Home'
 							color='inherit'>
@@ -212,7 +212,7 @@ export default function ProjectNavbar({ history }) {
 							<Badge badgeContent={1} color='secondary'>
 								<NotificationsIcon />
 							</Badge>
-						</IconButton>
+						</IconButton> */}
 						<IconButton
 							edge='end'
 							aria-label='Account of current user'

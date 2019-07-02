@@ -5,6 +5,7 @@ import { history } from '../_helpers';
 
 export const projectActions = {
 	save,
+	unsavedProject,
 	create,
 	load,
 	get,
@@ -191,7 +192,6 @@ function run(projectId) {
 		let counter = 0;
 		projectService.run(projectId).then(
 			project => {
-				console.log('projectService.run', project);
 				dispatch(checkProjectStatus(projectId, counter));
 			},
 			error => {
@@ -272,6 +272,15 @@ function save(
 		return { type: projectConstants.LOGIN_FAILURE, error };
 	}
 }
+function unsavedProject() {
+	return dispatch => {
+		dispatch(success());
+	};
+	function success() {
+		return { type: projectConstants.UNSAVED_PROJECT_SUCCESS };
+	}
+}
+
 function getAllActors() {
 	return dispatch => {
 		dispatch(request());
@@ -331,6 +340,7 @@ const boxFactory = ({
 	friendly_name,
 }) => {
 	const ports = {};
+	const hasChange = false;
 	for (let i = 1; i <= n_input_ports; ++i) {
 		ports[`port${i}`] = {
 			id: `port${i}`,
@@ -367,6 +377,7 @@ const boxFactory = ({
 				backendVersion,
 				parameters,
 				name: friendly_name,
+				hasChange,
 			},
 		},
 	};

@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-
+// const whiteColor = #ebebeb
+// const ourColor = #d38c8c
 const CanvasOuterCustom = styled.div`
 	position: relative;
 	background-size: 10px 10px;
-	background-color:  #d38c8c};
+	background-color: #d38c8c;
 	background-image: linear-gradient(
 			90deg,
 			hsla(0, 0%, 100%, 0.1) 1px,

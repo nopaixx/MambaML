@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
 		padding: 3,
 		bottom: 0,
 		backgroundColor: theme.palette.primary.contrastText,
-		zIndex: 4,
+		zIndex: 999,
 	},
 	confirmationIcon: {
 		cursor: 'pointer',
@@ -74,6 +74,7 @@ export const ProjectToolbar = ({
 	handleChangeName,
 	runFullProject,
 	projectStatus,
+	savedProject,
 }) => {
 	const [isOpen, setOpen] = useState(false);
 	const classes = useStyles();
@@ -99,10 +100,10 @@ export const ProjectToolbar = ({
 						margin='none'
 					/>
 					<div className={classes.iconWrapper}>
-						<Icon className={classes.icon} onClick={onSaveProject}>
-							save
-						</Icon>
-						<div className={classes.iconText}>Save</div>
+						<SaveWarapper
+							onSaveProject={onSaveProject}
+							savedProject={savedProject}
+						/>
 					</div>
 					<div className={classes.iconWrapper}>
 						<LoadingWarapper
@@ -148,5 +149,25 @@ const LoadingWarapper = ({ projectStatus, runFullProject }) => {
 		);
 	} else {
 		return <ClockLoader />;
+	}
+};
+const SaveWarapper = ({ savedProject, onSaveProject }) => {
+	const classes = useStyles();
+	if (savedProject === false) {
+		return (
+			<React.Fragment>
+				<Icon className={classes.icon} onClick={onSaveProject}>
+					save
+				</Icon>
+				<div className={classes.iconText}>Save</div>
+			</React.Fragment>
+		);
+	} else {
+		return (
+			<React.Fragment>
+				<Icon className={classes.confirmationIcon}>check_circle_outline</Icon>
+				<div className={classes.iconText}>Saved</div>
+			</React.Fragment>
+		);
 	}
 };

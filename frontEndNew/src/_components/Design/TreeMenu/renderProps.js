@@ -31,6 +31,7 @@ const Outer = styled.div`
 		color: white;
 	  }
 	overflow: hidden;
+	text-align: center;
 `;
 
 const renderItem = ({

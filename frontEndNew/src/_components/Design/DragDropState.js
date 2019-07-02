@@ -19,77 +19,67 @@ import { SidebarClassifier } from './SideBar/SidebarClassifier';
 import { BoxInfo } from './BoxInfo';
 import { Button } from '../Utils/Button/Button';
 import IconButton from '@material-ui/core/IconButton';
+import _ from 'lodash';
 
 // import ResizableBox from '../Utils/Resize/ResizableBox';
 import { ResizableBox } from 'react-resizable';
 import './DesignComponent.css';
 
-Object.compare = function(obj1, obj2) {
-	//Loop through properties in object 1
-	for (var p in obj1) {
-		//Check property exists on both objects
-		if (obj1.hasOwnProperty(p) !== obj2.hasOwnProperty(p)) return false;
-
-		switch (typeof obj1[p]) {
-			//Deep compare objects
-			case 'object':
-				if (!Object.compare(obj1[p], obj2[p])) return false;
-				break;
-			//Compare function code
-			case 'function':
-				if (
-					typeof obj2[p] == 'undefined' ||
-					(p != 'compare' && obj1[p].toString() != obj2[p].toString())
-				)
-					return false;
-				break;
-			//Compare values
-			default:
-				if (obj1[p] != obj2[p]) return false;
-		}
-	}
-
-	//Check object 2 for any extra properties
-	for (var p in obj2) {
-		if (typeof obj1[p] == 'undefined') return false;
-	}
-	return true;
-};
-
 export class DragDropState extends React.Component {
-	state = cloneDeep(chartSimple);
+	state = {
+		offset: {
+			x: 0,
+			y: 0,
+		},
+		nodes: {},
+		links: {},
+		selected: {},
+		hovered: {},
+	};
 
 	componentDidMount() {
 		const chart = this.props.project.chartStructure;
-		console.log('chart to load', chart);
 		if (chart) {
 			this.setState(cloneDeep(chart));
 		}
 	}
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate() {
 		const { dispatch } = this.props;
 		if (this.state) {
 			dispatch(projectActions.updateChartStructure(this.state));
 		}
 	}
 
+	checkIfNodeHasChange = (func, args) => {
+		console.log(func.name);
+		if (func.name === 'onLinkComplete') {
+			console.log(args);
+		}
+		if (func.name === 'onLinkClick') {
+			console.log(args);
+		}
+		if (func.name === 'onDeleteKey') {
+			console.log(args);
+		}
+	};
+
 	runBoxCode = id => {
 		const { runBox } = this.props;
 		runBox(id);
 	};
 
+	stateActions = mapValues(actions, func => (...args) => {
+		this.checkIfNodeHasChange(func, args);
+
+		this.setState(func(...args));
+	});
+
 	render() {
-		const { actors, updateBoxInfo } = this.props;
+		const { actors, updateBoxInfo, projectStatus } = this.props;
 		const chart = this.state;
-		const stateActions = mapValues(actions, func => (...args) => {
-			this.setState(func(...args));
-		});
-		if (!actors) {
-			return null;
-		}
 		var h = window.innerHeight;
-		const { projectStatus } = this.props;
-		if (!chart) {
+
+		if (!actors) {
 			return null;
 		}
 		return (
@@ -107,11 +97,11 @@ export class DragDropState extends React.Component {
 						<div id={'flowchartCanvas'}>
 							<FlowChart
 								chart={chart}
-								callbacks={stateActions}
+								callbacks={this.stateActions}
 								Components={{
 									NodeInner: props =>
 										NodeCustom(props, this.runBoxCode, projectStatus),
-									Link: props => LinksCustom(props, stateActions),
+									Link: props => LinksCustom(props, this.stateActions),
 									CanvasOuter: CanvasCustom,
 								}}
 							/>
@@ -133,7 +123,7 @@ export class DragDropState extends React.Component {
 
 					<BoxInfo
 						chart={chart}
-						boxActions={stateActions}
+						boxActions={this.stateActions}
 						updateBox={updateBoxInfo}
 					/>
 				</Page>
