@@ -30,9 +30,12 @@ const DesignComponent = props => {
 
 	const onSaveProject = () => {
 		const { dispatch, match, chartStructure } = props;
-		console.log('chartStructure', chartStructure);
 		const ID = match.params.id;
-		dispatch(projectActions.save(ID, projectName, chartStructure, 'V1', 'V1'));
+		if (chartStructure) {
+			dispatch(
+				projectActions.save(ID, projectName, chartStructure, 'V1', 'V1')
+			);
+		}
 	};
 
 	const handleChangeName = e => {

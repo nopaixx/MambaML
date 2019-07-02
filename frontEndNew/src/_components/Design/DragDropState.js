@@ -68,7 +68,9 @@ export class DragDropState extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState) {
 		const { dispatch } = this.props;
-		dispatch(projectActions.updateChartStructure(this.state));
+		if (this.state) {
+			dispatch(projectActions.updateChartStructure(this.state));
+		}
 	}
 
 	runBoxCode = id => {
