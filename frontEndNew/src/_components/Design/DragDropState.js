@@ -61,7 +61,10 @@ export class DragDropState extends React.Component {
 
 	componentDidMount() {
 		const chart = this.props.project.chartStructure;
-		this.setState(cloneDeep(chart));
+		console.log('chart to load', chart);
+		if (chart) {
+			this.setState(cloneDeep(chart));
+		}
 	}
 	componentDidUpdate(prevProps, prevState) {
 		const { dispatch } = this.props;
@@ -84,6 +87,9 @@ export class DragDropState extends React.Component {
 		}
 		var h = window.innerHeight;
 		const { projectStatus } = this.props;
+		if (!chart) {
+			return null;
+		}
 		return (
 			<React.Fragment>
 				<Page>
