@@ -55,7 +55,6 @@ const DesignComponent = props => {
 		return null;
 	}
 	if (project) {
-		if (props) console.log('design Compnent', props.chartStructure);
 		return (
 			<React.Fragment>
 				<div className={'design-window'}>

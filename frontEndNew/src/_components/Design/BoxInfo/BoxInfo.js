@@ -11,6 +11,7 @@ import 'brace/mode/python';
 import 'brace/theme/monokai';
 
 import { makeStyles } from '@material-ui/core/styles';
+import MaterialTableDemo from '../../Utils/Table/Table2';
 
 const useStyles = makeStyles(theme => ({
 	button: {
@@ -32,6 +33,10 @@ export const BoxInfo = props => {
 		hasScript: false,
 		scriptFullScreen: false,
 		depenFullScreen: false,
+	});
+	const [params, setParams] = useState({
+		parameters: [],
+		fullScreen: false,
 	});
 	const [ports, setPorts] = useState({
 		input: '',
@@ -56,6 +61,11 @@ export const BoxInfo = props => {
 				chart.nodes[selectedNode].properties.payload.dependencies =
 					code.dependencies;
 			}
+			if (params.parameters) {
+				chart.nodes[
+					selectedNode
+				].properties.payload.parameters = JSON.stringify(params.parameters);
+			}
 		}
 		updateBox(chart);
 	};
@@ -63,11 +73,6 @@ export const BoxInfo = props => {
 	const handleDeleteBox = () => {
 		setNode(undefined);
 		boxActions.onDeleteKey();
-	};
-
-	const handleChange = e => {
-		const { name, value } = e.target;
-		setPorts({ ...ports, [name]: value });
 	};
 
 	useEffect(() => {
@@ -82,6 +87,7 @@ export const BoxInfo = props => {
 				n_input_ports,
 				n_output_ports,
 				depen_code,
+				parameters,
 			} = node.properties.payload;
 			const hasScript = typeof python_code !== 'undefined';
 			setCode({
@@ -94,14 +100,26 @@ export const BoxInfo = props => {
 				input: n_input_ports,
 				output: n_output_ports,
 			});
+			if (parameters) {
+				setParams({
+					...params,
+					parameters: JSON.parse(parameters),
+				});
+			}
 		}
-	}, [props, selectedNode, updateBoxInfo]);
+	}, [params, props, selectedNode, updateBoxInfo]);
 
 	const openScriptFullScreenMode = e => {
 		setCode({ ...code, scriptFullScreen: !code.scriptFullScreen });
 	};
 	const openDepenFullScreenMode = e => {
 		setCode({ ...code, depenFullScreen: !code.depenFullScreen });
+	};
+	const openParamsFullScreenMode = e => {
+		setParams({ ...params, fullScreen: !params.fullScreen });
+	};
+	const updateParams = data => {
+		setParams({ ...params, parameters: data });
 	};
 
 	const { boxActions } = props;
@@ -114,30 +132,50 @@ export const BoxInfo = props => {
 		const nodeSplitName = node.properties.payload.name.split('-');
 		nodeName = nodeSplitName[nodeSplitName.length - 1];
 	}
-	let params;
-	let paramHelpText, paramhelpUrl, paramName;
-	if (node && node.properties.payload.parameters) {
-		params = JSON.parse(node.properties.payload.parameters);
-	}
-
 	if (node) {
 		return (
 			<div className={'BoxInfo'}>
 				<h3>{nodeName || node.type || ''}</h3>
-				<div>Params</div>
-				{params
-					? params.map((param, key) => {
-							return (
-								<React.Fragment key={key}>
-									<div>{key}</div>
-									<div>{param.name}</div>
-									<div>{param.param_friend_name}</div>
-									<div>{param.param_help}</div>
-									<div>{param.param_url}</div>
-								</React.Fragment>
-							);
-					  })
-					: null}
+				<div
+					id='pythonCode'
+					style={
+						params.fullScreen
+							? {
+									position: 'absolute',
+									left: 0,
+									top: 0,
+									width: window.innerWidth,
+									height: window.innerHeight,
+									backgroundColor: 'rgba(255, 255, 255, 0.8)',
+									zIndex: 9999,
+							  }
+							: {}
+					}>
+					<Button
+						onClick={openParamsFullScreenMode}
+						variant='outlined'
+						color='primary'
+						className={classes.button}>
+						{params.fullScreen ? 'Close Params' : 'Open Params'}
+					</Button>
+					{params.fullScreen ? (
+						<React.Fragment>
+							<div
+								style={{
+									display: 'flex',
+									justifyContent: 'center',
+									padding: 60,
+								}}>
+								{console.log(params.parameters)}
+								<MaterialTableDemo
+									data={params.parameters}
+									updateBoxState={updateParams}
+								/>
+							</div>
+						</React.Fragment>
+					) : null}
+				</div>
+
 				<br />
 				{code.hasScript ? (
 					<React.Fragment>

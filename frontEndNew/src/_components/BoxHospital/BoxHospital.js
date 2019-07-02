@@ -127,7 +127,6 @@ class BoxHospital extends React.Component {
 			parameters,
 			id,
 		} = this.state;
-		console.log('id', id);
 		const updatedBox = {
 			friendly_name,
 			type,
@@ -264,10 +263,8 @@ class BoxHospital extends React.Component {
 							display: 'flex',
 							justifyContent: 'space-around',
 							padding: 15,
-						}}>
-						{/* <ButtonGonzalo onClick={this.handleSubmit} label={'Save Box'} /> */}
-					</div>
-
+						}}
+					/>
 					<div className={'complete-fields-box'}>
 						<div className={'table-wrapper'}>
 							<MaterialTableDemo
@@ -284,13 +281,10 @@ class BoxHospital extends React.Component {
 
 function mapStateToProps(state) {
 	const { users, authentication } = state;
-	//const { actorsList, actorsTree } = state.project;
 	const { user } = authentication;
 	return {
 		user,
 		users,
-		// actorsList,
-		// actorsTree,
 	};
 }
 

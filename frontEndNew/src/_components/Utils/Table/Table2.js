@@ -32,12 +32,17 @@ export default class MaterialTableDemo extends React.Component {
 			data: [],
 		};
 	}
+	componentDidMount() {
+		const { data } = this.props;
+		this.setState({ data: data });
+	}
 
 	componentDidUpdate(prevProps, prevState) {
 		const { data } = this.props;
 		if (prevState.data !== this.props.data) {
 			this.setState({ data: data });
 		}
+		console.log('did update', data);
 	}
 
 	addRow = newData => {
@@ -85,6 +90,7 @@ export default class MaterialTableDemo extends React.Component {
 	};
 
 	render() {
+		console.log('table inside render', this.state.data);
 		return (
 			<MaterialTable
 				title='Params Table'
