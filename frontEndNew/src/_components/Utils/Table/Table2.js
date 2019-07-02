@@ -16,11 +16,11 @@ export default class MaterialTableDemo extends React.Component {
 					title: 'Param Type',
 					field: 'type',
 					editComponent: props => (
-						<select name="type" onChange={e => props.onChange(e.target.value)}>
-							<option value="String">String</option>
-							<option value="int">int</option>
-							<option value="float">float</option>
-							<option value="list">list</option>
+						<select name='type' onChange={e => props.onChange(e.target.value)}>
+							<option value='String'>String</option>
+							<option value='int'>int</option>
+							<option value='float'>float</option>
+							<option value='list'>list</option>
 						</select>
 					),
 				},
@@ -29,60 +29,78 @@ export default class MaterialTableDemo extends React.Component {
 				{ title: 'Param Url', field: 'param_url' },
 				{ title: 'Param Rec', field: 'param_rec' },
 			],
-			data: [
-				{ name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-				{
-					name: 'Zerya Betül',
-					surname: 'Baran',
-					birthYear: 2017,
-					birthCity: 34,
-				},
-			],
+			data: [],
 		};
 	}
+	componentDidMount() {
+		const { data } = this.props;
+		this.setState({ data: data });
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		const { data } = this.props;
+		if (prevState.data !== this.props.data) {
+			this.setState({ data: data });
+		}
+		console.log('did update', data);
+	}
+
+	addRow = newData => {
+		return new Promise((resolve, reject) => {
+			setTimeout(() => {
+				{
+					const data = this.state.data;
+					data.push(newData);
+					this.props.updateBoxState(data);
+					this.setState({ data }, () => resolve());
+				}
+				resolve();
+			}, 300);
+		});
+	};
+
+	updateRowData = (newData, oldData) => {
+		return new Promise((resolve, reject) => {
+			setTimeout(() => {
+				{
+					const data = this.state.data;
+					const index = data.indexOf(oldData);
+					data[index] = newData;
+					this.props.updateBoxState(data);
+					this.setState({ data }, () => resolve());
+				}
+				resolve();
+			}, 300);
+		});
+	};
+
+	deleteRowData = oldData => {
+		return new Promise((resolve, reject) => {
+			setTimeout(() => {
+				{
+					let data = this.state.data;
+					const index = data.indexOf(oldData);
+					data.splice(index, 1);
+					this.props.updateBoxState(data);
+					this.setState({ data }, () => resolve());
+				}
+				resolve();
+			}, 300);
+		});
+	};
 
 	render() {
+		console.log('table inside render', this.state.data);
 		return (
 			<MaterialTable
-				title="Params Table"
+				title='Params Table'
 				columns={this.state.columns}
 				data={this.state.data}
 				editable={{
-					onRowAdd: newData =>
-						new Promise((resolve, reject) => {
-							setTimeout(() => {
-								{
-									const data = this.state.data;
-									data.push(newData);
-									this.setState({ data }, () => resolve());
-								}
-								resolve();
-							}, 1000);
-						}),
+					onRowAdd: newData => this.addRow(newData),
 					onRowUpdate: (newData, oldData) =>
-						new Promise((resolve, reject) => {
-							setTimeout(() => {
-								{
-									const data = this.state.data;
-									const index = data.indexOf(oldData);
-									data[index] = newData;
-									this.setState({ data }, () => resolve());
-								}
-								resolve();
-							}, 1000);
-						}),
-					onRowDelete: oldData =>
-						new Promise((resolve, reject) => {
-							setTimeout(() => {
-								{
-									let data = this.state.data;
-									const index = data.indexOf(oldData);
-									data.splice(index, 1);
-									this.setState({ data }, () => resolve());
-								}
-								resolve();
-							}, 1000);
-						}),
+						this.updateRowData(newData, oldData),
+					onRowDelete: oldData => this.deleteRowData(oldData),
 				}}
 			/>
 		);

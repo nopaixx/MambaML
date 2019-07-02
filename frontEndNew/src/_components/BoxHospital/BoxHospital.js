@@ -4,7 +4,11 @@ import AceEditor from 'react-ace';
 import { Button as ButtonGonzalo } from '../../_components/Utils/';
 import { adminActions } from '../../_actions';
 import TextField from '@material-ui/core/TextField';
-import './BoxFactory.css';
+import Dropdown from '../Utils/Dropdown/Dropdown';
+import { projectActions } from '../../_actions';
+import TreeMenu from '../Design/TreeMenu/TreeMenuList';
+
+import './BoxHospital.css';
 
 import 'brace/mode/python';
 import 'brace/theme/monokai';
@@ -82,13 +86,17 @@ const TextEditors = ({
 	);
 };
 
-class BoxFactory extends React.Component {
+class BoxHospital extends React.Component {
 	state = {
 		code: '',
 		dependencies: '',
 		activeCodeEditor: { Dependencies: false, PythonScript: false },
 		selectedTab: 0,
 	};
+	// componentDidMount() {
+	// 	const { dispatch } = this.props;
+	// 	dispatch(projectActions.getAllActors());
+	// }
 
 	onChangeCodeScript = newValue => {
 		this.setState({ code: newValue });
@@ -103,7 +111,6 @@ class BoxFactory extends React.Component {
 	};
 
 	setParamsState = data => {
-		console.log('data', data);
 		this.setState({ parameters: data });
 	};
 
@@ -118,8 +125,9 @@ class BoxFactory extends React.Component {
 			dependencies,
 			friendly_name,
 			parameters,
+			id,
 		} = this.state;
-		const box = {
+		const updatedBox = {
 			friendly_name,
 			type,
 			frontendVersion: 'V1',
@@ -129,8 +137,9 @@ class BoxFactory extends React.Component {
 			depen_code: dependencies,
 			python_code: code,
 			parameters: JSON.stringify(parameters),
+			id,
 		};
-		dispatch(adminActions.createBox(box));
+		dispatch(adminActions.updateBox(updatedBox));
 	};
 
 	onCickDisplayEditor = id => {
@@ -143,73 +152,128 @@ class BoxFactory extends React.Component {
 			};
 		});
 	};
+	selectedOption = item => {
+		const { actorsList } = this.props;
+
+		const { name } = item.payload;
+		const selectedItem = actorsList.filter(
+			actor => actor.friendly_name === name
+		);
+		const {
+			type,
+			n_output_ports,
+			n_input_ports,
+			parameters,
+			python_code,
+			depen_code,
+			id,
+		} = selectedItem[0];
+		this.setState({
+			type,
+			inputPorts: n_input_ports,
+			outputPorts: n_output_ports,
+			code: python_code,
+			dependencies: depen_code,
+			friendly_name: name,
+			parameters: JSON.parse(parameters),
+			id,
+		});
+	};
 
 	render() {
-		const { code, dependencies, activeCodeEditor } = this.state;
+		const {
+			friendly_name,
+			type,
+			code,
+			inputPorts,
+			outputPorts,
+			dependencies,
+			parameters,
+			activeCodeEditor,
+		} = this.state;
+		const { actorsTree } = this.props;
 		return (
 			<React.Fragment>
+				<Button
+					id={'PythonScript'}
+					onClick={this.handleSubmit}
+					variant='contained'
+					color='primary'>
+					Update Box
+				</Button>
+				<div className={'wrapper'}>
+					<div className={'treeSelector'}>
+						<TreeMenu data={actorsTree} selectedOption={this.selectedOption} />
+					</div>
+					<form
+						name='form'
+						onSubmit={this.handleSubmit}
+						className={'box-info-form'}>
+						<TextField
+							id='friendly_name'
+							label='Fiendly Name'
+							className={''}
+							value={friendly_name || ''}
+							name={'friendly_name'}
+							onChange={this.handleChange}
+							margin='normal'
+						/>
+						<TextField
+							id='type'
+							label='Type'
+							className={''}
+							value={type || ''}
+							name={'type'}
+							onChange={this.handleChange}
+							margin='normal'
+						/>
+						<TextField
+							id='inputPorts'
+							label='Input'
+							type='number'
+							className={''}
+							name={'inputPorts'}
+							value={inputPorts || ''}
+							onChange={this.handleChange}
+							margin='normal'
+						/>
+						<TextField
+							id='outputPorts'
+							label='Output'
+							type='number'
+							className={''}
+							name={'outputPorts'}
+							value={outputPorts || ''}
+							onChange={this.handleChange}
+							margin='normal'
+						/>
+					</form>
+					<TextEditors
+						dependencies={dependencies}
+						code={code}
+						onChangeCodeScript={this.onChangeCodeScript}
+						onChangeDependencies={this.onChangeDependencies}
+						onCickDisplayEditor={this.onCickDisplayEditor}
+						activeCodeEditor={activeCodeEditor}
+					/>
+				</div>
 				<div>
 					<div
 						style={{
 							display: 'flex',
 							justifyContent: 'space-around',
 							padding: 15,
-						}}>
-						<ButtonGonzalo onClick={this.handleSubmit} label={'Create Box'} />
-					</div>
+						}}
+					/>
 					<div className={'complete-fields-box'}>
-						<form
-							name='form'
-							onSubmit={this.handleSubmit}
-							className={'box-info-form'}>
-							<TextField
-								id='friendly_name'
-								label='Fiendly Name'
-								className={''}
-								name={'friendly_name'}
-								onChange={this.handleChange}
-								margin='normal'
-							/>
-							<TextField
-								id='type'
-								label='Type'
-								className={''}
-								name={'type'}
-								onChange={this.handleChange}
-								margin='normal'
-							/>
-							<TextField
-								id='inputPorts'
-								label='Input'
-								type='number'
-								className={''}
-								name={'inputPorts'}
-								onChange={this.handleChange}
-								margin='normal'
-							/>
-							<TextField
-								id='outputPorts'
-								label='Output'
-								type='number'
-								className={''}
-								name={'outputPorts'}
-								onChange={this.handleChange}
-								margin='normal'
-							/>
-						</form>
 						<div className={'table-wrapper'}>
-							<MaterialTableDemo updateBoxState={this.setParamsState} />
+							<MaterialTableDemo
+								updateBoxState={this.setParamsState}
+								data={parameters}
+							/>
 						</div>
 					</div>
 				</div>
-				<TextEditors
-					dependencies={dependencies}
-					code={code}
-					onChangeCodeScript={this.onChangeCodeScript}
-					onChangeDependencies={this.onChangeDependencies}
-					onCickDisplayEditor={this.onCickDisplayEditor}
-					activeCodeEditor={activeCodeEditor}
-				/>
 			</React.Fragment>
 		);
 	}
@@ -224,5 +288,5 @@ function mapStateToProps(state) {
 	};
 }
 
-const connectedAdminPage = connect(mapStateToProps)(BoxFactory);
-export { connectedAdminPage as BoxFactory };
+const connectedAdminPage = connect(mapStateToProps)(BoxHospital);
+export { connectedAdminPage as BoxHospital };

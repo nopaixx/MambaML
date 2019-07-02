@@ -29,25 +29,28 @@ const DesignComponent = props => {
 	}, [props, projectName]);
 
 	const onSaveProject = () => {
-		const { dispatch, project, match, chartStructure } = props;
+		const { dispatch, match, chartStructure } = props;
+		console.log('chartStructure', chartStructure);
 		const ID = match.params.id;
-		dispatch(
-			projectActions.save(
-				ID,
-				projectName || 'casae',
-				chartStructure,
-				'V1',
-				'V1'
-			)
-		);
+		dispatch(projectActions.save(ID, projectName, chartStructure, 'V1', 'V1'));
 	};
 
 	const handleChangeName = e => {
 		setProjectName(e.target.value);
 	};
 
-	const { actors, project } = props;
+	const runFullProject = () => {
+		const { dispatch, match } = props;
+		const projectId = match.params.id;
+		dispatch(projectActions.run(projectId));
+	};
+	const runBox = boxId => {
+		const { dispatch, match } = props;
+		const projectId = match.params.id;
+		dispatch(projectActions.runBox(projectId, boxId));
+	};
 
+	const { actorsTree, project, projectStatus, chartStructure } = props;
 	if (!project) {
 		return null;
 	}
@@ -56,16 +59,21 @@ const DesignComponent = props => {
 			<React.Fragment>
 				<div className={'design-window'}>
 					<DragDropState
-						actors={actors}
+						actors={actorsTree}
 						updateBoxInfo={onSaveProject}
 						project={project}
 						dispatch={props.dispatch}
+						runBox={runBox}
+						projectStatus={projectStatus}
+						chartStructure={chartStructure}
 					/>
 				</div>
 				<ProjectToolbar
 					projectName={projectName}
 					onSaveProject={onSaveProject}
 					handleChangeName={handleChangeName}
+					runFullProject={runFullProject}
+					projectStatus={projectStatus}
 				/>
 			</React.Fragment>
 		);
@@ -78,16 +86,18 @@ function mapStateToProps(state) {
 	const {
 		project,
 		gettingProject,
-		actors,
+		actorsTree,
 		creatingProject,
 		chartStructure,
+		projectStatus,
 	} = state.project;
 	return {
 		project,
 		gettingProject,
 		creatingProject,
-		actors,
+		actorsTree,
 		chartStructure,
+		projectStatus,
 	};
 }
 

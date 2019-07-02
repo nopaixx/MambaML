@@ -30,7 +30,6 @@ const Outer = styled.div`
 		background: #b43539;
 		color: white;
 	  }
-	overflow: hidden;
 `;
 
 const renderItem = ({
@@ -62,19 +61,7 @@ const renderItem = ({
 		role='button'
 		aria-pressed={active}>
 		{!hasNodes && (
-			<Outer
-				key={key}
-				onClick={onClick}
-				draggable={true}
-				onDragStart={event => {
-					const type = payload.type;
-					const ports = payload.ports;
-					const properties = payload.properties;
-					event.dataTransfer.setData(
-						REACT_FLOW_CHART,
-						JSON.stringify({ type, ports, properties })
-					);
-				}}>
+			<Outer key={key} onClick={onClick}>
 				{label}
 			</Outer>
 		)}

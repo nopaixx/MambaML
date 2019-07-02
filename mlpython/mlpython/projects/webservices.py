@@ -7,6 +7,7 @@ from flask import request
 import requests
 import sys
 import json
+from ..status_project import Status_Project
 
 
 @app.route('/projects/create', methods=['POST'])
@@ -97,10 +98,11 @@ def get_allproject():
 @app.route('/projects/run', methods=['POST'])
 @provider.require_oauth()
 def run_project():
+ 
         userLogged = User.get_authorized()
         print(userLogged.username,"get project")
         if not userLogged:
-                return '', 401
+            return '', 401
         id = request.form.get('id')
         project = Project.query.filter(Project.id == id).first()
 
@@ -112,21 +114,59 @@ def run_project():
         return 'Not Found', 404
 
 @app.route('/projects/run_simul', methods=['GET'])
-@provider.require_oauth()
+# @provider.require_oauth()
 def run_simul():
-        userLogged = User.get_authorized()
-        print(userLogged.username,"get project")
-        if not userLogged:
-                return '', 401
-        id = request.form.get('id')
+        # userLogged = User.get_authorized()
+        # print(userLogged.username,"get project")
+        # if not userLogged:
+        #        return '', 401
+        id = request.args.get('id')
         project = Project.query.filter(Project.id == id).first()
-
+        print(request)
         if project:
-            if Project.security_check(project, userLogged, 'RUN'):
-                project.run()
-                return project.serialize, 200
+            # if Project.security_check(project, userLogged, 'RUN'):
+            if True:
+                project.run('ALL')
+                return 'OK' , 200
 
             return 'Forbidden', 403
         return 'Not Found', 404
 
+@app.route('/projects/get_status', methods=['GET'])
+def get_status_project():
+        id = request.args.get('id')
+        project = Status_Project.query.filter(Status_Project.project_id == id).first()
+        if project:
+            if project.status == 'PENDING':
+                return json.dumps({'status':'PENDING',
+                        'task': project.task}), 200
+            else:
+                return json.dumps({'status':'NONE'}), 200
+        else:
+            return json.dumps({'status':'NONE'}),200
+
+@app.route('/projects/set_status', methods=['GET'])
+def set_status_projects():
+    id = request.args.get('id')
+    data = request.args.get('data')
+    stat = request.args.get('stat')
+    error = request.args.get('error')
+    project = Project.query.filter(Project.id == id).first()
+    if project:
+        project.update_status(data, stat, error)
+
+    return 'OK', 200
+
+
+@app.route('/projects/get_internal', methods=['GET'])
+def get_project_internal():
+        print(request.args)
+        print(request.data)
+        id = request.args['id']
+        project = Project.query.filter(Project.id == id).first()
+        if project:
+            return json.dumps(project.serialize()), 200
+            # return 'Forbiddedn', 403
+
+        return 'Not found', 404
 

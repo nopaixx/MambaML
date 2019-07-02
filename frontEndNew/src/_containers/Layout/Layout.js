@@ -6,7 +6,6 @@ import ProjectNavbar from '../../_components/Navigation/ProjectNavbar/ProjectNav
 class Layout extends Component {
 	render() {
 		const { history } = this.props;
-		console.log('match', history);
 		const url = history.location.pathname;
 		if (url.includes('login')) {
 			return (

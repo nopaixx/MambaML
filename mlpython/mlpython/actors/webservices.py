@@ -74,7 +74,7 @@ def update_actor():
         #nothing to request
         id = request.form.get('id')
 
-        actor= Actor.query.filter(Actors.id == id).first()
+        actor= Actor.query.filter(Actor.id == id).first()
         if not actor:
             return 'Not Found', 404
 

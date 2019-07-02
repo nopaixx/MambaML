@@ -11,6 +11,7 @@ import 'brace/mode/python';
 import 'brace/theme/monokai';
 
 import { makeStyles } from '@material-ui/core/styles';
+import MaterialTableDemo from '../../Utils/Table/Table2';
 
 const useStyles = makeStyles(theme => ({
 	button: {
@@ -30,6 +31,11 @@ export const BoxInfo = props => {
 		script: '',
 		dependencies: '',
 		hasScript: false,
+		scriptFullScreen: false,
+		depenFullScreen: false,
+	});
+	const [params, setParams] = useState({
+		parameters: [],
 		fullScreen: false,
 	});
 	const [ports, setPorts] = useState({
@@ -55,6 +61,11 @@ export const BoxInfo = props => {
 				chart.nodes[selectedNode].properties.payload.dependencies =
 					code.dependencies;
 			}
+			if (params.parameters) {
+				chart.nodes[
+					selectedNode
+				].properties.payload.parameters = JSON.stringify(params.parameters);
+			}
 		}
 		updateBox(chart);
 	};
@@ -62,11 +73,6 @@ export const BoxInfo = props => {
 	const handleDeleteBox = () => {
 		setNode(undefined);
 		boxActions.onDeleteKey();
-	};
-
-	const handleChange = e => {
-		const { name, value } = e.target;
-		setPorts({ ...ports, [name]: value });
 	};
 
 	useEffect(() => {
@@ -81,6 +87,7 @@ export const BoxInfo = props => {
 				n_input_ports,
 				n_output_ports,
 				depen_code,
+				parameters,
 			} = node.properties.payload;
 			const hasScript = typeof python_code !== 'undefined';
 			setCode({
@@ -93,46 +100,81 @@ export const BoxInfo = props => {
 				input: n_input_ports,
 				output: n_output_ports,
 			});
+			if (parameters) {
+				setParams({
+					...params,
+					parameters: JSON.parse(parameters),
+				});
+			}
 		}
-	}, [props, selectedNode, updateBoxInfo]);
+	}, [params, props, selectedNode, updateBoxInfo]);
 
-	const openFullScreenMode = e => {
-		setCode({ ...code, fullScreen: !code.fullScreen });
+	const openScriptFullScreenMode = e => {
+		setCode({ ...code, scriptFullScreen: !code.scriptFullScreen });
+	};
+	const openDepenFullScreenMode = e => {
+		setCode({ ...code, depenFullScreen: !code.depenFullScreen });
+	};
+	const openParamsFullScreenMode = e => {
+		setParams({ ...params, fullScreen: !params.fullScreen });
+	};
+	const updateParams = data => {
+		setParams({ ...params, parameters: data });
 	};
 
 	const { boxActions } = props;
 
 	const selected = props.chart.selected.id;
 	const node = props.chart.nodes[selected];
+	let nodeName;
 
+	if (node && node.properties.payload.name) {
+		const nodeSplitName = node.properties.payload.name.split('-');
+		nodeName = nodeSplitName[nodeSplitName.length - 1];
+	}
 	if (node) {
 		return (
 			<div className={'BoxInfo'}>
-				<h3>{node.type || ''}</h3>
-				{ports.input ? (
-					<TextField
-						id='input'
-						label='Input'
-						type='number'
-						className={classes.ports}
-						name={'input'}
-						value={ports.input}
-						onChange={handleChange}
-						margin='normal'
-					/>
-				) : null}
-				{ports.output ? (
-					<TextField
-						id='input'
-						label='Output'
-						type='number'
-						name={'output'}
-						className={classes.ports}
-						value={ports.output}
-						onChange={handleChange}
-						margin='normal'
-					/>
-				) : null}
+				<h3>{nodeName || node.type || ''}</h3>
+				<div
+					id='pythonCode'
+					style={
+						params.fullScreen
+							? {
+									position: 'absolute',
+									left: 0,
+									top: 0,
+									width: window.innerWidth,
+									height: window.innerHeight,
+									backgroundColor: 'rgba(255, 255, 255, 0.8)',
+									zIndex: 9999,
+							  }
+							: {}
+					}>
+					<Button
+						onClick={openParamsFullScreenMode}
+						variant='outlined'
+						color='primary'
+						className={classes.button}>
+						{params.fullScreen ? 'Close Params' : 'Open Params'}
+					</Button>
+					{params.fullScreen ? (
+						<React.Fragment>
+							<div
+								style={{
+									display: 'flex',
+									justifyContent: 'center',
+									padding: 60,
+								}}>
+								{console.log(params.parameters)}
+								<MaterialTableDemo
+									data={params.parameters}
+									updateBoxState={updateParams}
+								/>
+							</div>
+						</React.Fragment>
+					) : null}
+				</div>
 
 				<br />
 				{code.hasScript ? (
@@ -140,7 +182,7 @@ export const BoxInfo = props => {
 						<div
 							id='pythonCode'
 							style={
-								code.fullScreen
+								code.scriptFullScreen
 									? {
 											position: 'absolute',
 											left: 0,
@@ -152,38 +194,77 @@ export const BoxInfo = props => {
 									  }
 									: {}
 							}>
-							<div onClick={openFullScreenMode}>Python Code</div>
-							<div
-								style={{
-									display: 'flex',
-									justifyContent: 'center',
-								}}>
-								<AceEditor
-									mode='python'
-									theme='monokai'
-									width={!code.fullScreen ? '300px' : '80vh'}
-									height={!code.fullScreen ? '300px' : '80vh'}
-									value={code.script}
-									onChange={onChangeCodeScript}
-									name='UNIQUE_ID_OF_DIV'
-									editorProps={{ $blockScrolling: true }}
-								/>
-							</div>
+							<Button
+								onClick={openScriptFullScreenMode}
+								variant='outlined'
+								color='primary'
+								className={classes.button}>
+								{code.scriptFullScreen
+									? 'Close Python Code'
+									: 'Open Python Code'}
+							</Button>
+							{code.scriptFullScreen ? (
+								<div
+									style={{
+										display: 'flex',
+										justifyContent: 'center',
+									}}>
+									<AceEditor
+										mode='python'
+										theme='monokai'
+										width={'80vw'}
+										height={'80vh'}
+										value={code.script}
+										onChange={onChangeCodeScript}
+										name='UNIQUE_ID_OF_DIV'
+										editorProps={{ $blockScrolling: true }}
+									/>
+								</div>
+							) : null}
 						</div>
-						<br />
-						<div>Python depen</div>
-						<div>
-							<AceEditor
-								id={'pythonDepen'}
-								mode='python'
-								theme='monokai'
-								width={'300px'}
-								height={'200px'}
-								value={code.dependencies}
-								onChange={onChangeDependencies}
-								name='UNIQUE_ID_OF_DIV'
-								editorProps={{ $blockScrolling: true }}
-							/>
+						<div
+							id='pythonCode'
+							style={
+								code.depenFullScreen
+									? {
+											position: 'absolute',
+											left: 0,
+											top: 0,
+											width: window.innerWidth,
+											height: window.innerHeight,
+											backgroundColor: 'rgba(255, 255, 255, 0.8)',
+											zIndex: 9999,
+									  }
+									: {}
+							}>
+							<Button
+								onClick={openDepenFullScreenMode}
+								variant='outlined'
+								color='primary'
+								className={classes.button}>
+								{code.depenFullScreen
+									? 'Close Dependecies'
+									: 'Open Dependecies'}
+							</Button>
+							{code.depenFullScreen ? (
+								<div
+									style={{
+										display: 'flex',
+										justifyContent: 'center',
+									}}>
+									<AceEditor
+										id={'pythonDepen'}
+										mode='python'
+										theme='monokai'
+										width={'80vw'}
+										height={'80vh'}
+										value={code.dependencies}
+										onChange={onChangeDependencies}
+										name='UNIQUE_ID_OF_DIV'
+										editorProps={{ $blockScrolling: true }}
+									/>
+								</div>
+							) : null}
 						</div>
 					</React.Fragment>
 				) : (
@@ -191,7 +272,7 @@ export const BoxInfo = props => {
 				)}
 				<Button
 					onClick={handleDeleteBox}
-					variant='outlined'
+					variant='contained'
 					color='primary'
 					className={classes.button}>
 					Delete
