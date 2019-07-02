@@ -34,7 +34,9 @@ export default class MaterialTableDemo extends React.Component {
 	}
 	componentDidMount() {
 		const { data } = this.props;
-		this.setState({ data: data });
+		if (data) {
+			this.setState({ data: data });
+		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -48,13 +50,13 @@ export default class MaterialTableDemo extends React.Component {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {
 				{
-					const data = this.state.data;
+					const data = this.state.data || [];
 					data.push(newData);
 					this.props.updateBoxState(data);
 					this.setState({ data }, () => resolve());
 				}
 				resolve();
-			}, 300);
+			}, 100);
 		});
 	};
 
@@ -62,14 +64,14 @@ export default class MaterialTableDemo extends React.Component {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {
 				{
-					const data = this.state.data;
+					const data = this.state.data || [];
 					const index = data.indexOf(oldData);
 					data[index] = newData;
 					this.props.updateBoxState(data);
 					this.setState({ data }, () => resolve());
 				}
 				resolve();
-			}, 300);
+			}, 100);
 		});
 	};
 
@@ -84,7 +86,7 @@ export default class MaterialTableDemo extends React.Component {
 					this.setState({ data }, () => resolve());
 				}
 				resolve();
-			}, 300);
+			}, 100);
 		});
 	};
 

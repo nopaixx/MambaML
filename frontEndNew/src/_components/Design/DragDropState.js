@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { cloneDeep, mapValues } from 'lodash';
 
-import styled from 'styled-components';
 import { FlowChart } from '@gonzalo10/react-diagrams/';
 import { Page } from './Page';
 import { Content } from './Content';
-import { Sidebar } from './SideBar/Sidebar';
 import * as actions from '@gonzalo10/react-diagrams/src/container/actions';
 import { projectActions } from '../../_actions';
 
@@ -14,11 +12,7 @@ import { LinksCustom } from './LinksCustom';
 import { CanvasCustom } from './CanvasCustom';
 import TreeMenu from './TreeMenu/TreeMenu';
 
-import { chartSimple } from './chartSimple';
-import { SidebarClassifier } from './SideBar/SidebarClassifier';
 import { BoxInfo } from './BoxInfo';
-import { Button } from '../Utils/Button/Button';
-import IconButton from '@material-ui/core/IconButton';
 import _ from 'lodash';
 
 // import ResizableBox from '../Utils/Resize/ResizableBox';
@@ -51,15 +45,26 @@ export class DragDropState extends React.Component {
 	}
 
 	checkIfNodeHasChange = (func, args) => {
-		console.log(func.name);
 		if (func.name === 'onLinkComplete') {
-			console.log(args);
+			const fromNode = args[0].fromNodeId;
+			const toNode = args[0].toNodeId;
+			const nodes = {
+				...this.state.nodes,
+			};
+			nodes[fromNode].properties.payload.hasChange = true;
+			nodes[toNode].properties.payload.hasChange = true;
+			this.setState({ nodes });
 		}
-		if (func.name === 'onLinkClick') {
-			console.log(args);
-		}
-		if (func.name === 'onDeleteKey') {
-			console.log(args);
+		if (func.name === 'onLinkCancel') {
+			const selectedLink = this.state.links[args[0].linkId];
+			const fromNode = selectedLink.from.nodeId;
+			const toNode = selectedLink.to.nodeId;
+			const nodes = {
+				...this.state.nodes,
+			};
+			nodes[fromNode].properties.payload.hasChange = true;
+			nodes[toNode].properties.payload.hasChange = true;
+			this.setState({ nodes });
 		}
 	};
 
@@ -70,7 +75,6 @@ export class DragDropState extends React.Component {
 
 	stateActions = mapValues(actions, func => (...args) => {
 		this.checkIfNodeHasChange(func, args);
-
 		this.setState(func(...args));
 	});
 

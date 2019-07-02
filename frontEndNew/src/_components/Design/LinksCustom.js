@@ -39,8 +39,9 @@ export const LinksCustom = (props, stateActions) => {
 			<Label style={{ left: centerX, top: centerY }}>
 				<Button
 					onClick={e => {
-						onLinkClick({ linkId: link.id });
-						stateActions.onDeleteKey();
+						// stateActions.onLinkClick({ linkId: link.id });
+						// stateActions.onDeleteKey();
+						stateActions.onLinkCancel({ linkId: link.id });
 						e.stopPropagation();
 					}}>
 					x
