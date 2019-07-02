@@ -25,6 +25,9 @@ const useStyles = makeStyles(theme => ({
 	input: {
 		display: 'none',
 	},
+	inputText: {
+		marginRight: 10,
+	},
 }));
 
 const TextEditors = ({
@@ -82,6 +85,71 @@ const TextEditors = ({
 					/>
 				) : null}
 			</div>
+			<div className='col-md-6 editor-column'>
+				<Button
+					id={'PythonScript'}
+					onClick={() => onCickDisplayEditor('PythonScript')}
+					variant='outlined'
+					color='primary'
+					className={classes.button}>
+					Parameters
+				</Button>
+			</div>
+		</div>
+	);
+};
+const TextDataInputs = ({
+	handleSubmit,
+	handleChange,
+	friendly_name,
+	inputPorts,
+	type,
+	outputPorts,
+}) => {
+	const classes = useStyles();
+
+	return (
+		<div className={'complete-fields-box'}>
+			<form name='form' onSubmit={handleSubmit} className={'box-info-form'}>
+				<TextField
+					id='friendly_name'
+					label='Fiendly Name'
+					className={classes.inputText}
+					value={friendly_name || ''}
+					name={'friendly_name'}
+					onChange={handleChange}
+					margin='normal'
+				/>
+				<TextField
+					id='type'
+					label='Type'
+					className={classes.inputText}
+					value={type || ''}
+					name={'type'}
+					onChange={handleChange}
+					margin='normal'
+				/>
+				<TextField
+					id='inputPorts'
+					label='Input'
+					type='number'
+					className={classes.inputText}
+					name={'inputPorts'}
+					value={inputPorts || ''}
+					onChange={handleChange}
+					margin='normal'
+				/>
+				<TextField
+					id='outputPorts'
+					label='Output'
+					type='number'
+					className={classes.inputText}
+					name={'outputPorts'}
+					value={outputPorts || ''}
+					onChange={handleChange}
+					margin='normal'
+				/>
+			</form>
 		</div>
 	);
 };
@@ -201,61 +269,30 @@ class BoxHospital extends React.Component {
 					color='primary'>
 					Update Box
 				</Button>
-				<div className={'wrapper'}>
+				<div
+					style={{
+						display: 'flex',
+					}}>
 					<div className={'treeSelector'}>
 						<TreeMenu data={actorsTree} selectedOption={this.selectedOption} />
 					</div>
-					<form
-						name='form'
-						onSubmit={this.handleSubmit}
-						className={'box-info-form'}>
-						<TextField
-							id='friendly_name'
-							label='Fiendly Name'
-							className={''}
-							value={friendly_name || ''}
-							name={'friendly_name'}
-							onChange={this.handleChange}
-							margin='normal'
+					<div className={'wrapper'}>
+						<TextDataInputs
+							handleChange={this.handleChange}
+							friendly_name={friendly_name}
+							type={type}
+							inputPorts={inputPorts}
+							outputPorts={outputPorts}
 						/>
-						<TextField
-							id='type'
-							label='Type'
-							className={''}
-							value={type || ''}
-							name={'type'}
-							onChange={this.handleChange}
-							margin='normal'
+						<TextEditors
+							dependencies={dependencies}
+							code={code}
+							onChangeCodeScript={this.onChangeCodeScript}
+							onChangeDependencies={this.onChangeDependencies}
+							onCickDisplayEditor={this.onCickDisplayEditor}
+							activeCodeEditor={activeCodeEditor}
 						/>
-						<TextField
-							id='inputPorts'
-							label='Input'
-							type='number'
-							className={''}
-							name={'inputPorts'}
-							value={inputPorts || ''}
-							onChange={this.handleChange}
-							margin='normal'
-						/>
-						<TextField
-							id='outputPorts'
-							label='Output'
-							type='number'
-							className={''}
-							name={'outputPorts'}
-							value={outputPorts || ''}
-							onChange={this.handleChange}
-							margin='normal'
-						/>
-					</form>
-					<TextEditors
-						dependencies={dependencies}
-						code={code}
-						onChangeCodeScript={this.onChangeCodeScript}
-						onChangeDependencies={this.onChangeDependencies}
-						onCickDisplayEditor={this.onCickDisplayEditor}
-						activeCodeEditor={activeCodeEditor}
-					/>
+					</div>
 				</div>
 				<div>
 					<div

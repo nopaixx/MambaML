@@ -1,0 +1,23 @@
+.box-factory-wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.input-box {
+	margin-right: 10px;
+}
+.box-info-form {
+	/* display: flex;
+	flex-direction: column;
+	text-align: center; */
+}
+
+.table-wrapper {
+	width: 70%;
+	margin: auto;
+	margin-top: 20px;
+}
+
+.codeEditor {
+	margin: auto;
+}

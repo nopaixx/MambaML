@@ -21,6 +21,9 @@ const useStyles = makeStyles(theme => ({
 	input: {
 		display: 'none',
 	},
+	inputText: {
+		marginRight: 10,
+	},
 }));
 
 const TextEditors = ({
@@ -36,28 +39,6 @@ const TextEditors = ({
 		<div className={'code-editors-admin'}>
 			<div className='col-md-6 editor-column'>
 				<Button
-					onClick={() => onCickDisplayEditor('Dependencies')}
-					id={'Dependencies'}
-					variant='outlined'
-					color='primary'
-					className={classes.button}>
-					Dependencies
-				</Button>
-				{activeCodeEditor['Dependencies'] ? (
-					<AceEditor
-						mode='python'
-						theme='monokai'
-						width={'350px'}
-						height={'200px'}
-						value={dependencies}
-						onChange={onChangeDependencies}
-						name='UNIQUE_ID_OF_DIV'
-						editorProps={{ $blockScrolling: true }}
-					/>
-				) : null}
-			</div>
-			<div className='col-md-6 editor-column'>
-				<Button
 					id={'PythonScript'}
 					onClick={() => onCickDisplayEditor('PythonScript')}
 					variant='outlined'
@@ -69,10 +50,34 @@ const TextEditors = ({
 					<AceEditor
 						mode='python'
 						theme='monokai'
-						width={'650px'}
+						width={'50vw'}
 						height={'300px'}
+						className={'codeEditor'}
 						value={code}
 						onChange={onChangeCodeScript}
+						name='UNIQUE_ID_OF_DIV'
+						editorProps={{ $blockScrolling: true }}
+					/>
+				) : null}
+			</div>
+			<div className='col-md-6 editor-column'>
+				<Button
+					onClick={() => onCickDisplayEditor('Dependencies')}
+					id={'Dependencies'}
+					variant='outlined'
+					color='primary'
+					className={classes.button}>
+					Dependencies
+				</Button>
+				{activeCodeEditor['Dependencies'] ? (
+					<AceEditor
+						mode='python'
+						theme='monokai'
+						width={'40vw'}
+						height={'200px'}
+						className={'codeEditor'}
+						value={dependencies}
+						onChange={onChangeDependencies}
 						name='UNIQUE_ID_OF_DIV'
 						editorProps={{ $blockScrolling: true }}
 					/>
@@ -82,11 +87,56 @@ const TextEditors = ({
 	);
 };
 
+const TextDataInputs = ({ handleSubmit, handleChange }) => {
+	const classes = useStyles();
+
+	return (
+		<div className={'complete-fields-box'}>
+			<form name='form' onSubmit={handleSubmit} className={'box-info-form'}>
+				<TextField
+					id='friendly_name'
+					label='Fiendly Name'
+					className={classes.inputText}
+					name={'friendly_name'}
+					onChange={handleChange}
+					margin='normal'
+				/>
+				<TextField
+					id='type'
+					label='Type'
+					className={classes.inputText}
+					name={'type'}
+					onChange={handleChange}
+					margin='normal'
+				/>
+				<TextField
+					id='inputPorts'
+					label='Input'
+					type='number'
+					className={classes.inputText}
+					name={'inputPorts'}
+					onChange={handleChange}
+					margin='normal'
+				/>
+				<TextField
+					id='outputPorts'
+					label='Output'
+					type='number'
+					className={classes.inputText}
+					name={'outputPorts'}
+					onChange={handleChange}
+					margin='normal'
+				/>
+			</form>
+		</div>
+	);
+};
+
 class BoxFactory extends React.Component {
 	state = {
 		code: '',
 		dependencies: '',
-		activeCodeEditor: { Dependencies: false, PythonScript: false },
+		activeCodeEditor: { Dependencies: true, PythonScript: true },
 		selectedTab: 0,
 	};
 
@@ -103,7 +153,6 @@ class BoxFactory extends React.Component {
 	};
 
 	setParamsState = data => {
-		console.log('data', data);
 		this.setState({ parameters: data });
 	};
 
@@ -147,7 +196,7 @@ class BoxFactory extends React.Component {
 	render() {
 		const { code, dependencies, activeCodeEditor } = this.state;
 		return (
-			<React.Fragment>
+			<div className={'box-factory-wrapper'}>
 				<div>
 					<div
 						style={{
@@ -157,60 +206,20 @@ class BoxFactory extends React.Component {
 						}}>
 						<ButtonGonzalo onClick={this.handleSubmit} label={'Create Box'} />
 					</div>
-					<div className={'complete-fields-box'}>
-						<form
-							name='form'
-							onSubmit={this.handleSubmit}
-							className={'box-info-form'}>
-							<TextField
-								id='friendly_name'
-								label='Fiendly Name'
-								className={''}
-								name={'friendly_name'}
-								onChange={this.handleChange}
-								margin='normal'
-							/>
-							<TextField
-								id='type'
-								label='Type'
-								className={''}
-								name={'type'}
-								onChange={this.handleChange}
-								margin='normal'
-							/>
-							<TextField
-								id='inputPorts'
-								label='Input'
-								type='number'
-								className={''}
-								name={'inputPorts'}
-								onChange={this.handleChange}
-								margin='normal'
-							/>
-							<TextField
-								id='outputPorts'
-								label='Output'
-								type='number'
-								className={''}
-								name={'outputPorts'}
-								onChange={this.handleChange}
-								margin='normal'
-							/>
-						</form>
-						<div className={'table-wrapper'}>
-							<MaterialTableDemo updateBoxState={this.setParamsState} />
-						</div>
-					</div>
+					<TextDataInputs handleChange={this.handleChange} />
+					<TextEditors
+						dependencies={dependencies}
+						code={code}
+						onChangeCodeScript={this.onChangeCodeScript}
+						onChangeDependencies={this.onChangeDependencies}
+						onCickDisplayEditor={this.onCickDisplayEditor}
+						activeCodeEditor={activeCodeEditor}
+					/>
 				</div>
-				<TextEditors
-					dependencies={dependencies}
-					code={code}
-					onChangeCodeScript={this.onChangeCodeScript}
-					onChangeDependencies={this.onChangeDependencies}
-					onCickDisplayEditor={this.onCickDisplayEditor}
-					activeCodeEditor={activeCodeEditor}
-				/>
-			</React.Fragment>
+				<div className={'table-wrapper'}>
+					<MaterialTableDemo updateBoxState={this.setParamsState} />
+				</div>
+			</div>
 		);
 	}
 }
