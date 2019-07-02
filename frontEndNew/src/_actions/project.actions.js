@@ -311,6 +311,7 @@ function getAllActors() {
 }
 function updateChartStructure(chartStructure) {
 	return dispatch => {
+		console.log(chartStructure);
 		dispatch(update(chartStructure));
 	};
 

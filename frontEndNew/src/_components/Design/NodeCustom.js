@@ -50,7 +50,7 @@ export const NodeCustom = (props, runBoxCode, projectStatus) => {
 	if (name) {
 		boxTitle = name;
 	} else {
-		boxTitle = node.type.split('-')[1] || node.type;
+		node.type ? (boxTitle = node.type.split('-')[1]) : (boxTitle = node.type);
 	}
 	return (
 		<BoxStyleWrapper>

@@ -43,6 +43,7 @@ export function project(state = {}, action) {
 				gettingActors: true,
 			};
 		case projectConstants.CHART_PROJECT_UPDATE:
+			console.log('reducer, action', action);
 			return {
 				...state,
 				chartStructure: action.chartStructure,

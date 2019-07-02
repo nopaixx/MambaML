@@ -65,20 +65,8 @@ export class DragDropState extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState) {
 		const { dispatch } = this.props;
-
-		if (this.checkForChartUpdates(prevProps, prevState)) {
-			dispatch(projectActions.updateChartStructure(this.state));
-		}
+		dispatch(projectActions.updateChartStructure(this.state));
 	}
-
-	checkForChartUpdates = (prevProps, prevState) => {
-		return this.hasHoveredChanged(prevProps, prevState);
-	};
-
-	hasHoveredChanged = (prevProps, prevState) => {
-		const hasHovered = JSON.stringify(prevState.hovered) === this.state.hovered;
-		return hasHovered;
-	};
 
 	runBoxCode = id => {
 		const { runBox } = this.props;
@@ -89,6 +77,7 @@ export class DragDropState extends React.Component {
 		const { actors, updateBoxInfo } = this.props;
 		const chart = this.state;
 		const stateActions = mapValues(actions, func => (...args) => {
+			console.log(func(...args));
 			this.setState(func(...args));
 		});
 		if (!actors) {

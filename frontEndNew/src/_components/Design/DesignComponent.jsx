@@ -30,6 +30,7 @@ const DesignComponent = props => {
 
 	const onSaveProject = () => {
 		const { dispatch, match, chartStructure } = props;
+		console.log('chartStructure', chartStructure);
 		const ID = match.params.id;
 		dispatch(projectActions.save(ID, projectName, chartStructure, 'V1', 'V1'));
 	};
@@ -49,11 +50,12 @@ const DesignComponent = props => {
 		dispatch(projectActions.runBox(projectId, boxId));
 	};
 
-	const { actorsTree, project, projectStatus } = props;
+	const { actorsTree, project, projectStatus, chartStructure } = props;
 	if (!project) {
 		return null;
 	}
 	if (project) {
+		if (props) console.log('design Compnent', props.chartStructure);
 		return (
 			<React.Fragment>
 				<div className={'design-window'}>
@@ -64,6 +66,7 @@ const DesignComponent = props => {
 						dispatch={props.dispatch}
 						runBox={runBox}
 						projectStatus={projectStatus}
+						chartStructure={chartStructure}
 					/>
 				</div>
 				<ProjectToolbar

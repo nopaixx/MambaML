@@ -52,7 +52,7 @@ const renderItem = ({
 				level * LEVEL_SPACE}rem`,
 			cursor: 'pointer',
 			color: active ? 'white' : '#333',
-			background: active ? '#179ed3' : 'none',
+			background: active ? '#d38c8c' : 'none',
 			borderBottom: active ? 'none' : '1px solid #ccc',
 			boxShadow: focused ? '0px 0px 5px 0px #222' : 'none',
 			zIndex: focused ? 999 : 'unset',
