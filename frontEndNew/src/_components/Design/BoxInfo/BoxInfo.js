@@ -137,7 +137,6 @@ export const BoxInfo = props => {
 			<div className={'BoxInfo'}>
 				<h3>{nodeName || node.type || ''}</h3>
 				<div
-					id='pythonCode'
 					style={
 						params.fullScreen
 							? {
@@ -165,8 +164,8 @@ export const BoxInfo = props => {
 									display: 'flex',
 									justifyContent: 'center',
 									padding: 60,
-								}}>
-								{console.log(params.parameters)}
+								}}
+								onBlur={() => console.log('blur')}>
 								<MaterialTableDemo
 									data={params.parameters}
 									updateBoxState={updateParams}
