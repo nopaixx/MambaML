@@ -1,205 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import AceEditor from 'react-ace';
 import { adminActions } from '../../_actions';
-import { DATASETS } from '../../_constants';
-import TextField from '@material-ui/core/TextField';
-import Dropdown from '../Utils/Dropdown/Dropdown';
 
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-
+import { CodeEditors } from './CodeEditorsFactory';
+import { ParamsSelector } from './ParameterSelector';
+import { TextDataInputs } from './TextDataInputs';
 import './BoxFactory.css';
 
-import 'brace/mode/python';
-import 'brace/theme/monokai';
-
-import ParametersTable from '../../_components/Utils/Table/Table2';
-
-import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-
-const useStyles = makeStyles(theme => ({
-	button: {
-		margin: theme.spacing(1),
-	},
-	input: {
-		display: 'none',
-	},
-	inputText: {
-		marginRight: 10,
-	},
-}));
-
-const TextEditors = ({
-	dependencies,
-	code,
-	onChangeCodeScript,
-	onChangeDependencies,
-	onCickDisplayEditor,
-	activeCodeEditor,
-}) => {
-	const classes = useStyles();
-	return (
-		<div className={'code-editors-admin'}>
-			<div className='col-md-6 editor-column'>
-				<Button
-					id={'PythonScript'}
-					onClick={() => onCickDisplayEditor('PythonScript')}
-					variant='outlined'
-					color='primary'
-					className={classes.button}>
-					Python Script
-				</Button>
-				{activeCodeEditor['PythonScript'] ? (
-					<AceEditor
-						mode='python'
-						theme='monokai'
-						width={'50vw'}
-						height={'300px'}
-						className={'codeEditor'}
-						value={code}
-						onChange={onChangeCodeScript}
-						name='UNIQUE_ID_OF_DIV'
-						editorProps={{ $blockScrolling: true }}
-					/>
-				) : null}
-			</div>
-			<div className='col-md-6 editor-column'>
-				<Button
-					onClick={() => onCickDisplayEditor('Dependencies')}
-					id={'Dependencies'}
-					variant='outlined'
-					color='primary'
-					className={classes.button}>
-					Dependencies
-				</Button>
-				{activeCodeEditor['Dependencies'] ? (
-					<AceEditor
-						mode='python'
-						theme='monokai'
-						width={'40vw'}
-						height={'200px'}
-						className={'codeEditor'}
-						value={dependencies}
-						onChange={onChangeDependencies}
-						name='UNIQUE_ID_OF_DIV'
-						editorProps={{ $blockScrolling: true }}
-					/>
-				) : null}
-			</div>
-		</div>
-	);
-};
-
-const TextDataInputs = ({ handleSubmit, handleChange }) => {
-	const classes = useStyles();
-
-	return (
-		<div className={'complete-fields-box'}>
-			<form name='form' onSubmit={handleSubmit} className={'box-info-form'}>
-				<TextField
-					id='friendly_name'
-					label='Fiendly Name'
-					className={classes.inputText}
-					name={'friendly_name'}
-					onChange={handleChange}
-					margin='normal'
-				/>
-				<TextField
-					id='type'
-					label='Type'
-					className={classes.inputText}
-					name={'type'}
-					onChange={handleChange}
-					margin='normal'
-				/>
-				<TextField
-					id='inputPorts'
-					label='Input'
-					type='number'
-					className={classes.inputText}
-					name={'inputPorts'}
-					onChange={handleChange}
-					margin='normal'
-				/>
-				<TextField
-					id='outputPorts'
-					label='Output'
-					type='number'
-					className={classes.inputText}
-					name={'outputPorts'}
-					onChange={handleChange}
-					margin='normal'
-				/>
-			</form>
-		</div>
-	);
-};
-
-const ParamsSelector = ({
-	selectedDataset,
-	setParamsState,
-	specialParamSelector,
-	isCsvSelectorActive,
-	dataset,
-}) => {
-	const [open, setOpen] = useState(false);
-	const [option, setOption] = useState();
-
-	useEffect(() => {
-		if (isCsvSelectorActive) {
-			setOpen(true);
-		}
-	}, [isCsvSelectorActive, open]);
-
-	function handleClose() {
-		specialParamSelector();
-		setOpen(false);
-	}
-	function handleConfirm() {
-		selectedDataset(option);
-		specialParamSelector();
-		setOpen(false);
-	}
-
-	return (
-		<div className={'param-selector-wrapper'}>
-			<div className={'table-wrapper'}>
-				<Dialog
-					open={open}
-					onClose={handleClose}
-					aria-labelledby='alert-dialog-title'
-					aria-describedby='alert-dialog-description'>
-					<DialogTitle id='alert-dialog-title'>{'Select Data Set'}</DialogTitle>
-					<DialogContent>
-						<DialogContentText id='alert-dialog-description'>
-							Select the Data set you want to include
-						</DialogContentText>
-						<Dropdown
-							options={DATASETS}
-							name={'Data sets'}
-							selectedOptions={option => setOption(option)}
-						/>
-					</DialogContent>
-					<DialogActions>
-						<Button onClick={handleConfirm} color='primary' autoFocus>
-							Confirm
-						</Button>
-					</DialogActions>
-				</Dialog>
-				<ParametersTable
-					specialParamSelector={specialParamSelector}
-					updateBoxState={setParamsState}
-					dataset={dataset}
-				/>
-			</div>
-		</div>
-	);
-};
 
 class BoxFactory extends React.Component {
 	state = {
@@ -306,7 +114,7 @@ class BoxFactory extends React.Component {
 		} = this.state;
 		const { creatingBox, boxCreated } = this.props;
 		//TODO creating and created verification
-		console.log(creatingBox, boxCreated, selectedDataset);
+		console.log(creatingBox, boxCreated);
 		return (
 			<div className={'box-factory-wrapper'}>
 				<div>
@@ -337,7 +145,8 @@ class BoxFactory extends React.Component {
 						</div>
 					) : null}
 					<TextDataInputs handleChange={this.handleChange} />
-					<TextEditors
+
+					<CodeEditors
 						dependencies={dependencies}
 						code={code}
 						onChangeCodeScript={this.onChangeCodeScript}

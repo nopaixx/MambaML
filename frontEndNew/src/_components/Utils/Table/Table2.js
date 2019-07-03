@@ -36,7 +36,6 @@ export default class ParametersTable extends React.Component {
 		};
 	}
 	onParamTypeChange = (e, props) => {
-		const { data } = this.state;
 		const { value } = e.target;
 		const { specialParamSelector } = this.props;
 		if (value === 'csv') {
@@ -110,7 +109,6 @@ export default class ParametersTable extends React.Component {
 	};
 
 	render() {
-		console.log('data', this.state.data);
 		return (
 			<MaterialTable
 				title='Params Table'
