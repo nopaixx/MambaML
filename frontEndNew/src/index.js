@@ -17,6 +17,12 @@ const theme = createMuiTheme({
 			dark: '#a52024',
 			contrastText: '#fff',
 		},
+		secondary: {
+			light: '#d4edda',
+			main: '#d4edda',
+			dark: '#c3e6cb',
+			contrastText: '#155724',
+		},
 	},
 	appBar: { height: 50 },
 });

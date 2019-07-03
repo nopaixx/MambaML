@@ -18,6 +18,7 @@ export const ParamsSelector = ({
 	specialParamSelector,
 	isCsvSelectorActive,
 	dataset,
+	data,
 }) => {
 	const [open, setOpen] = useState(false);
 	const [option, setOption] = useState();
@@ -65,6 +66,7 @@ export const ParamsSelector = ({
 					specialParamSelector={specialParamSelector}
 					updateBoxState={setParamsState}
 					dataset={dataset}
+					data={data}
 				/>
 			</div>
 		</div>

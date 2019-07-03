@@ -8,6 +8,7 @@ import { TextDataInputs } from './TextDataInputs';
 import './BoxFactory.css';
 
 import Button from '@material-ui/core/Button';
+import { Alert } from '../Utils/Alert/Alert';
 
 class BoxFactory extends React.Component {
 	state = {
@@ -113,8 +114,6 @@ class BoxFactory extends React.Component {
 			selectedDataset,
 		} = this.state;
 		const { creatingBox, boxCreated } = this.props;
-		//TODO creating and created verification
-		// console.log(creatingBox, boxCreated);
 		return (
 			<div className={'box-factory-wrapper'}>
 				<div>
@@ -124,26 +123,43 @@ class BoxFactory extends React.Component {
 							justifyContent: 'space-around',
 							padding: 15,
 						}}>
-						<Button
-							onClick={this.handleSubmit}
-							id={'Dependencies'}
-							variant='contained'
-							color='primary'>
-							Create Box
-						</Button>
+						{/* {creatingBox ? (
+							<Button
+								onClick={this.handleSubmit}
+								id={'Dependencies'}
+								variant='contained'
+								color='success'>
+								Creating
+							</Button>
+						) : null} */}
+						{boxCreated ? (
+							<Button
+								onClick={this.handleSubmit}
+								id={'Dependencies'}
+								variant='contained'
+								color='secondary'>
+								Created successfully
+							</Button>
+						) : (
+							<Button
+								onClick={this.handleSubmit}
+								id={'Dependencies'}
+								variant='contained'
+								color='primary'>
+								Create Box
+							</Button>
+						)}
+						{/* {!boxCreated && !creatingBox ? (
+							<Button
+								onClick={this.handleSubmit}
+								id={'Dependencies'}
+								variant='contained'
+								color='primary'>
+								Create Box
+							</Button>
+						) : null} */}
 					</div>
-					{/* TODO: put style to the alert and create component*/}
-					{areEmptyFields ? (
-						<div
-							style={{
-								width: '30vw',
-								border: '1px solid red',
-								color: 'red',
-								textAlign: 'center',
-							}}>
-							There are empty fields
-						</div>
-					) : null}
+					{areEmptyFields ? <Alert text={'There are empty fields'} /> : null}
 					<TextDataInputs handleChange={this.handleChange} />
 
 					<CodeEditors

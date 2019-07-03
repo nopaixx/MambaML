@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import _ from 'lodash';
 
-import { Input } from '../../Utils/Input/Input';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import './BoxInfo.css';
 
 import AceEditor from 'react-ace';
@@ -13,6 +11,8 @@ import 'brace/theme/monokai';
 
 import { makeStyles } from '@material-ui/core/styles';
 import MaterialTableDemo from '../../Utils/Table/Table2';
+
+import { ParamsSelector } from '../../BoxFactory/ParameterSelector';
 
 const useStyles = makeStyles(theme => ({
 	button: {
@@ -43,9 +43,11 @@ export const BoxInfo = props => {
 		input: '',
 		output: '',
 	});
+	const [isCsvSelectorActive, setCsvSelected] = useState(false);
+	const [selectedDataset, setDataset] = useState();
+	// const [parameters, setParameters] = useState();
 	const [selectedNode, setNode] = useState();
 	const onChangeCodeScript = newValue => {
-		const { updateProjectChart } = props;
 		setCode({ ...code, script: newValue });
 	};
 	const onChangeDependencies = newValue => {
@@ -98,6 +100,18 @@ export const BoxInfo = props => {
 		setNode(undefined);
 		boxActions.onDeleteKey();
 	};
+
+	const handleCsvSelector = () => {
+		setCsvSelected(!isCsvSelectorActive);
+	};
+	const selectedDatasetOption = dataset => {
+		if (dataset) {
+			setDataset(dataset);
+		}
+	};
+	// const setParamsState = data => {
+	// 	setParameters(data);
+	// };
 
 	useEffect(() => {
 		const { chart } = props;
@@ -180,7 +194,7 @@ export const BoxInfo = props => {
 									width: window.innerWidth,
 									height: window.innerHeight,
 									backgroundColor: 'rgba(255, 255, 255, 0.8)',
-									zIndex: 9999,
+									zIndex: 1300,
 							  }
 							: {}
 					}>
@@ -199,10 +213,18 @@ export const BoxInfo = props => {
 									justifyContent: 'center',
 									padding: 60,
 								}}>
-								<MaterialTableDemo
+								<ParamsSelector
+									selectedDataset={selectedDatasetOption}
+									setParamsState={updateParams}
+									specialParamSelector={handleCsvSelector}
+									isCsvSelectorActive={isCsvSelectorActive}
+									dataset={selectedDataset}
+									data={params.parameters}
+								/>
+								{/* <MaterialTableDemo
 									data={params.parameters}
 									updateBoxState={updateParams}
-								/>
+								/> */}
 							</div>
 						</React.Fragment>
 					) : null}

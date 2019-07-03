@@ -107,14 +107,16 @@ export class DragDropState extends React.Component {
 		return (
 			<React.Fragment>
 				<Page>
-					<ResizableBox
-						className='box'
-						width={100}
-						height={h}
-						axis='x'
-						handle={<span className='custom-handle custom-handle-se' />}>
-						<TreeMenu data={actors} />
-					</ResizableBox>
+					<div style={{ overflow: 'scroll', maxHeight: '90vh' }}>
+						<ResizableBox
+							className='box'
+							width={100}
+							height={h}
+							axis='x'
+							handle={<span className='custom-handle custom-handle-se' />}>
+							<TreeMenu data={actors} />
+						</ResizableBox>
+					</div>
 					<Content>
 						<div id={'flowchartCanvas'}>
 							<FlowChart
