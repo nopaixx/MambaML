@@ -1,15 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AceEditor from 'react-ace';
-import { Button as ButtonGonzalo } from '../../_components/Utils/';
 import { adminActions } from '../../_actions';
+import { DATASETS } from '../../_constants';
 import TextField from '@material-ui/core/TextField';
+import Dropdown from '../Utils/Dropdown/Dropdown';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 import './BoxFactory.css';
 
 import 'brace/mode/python';
 import 'brace/theme/monokai';
 
-import MaterialTableDemo from '../../_components/Utils/Table/Table2';
+import ParametersTable from '../../_components/Utils/Table/Table2';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -132,28 +140,94 @@ const TextDataInputs = ({ handleSubmit, handleChange }) => {
 	);
 };
 
+const ParamsSelector = ({
+	selectedDataset,
+	setParamsState,
+	specialParamSelector,
+	isCsvSelectorActive,
+}) => {
+	const [open, setOpen] = React.useState(false);
+
+	React.useEffect(() => {
+		if (isCsvSelectorActive) {
+			setOpen(true);
+		}
+	}, [isCsvSelectorActive, open]);
+
+	function handleClose() {
+		setOpen(false);
+	}
+
+	return (
+		<div className={'param-selector-wrapper'}>
+			<div className={'table-wrapper'}>
+				<Dialog
+					open={open}
+					onClose={handleClose}
+					aria-labelledby='alert-dialog-title'
+					aria-describedby='alert-dialog-description'>
+					<DialogTitle id='alert-dialog-title'>{'Select Data Set'}</DialogTitle>
+					<DialogContent>
+						<DialogContentText id='alert-dialog-description'>
+							Select the Data set you want to include
+						</DialogContentText>
+						<Dropdown
+							options={DATASETS}
+							name={'Data sets'}
+							selectedOptions={selectedDataset}
+						/>
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={handleClose} color='primary' autoFocus>
+							Confirm
+						</Button>
+					</DialogActions>
+				</Dialog>
+				<ParametersTable
+					specialParamSelector={specialParamSelector}
+					updateBoxState={setParamsState}
+				/>
+			</div>
+		</div>
+	);
+};
+
 class BoxFactory extends React.Component {
 	state = {
 		code: '',
 		dependencies: '',
 		activeCodeEditor: { Dependencies: true, PythonScript: true },
 		selectedTab: 0,
+		hasChanged: false,
+		areEmptyFields: false,
+		isCsvSelectorActive: false,
 	};
 
 	onChangeCodeScript = newValue => {
 		this.setState({ code: newValue });
 	};
+
 	onChangeDependencies = newValue => {
 		this.setState({ dependencies: newValue });
 	};
 
 	handleChange = e => {
+		const { dispatch } = this.props;
+		const { hasChanged } = this.state;
 		const { name, value } = e.target;
 		this.setState({ [name]: value });
+		if (!hasChanged) {
+			this.setState({ hasChanged: true });
+			dispatch(adminActions.restartBoxFactory());
+		}
 	};
 
 	setParamsState = data => {
 		this.setState({ parameters: data });
+	};
+
+	selectedDataset = dataset => {
+		this.setState({ selectedDataset: dataset });
 	};
 
 	handleSubmit = e => {
@@ -168,18 +242,34 @@ class BoxFactory extends React.Component {
 			friendly_name,
 			parameters,
 		} = this.state;
-		const box = {
-			friendly_name,
-			type,
-			frontendVersion: 'V1',
-			backendVersion: 'V1',
-			n_input_ports: inputPorts,
-			n_output_ports: outputPorts,
-			depen_code: dependencies,
-			python_code: code,
-			parameters: JSON.stringify(parameters),
-		};
-		dispatch(adminActions.createBox(box));
+		if (
+			type &&
+			inputPorts &&
+			outputPorts &&
+			code &&
+			dependencies &&
+			friendly_name
+		) {
+			const box = {
+				friendly_name,
+				type,
+				frontendVersion: 'V1',
+				backendVersion: 'V1',
+				n_input_ports: inputPorts,
+				n_output_ports: outputPorts,
+				depen_code: dependencies,
+				python_code: code,
+				parameters: JSON.stringify(parameters),
+			};
+			dispatch(adminActions.createBox(box));
+		} else {
+			this.setState({ areEmptyFields: true });
+		}
+	};
+
+	specialParamSelector = param => {
+		this.setState({ isCsvSelectorActive: true });
+		console.log('param', param);
 	};
 
 	onCickDisplayEditor = id => {
@@ -194,7 +284,16 @@ class BoxFactory extends React.Component {
 	};
 
 	render() {
-		const { code, dependencies, activeCodeEditor } = this.state;
+		const {
+			code,
+			dependencies,
+			activeCodeEditor,
+			areEmptyFields,
+			isCsvSelectorActive,
+		} = this.state;
+		const { creatingBox, boxCreated } = this.props;
+		//TODO creating and created verification
+		console.log(creatingBox, boxCreated);
 		return (
 			<div className={'box-factory-wrapper'}>
 				<div>
@@ -204,8 +303,26 @@ class BoxFactory extends React.Component {
 							justifyContent: 'space-around',
 							padding: 15,
 						}}>
-						<ButtonGonzalo onClick={this.handleSubmit} label={'Create Box'} />
+						<Button
+							onClick={this.handleSubmit}
+							id={'Dependencies'}
+							variant='contained'
+							color='primary'>
+							Create Box
+						</Button>
 					</div>
+					{/* TODO: put style to the alert and create component*/}
+					{areEmptyFields ? (
+						<div
+							style={{
+								width: '30vw',
+								border: '1px solid red',
+								color: 'red',
+								textAlign: 'center',
+							}}>
+							There are empty fields
+						</div>
+					) : null}
 					<TextDataInputs handleChange={this.handleChange} />
 					<TextEditors
 						dependencies={dependencies}
@@ -216,9 +333,12 @@ class BoxFactory extends React.Component {
 						activeCodeEditor={activeCodeEditor}
 					/>
 				</div>
-				<div className={'table-wrapper'}>
-					<MaterialTableDemo updateBoxState={this.setParamsState} />
-				</div>
+				<ParamsSelector
+					selectedDataset={this.selectedDataset}
+					setParamsState={this.setParamsState}
+					specialParamSelector={this.specialParamSelector}
+					isCsvSelectorActive={isCsvSelectorActive}
+				/>
 			</div>
 		);
 	}
@@ -226,10 +346,13 @@ class BoxFactory extends React.Component {
 
 function mapStateToProps(state) {
 	const { users, authentication } = state;
+	const { creatingBox, boxCreated } = state.admin;
 	const { user } = authentication;
 	return {
 		user,
 		users,
+		creatingBox,
+		boxCreated,
 	};
 }
 

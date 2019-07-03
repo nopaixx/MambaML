@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import './Table.css';
 
-export default class MaterialTableDemo extends React.Component {
+export default class ParametersTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -16,11 +16,14 @@ export default class MaterialTableDemo extends React.Component {
 					title: 'Param Type',
 					field: 'type',
 					editComponent: props => (
-						<select name='type' onChange={e => props.onChange(e.target.value)}>
+						<select
+							name='type'
+							onChange={e => this.onParamTypeChange(e, props)}>
 							<option value='String'>String</option>
 							<option value='int'>int</option>
 							<option value='float'>float</option>
 							<option value='list'>list</option>
+							<option value='csv'>CSV-selector</option>
 						</select>
 					),
 				},
@@ -32,6 +35,15 @@ export default class MaterialTableDemo extends React.Component {
 			data: [],
 		};
 	}
+	onParamTypeChange = (e, props) => {
+		const { value } = e.target;
+		const { specialParamSelector } = this.props;
+		if (value === 'csv') {
+			specialParamSelector(value);
+		}
+		props.onChange(value);
+	};
+
 	componentDidMount() {
 		const { data } = this.props;
 		if (data) {

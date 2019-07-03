@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -6,6 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 const BootstrapInput = withStyles(theme => ({
 	root: {
@@ -47,34 +48,59 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		flexWrap: 'wrap',
 	},
-	margin: {
+	formControl: {
 		margin: theme.spacing(1),
+		minWidth: 120,
+	},
+	selectEmpty: {
+		marginTop: theme.spacing(2),
 	},
 }));
 
 export default function Dropdown({ name, options, selectedOptions }) {
 	const classes = useStyles();
-	const [selected, setSelect] = React.useState('');
+	const [state, setState] = React.useState();
+	const [labelWidth, setLabelWidth] = React.useState(0);
+	const inputLabel = useRef(null);
+
+	useEffect(() => {
+		setLabelWidth(inputLabel.current.offsetWidth);
+	}, []);
+
 	const handleChange = event => {
-		setSelect(event.target.value);
+		const { value } = event.target;
+		selectedOptions(value);
+		setState(value);
 	};
 	return (
-		<form className={classes.root} autoComplete='off'>
-			<FormControl className={classes.margin}>
-				<InputLabel htmlFor='box-customized-native-simple'>{name}</InputLabel>
-				<NativeSelect
-					value={selected}
+		<div className={classes.root}>
+			<FormControl variant='outlined' className={classes.formControl}>
+				<InputLabel ref={inputLabel} htmlFor='outlined-age-native-simple'>
+					{name}
+				</InputLabel>
+				<Select
+					native
+					value={state}
 					onChange={handleChange}
 					input={
-						<BootstrapInput name='box' id='box-customized-native-simple' />
+						<OutlinedInput
+							name='age'
+							labelWidth={labelWidth}
+							id='outlined-age-native-simple'
+						/>
 					}>
-					{console.log('options', options)}
 					<option value='' />
-					<option value={10}>Ten</option>
-					<option value={20}>Twenty</option>
-					<option value={30}>Thirty</option>
-				</NativeSelect>
+					{options
+						? options.map((option, key) => {
+								return (
+									<option key={key} value={option}>
+										{option}
+									</option>
+								);
+						  })
+						: null}
+				</Select>
 			</FormControl>
-		</form>
+		</div>
 	);
 }

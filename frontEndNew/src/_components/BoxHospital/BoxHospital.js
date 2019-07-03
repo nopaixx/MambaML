@@ -10,7 +10,7 @@ import './BoxHospital.css';
 import 'brace/mode/python';
 import 'brace/theme/monokai';
 
-import MaterialTableDemo from '../../_components/Utils/Table/Table2';
+import ParametersTable from '../../_components/Utils/Table/Table2';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -301,7 +301,7 @@ class BoxHospital extends React.Component {
 					/>
 					<div className={'complete-fields-box'}>
 						<div className={'table-wrapper'}>
-							<MaterialTableDemo
+							<ParametersTable
 								updateBoxState={this.setParamsState}
 								data={parameters}
 							/>

@@ -15,9 +15,17 @@
 .table-wrapper {
 	width: 70%;
 	margin: auto;
-	margin-top: 20px;
 }
 
 .codeEditor {
 	margin: auto;
+}
+
+.param-selector-wrapper {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding: 15px;
+	flex-direction: column;
+	align-items: center;
 }
