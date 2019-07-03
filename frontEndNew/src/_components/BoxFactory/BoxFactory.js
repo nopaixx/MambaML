@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import AceEditor from 'react-ace';
 import { adminActions } from '../../_actions';
@@ -145,16 +145,24 @@ const ParamsSelector = ({
 	setParamsState,
 	specialParamSelector,
 	isCsvSelectorActive,
+	dataset,
 }) => {
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = useState(false);
+	const [option, setOption] = useState();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (isCsvSelectorActive) {
 			setOpen(true);
 		}
 	}, [isCsvSelectorActive, open]);
 
 	function handleClose() {
+		specialParamSelector();
+		setOpen(false);
+	}
+	function handleConfirm() {
+		selectedDataset(option);
+		specialParamSelector();
 		setOpen(false);
 	}
 
@@ -174,11 +182,11 @@ const ParamsSelector = ({
 						<Dropdown
 							options={DATASETS}
 							name={'Data sets'}
-							selectedOptions={selectedDataset}
+							selectedOptions={option => setOption(option)}
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={handleClose} color='primary' autoFocus>
+						<Button onClick={handleConfirm} color='primary' autoFocus>
 							Confirm
 						</Button>
 					</DialogActions>
@@ -186,6 +194,7 @@ const ParamsSelector = ({
 				<ParametersTable
 					specialParamSelector={specialParamSelector}
 					updateBoxState={setParamsState}
+					dataset={dataset}
 				/>
 			</div>
 		</div>
@@ -227,7 +236,9 @@ class BoxFactory extends React.Component {
 	};
 
 	selectedDataset = dataset => {
-		this.setState({ selectedDataset: dataset });
+		if (dataset) {
+			this.setState({ selectedDataset: dataset });
+		}
 	};
 
 	handleSubmit = e => {
@@ -267,9 +278,10 @@ class BoxFactory extends React.Component {
 		}
 	};
 
-	specialParamSelector = param => {
-		this.setState({ isCsvSelectorActive: true });
-		console.log('param', param);
+	handleCsvSelector = () => {
+		this.setState(state => {
+			return { isCsvSelectorActive: !state.isCsvSelectorActive };
+		});
 	};
 
 	onCickDisplayEditor = id => {
@@ -290,10 +302,11 @@ class BoxFactory extends React.Component {
 			activeCodeEditor,
 			areEmptyFields,
 			isCsvSelectorActive,
+			selectedDataset,
 		} = this.state;
 		const { creatingBox, boxCreated } = this.props;
 		//TODO creating and created verification
-		console.log(creatingBox, boxCreated);
+		console.log(creatingBox, boxCreated, selectedDataset);
 		return (
 			<div className={'box-factory-wrapper'}>
 				<div>
@@ -336,8 +349,9 @@ class BoxFactory extends React.Component {
 				<ParamsSelector
 					selectedDataset={this.selectedDataset}
 					setParamsState={this.setParamsState}
-					specialParamSelector={this.specialParamSelector}
+					specialParamSelector={this.handleCsvSelector}
 					isCsvSelectorActive={isCsvSelectorActive}
+					dataset={selectedDataset}
 				/>
 			</div>
 		);

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import MaterialTable from 'material-table';
 import './Table.css';
 
@@ -36,10 +36,12 @@ export default class ParametersTable extends React.Component {
 		};
 	}
 	onParamTypeChange = (e, props) => {
+		const { data } = this.state;
 		const { value } = e.target;
 		const { specialParamSelector } = this.props;
 		if (value === 'csv') {
 			specialParamSelector(value);
+			this.setState({ savedProps: props });
 		}
 		props.onChange(value);
 	};
@@ -52,9 +54,14 @@ export default class ParametersTable extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		const { data } = this.props;
+		const { data, dataset } = this.props;
+		const { savedProps } = this.state;
 		if (prevState.data !== this.props.data) {
 			this.setState({ data: data });
+		}
+		if (prevProps.dataset !== dataset) {
+			const newProps = { ...savedProps.rowData, type: 'csv', value: dataset };
+			savedProps.onRowDataChange(newProps);
 		}
 	}
 
@@ -103,6 +110,7 @@ export default class ParametersTable extends React.Component {
 	};
 
 	render() {
+		console.log('data', this.state.data);
 		return (
 			<MaterialTable
 				title='Params Table'
