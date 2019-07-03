@@ -37,14 +37,11 @@ export class DragDropState extends React.Component {
 			this.setState(cloneDeep(chart));
 		}
 	}
-	componentDidUpdate() {
-		const { dispatch } = this.props;
-		if (this.state) {
-			dispatch(projectActions.updateChartStructure(this.state));
-		}
-	}
 
 	checkIfNodeHasChange = (func, args) => {
+		const { dispatch } = this.props;
+
+		let hasChange = false;
 		if (func.name === 'onLinkComplete') {
 			const fromNode = args[0].fromNodeId;
 			const toNode = args[0].toNodeId;
@@ -54,6 +51,7 @@ export class DragDropState extends React.Component {
 			nodes[fromNode].properties.payload.hasChange = true;
 			nodes[toNode].properties.payload.hasChange = true;
 			this.setState({ nodes });
+			hasChange = true;
 		}
 		if (func.name === 'onLinkCancel') {
 			const selectedLink = this.state.links[args[0].linkId];
@@ -65,7 +63,28 @@ export class DragDropState extends React.Component {
 			nodes[fromNode].properties.payload.hasChange = true;
 			nodes[toNode].properties.payload.hasChange = true;
 			this.setState({ nodes });
+			hasChange = true;
 		}
+		if (hasChange) {
+			if (this.state) {
+				this.updateProjectChart();
+			}
+		}
+	};
+	checkIfProjectHasChange = (func, args) => {
+		switch (func.name) {
+			case 'onDeleteKey':
+			case 'onCanvasDrop':
+				this.updateProjectChart();
+				break;
+			default:
+				break;
+		}
+	};
+
+	updateProjectChart = () => {
+		const { dispatch } = this.props;
+		dispatch(projectActions.updateChartStructure(this.state));
 	};
 
 	runBoxCode = id => {
@@ -75,6 +94,7 @@ export class DragDropState extends React.Component {
 
 	stateActions = mapValues(actions, func => (...args) => {
 		this.checkIfNodeHasChange(func, args);
+		this.checkIfProjectHasChange(func, args);
 		this.setState(func(...args));
 	});
 
@@ -129,6 +149,7 @@ export class DragDropState extends React.Component {
 						chart={chart}
 						boxActions={this.stateActions}
 						updateBox={updateBoxInfo}
+						updateProjectChart={this.updateProjectChart}
 					/>
 				</Page>
 			</React.Fragment>

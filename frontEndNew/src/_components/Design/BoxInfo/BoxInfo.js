@@ -45,6 +45,7 @@ export const BoxInfo = props => {
 	});
 	const [selectedNode, setNode] = useState();
 	const onChangeCodeScript = newValue => {
+		const { updateProjectChart } = props;
 		setCode({ ...code, script: newValue });
 	};
 	const onChangeDependencies = newValue => {
@@ -67,12 +68,12 @@ export const BoxInfo = props => {
 			}
 			if (code.dependencies) {
 				if (
-					chart.nodes[selectedNode].properties.payload.dependencies !==
+					chart.nodes[selectedNode].properties.payload.depen_code !==
 					code.dependencies
 				) {
 					hasChange = true;
 				}
-				chart.nodes[selectedNode].properties.payload.dependencies =
+				chart.nodes[selectedNode].properties.payload.depen_code =
 					code.dependencies;
 			}
 			if (params.parameters) {
@@ -133,16 +134,26 @@ export const BoxInfo = props => {
 	}, [params, props, selectedNode, updateBoxInfo]);
 
 	const openScriptFullScreenMode = e => {
+		const { updateProjectChart } = props;
 		setCode({ ...code, scriptFullScreen: !code.scriptFullScreen });
+		updateBoxInfo();
+		updateProjectChart();
 	};
 	const openDepenFullScreenMode = e => {
+		const { updateProjectChart } = props;
 		setCode({ ...code, depenFullScreen: !code.depenFullScreen });
+		updateBoxInfo();
+		updateProjectChart();
 	};
 	const openParamsFullScreenMode = e => {
 		setParams({ ...params, fullScreen: !params.fullScreen });
+		updateBoxInfo();
 	};
 	const updateParams = data => {
+		const { updateProjectChart } = props;
 		setParams({ ...params, parameters: data });
+		updateBoxInfo();
+		updateProjectChart();
 	};
 
 	const { boxActions } = props;
