@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AceEditor from 'react-ace';
-import { Button as ButtonGonzalo } from '../../_components/Utils/';
 import { adminActions } from '../../_actions';
 import TextField from '@material-ui/core/TextField';
-import Dropdown from '../Utils/Dropdown/Dropdown';
-import { projectActions } from '../../_actions';
 import TreeMenu from '../Design/TreeMenu/TreeMenuList';
 
 import './BoxHospital.css';

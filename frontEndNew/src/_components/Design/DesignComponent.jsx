@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import { projectActions } from '../../_actions';
 
 import { ProjectToolbar } from '../Utils/Toolbar/Toolbar';
-import { Button } from '../Utils/Button/Button';
-import { Input } from '../Utils/Input/Input';
 import './DesignComponent.css';
 
 const DesignComponent = props => {

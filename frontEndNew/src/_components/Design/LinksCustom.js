@@ -30,7 +30,7 @@ const Button = styled.div`
 `;
 
 export const LinksCustom = (props, stateActions) => {
-	const { startPos, endPos, onLinkClick, link } = props;
+	const { startPos, endPos, link } = props;
 	const centerX = startPos.x + (endPos.x - startPos.x) / 2;
 	const centerY = startPos.y + (endPos.y - startPos.y) / 2;
 	return (
@@ -39,8 +39,6 @@ export const LinksCustom = (props, stateActions) => {
 			<Label style={{ left: centerX, top: centerY }}>
 				<Button
 					onClick={e => {
-						// stateActions.onLinkClick({ linkId: link.id });
-						// stateActions.onDeleteKey();
 						stateActions.onLinkCancel({ linkId: link.id });
 						e.stopPropagation();
 					}}>

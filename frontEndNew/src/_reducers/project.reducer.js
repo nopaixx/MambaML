@@ -1,5 +1,4 @@
 import { projectConstants } from '../_constants';
-import { CardActions } from '@material-ui/core';
 
 export function project(state = {}, action) {
 	switch (action.type) {
