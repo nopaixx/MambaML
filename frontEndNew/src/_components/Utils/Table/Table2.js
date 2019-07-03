@@ -19,6 +19,7 @@ export default class ParametersTable extends React.Component {
 						<select
 							name='type'
 							onChange={e => this.onParamTypeChange(e, props)}>
+							<option value='' />
 							<option value='String'>String</option>
 							<option value='int'>int</option>
 							<option value='float'>float</option>
@@ -55,10 +56,10 @@ export default class ParametersTable extends React.Component {
 	componentDidUpdate(prevProps, prevState) {
 		const { data, dataset } = this.props;
 		const { savedProps } = this.state;
-		if (prevState.data !== this.props.data) {
+		if (prevState.data !== this.props.data && this.props.data) {
 			this.setState({ data: data });
 		}
-		if (prevProps.dataset !== dataset) {
+		if (prevProps.dataset !== dataset && dataset) {
 			const newProps = { ...savedProps.rowData, type: 'csv', value: dataset };
 			savedProps.onRowDataChange(newProps);
 		}

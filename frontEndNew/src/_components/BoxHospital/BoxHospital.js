@@ -158,10 +158,6 @@ class BoxHospital extends React.Component {
 		activeCodeEditor: { Dependencies: false, PythonScript: false },
 		selectedTab: 0,
 	};
-	// componentDidMount() {
-	// 	const { dispatch } = this.props;
-	// 	dispatch(projectActions.getAllActors());
-	// }
 
 	onChangeCodeScript = newValue => {
 		this.setState({ code: newValue });

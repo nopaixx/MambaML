@@ -29,15 +29,13 @@ export const ParamsSelector = ({
 	}, [isCsvSelectorActive, open]);
 
 	function handleClose() {
-		specialParamSelector();
 		setOpen(false);
 	}
 	function handleConfirm() {
 		selectedDataset(option);
-		specialParamSelector();
+		specialParamSelector('');
 		setOpen(false);
 	}
-
 	return (
 		<div className={'param-selector-wrapper'}>
 			<div className={'table-wrapper'}>

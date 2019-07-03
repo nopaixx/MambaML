@@ -114,7 +114,7 @@ class BoxFactory extends React.Component {
 		} = this.state;
 		const { creatingBox, boxCreated } = this.props;
 		//TODO creating and created verification
-		console.log(creatingBox, boxCreated);
+		// console.log(creatingBox, boxCreated);
 		return (
 			<div className={'box-factory-wrapper'}>
 				<div>
