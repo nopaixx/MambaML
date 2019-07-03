@@ -137,14 +137,14 @@ const LoadingWarapper = ({ projectStatus, runFullProject }) => {
 				<Icon onClick={runFullProject} className={classes.icon}>
 					play_circle_filled
 				</Icon>
-				<div className={classes.iconText}>Play</div>
+				<div className={classes.iconText}>Run Project</div>
 			</React.Fragment>
 		);
 	} else if (projectStatus === 'PENDING') {
 		return (
 			<React.Fragment>
 				<Icon className={classes.confirmationIcon}>check_circle_outline</Icon>
-				<div className={classes.iconText}>Done</div>
+				<div className={classes.iconText}>Run Successful</div>
 			</React.Fragment>
 		);
 	} else {

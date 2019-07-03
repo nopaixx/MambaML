@@ -39,8 +39,6 @@ export class DragDropState extends React.Component {
 	}
 
 	checkIfNodeHasChange = (func, args) => {
-		const { dispatch } = this.props;
-
 		let hasChange = false;
 		if (func.name === 'onLinkComplete') {
 			const fromNode = args[0].fromNodeId;
