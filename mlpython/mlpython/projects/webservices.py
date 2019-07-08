@@ -139,26 +139,34 @@ def run_simul():
 def get_status_project():
     #improve this function this function return a status for each box
         id = request.args.get('id')
-        project = Status_Project.query.filter(Status_Project.project_id == id).first()
-        if project:
-            if project.status == 'PENDING':
-                return json.dumps({'status':'PENDING',
-                        'task': project.task}), 200
-            else:
-                return json.dumps({'status':project.status,
-                                   'error': project.error}), 200
+        project_stat = Status_Project.query.filter(Status_Project.project_id == id).first()
+        if project_Stat:
+            return json.dumps(project_stat.serialize()), 200
+            # if project.status == 'PENDING':
+            #    return json.dumps({'status':'PENDING',
+            #            'task': project.task}), 200
+            # else:
+            #    return json.dumps({'status':project.status,
+            #                       'error': project.error}), 200
         else:
             return json.dumps({'status':'NONE'}),200
 
 @app.route('/projects/set_status', methods=['GET'])
 def set_status_projects():
     id = request.args.get('id')
-    data = request.args.get('data')
+    data = request.args.get('data', None)
     stat = request.args.get('stat')
-    error = request.args.get('error')
+    error = request.args.get('error', None)
+    task = request.args.get('task', None)
+
     project = Project.query.filter(Project.id == id).first()
     if project:
-        project.update_status(data, stat, error)
+        if  task is not None:
+            # update particular task status
+            project.update_task_status(task, stat)
+        else:
+            # update global project status
+            project.update_status(data, stat, error)
 
     return 'OK', 200
 

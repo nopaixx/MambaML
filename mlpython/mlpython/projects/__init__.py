@@ -165,10 +165,33 @@ class Project(db.Model):
         # db.session.commit()
         return self
 
+    def update_task_status(self, task, stat):
+
+        status = Status_Project.query.filter(Status_Project.project_id==self.id).first()
+        if status:
+            j_data = json.loads(status.status)
+            if task in j_data:
+                j_data[task] = stat
+            else:
+                j_data[task] = stat
+
+            status.status = json.dumps(j_data)
+
+            db.session.commit()
+        return None
+
     def update_status(self, data, stat, error):
         status = Status_Project.query.filter(Status_Project.project_id==self.id).first()
         if status:
-            status.status = stat
+            j_data = json.loads(status.status)
+            if 'project_stat' in j_data:
+                j_data['project_stat'] = stat
+            else:
+                j_data['project_stat'] = stat
+
+            status.status = json.dumps(j_data)
+
+            # status.status = stat
             status.error = error
            # if stat == 'OK':
             self.json = data                
