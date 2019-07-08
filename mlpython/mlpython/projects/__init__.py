@@ -155,10 +155,10 @@ class Project(db.Model):
         status = Status_Project.query.filter(Status_Project.project_id==self.id).first()
         if status:
             status.task = task
-            status.status = 'PENDING'
+            status.status = json.dumps({"project_stat":"PENDING"})
             db.session.commit()
         else:
-            new = Status_Project.create(self.id, task,'PENDING')
+            new = Status_Project.create(self.id, task,json.dumps({"project_stat":"PENDING"}))
         
         # jsondata = self.json
         # jsondata = json.dump(jsondata)
@@ -169,6 +169,7 @@ class Project(db.Model):
 
         status = Status_Project.query.filter(Status_Project.project_id==self.id).first()
         if status:
+            print("aaaaa-->", status.status)
             j_data = json.loads(status.status)
             if task in j_data:
                 j_data[task] = stat
@@ -183,6 +184,7 @@ class Project(db.Model):
     def update_status(self, data, stat, error):
         status = Status_Project.query.filter(Status_Project.project_id==self.id).first()
         if status:
+            print("aaaa-->",status.status)
             j_data = json.loads(status.status)
             if 'project_stat' in j_data:
                 j_data['project_stat'] = stat

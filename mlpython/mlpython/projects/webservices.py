@@ -140,7 +140,7 @@ def get_status_project():
     #improve this function this function return a status for each box
         id = request.args.get('id')
         project_stat = Status_Project.query.filter(Status_Project.project_id == id).first()
-        if project_Stat:
+        if project_stat:
             return json.dumps(project_stat.serialize()), 200
             # if project.status == 'PENDING':
             #    return json.dumps({'status':'PENDING',

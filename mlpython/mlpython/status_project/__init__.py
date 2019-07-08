@@ -25,7 +25,7 @@ class Status_Project(db.Model):
         db.session.add(model)
         db.session.commit()
 
-    def serialize():
+    def serialize(self):
         model={}
         model['id'] = self.id
         model['project_id'] = self.project_id
