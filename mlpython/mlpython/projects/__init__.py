@@ -13,7 +13,7 @@ class Project(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-    json = db.Column(db.String(65000))
+    json = db.Column(db.String())
     frontendVersion = db.Column(db.String(10))
     backendVersion = db.Column(db.String(10))
     user_id = db.Column(

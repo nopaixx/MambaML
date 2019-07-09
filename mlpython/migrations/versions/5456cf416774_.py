@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('project',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=80), nullable=True),
-    sa.Column('json', sa.String(length=65000), nullable=True),
+    sa.Column('json', sa.String(), nullable=True),
     sa.Column('frontendVersion', sa.String(length=10), nullable=True),
     sa.Column('backendVersion', sa.String(length=10), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
