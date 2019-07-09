@@ -160,13 +160,14 @@ const checkProjectStatus = (projectId, counter) => {
 	return dispatch => {
 		projectService.checkRunStatus(projectId).then(
 			projectData => {
-				const projectStatus = projectData.data.status;
-				if (projectStatus === 'PENDING' && counter < 5) {
+				const projectStatus = JSON.parse(projectData.data.status);
+				if (projectStatus.project_stat === 'PENDING') {
 					counter++;
 					setTimeout(
 						() => dispatch(checkProjectStatus(projectId, counter)),
 						1000
 					);
+					dispatch(updateBoxesStatus(projectStatus));
 					console.log(counter);
 				} else {
 					dispatch(success(projectStatus));
@@ -186,6 +187,10 @@ const checkProjectStatus = (projectId, counter) => {
 		return { type: projectConstants.CHECK_PROJECT_FAILURE, error };
 	}
 };
+
+function updateBoxesStatus(boxesStatus) {
+	return { type: projectConstants.UPDATE_BOXES_STATUS_SUCCESS, boxesStatus };
+}
 function run(projectId) {
 	return dispatch => {
 		dispatch(request('running'));

@@ -37,11 +37,12 @@ const BoxStyleWrapper = styled.div`
 	justify-content: space-around;
 `;
 
-export const NodeCustom = (props, runBoxCode, projectStatus) => {
+export const NodeCustom = (props, runBoxCode, boxesStatus, projectStatus) => {
 	const classes = useStyles();
 	const node = props.node;
 	let name;
 	let boxTitle;
+	let boxStatus;
 	if (node.properties.payload.name) {
 		name = node.properties.payload.name;
 		name = name.split('-');
@@ -52,6 +53,8 @@ export const NodeCustom = (props, runBoxCode, projectStatus) => {
 	} else {
 		node.type ? (boxTitle = node.type.split('-')[1]) : (boxTitle = node.type);
 	}
+
+	if (boxesStatus) boxStatus = boxesStatus[node.id];
 	return (
 		<BoxStyleWrapper>
 			<img
@@ -61,26 +64,31 @@ export const NodeCustom = (props, runBoxCode, projectStatus) => {
 			/>
 			<div className={classes.boxTitle}>{boxTitle}</div>
 			<LoadingWarapper
-				projectStatus={projectStatus}
+				boxStatus={boxStatus}
 				runBoxCode={runBoxCode}
 				node={node}
+				projectStatus={projectStatus}
 			/>
 		</BoxStyleWrapper>
 	);
 };
 
-const LoadingWarapper = ({ projectStatus, runBoxCode, node }) => {
+const LoadingWarapper = ({ boxStatus, runBoxCode, node }) => {
 	const classes = useStyles();
-	if (projectStatus === undefined) {
+	if (boxStatus === undefined) {
 		return (
 			<Icon onClick={() => runBoxCode(node.id)} className={classes.icon}>
 				play_circle_filled
 			</Icon>
 		);
-	} else if (projectStatus === 'PENDING') {
+	} else if (boxStatus === 'RUNNING' || boxStatus === 'INIT') {
+		return <ClockLoader />;
+	} else if (boxStatus === 'RUNNED') {
 		return (
 			<Icon className={classes.confirmationIcon}>check_circle_outline</Icon>
 		);
+	} else if (boxStatus === 'ERROR') {
+		return <Icon className={classes.confirmationIcon}>error</Icon>;
 	} else {
 		return <ClockLoader />;
 	}
