@@ -62,6 +62,11 @@ export function project(state = {}, action) {
 				...state,
 				projectStatus: action.projectStatus,
 			};
+		case projectConstants.UPDATE_BOXES_STATUS_SUCCESS:
+			return {
+				...state,
+				boxexStatus: action.boxesStatus,
+			};
 		case projectConstants.CHECK_PROJECT_SUCCESS:
 			return {
 				...state,

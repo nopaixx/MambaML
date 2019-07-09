@@ -57,6 +57,7 @@ const DesignComponent = props => {
 		projectStatus,
 		chartStructure,
 		savedProject,
+		boxexStatus,
 	} = props;
 	if (!project) {
 		return null;
@@ -73,6 +74,7 @@ const DesignComponent = props => {
 						runBox={runBox}
 						projectStatus={projectStatus}
 						chartStructure={chartStructure}
+						boxexStatus={boxexStatus}
 					/>
 				</div>
 				<ProjectToolbar
@@ -99,6 +101,7 @@ function mapStateToProps(state) {
 		chartStructure,
 		projectStatus,
 		savedProject,
+		boxexStatus,
 	} = state.project;
 	return {
 		project,
@@ -108,6 +111,7 @@ function mapStateToProps(state) {
 		chartStructure,
 		projectStatus,
 		savedProject,
+		boxexStatus,
 	};
 }
 

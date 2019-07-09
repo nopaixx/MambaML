@@ -97,7 +97,7 @@ export class DragDropState extends React.Component {
 	});
 
 	render() {
-		const { actors, updateBoxInfo, projectStatus } = this.props;
+		const { actors, updateBoxInfo, projectStatus, boxexStatus } = this.props;
 		const chart = this.state;
 		var h = window.innerHeight;
 
@@ -124,7 +124,12 @@ export class DragDropState extends React.Component {
 								callbacks={this.stateActions}
 								Components={{
 									NodeInner: props =>
-										NodeCustom(props, this.runBoxCode, projectStatus),
+										NodeCustom(
+											props,
+											this.runBoxCode,
+											boxexStatus,
+											projectStatus
+										),
 									Link: props => LinksCustom(props, this.stateActions),
 									CanvasOuter: CanvasCustom,
 								}}
