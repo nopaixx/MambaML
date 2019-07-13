@@ -53,7 +53,6 @@ export const NodeCustom = (props, runBoxCode, boxesStatus, projectStatus) => {
 	} else {
 		node.type ? (boxTitle = node.type.split('-')[1]) : (boxTitle = node.type);
 	}
-
 	if (boxesStatus) boxStatus = boxesStatus[node.id];
 	return (
 		<BoxStyleWrapper>

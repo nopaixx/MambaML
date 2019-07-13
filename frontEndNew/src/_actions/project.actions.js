@@ -38,6 +38,7 @@ function create(
 		projectService.create(project).then(
 			project => {
 				const ID = project.data.id;
+				project.data['projectName'] = project.data.name;
 				dispatch(success(project.data));
 				history.push(`/project/${ID}`);
 			},
@@ -156,19 +157,19 @@ function load(projectId) {
 		return { type: projectConstants.LOGIN_FAILURE, error };
 	}
 }
-const checkProjectStatus = (projectId, counter) => {
+const checkProjectStatus = projectId => {
 	return dispatch => {
 		projectService.checkRunStatus(projectId).then(
 			projectData => {
 				const projectStatus = JSON.parse(projectData.data.status);
+				console.log(projectStatus);
 				if (projectStatus.project_stat === 'PENDING') {
-					counter++;
-					setTimeout(
-						() => dispatch(checkProjectStatus(projectId, counter)),
-						1000
-					);
 					dispatch(updateBoxesStatus(projectStatus));
-					console.log(counter);
+					setTimeout(() => dispatch(checkProjectStatus(projectId)), 1000);
+				} else if (projectStatus.project_stat === 'OK') {
+					dispatch(updateBoxesStatus(projectStatus));
+					dispatch(success(projectStatus));
+					dispatch(get(projectId));
 				} else {
 					dispatch(success(projectStatus));
 				}

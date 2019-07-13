@@ -27,6 +27,7 @@ export function project(state = {}, action) {
 			return {
 				...state,
 				projects: action.payload,
+				project: undefined,
 			};
 		case projectConstants.GET_PROJECT_REQUEST:
 			return {
@@ -65,7 +66,7 @@ export function project(state = {}, action) {
 		case projectConstants.UPDATE_BOXES_STATUS_SUCCESS:
 			return {
 				...state,
-				boxexStatus: action.boxesStatus,
+				boxesStatus: action.boxesStatus,
 			};
 		case projectConstants.CHECK_PROJECT_SUCCESS:
 			return {

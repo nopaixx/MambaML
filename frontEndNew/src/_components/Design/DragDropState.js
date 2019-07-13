@@ -18,6 +18,7 @@ import _ from 'lodash';
 // import ResizableBox from '../Utils/Resize/ResizableBox';
 import { ResizableBox } from 'react-resizable';
 import './DesignComponent.css';
+import { whileStatement } from '@babel/types';
 
 export class DragDropState extends React.Component {
 	state = {
@@ -97,7 +98,7 @@ export class DragDropState extends React.Component {
 	});
 
 	render() {
-		const { actors, updateBoxInfo, projectStatus, boxexStatus } = this.props;
+		const { actors, updateBoxInfo, projectStatus, boxesStatus } = this.props;
 		const chart = this.state;
 		var h = window.innerHeight;
 
@@ -117,6 +118,23 @@ export class DragDropState extends React.Component {
 							<TreeMenu data={actors} />
 						</ResizableBox>
 					</div>
+					{projectStatus === 'running' ? (
+						<div
+							onClick={this.handleClickBlockScreen}
+							style={{
+								position: 'absolute',
+								width: '100%',
+								height: '100%',
+								zIndex: 9999,
+								backgroundColor: 'transparent',
+								textAlign: 'center',
+								fontSize: 26,
+								color: 'white',
+								fontWeight: 700,
+							}}>
+							The screen is block until the project finish!!! Sorry :(
+						</div>
+					) : null}
 					<Content>
 						<div id={'flowchartCanvas'}>
 							<FlowChart
@@ -127,7 +145,7 @@ export class DragDropState extends React.Component {
 										NodeCustom(
 											props,
 											this.runBoxCode,
-											boxexStatus,
+											boxesStatus,
 											projectStatus
 										),
 									Link: props => LinksCustom(props, this.stateActions),

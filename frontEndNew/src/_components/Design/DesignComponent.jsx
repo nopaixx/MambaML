@@ -9,14 +9,14 @@ import './DesignComponent.css';
 
 const DesignComponent = props => {
 	const [projectName, setProjectName] = useState('');
+	const [projectID, setProjectID] = useState();
 
 	useEffect(() => {
-		const { dispatch, project, match } = props;
+		const { dispatch, match } = props;
 		dispatch(projectActions.getAllActors());
-		if (!project) {
-			const ID = match.params.id;
-			dispatch(projectActions.get(ID));
-		}
+		const ID = match.params.id;
+		setProjectID(ID);
+		dispatch(projectActions.get(ID));
 	}, []);
 
 	useEffect(() => {
@@ -57,9 +57,10 @@ const DesignComponent = props => {
 		projectStatus,
 		chartStructure,
 		savedProject,
-		boxexStatus,
+		boxesStatus,
 	} = props;
-	if (!project) {
+
+	if (!project || (project && project.id != projectID)) {
 		return null;
 	}
 	if (project) {
@@ -74,7 +75,7 @@ const DesignComponent = props => {
 						runBox={runBox}
 						projectStatus={projectStatus}
 						chartStructure={chartStructure}
-						boxexStatus={boxexStatus}
+						boxesStatus={boxesStatus}
 					/>
 				</div>
 				<ProjectToolbar
@@ -101,7 +102,7 @@ function mapStateToProps(state) {
 		chartStructure,
 		projectStatus,
 		savedProject,
-		boxexStatus,
+		boxesStatus,
 	} = state.project;
 	return {
 		project,
@@ -111,7 +112,7 @@ function mapStateToProps(state) {
 		chartStructure,
 		projectStatus,
 		savedProject,
-		boxexStatus,
+		boxesStatus,
 	};
 }
 
