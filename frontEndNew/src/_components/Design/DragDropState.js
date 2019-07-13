@@ -48,11 +48,12 @@ export class DragDropState extends React.Component {
 				...this.state.nodes,
 			};
 			// nodes[fromNode].properties.payload.hasChange = true;
-			nodes[toNode].properties.payload.hasChange = true;
-			this.setState({ nodes });
 			if (fromNode === toNode) {
-				hasChange = false;
+				console.log('Same node Connected');
 			} else {
+				nodes[toNode].properties.payload.hasChange = true;
+				this.setState({ nodes });
+
 				hasChange = true;
 			}
 		}
@@ -66,11 +67,7 @@ export class DragDropState extends React.Component {
 			// nodes[fromNode].properties.payload.hasChange = true;
 			nodes[toNode].properties.payload.hasChange = true;
 			this.setState({ nodes });
-			if (fromNode === toNode) {
-				hasChange = false;
-			} else {
-				hasChange = true;
-			}
+			hasChange = true;
 		}
 		if (hasChange) {
 			if (this.state) {
