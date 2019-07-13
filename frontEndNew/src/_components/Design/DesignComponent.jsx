@@ -65,7 +65,6 @@ const DesignComponent = props => {
 		return null;
 	}
 	if (project) {
-		console.log('project has been updated', project);
 		return (
 			<React.Fragment>
 				<div className={'design-window'}>

@@ -43,7 +43,7 @@ export class DragDropState extends React.Component {
 		if (
 			this.props.project.chartStructure !== prevProps.project.chartStructure
 		) {
-			this.setState(cloneDeep(prevProps.project.chartStructure));
+			this.setState(cloneDeep(this.props.project.chartStructure));
 		}
 	}
 
@@ -55,7 +55,6 @@ export class DragDropState extends React.Component {
 			const nodes = {
 				...this.state.nodes,
 			};
-			// nodes[fromNode].properties.payload.hasChange = true;
 			if (fromNode === toNode) {
 				console.log('Same node Connected');
 			} else {
@@ -72,14 +71,12 @@ export class DragDropState extends React.Component {
 			const nodes = {
 				...this.state.nodes,
 			};
-			// nodes[fromNode].properties.payload.hasChange = true;
 			nodes[toNode].properties.payload.hasChange = true;
 			this.setState({ nodes });
 			hasChange = true;
 		}
 		if (hasChange) {
 			if (this.state) {
-				console.log('kasdñkfjaslkdjflkasjdflkasd', this.state);
 				this.updateProjectChart();
 			}
 		}
@@ -97,7 +94,6 @@ export class DragDropState extends React.Component {
 
 	updateProjectChart = () => {
 		const { dispatch } = this.props;
-		console.log('updateProjectChart', this.state);
 		dispatch(projectActions.updateChartStructure(this.state));
 	};
 
@@ -133,7 +129,8 @@ export class DragDropState extends React.Component {
 							<TreeMenu data={actors} />
 						</ResizableBox>
 					</div>
-					{projectStatus === 'running' ? (
+					{projectStatus === 'running' ||
+					(boxesStatus && boxesStatus.project_stat === 'PENDING') ? (
 						<div
 							onClick={this.handleClickBlockScreen}
 							style={{

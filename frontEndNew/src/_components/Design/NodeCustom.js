@@ -60,15 +60,14 @@ export const NodeCustom = (props, runBoxCode, boxesStatus, projectStatus) => {
 		node.type ? (boxTitle = node.type.split('-')[1]) : (boxTitle = node.type);
 	}
 	if (boxesStatus) boxStatus = boxesStatus[node.id];
-	console.log(node.properties.payload.hasChange);
 	return (
 		<BoxStyleWrapper>
 			<div
 				style={
 					node.properties.payload.hasChange
 						? {
-								width: 20,
-								height: 20,
+								width: 10,
+								height: 10,
 								borderRadius: '50%',
 								backgroundColor: 'yellow',
 								position: 'absolute',
@@ -76,8 +75,8 @@ export const NodeCustom = (props, runBoxCode, boxesStatus, projectStatus) => {
 								right: 0,
 						  }
 						: {
-								width: 20,
-								height: 20,
+								width: 10,
+								height: 10,
 								borderRadius: '50%',
 								backgroundColor: 'green',
 								position: 'absolute',
