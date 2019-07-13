@@ -50,9 +50,9 @@ export class DragDropState extends React.Component {
 			// nodes[fromNode].properties.payload.hasChange = true;
 			nodes[toNode].properties.payload.hasChange = true;
 			this.setState({ nodes });
-			if (fromNode === toNode){
+			if (fromNode === toNode) {
 				hasChange = false;
-			}else{
+			} else {
 				hasChange = true;
 			}
 		}
@@ -66,16 +66,15 @@ export class DragDropState extends React.Component {
 			// nodes[fromNode].properties.payload.hasChange = true;
 			nodes[toNode].properties.payload.hasChange = true;
 			this.setState({ nodes });
-			if (fromNode === toNode){
+			if (fromNode === toNode) {
 				hasChange = false;
-			}else{
+			} else {
 				hasChange = true;
 			}
 		}
-		console.log('before checking hasChange',this.state.nodes)
 		if (hasChange) {
 			if (this.state) {
-				console.log('kasdñkfjaslkdjflkasjdflkasd', this.state)
+				console.log('kasdñkfjaslkdjflkasjdflkasd', this.state);
 				this.updateProjectChart();
 			}
 		}
@@ -93,7 +92,7 @@ export class DragDropState extends React.Component {
 
 	updateProjectChart = () => {
 		const { dispatch } = this.props;
-		console.log('updateProjectChart',this.state)
+		console.log('updateProjectChart', this.state);
 		dispatch(projectActions.updateChartStructure(this.state));
 	};
 
@@ -129,7 +128,6 @@ export class DragDropState extends React.Component {
 							<TreeMenu data={actors} />
 						</ResizableBox>
 					</div>
-					{console.log('DragDropState', projectStatus)}
 					{projectStatus === 'running' ? (
 						<div
 							onClick={this.handleClickBlockScreen}
