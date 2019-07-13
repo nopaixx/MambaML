@@ -147,6 +147,10 @@ const LoadingWarapper = ({ projectStatus, runFullProject }) => {
 				<div className={classes.iconText}>Run Successful</div>
 			</React.Fragment>
 		);
+	} else if (projectStatus.project_stat === 'PENDING'){
+		return <ClockLoader />;
+	} else if (projectStatus.project_stat === 'ERROR'){
+		return <div>Error</div>
 	} else {
 		return <ClockLoader />;
 	}
