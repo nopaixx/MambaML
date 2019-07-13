@@ -50,7 +50,11 @@ export class DragDropState extends React.Component {
 			// nodes[fromNode].properties.payload.hasChange = true;
 			nodes[toNode].properties.payload.hasChange = true;
 			this.setState({ nodes });
-			hasChange = true;
+			if (fromNode === toNode){
+				hasChange = false;
+			}else{
+				hasChange = true;
+			}
 		}
 		if (func.name === 'onLinkCancel') {
 			const selectedLink = this.state.links[args[0].linkId];
@@ -62,7 +66,11 @@ export class DragDropState extends React.Component {
 			// nodes[fromNode].properties.payload.hasChange = true;
 			nodes[toNode].properties.payload.hasChange = true;
 			this.setState({ nodes });
-			hasChange = true;
+			if (fromNode === toNode){
+				hasChange = false;
+			}else{
+				hasChange = true;
+			}
 		}
 		console.log('before checking hasChange',this.state.nodes)
 		if (hasChange) {
