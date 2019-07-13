@@ -51,8 +51,8 @@ export const NodeCustom = (props, runBoxCode, boxesStatus, projectStatus) => {
 		name = name.split('-');
 		name = name[name.length - 1];
 	}
-	if (node.properties.payload.result){
-		error = node.properties.payload.result.error_message;		
+	if (node.properties.payload.result) {
+		error = node.properties.payload.result.error_message;
 	}
 	if (name) {
 		boxTitle = name;
@@ -82,21 +82,29 @@ export const NodeCustom = (props, runBoxCode, boxesStatus, projectStatus) => {
 	);
 };
 
-const LoadingWarapper = ({ boxStatus, runBoxCode, node, projectStatus, error }) => {
+const LoadingWarapper = ({
+	boxStatus,
+	runBoxCode,
+	node,
+	projectStatus,
+	error,
+}) => {
 	const classes = useStyles();
 	if (boxStatus === 'RUNNING' || boxStatus === 'INIT') {
-		console.log("AL-", boxStatus)
+		console.log('AL-', boxStatus);
 		return <ClockLoader />;
 	} else if (boxStatus === 'RUNNED') {
 		return (
 			<Icon className={classes.confirmationIcon}>check_circle_outline</Icon>
 		);
 	} else if (boxStatus === 'ERROR') {
-		return (<React.Fragment> 
+		return (
+			<React.Fragment>
 				<Tooltip title={error} placement='bottom-start'>
 					<Icon className={classes.confirmationIcon}>error</Icon>
 				</Tooltip>
-			</React.Fragment>);
+			</React.Fragment>
+		);
 	} else {
 		return null;
 	}

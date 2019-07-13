@@ -79,6 +79,7 @@ function get(ID) {
 					backendVersion: 'V1',
 				};
 				dispatch(success(project));
+				dispatch(checkProjectStatus(ID, 0));
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -170,7 +171,7 @@ const checkProjectStatus = projectId => {
 					dispatch(updateBoxesStatus(projectStatus));
 					dispatch(success(projectStatus));
 					dispatch(get(projectId));
-				} else if (projectStatus.project_stat === 'ERROR'){
+				} else if (projectStatus.project_stat === 'ERROR') {
 					dispatch(updateBoxesStatus(projectStatus));
 					dispatch(success(projectStatus));
 					dispatch(get(projectId));
