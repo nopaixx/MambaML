@@ -91,6 +91,7 @@ const LoadingWarapper = ({
 }) => {
 	const classes = useStyles();
 	if (boxStatus === 'RUNNING' || boxStatus === 'INIT') {
+	//if (boxStatus === 'RUNNING') {
 		console.log('AL-', boxStatus);
 		return <ClockLoader />;
 	} else if (boxStatus === 'RUNNED') {

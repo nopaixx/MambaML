@@ -166,7 +166,7 @@ const checkProjectStatus = projectId => {
 				console.log('projectStatus', projectStatus);
 				if (projectStatus.project_stat === 'PENDING') {
 					dispatch(updateBoxesStatus(projectStatus));
-					setTimeout(() => dispatch(checkProjectStatus(projectId)), 10000);
+					setTimeout(() => dispatch(checkProjectStatus(projectId)), 1000);
 				} else if (projectStatus.project_stat === 'OK') {
 					dispatch(updateBoxesStatus(projectStatus));
 					dispatch(success(projectStatus));
