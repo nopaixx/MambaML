@@ -60,8 +60,32 @@ export const NodeCustom = (props, runBoxCode, boxesStatus, projectStatus) => {
 		node.type ? (boxTitle = node.type.split('-')[1]) : (boxTitle = node.type);
 	}
 	if (boxesStatus) boxStatus = boxesStatus[node.id];
+	console.log(node.properties.payload.hasChange);
 	return (
 		<BoxStyleWrapper>
+			<div
+				style={
+					node.properties.payload.hasChange
+						? {
+								width: 20,
+								height: 20,
+								borderRadius: '50%',
+								backgroundColor: 'yellow',
+								position: 'absolute',
+								top: 0,
+								right: 0,
+						  }
+						: {
+								width: 20,
+								height: 20,
+								borderRadius: '50%',
+								backgroundColor: 'green',
+								position: 'absolute',
+								top: 0,
+								right: 0,
+						  }
+				}
+			/>
 			<img
 				alt={'python'}
 				style={{ width: 30, position: 'absolute', left: 10, top: 10 }}
@@ -91,7 +115,7 @@ const LoadingWarapper = ({
 }) => {
 	const classes = useStyles();
 	if (boxStatus === 'RUNNING' || boxStatus === 'INIT') {
-	//if (boxStatus === 'RUNNING') {
+		//if (boxStatus === 'RUNNING') {
 		console.log('AL-', boxStatus);
 		return <ClockLoader />;
 	} else if (boxStatus === 'RUNNED') {

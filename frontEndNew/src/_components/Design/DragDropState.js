@@ -39,6 +39,14 @@ export class DragDropState extends React.Component {
 		}
 	}
 
+	componentDidUpdate(prevProps) {
+		if (
+			this.props.project.chartStructure !== prevProps.project.chartStructure
+		) {
+			this.setState(cloneDeep(prevProps.project.chartStructure));
+		}
+	}
+
 	checkIfNodeHasChange = (func, args) => {
 		let hasChange = false;
 		if (func.name === 'onLinkComplete') {
