@@ -170,6 +170,10 @@ const checkProjectStatus = projectId => {
 					dispatch(updateBoxesStatus(projectStatus));
 					dispatch(success(projectStatus));
 					dispatch(get(projectId));
+				} else if (projectStatus.project_stat === 'ERROR'){
+					dispatch(updateBoxesStatus(projectStatus));
+					dispatch(success(projectStatus));
+					dispatch(get(projectId));
 				} else {
 					dispatch(success(projectStatus));
 				}

@@ -7,6 +7,7 @@ import pythonLogo from '../../python.png';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import { ClockLoader } from '../../_components/Utils/Loader/Loader';
+import Tooltip from '@material-ui/core/Tooltip';
 const useStyles = makeStyles(theme => ({
 	icon: {
 		cursor: 'pointer',
@@ -43,10 +44,15 @@ export const NodeCustom = (props, runBoxCode, boxesStatus, projectStatus) => {
 	let name;
 	let boxTitle;
 	let boxStatus;
+	let error;
+
 	if (node.properties.payload.name) {
 		name = node.properties.payload.name;
 		name = name.split('-');
 		name = name[name.length - 1];
+	}
+	if (node.properties.payload.result){
+		error = node.properties.payload.result.error_message;		
 	}
 	if (name) {
 		boxTitle = name;
@@ -62,33 +68,36 @@ export const NodeCustom = (props, runBoxCode, boxesStatus, projectStatus) => {
 				src={pythonLogo}
 			/>
 			<div className={classes.boxTitle}>{boxTitle}</div>
+			<Icon onClick={() => runBoxCode(node.id)} className={classes.icon}>
+				play_circle_filled
+			</Icon>
 			<LoadingWarapper
 				boxStatus={boxStatus}
 				runBoxCode={runBoxCode}
 				node={node}
 				projectStatus={projectStatus}
+				error={error}
 			/>
 		</BoxStyleWrapper>
 	);
 };
 
-const LoadingWarapper = ({ boxStatus, runBoxCode, node }) => {
+const LoadingWarapper = ({ boxStatus, runBoxCode, node, projectStatus, error }) => {
 	const classes = useStyles();
-	if (boxStatus === undefined) {
-		return (
-			<Icon onClick={() => runBoxCode(node.id)} className={classes.icon}>
-				play_circle_filled
-			</Icon>
-		);
-	} else if (boxStatus === 'RUNNING' || boxStatus === 'INIT') {
+	if (boxStatus === 'RUNNING' || boxStatus === 'INIT') {
+		console.log("AL-", boxStatus)
 		return <ClockLoader />;
 	} else if (boxStatus === 'RUNNED') {
 		return (
 			<Icon className={classes.confirmationIcon}>check_circle_outline</Icon>
 		);
 	} else if (boxStatus === 'ERROR') {
-		return <Icon className={classes.confirmationIcon}>error</Icon>;
+		return (<React.Fragment> 
+				<Tooltip title={error} placement='bottom-start'>
+					<Icon className={classes.confirmationIcon}>error</Icon>
+				</Tooltip>
+			</React.Fragment>);
 	} else {
-		return <ClockLoader />;
+		return null;
 	}
 };

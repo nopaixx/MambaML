@@ -44,6 +44,7 @@ const useStyles = makeStyles(theme => ({
 		textAlign: 'center',
 		paddingLeft: 20,
 		paddingRight: 20,
+		display: 'flex'
 	},
 	iconText: {
 		fontSize: 11,
@@ -106,6 +107,11 @@ export const ProjectToolbar = ({
 						/>
 					</div>
 					<div className={classes.iconWrapper}>
+                       			        <Icon onClick={runFullProject} className={classes.icon}>
+		                                        play_circle_filled
+		                                </Icon>
+                     			        <div className={classes.iconText}>Run Project</div>
+
 						<LoadingWarapper
 							projectStatus={projectStatus}
 							runFullProject={runFullProject}
@@ -131,28 +137,22 @@ export const ProjectToolbar = ({
 
 const LoadingWarapper = ({ projectStatus, runFullProject }) => {
 	const classes = useStyles();
-	if (projectStatus === undefined) {
-		return (
-			<React.Fragment>
-				<Icon onClick={runFullProject} className={classes.icon}>
-					play_circle_filled
-				</Icon>
-				<div className={classes.iconText}>Run Project</div>
-			</React.Fragment>
-		);
-	} else if (projectStatus.project_stat === 'OK') {
+	console.log('projectStatusjaslkdjfalksjdfklasjdfkljasdlfñkjasdlkfj',projectStatus)
+	if (!projectStatus){ return null }
+	if (projectStatus.project_stat === 'OK') {
 		return (
 			<React.Fragment>
 				<Icon className={classes.confirmationIcon}>check_circle_outline</Icon>
 				<div className={classes.iconText}>Run Successful</div>
 			</React.Fragment>
 		);
-	} else if (projectStatus.project_stat === 'PENDING'){
+	} else if (projectStatus === 'running'){
+		console.log('we are in pending')
 		return <ClockLoader />;
 	} else if (projectStatus.project_stat === 'ERROR'){
-		return <div>Error</div>
+		return <div><Icon>error</Icon></div>
 	} else {
-		return <ClockLoader />;
+		return null;
 	}
 };
 const SaveWarapper = ({ savedProject, onSaveProject }) => {
