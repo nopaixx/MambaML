@@ -170,7 +170,10 @@ const LoadingWarapper = ({ projectStatus, runFullProject }) => {
 				<div className={classes.iconText}>Run Successful</div>
 			</div>
 		);
-	} else if (projectStatus === 'running') {
+	} else if (
+		projectStatus === 'running' ||
+		projectStatus.project_stat === 'PENDING'
+	) {
 		return <ClockLoader />;
 	} else if (projectStatus.project_stat === 'ERROR') {
 		return (

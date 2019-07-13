@@ -163,16 +163,16 @@ const checkProjectStatus = projectId => {
 		projectService.checkRunStatus(projectId).then(
 			projectData => {
 				const projectStatus = JSON.parse(projectData.data.status);
-				console.log('projectStatus', projectStatus);
+				console.log('projectStatus in actions', projectStatus);
 				if (projectStatus.project_stat === 'PENDING') {
 					dispatch(updateBoxesStatus(projectStatus));
 					setTimeout(() => dispatch(checkProjectStatus(projectId)), 10000);
+					dispatch(success(projectStatus));
 				} else if (projectStatus.project_stat === 'OK') {
 					dispatch(updateBoxesStatus(projectStatus));
 					dispatch(success(projectStatus));
 					dispatch(get(projectId));
 				} else if (projectStatus.project_stat === 'ERROR') {
-					console.log('Errrrrrrrrrrrrrr');
 					dispatch(updateBoxesStatus(projectStatus));
 					dispatch(success(projectStatus));
 					dispatch(get(projectId));

@@ -118,6 +118,7 @@ export class DragDropState extends React.Component {
 							<TreeMenu data={actors} />
 						</ResizableBox>
 					</div>
+					{console.log('DragDropState', projectStatus)}
 					{projectStatus === 'running' ? (
 						<div
 							onClick={this.handleClickBlockScreen}
