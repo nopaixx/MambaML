@@ -155,7 +155,10 @@ class Project(db.Model):
         status = Status_Project.query.filter(Status_Project.project_id==self.id).first()
         if status:
             status.task = task
-            status.status = json.dumps({"project_stat":"PENDING"})
+            d_json = json.loads(status.status)
+            d_json['project_stat'] = "PENDING"
+            # status.status = json.dumps({"project_stat":"PENDING"})
+            status.status = json.dumps(d_json)
             db.session.commit()
         else:
             new = Status_Project.create(self.id, task,json.dumps({"project_stat":"PENDING"}))

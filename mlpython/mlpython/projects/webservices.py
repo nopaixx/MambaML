@@ -123,9 +123,7 @@ def run_simul():
         id = request.args.get('id')
         project = Project.query.filter(Project.id == id).first()
         # if task is NOT informed run all
-        task = request.args.get('task_id','ALL')
-        
-        print(request)
+        task = request.args.get('task_id','ALL') 
         if project:
             # if Project.security_check(project, userLogged, 'RUN'):
             if True:

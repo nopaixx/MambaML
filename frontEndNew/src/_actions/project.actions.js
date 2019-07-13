@@ -225,7 +225,7 @@ function runBox(projectId, boxId) {
 
 		projectService.runBox(projectId, boxId).then(
 			project => {
-				dispatch(success(project));
+				dispatch(checkProjectStatus(projectId, 0));
 			},
 			error => {
 				dispatch(failure(error.toString()));
