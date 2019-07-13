@@ -57,8 +57,10 @@ export const BoxInfo = props => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const updateBoxInfo = () => {
 		const { updateBox, chart } = props;
-		let hasChange = false;
+		// let hasChange = false;
+		// let hasChange = chart.nodes[selectedNode].properties.payload.hasChange 
 		if (selectedNode) {
+			let hasChange = chart.nodes[selectedNode].properties.payload.hasChange 
 			if (code.script && code.script.length > 0) {
 				if (
 					chart.nodes[selectedNode].properties.payload.python_code !==

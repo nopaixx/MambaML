@@ -47,10 +47,14 @@ export class DragDropState extends React.Component {
 			const nodes = {
 				...this.state.nodes,
 			};
-			nodes[fromNode].properties.payload.hasChange = true;
+			// nodes[fromNode].properties.payload.hasChange = true;
 			nodes[toNode].properties.payload.hasChange = true;
 			this.setState({ nodes });
-			hasChange = true;
+			if (fromNode === toNode){
+				hasChange = false;
+			}else{
+				hasChange = true;
+			}
 		}
 		if (func.name === 'onLinkCancel') {
 			const selectedLink = this.state.links[args[0].linkId];
@@ -59,13 +63,19 @@ export class DragDropState extends React.Component {
 			const nodes = {
 				...this.state.nodes,
 			};
-			nodes[fromNode].properties.payload.hasChange = true;
+			// nodes[fromNode].properties.payload.hasChange = true;
 			nodes[toNode].properties.payload.hasChange = true;
 			this.setState({ nodes });
-			hasChange = true;
+			if (fromNode === toNode){
+				hasChange = false;
+			}else{
+				hasChange = true;
+			}
 		}
+		console.log('before checking hasChange',this.state.nodes)
 		if (hasChange) {
 			if (this.state) {
+				console.log('kasdñkfjaslkdjflkasjdflkasd', this.state)
 				this.updateProjectChart();
 			}
 		}
@@ -83,6 +93,7 @@ export class DragDropState extends React.Component {
 
 	updateProjectChart = () => {
 		const { dispatch } = this.props;
+		console.log('updateProjectChart',this.state)
 		dispatch(projectActions.updateChartStructure(this.state));
 	};
 
