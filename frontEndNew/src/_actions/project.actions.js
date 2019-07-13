@@ -14,6 +14,7 @@ export const projectActions = {
 	updateChartStructure,
 	run,
 	runBox,
+	checkFirstLoadProjectStatus,
 };
 
 function create(
@@ -79,7 +80,6 @@ function get(ID) {
 					backendVersion: 'V1',
 				};
 				dispatch(success(project));
-				dispatch(checkProjectStatus(ID, 0));
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -163,15 +163,16 @@ const checkProjectStatus = projectId => {
 		projectService.checkRunStatus(projectId).then(
 			projectData => {
 				const projectStatus = JSON.parse(projectData.data.status);
-				console.log(projectStatus);
+				console.log('projectStatus', projectStatus);
 				if (projectStatus.project_stat === 'PENDING') {
 					dispatch(updateBoxesStatus(projectStatus));
-					setTimeout(() => dispatch(checkProjectStatus(projectId)), 1000);
+					setTimeout(() => dispatch(checkProjectStatus(projectId)), 10000);
 				} else if (projectStatus.project_stat === 'OK') {
 					dispatch(updateBoxesStatus(projectStatus));
 					dispatch(success(projectStatus));
 					dispatch(get(projectId));
 				} else if (projectStatus.project_stat === 'ERROR') {
+					console.log('Errrrrrrrrrrrrrr');
 					dispatch(updateBoxesStatus(projectStatus));
 					dispatch(success(projectStatus));
 					dispatch(get(projectId));
@@ -219,6 +220,13 @@ function run(projectId) {
 		return { type: projectConstants.RUN_PROJECT_FAILURE, error };
 	}
 }
+function checkFirstLoadProjectStatus(projectId) {
+	return dispatch => {
+		let counter = 0;
+
+		dispatch(checkProjectStatus(projectId, counter));
+	};
+}
 
 function runBox(projectId, boxId) {
 	return dispatch => {
@@ -226,6 +234,7 @@ function runBox(projectId, boxId) {
 
 		projectService.runBox(projectId, boxId).then(
 			project => {
+				dispatch(success(project));
 				dispatch(checkProjectStatus(projectId, 0));
 			},
 			error => {

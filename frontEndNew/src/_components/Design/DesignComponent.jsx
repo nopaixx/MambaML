@@ -17,6 +17,7 @@ const DesignComponent = props => {
 		const ID = match.params.id;
 		setProjectID(ID);
 		dispatch(projectActions.get(ID));
+		dispatch(projectActions.checkFirstLoadProjectStatus(ID));
 	}, []);
 
 	useEffect(() => {
