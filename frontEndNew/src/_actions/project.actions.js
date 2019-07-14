@@ -15,6 +15,7 @@ export const projectActions = {
 	run,
 	runBox,
 	checkFirstLoadProjectStatus,
+	loadPortPreview,
 };
 
 function create(
@@ -156,6 +157,12 @@ function load(projectId) {
 	}
 	function failure(error) {
 		return { type: projectConstants.LOGIN_FAILURE, error };
+	}
+}
+function loadPortPreview(port) {
+	return dispatch => dispatch(success(port));
+	function success(port) {
+		return { type: projectConstants.LOAD_PORT_PREVIEW, port };
 	}
 }
 const checkProjectStatus = projectId => {

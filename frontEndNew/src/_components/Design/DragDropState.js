@@ -19,6 +19,7 @@ import _ from 'lodash';
 import { ResizableBox } from 'react-resizable';
 import './DesignComponent.css';
 import { whileStatement } from '@babel/types';
+import { PortCustom } from './PortCustom';
 
 export class DragDropState extends React.Component {
 	state = {
@@ -71,7 +72,9 @@ export class DragDropState extends React.Component {
 			const nodes = {
 				...this.state.nodes,
 			};
-			nodes[toNode].properties.payload.hasChange = true;
+			if (toNode) {
+				nodes[toNode].properties.payload.hasChange = true;
+			}
 			this.setState({ nodes });
 			hasChange = true;
 		}
@@ -112,7 +115,6 @@ export class DragDropState extends React.Component {
 		const { actors, updateBoxInfo, projectStatus, boxesStatus } = this.props;
 		const chart = this.state;
 		var h = window.innerHeight;
-
 		if (!actors) {
 			return null;
 		}
@@ -137,7 +139,7 @@ export class DragDropState extends React.Component {
 								position: 'absolute',
 								width: '100%',
 								height: '100%',
-								zIndex: 9999,
+								zIndex: 1050,
 								backgroundColor: 'transparent',
 								textAlign: 'center',
 								fontSize: 26,
@@ -147,6 +149,7 @@ export class DragDropState extends React.Component {
 							The screen is block until the project finish!!! Sorry :(
 						</div>
 					) : null}
+
 					<Content>
 						<div id={'flowchartCanvas'}>
 							<FlowChart
@@ -162,10 +165,12 @@ export class DragDropState extends React.Component {
 										),
 									Link: props => LinksCustom(props, this.stateActions),
 									CanvasOuter: CanvasCustom,
+									Port: PortCustom,
 								}}
 							/>
 						</div>
 					</Content>
+
 					{/* <ResizableBox
 						className='box'
 						width={100}

@@ -1,8 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { FlowChartWithState } from '@gonzalo10/react-diagrams/';
-import { Page } from './Page';
-import { chartSimple } from './chartSimple';
+
 import pythonLogo from '../../python.png';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
@@ -45,6 +43,12 @@ export const NodeCustom = (props, runBoxCode, boxesStatus, projectStatus) => {
 	let boxTitle;
 	let boxStatus;
 	let error;
+
+	const handleClickrunBoxCode = e => {
+		e.preventDefault();
+		e.stopPropagation();
+		runBoxCode(node.id);
+	};
 
 	if (node.properties.payload.name) {
 		name = node.properties.payload.name;
@@ -91,7 +95,7 @@ export const NodeCustom = (props, runBoxCode, boxesStatus, projectStatus) => {
 				src={pythonLogo}
 			/>
 			<div className={classes.boxTitle}>{boxTitle}</div>
-			<Icon onClick={() => runBoxCode(node.id)} className={classes.icon}>
+			<Icon onClick={handleClickrunBoxCode} className={classes.icon}>
 				play_circle_filled
 			</Icon>
 			<LoadingWarapper

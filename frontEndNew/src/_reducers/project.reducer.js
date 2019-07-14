@@ -73,7 +73,11 @@ export function project(state = {}, action) {
 				...state,
 				projectStatus: action.projectStatus,
 			};
-
+		case projectConstants.LOAD_PORT_PREVIEW:
+			return {
+				...state,
+				portDataPreview: action.port,
+			};
 		default:
 			return state;
 	}
