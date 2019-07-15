@@ -57,6 +57,18 @@ const useStyles = makeStyles(theme => ({
 		paddingRight: 20,
 		display: 'flex',
 	},
+        exportWrapper: {
+                textAlign: 'center',
+                paddingLeft: 20,
+                paddingRight: 20,
+                display: 'flex',
+        },
+        importWrapper: {
+                textAlign: 'center',
+                paddingLeft: 20,
+                paddingRight: 20,
+                display: 'flex',
+        },
 	savedWrapper: {
 		paddingLeft: 20,
 		paddingRight: 20,
@@ -92,6 +104,10 @@ export const ProjectToolbar = ({
 	runFullProject,
 	projectStatus,
 	savedProject,
+	runExportProject,
+	exportStatus,
+	runImportProject,
+	importStatus
 }) => {
 	const [isOpen, setOpen] = useState(false);
 	const classes = useStyles();
@@ -140,6 +156,34 @@ export const ProjectToolbar = ({
 							runFullProject={runFullProject}
 						/>
 					</div>
+                                        <div className={classes.exportWrapper}>
+                                                <div>
+                                                        <Icon onClick={runExportProject} className={classes.icon}>
+                                                        	get_app
+							</Icon>
+                                                        <div className={classes.iconText}>Export Project</div>
+                                                </div>
+						<ExportingWrapper
+							exportStatus={exportStatus}
+							runExportProject={runExportProject}
+						/>
+							
+                                        </div>
+				        <div className={classes.importWrapper}>
+                                                <div>
+                                                        <Icon onClick={runImportProject} className={classes.icon}>
+	                                                        publish
+							</Icon>
+                                                        <div className={classes.iconText}>Import Project</div>
+                                                </div>
+                                                <ImportingWrapper
+                                                        importStatus={importStatus}
+                                                        runImportProject={runImportProject}
+                                                />
+
+                                        </div>
+
+
 				</nav>
 			) : (
 				<div className={classes.closeToolbar}>
@@ -157,7 +201,14 @@ export const ProjectToolbar = ({
 		</React.Fragment>
 	);
 };
-
+const ImportingWrapper = ({importStatus, runImportProject}) => {
+	const classes = useStyles()
+	return null
+};
+const ExportingWrapper = ({exportStatus, runExportProject}) => {
+	const classes = useStyles()
+	return null
+};
 const LoadingWarapper = ({ projectStatus, runFullProject }) => {
 	const classes = useStyles();
 	if (!projectStatus) {
