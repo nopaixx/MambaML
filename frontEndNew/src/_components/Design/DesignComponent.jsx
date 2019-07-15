@@ -48,6 +48,11 @@ const DesignComponent = props => {
 		const projectId = match.params.id;
 		dispatch(projectActions.run(projectId));
 	};
+	const runExportProject = () => {
+		const { dispatch, match } = props
+		const projectId = match.params.id
+		dispatch(projectActions.exportProject(projectId));
+	}
 	const runBox = boxId => {
 		const { dispatch, match } = props;
 		const projectId = match.params.id;
@@ -177,6 +182,8 @@ const DesignComponent = props => {
 					runFullProject={runFullProject}
 					projectStatus={projectStatus}
 					savedProject={savedProject}
+				        runExportProject={runExportProject}	
+				
 				/>
 			</React.Fragment>
 		);
