@@ -212,7 +212,7 @@ function exportProject(projectId) {
 	return dispatch => {
 		projectService.get(projectId).then(
 			project => {
-				saveJSON(project.data, 'project.json');
+				saveJSON(project.data.json, 'project.json');
 			},
 			error => {
 				dispatch(alertActions.error(error.toString()));
@@ -231,8 +231,9 @@ function importProject(projectId) {
 			var fr = new FileReader();
 			fr.onload = function(e) {
 				var result = JSON.parse(e.target.result);
+				console.log(result)
 				//var chartStructure = JSON.stringify(result.data.json, null, 2);
-				var chartStructure = result.data.json;
+				var chartStructure = result;
 				const projectToSave = {
 					id: projectId,
 					name: 'dfdf',
@@ -243,7 +244,7 @@ function importProject(projectId) {
 				const projectToRender = {
 					id: projectId,
 					name: 'dfdf',
-					chartStructure: JSON.parse(chartStructure),
+					chartStructure: chartStructure,
 					frontendVersion: 'V1',
 					backendVersion: 'V1',
 				};
