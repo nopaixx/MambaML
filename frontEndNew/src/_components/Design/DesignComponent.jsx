@@ -51,6 +51,8 @@ const DesignComponent = props => {
 	const runExportProject = () => {
 		const { dispatch, match } = props
 		const projectId = match.params.id
+		console.log("AL-runExportProject", projectActions)
+		console.log("AL-runExportProject", projectId )
 		dispatch(projectActions.exportProject(projectId));
 	}
 	const runBox = boxId => {
