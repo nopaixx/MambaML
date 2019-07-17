@@ -42,6 +42,7 @@ export class DragDropState extends React.Component {
 		if (
 			this.props.project.chartStructure !== prevProps.project.chartStructure
 		) {
+			console.log('we update', this.props.project);
 			this.setState(cloneDeep(this.props.project.chartStructure));
 		}
 	}

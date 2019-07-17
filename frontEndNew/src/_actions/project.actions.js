@@ -231,11 +231,31 @@ function importProject(projectId) {
 			var fr = new FileReader();
 			fr.onload = function(e) {
 				var result = JSON.parse(e.target.result);
-				var formatted = JSON.stringify(result, null, 2);
+				//var chartStructure = JSON.stringify(result.data.json, null, 2);
+				var chartStructure = result.data.json;
+				const projectToSave = {
+					id: projectId,
+					name: 'dfdf',
+					json: chartStructure,
+					frontendVersion: 'V1',
+					backendVersion: 'V1',
+				};
+				const projectToRender = {
+					id: projectId,
+					name: 'dfdf',
+					chartStructure: JSON.parse(chartStructure),
+					frontendVersion: 'V1',
+					backendVersion: 'V1',
+				};
+				projectService.save(projectToSave);
+				dispatch(success(projectToRender));
 			};
 			fr.readAsText(files.item(0));
 		};
 	};
+	function success(project) {
+		return { type: projectConstants.GET_PROJECT_SUCCESS, payload: project };
+	}
 }
 
 function run(projectId) {
