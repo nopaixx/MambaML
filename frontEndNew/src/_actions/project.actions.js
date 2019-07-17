@@ -232,7 +232,6 @@ function importProject(projectId) {
 			fr.onload = function(e) {
 				var result = JSON.parse(e.target.result);
 				var formatted = JSON.stringify(result, null, 2);
-				console.log('formatted', formatted);
 			};
 			fr.readAsText(files.item(0));
 		};

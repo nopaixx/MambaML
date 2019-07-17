@@ -11,7 +11,7 @@ import 'brace/theme/monokai';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { ParamsSelector } from '../../BoxFactory/ParameterSelector';
+import { ParamsSelector } from '../../Utils/Parameters/ParameterSelector';
 
 const useStyles = makeStyles(theme => ({
 	button: {

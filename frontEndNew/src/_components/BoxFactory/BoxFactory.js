@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { adminActions } from '../../_actions';
 
 import { CodeEditors } from './CodeEditorsFactory';
-import { ParamsSelector } from './ParameterSelector';
+import { ParamsSelector } from '../Utils/Parameters/ParameterSelector';
 import { TextDataInputs } from './TextDataInputs';
 import './BoxFactory.css';
 
@@ -172,10 +172,8 @@ class BoxFactory extends React.Component {
 					/>
 				</div>
 				<ParamsSelector
-					selectedDataset={this.selectedDataset}
 					setParamsState={this.setParamsState}
 					specialParamSelector={this.handleCsvSelector}
-					isCsvSelectorActive={isCsvSelectorActive}
 					dataset={selectedDataset}
 				/>
 			</div>

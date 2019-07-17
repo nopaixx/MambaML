@@ -3,16 +3,16 @@ import React, { useEffect, useState } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import ParametersTable from '../../_components/Utils/Table/Table2';
+import ParametersTable from '../Table/ParametersTable';
 
 import Button from '@material-ui/core/Button';
-import Dropdown from '../Utils/Dropdown/Dropdown';
-import { DATASETS } from '../../_constants';
+import Dropdown from '../Dropdown/Dropdown';
 
 import { makeStyles } from '@material-ui/core/styles';
+
+import { CsvSelector } from './CsvSelector';
 
 const useStyles = makeStyles(theme => ({
 	button: {
@@ -54,51 +54,6 @@ const useStyles = makeStyles(theme => ({
 		cursor: 'pointer',
 	},
 }));
-
-const CsvSelector = ({
-	selectedDataset,
-	isCsvSelectorActive,
-	specialParamSelector,
-}) => {
-	const [isCsvSelectorOpen, setOpenCsvSelector] = useState(false);
-	const [option, setOption] = useState();
-
-	useEffect(() => {
-		if (isCsvSelectorActive) {
-			setOpenCsvSelector(true);
-		}
-	}, [isCsvSelectorActive, setOpenCsvSelector]);
-
-	function handleClose() {
-		setOpenCsvSelector(false);
-	}
-	function handleConfirm() {
-		selectedDataset(option);
-		specialParamSelector('');
-		setOpenCsvSelector(false);
-	}
-	return (
-		<Dialog
-			open={isCsvSelectorOpen}
-			onClose={handleClose}
-			aria-labelledby='alert-dialog-title'
-			aria-describedby='alert-dialog-description'>
-			<DialogTitle id='alert-dialog-title'>{'Select Cols'}</DialogTitle>
-			<DialogContent>
-				<Dropdown
-					options={DATASETS}
-					name={'Data sets'}
-					selectedOptions={option => setOption(option)}
-				/>
-			</DialogContent>
-			<DialogActions>
-				<Button onClick={handleConfirm} color='primary' autoFocus>
-					Confirm
-				</Button>
-			</DialogActions>
-		</Dialog>
-	);
-};
 
 const PortSelector = ({ inputPorts = ['port1', 'port2'], setOption }) => {
 	return (
@@ -253,30 +208,46 @@ export const ParamsSelector = ({
 		if (value === 'csv') setCsvSelected(!isCsvSelectorActive);
 		if (value === 'colselector') setColSelectorStatus(!isCsvSelectorActive);
 	};
-	return (
-		<div className={'param-selector-wrapper'}>
-			<div className={'table-wrapper'}>
-				<CsvSelector
-					isCsvSelectorActive={isCsvSelectorActive}
-					selectedDataset={selectedDataset}
-					specialParamSelector={specialParamSelector}
-				/>
-				<ColSelector
-					isColSelectorOpen={isColSelectorOpen}
-					setColSelectorStatus={setColSelectorStatus}
-					selectedColsInfo={selectedColsInfo}
-					specialParamSelector={specialParamSelector}
-					nodeInfo={nodeInfo}
-					chartInfo={chartInfo}
-				/>
-				<ParametersTable
-					specialParamSelector={specialParamSelector}
-					updateBoxState={setParamsState}
-					dataset={dataset}
-					selectedCols={selectedCols}
-					data={data}
-				/>
+	if (selectedColsInfo && selectedDataset) {
+		return (
+			<div className={'param-selector-wrapper'}>
+				<div className={'table-wrapper'}>
+					<CsvSelector
+						isCsvSelectorActive={isCsvSelectorActive}
+						selectedDataset={selectedDataset}
+						specialParamSelector={specialParamSelector}
+					/>
+					<ColSelector
+						isColSelectorOpen={isColSelectorOpen}
+						setColSelectorStatus={setColSelectorStatus}
+						selectedColsInfo={selectedColsInfo}
+						specialParamSelector={specialParamSelector}
+						nodeInfo={nodeInfo}
+						chartInfo={chartInfo}
+					/>
+					<ParametersTable
+						specialParamSelector={specialParamSelector}
+						updateBoxState={setParamsState}
+						dataset={dataset}
+						selectedCols={selectedCols}
+						data={data}
+					/>
+				</div>
 			</div>
-		</div>
-	);
+		);
+	} else {
+		return (
+			<div className={'param-selector-wrapper'}>
+				<div className={'table-wrapper'}>
+					<ParametersTable
+						specialParamSelector={specialParamSelector}
+						updateBoxState={setParamsState}
+						dataset={dataset}
+						selectedCols={selectedCols}
+						data={data}
+					/>
+				</div>
+			</div>
+		);
+	}
 };

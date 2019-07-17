@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { DragDropState } from './DragDropState';
+import { DragDropState } from './Canvas/DragDropState';
 import { connect } from 'react-redux';
 import { projectActions } from '../../_actions';
 

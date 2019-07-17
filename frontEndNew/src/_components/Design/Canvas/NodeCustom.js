@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import pythonLogo from '../../python.png';
+import pythonLogo from '../../../python.png';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
-import { ClockLoader } from '../../_components/Utils/Loader/Loader';
+import { ClockLoader } from '../../Utils/Loader/Loader';
 import Tooltip from '@material-ui/core/Tooltip';
 const useStyles = makeStyles(theme => ({
 	icon: {

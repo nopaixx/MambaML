@@ -12,3 +12,9 @@
 	margin-top: 5px;
 	border: 1px solid rgb(204, 204, 204);
 }
+
+.updateButton {
+	display: flex;
+	justify-content: center;
+	padding: 15px;
+}

@@ -5,20 +5,18 @@ import { FlowChart } from '@gonzalo10/react-diagrams/';
 import { Page } from './Page';
 import { Content } from './Content';
 import * as actions from '@gonzalo10/react-diagrams/src/container/actions';
-import { projectActions } from '../../_actions';
+import { projectActions } from '../../../_actions';
 
 import { NodeCustom } from './NodeCustom';
 import { LinksCustom } from './LinksCustom';
 import { CanvasCustom } from './CanvasCustom';
-import TreeMenu from './TreeMenu/TreeMenu';
+import TreeMenu from '../TreeMenu/TreeMenu';
 
-import { BoxInfo } from './BoxInfo';
-import _ from 'lodash';
+import { BoxInfo } from '../BoxInfo';
 
 // import ResizableBox from '../Utils/Resize/ResizableBox';
 import { ResizableBox } from 'react-resizable';
-import './DesignComponent.css';
-import { whileStatement } from '@babel/types';
+import '../DesignComponent.css';
 import { PortCustom } from './PortCustom';
 
 export class DragDropState extends React.Component {
@@ -67,7 +65,6 @@ export class DragDropState extends React.Component {
 		}
 		if (func.name === 'onLinkCancel') {
 			const selectedLink = this.state.links[args[0].linkId];
-			const fromNode = selectedLink.from.nodeId;
 			const toNode = selectedLink.to.nodeId;
 			const nodes = {
 				...this.state.nodes,

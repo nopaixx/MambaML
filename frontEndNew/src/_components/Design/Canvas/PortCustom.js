@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { store } from '../../_helpers';
-import { projectActions } from '../../_actions';
+import { store } from '../../../_helpers';
+import { projectActions } from '../../../_actions';
 
 const PortDefaultOuter = styled.div`
 	width: 12px;

@@ -10,7 +10,7 @@ import './BoxHospital.css';
 import 'brace/mode/python';
 import 'brace/theme/monokai';
 
-import ParametersTable from '../../_components/Utils/Table/Table2';
+import ParametersTable from '../../_components/Utils/Table/ParametersTable';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -81,16 +81,6 @@ const TextEditors = ({
 						editorProps={{ $blockScrolling: true }}
 					/>
 				) : null}
-			</div>
-			<div className='col-md-6 editor-column'>
-				<Button
-					id={'PythonScript'}
-					onClick={() => onCickDisplayEditor('PythonScript')}
-					variant='outlined'
-					color='primary'
-					className={classes.button}>
-					Parameters
-				</Button>
 			</div>
 		</div>
 	);
@@ -255,13 +245,15 @@ class BoxHospital extends React.Component {
 		const { actorsTree } = this.props;
 		return (
 			<React.Fragment>
-				<Button
-					id={'PythonScript'}
-					onClick={this.handleSubmit}
-					variant='contained'
-					color='primary'>
-					Update Box
-				</Button>
+				<div className={'updateButton'}>
+					<Button
+						id={'PythonScript'}
+						onClick={this.handleSubmit}
+						variant='contained'
+						color='primary'>
+						Update Box
+					</Button>
+				</div>
 				<div
 					style={{
 						display: 'flex',
@@ -269,34 +261,25 @@ class BoxHospital extends React.Component {
 					<div className={'treeSelector'}>
 						<TreeMenu data={actorsTree} selectedOption={this.selectedOption} />
 					</div>
-					<div className={'wrapper'}>
-						<TextDataInputs
-							handleChange={this.handleChange}
-							friendly_name={friendly_name}
-							type={type}
-							inputPorts={inputPorts}
-							outputPorts={outputPorts}
-						/>
-						<TextEditors
-							dependencies={dependencies}
-							code={code}
-							onChangeCodeScript={this.onChangeCodeScript}
-							onChangeDependencies={this.onChangeDependencies}
-							onCickDisplayEditor={this.onCickDisplayEditor}
-							activeCodeEditor={activeCodeEditor}
-						/>
-					</div>
-				</div>
-				<div>
-					<div
-						style={{
-							display: 'flex',
-							justifyContent: 'space-around',
-							padding: 15,
-						}}
-					/>
-					<div className={'complete-fields-box'}>
-						<div className={'table-wrapper'}>
+					<div style={{ margin: 'auto' }}>
+						<div className={'wrapper'}>
+							<TextDataInputs
+								handleChange={this.handleChange}
+								friendly_name={friendly_name}
+								type={type}
+								inputPorts={inputPorts}
+								outputPorts={outputPorts}
+							/>
+							<TextEditors
+								dependencies={dependencies}
+								code={code}
+								onChangeCodeScript={this.onChangeCodeScript}
+								onChangeDependencies={this.onChangeDependencies}
+								onCickDisplayEditor={this.onCickDisplayEditor}
+								activeCodeEditor={activeCodeEditor}
+							/>
+						</div>
+						<div className={'complete-fields-box'}>
 							<ParametersTable
 								updateBoxState={this.setParamsState}
 								data={parameters}
