@@ -28,9 +28,9 @@ export const  buildFileSelector = (input_name, callback) => {
   fileSelector.setAttribute('id', input_name);
   fileSelector.setAttribute('type', 'file');
   fileSelector.setAttribute('multiple', 'multiple');
-  
+  console.log("AL-", fileSelector)  
   if (callback !== undefined){
-  	fileSelector.onclick = callback
+  	fileSelector.onchange = callback
   }
   return fileSelector;
 }

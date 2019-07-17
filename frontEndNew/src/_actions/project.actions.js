@@ -226,7 +226,9 @@ function importProject(e, projectId) {
 	const selector = buildFileSelector(
 		projectConstants.PROJECT_IMPORT,
 		(value)=>{
+			console.log("AL-callback")
 			var files = document.getElementById(projectConstants.PROJECT_IMPORT).files;
+			console.log("AL-callback", files)
 		})
 	selector.click()
 	return null
