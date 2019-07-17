@@ -49,17 +49,15 @@ const DesignComponent = props => {
 		dispatch(projectActions.run(projectId));
 	};
 	const runExportProject = () => {
-		const { dispatch, match } = props
-		const projectId = match.params.id
+		const { dispatch, match } = props;
+		const projectId = match.params.id;
 		dispatch(projectActions.exportProject(projectId));
-	}
-	const runImportProject = (e) => {
-		console.log("AL-e",e)
-//		e.preventDefault()
-		const { dispatch, match } = props
-		const projectId = match.params.id
-		dispatch(projectActions.importProject(e, projectId));
-	}
+	};
+	const runImportProject = () => {
+		const { dispatch, match } = props;
+		const projectId = match.params.id;
+		dispatch(projectActions.importProject(projectId));
+	};
 	const runBox = boxId => {
 		const { dispatch, match } = props;
 		const projectId = match.params.id;
@@ -189,8 +187,8 @@ const DesignComponent = props => {
 					runFullProject={runFullProject}
 					projectStatus={projectStatus}
 					savedProject={savedProject}
-				        runExportProject={runExportProject}	
-					runImportProject={runImportProject}	
+					runExportProject={runExportProject}
+					runImportProject={runImportProject}
 				/>
 			</React.Fragment>
 		);
@@ -219,8 +217,8 @@ function mapStateToProps(state) {
 		chartStructure,
 		projectStatus,
 		savedProject,
-		boxesStatus,
 		portDataPreview,
+		boxesStatus,
 	};
 }
 

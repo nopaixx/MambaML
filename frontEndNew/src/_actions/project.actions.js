@@ -2,9 +2,7 @@ import { projectConstants } from '../_constants';
 import { projectService } from '../_services';
 import { alertActions } from './';
 import { history } from '../_helpers';
-import { saveJSON, 
-	 buildFileSelector
-       } from './utils.global.js'
+import { saveJSON, buildFileSelector } from './utils.global.js';
 
 export const projectActions = {
 	save,
@@ -211,28 +209,56 @@ function updateBoxesStatus(boxesStatus) {
 }
 
 function exportProject(projectId) {
-        return dispatch =>{	projectService.get(projectId).then(
-                        project => {
-				saveJSON(project, "project.json")
-                        },
-                        error => {
-                                dispatch(alertActions.error(error.toString()));
-                        }
+	return dispatch => {
+		projectService.get(projectId).then(
+			project => {
+				saveJSON(project.data, 'project.json');
+			},
+			error => {
+				dispatch(alertActions.error(error.toString()));
+			}
+		);
+	};
+}
+function importProject(projectId) {
+	return dispatch => {
+		const id = 'importProjectSelector';
+		const selector = buildFileSelector(id);
+		selector.click();
+		selector.addEventListener('change', () => uploadFile(selector.files));
 
-	)}
+		const uploadFile = files => {
+			var fr = new FileReader();
+			fr.onload = function(e) {
+				var result = JSON.parse(e.target.result);
+				//var chartStructure = JSON.stringify(result.data.json, null, 2);
+				var chartStructure = result.data.json;
+				const project = {
+		                        id: projectId,
+                		        name: "",
+        	                	json: chartStructure,
+		                        frontendVersion: "V1",
+        	                	backendVersion: "V1",
+                		};
+
+				projectService.save(project).then(function (e){
+					load(project.id)
+				//	console.log("AL---ENDDD", e, project);
+				//	dispatch(success(project))
+	                          //      history.push(`/project/${project.id}`);
+ 
+				    })
+							
+			};
+			fr.readAsText(files.item(0));
+		};
+	};
+	function success(project) {
+                return { type: projectConstants.GET_PROJECT_SUCCESS, payload: project };
+        }
+
 }
-function importProject(e, projectId) {
-	//e.preventDefault()
-	const selector = buildFileSelector(
-		projectConstants.PROJECT_IMPORT,
-		(value)=>{
-			console.log("AL-callback")
-			var files = document.getElementById(projectConstants.PROJECT_IMPORT).files;
-			console.log("AL-callback", files)
-		})
-	selector.click()
-	return null
-}
+
 function run(projectId) {
 	return dispatch => {
 		dispatch(request('running'));
