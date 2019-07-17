@@ -25,6 +25,7 @@ export default class ParametersTable extends React.Component {
 							<option value='float'>float</option>
 							<option value='list'>list</option>
 							<option value='csv'>CSV-selector</option>
+							<option value='colselector'>Col Selector</option>
 						</select>
 					),
 				},
@@ -43,6 +44,10 @@ export default class ParametersTable extends React.Component {
 			specialParamSelector(value);
 			this.setState({ savedProps: props });
 		}
+		if (value === 'colselector') {
+			specialParamSelector(value);
+			this.setState({ savedProps: props });
+		}
 		props.onChange(value);
 	};
 
@@ -54,13 +59,21 @@ export default class ParametersTable extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		const { data, dataset } = this.props;
+		const { data, dataset, selectedCols } = this.props;
 		const { savedProps } = this.state;
 		if (prevState.data !== this.props.data && this.props.data) {
 			this.setState({ data: data });
 		}
 		if (prevProps.dataset !== dataset && dataset) {
 			const newProps = { ...savedProps.rowData, type: 'csv', value: dataset };
+			savedProps.onRowDataChange(newProps);
+		}
+		if (prevProps.selectedCols !== selectedCols && selectedCols) {
+			const newProps = {
+				...savedProps.rowData,
+				type: 'colselector',
+				value: JSON.stringify(selectedCols),
+			};
 			savedProps.onRowDataChange(newProps);
 		}
 	}

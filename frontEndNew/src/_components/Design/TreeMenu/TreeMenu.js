@@ -5,12 +5,9 @@ import walk from './walk';
 import { defaultChildren } from './renderProps';
 import KeyDown from './KeyDown';
 
-const defaultOnClick = props => console.log(props); // eslint-disable-line no-console
-
 class TreeMenu extends React.Component {
 	static defaultProps = {
 		data: {},
-		onClickItem: defaultOnClick,
 		debounceTime: 125,
 		children: defaultChildren,
 		hasSearch: true,

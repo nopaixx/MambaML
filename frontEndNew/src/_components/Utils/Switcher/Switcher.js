@@ -10,7 +10,6 @@ export default function SwitchLabels({ isChecked, label }) {
 		isChecked(!checked);
 		setState(!checked);
 	};
-	console.log(checked);
 	return (
 		<FormGroup row>
 			<FormControlLabel

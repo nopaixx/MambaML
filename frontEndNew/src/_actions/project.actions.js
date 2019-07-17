@@ -16,6 +16,7 @@ export const projectActions = {
 	runBox,
 	checkFirstLoadProjectStatus,
 	loadPortPreview,
+	exportProject,
 };
 
 function create(
@@ -205,10 +206,7 @@ function updateBoxesStatus(boxesStatus) {
 	return { type: projectConstants.UPDATE_BOXES_STATUS_SUCCESS, boxesStatus };
 }
 
-function exportProject(projectId){
-	
-
-}
+function exportProject(projectId) {}
 
 function run(projectId) {
 	return dispatch => {

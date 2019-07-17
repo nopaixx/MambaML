@@ -10,7 +10,6 @@ import 'brace/mode/python';
 import 'brace/theme/monokai';
 
 import { makeStyles } from '@material-ui/core/styles';
-import MaterialTableDemo from '../../Utils/Table/Table2';
 
 import { ParamsSelector } from '../../BoxFactory/ParameterSelector';
 
@@ -43,8 +42,9 @@ export const BoxInfo = props => {
 		input: '',
 		output: '',
 	});
-	const [isCsvSelectorActive, setCsvSelected] = useState(false);
+
 	const [selectedDataset, setDataset] = useState();
+	const [selectedCols, setSelectedCols] = useState();
 	// const [parameters, setParameters] = useState();
 	const [selectedNode, setNode] = useState();
 	const onChangeCodeScript = newValue => {
@@ -103,14 +103,17 @@ export const BoxInfo = props => {
 		boxActions.onDeleteKey();
 	};
 
-	const handleCsvSelector = () => {
-		setCsvSelected(!isCsvSelectorActive);
-	};
 	const selectedDatasetOption = dataset => {
 		if (dataset) {
 			setDataset(dataset);
 		}
 	};
+	const selectedColsInfo = selectedCols => {
+		if (selectedCols) {
+			setSelectedCols(selectedCols);
+		}
+	};
+
 	// const setParamsState = data => {
 	// 	setParameters(data);
 	// };
@@ -144,6 +147,11 @@ export const BoxInfo = props => {
 				setParams({
 					...params,
 					parameters: JSON.parse(parameters),
+				});
+			} else {
+				setParams({
+					...params,
+					parameters: [],
 				});
 			}
 		}
@@ -218,10 +226,12 @@ export const BoxInfo = props => {
 								<ParamsSelector
 									selectedDataset={selectedDatasetOption}
 									setParamsState={updateParams}
-									specialParamSelector={handleCsvSelector}
-									isCsvSelectorActive={isCsvSelectorActive}
 									dataset={selectedDataset}
 									data={params.parameters}
+									nodeInfo={node}
+									chartInfo={props.chart}
+									selectedCols={selectedCols}
+									selectedColsInfo={selectedColsInfo}
 								/>
 								{/* <MaterialTableDemo
 									data={params.parameters}
