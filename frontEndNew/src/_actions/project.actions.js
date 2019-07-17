@@ -222,12 +222,13 @@ function exportProject(projectId) {
 	)}
 }
 function importProject(e, projectId) {
-	e.preventDefault()
-//once imported need dipsach load(projectId)
-	const selector = buildFileSelector()
-	console.log("AL-", selector)
+	//e.preventDefault()
+	const selector = buildFileSelector(
+		projectConstants.PROJECT_IMPORT,
+		(value)=>{
+			var files = document.getElementById(projectConstants.PROJECT_IMPORT).files;
+		})
 	selector.click()
-	console.log("AL-",selector.value)
 	return null
 }
 function run(projectId) {

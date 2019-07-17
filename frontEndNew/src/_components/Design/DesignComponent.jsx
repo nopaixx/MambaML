@@ -55,7 +55,7 @@ const DesignComponent = props => {
 	}
 	const runImportProject = (e) => {
 		console.log("AL-e",e)
-		e.preventDefault()
+//		e.preventDefault()
 		const { dispatch, match } = props
 		const projectId = match.params.id
 		dispatch(projectActions.importProject(e, projectId));

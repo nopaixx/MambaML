@@ -23,10 +23,15 @@ export const saveJSON = (data, filename) => {
 }
 
 
-export const  buildFileSelector = () => {
+export const  buildFileSelector = (input_name, callback) => {
   const fileSelector = document.createElement('input');
+  fileSelector.setAttribute('id', input_name);
   fileSelector.setAttribute('type', 'file');
   fileSelector.setAttribute('multiple', 'multiple');
+  
+  if (callback !== undefined){
+  	fileSelector.onclick = callback
+  }
   return fileSelector;
 }
 
