@@ -36,3 +36,10 @@ export const saveJSON = (data, filename) => {
 	);
 	a.dispatchEvent(e);
 };
+
+export const buildFileSelector = () => {
+	const fileSelector = document.createElement('input');
+	fileSelector.setAttribute('type', 'file');
+	fileSelector.setAttribute('multiple', 'multiple');
+	return fileSelector;
+};
