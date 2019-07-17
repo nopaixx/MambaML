@@ -2,7 +2,10 @@ import { projectConstants } from '../_constants';
 import { projectService } from '../_services';
 import { alertActions } from './';
 import { history } from '../_helpers';
-import { saveJSON } from './utils.global.js'
+import { saveJSON, 
+	 buildFileSelector
+       } from './utils.global.js'
+
 export const projectActions = {
 	save,
 	unsavedProject,
@@ -17,6 +20,7 @@ export const projectActions = {
 	checkFirstLoadProjectStatus,
 	loadPortPreview,
 	exportProject,
+	importProject,
 };
 
 function create(
@@ -217,7 +221,15 @@ function exportProject(projectId) {
 
 	)}
 }
-
+function importProject(e, projectId) {
+	e.preventDefault()
+//once imported need dipsach load(projectId)
+	const selector = buildFileSelector()
+	console.log("AL-", selector)
+	selector.click()
+	console.log("AL-",selector.value)
+	return null
+}
 function run(projectId) {
 	return dispatch => {
 		dispatch(request('running'));

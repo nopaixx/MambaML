@@ -51,9 +51,14 @@ const DesignComponent = props => {
 	const runExportProject = () => {
 		const { dispatch, match } = props
 		const projectId = match.params.id
-		console.log("AL-runExportProject", projectActions)
-		console.log("AL-runExportProject", projectId )
 		dispatch(projectActions.exportProject(projectId));
+	}
+	const runImportProject = (e) => {
+		console.log("AL-e",e)
+		e.preventDefault()
+		const { dispatch, match } = props
+		const projectId = match.params.id
+		dispatch(projectActions.importProject(e, projectId));
 	}
 	const runBox = boxId => {
 		const { dispatch, match } = props;
@@ -185,7 +190,7 @@ const DesignComponent = props => {
 					projectStatus={projectStatus}
 					savedProject={savedProject}
 				        runExportProject={runExportProject}	
-				
+					runImportProject={runImportProject}	
 				/>
 			</React.Fragment>
 		);
