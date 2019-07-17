@@ -2,7 +2,7 @@ import { projectConstants } from '../_constants';
 import { projectService } from '../_services';
 import { alertActions } from './';
 import { history } from '../_helpers';
-import { saveJSON } from './utils.global.js'
+import { saveJSON } from './utils.global.js';
 export const projectActions = {
 	save,
 	unsavedProject,
@@ -207,15 +207,16 @@ function updateBoxesStatus(boxesStatus) {
 }
 
 function exportProject(projectId) {
-        return dispatch =>{	projectService.get(projectId).then(
-                        project => {
-				saveJSON(project, "project.json")
-                        },
-                        error => {
-                                dispatch(alertActions.error(error.toString()));
-                        }
-
-	)}
+	return dispatch => {
+		projectService.get(projectId).then(
+			project => {
+				saveJSON(project.data, 'project.json');
+			},
+			error => {
+				dispatch(alertActions.error(error.toString()));
+			}
+		);
+	};
 }
 
 function run(projectId) {
