@@ -53,11 +53,10 @@ const DesignComponent = props => {
 		const projectId = match.params.id;
 		dispatch(projectActions.exportProject(projectId));
 	};
-
-	const runImportProject = e => {
+	const runImportProject = () => {
 		const { dispatch, match } = props;
 		const projectId = match.params.id;
-		dispatch(projectActions.importProject(e, projectId));
+		dispatch(projectActions.importProject(projectId));
 	};
 	const runBox = boxId => {
 		const { dispatch, match } = props;

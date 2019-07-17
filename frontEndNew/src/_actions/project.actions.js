@@ -220,12 +220,25 @@ function exportProject(projectId) {
 		);
 	};
 }
-function importProject(e, projectId) {
-	//once imported need dipsach load(projectId)
-	const selector = buildFileSelector();
-	selector.click();
-	return null;
+function importProject(projectId) {
+	return dispatch => {
+		const id = 'importProjectSelector';
+		const selector = buildFileSelector(id);
+		selector.click();
+		selector.addEventListener('change', () => uploadFile(selector.files));
+
+		const uploadFile = files => {
+			var fr = new FileReader();
+			fr.onload = function(e) {
+				var result = JSON.parse(e.target.result);
+				var formatted = JSON.stringify(result, null, 2);
+				console.log('formatted', formatted);
+			};
+			fr.readAsText(files.item(0));
+		};
+	};
 }
+
 function run(projectId) {
 	return dispatch => {
 		dispatch(request('running'));

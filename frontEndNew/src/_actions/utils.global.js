@@ -37,8 +37,9 @@ export const saveJSON = (data, filename) => {
 	a.dispatchEvent(e);
 };
 
-export const buildFileSelector = () => {
+export const buildFileSelector = id => {
 	const fileSelector = document.createElement('input');
+	fileSelector.setAttribute('id', id);
 	fileSelector.setAttribute('type', 'file');
 	fileSelector.setAttribute('multiple', 'multiple');
 	return fileSelector;
