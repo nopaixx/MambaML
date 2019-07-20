@@ -1,6 +1,6 @@
 import React from 'react';
 
-const renderTableHeader = portDataPreview => {
+const RenderTableHeader = ({ portDataPreview }) => {
 	const { columns } = portDataPreview;
 	let header = Object.values(JSON.parse(columns)[0]);
 	return header.map((key, index) => {
@@ -12,7 +12,7 @@ const renderTableHeader = portDataPreview => {
 	});
 };
 
-const renderTableData = portDataPreview => {
+const RenderTableData = ({ portDataPreview }) => {
 	const { first100 } = portDataPreview;
 	const { columns } = portDataPreview;
 	const parsedColumns = JSON.parse(columns)[0];
@@ -42,14 +42,14 @@ const renderTableData = portDataPreview => {
 	});
 };
 
-export const TableData = portDataPreview => {
+export const TableData = ({ portDataPreview }) => {
 	return (
 		<React.Fragment>
 			<div style={{ display: 'inline-flex' }}>
-				{renderTableHeader(portDataPreview)}
+				<RenderTableHeader portDataPreview={portDataPreview} />
 			</div>
 			<div style={{ display: 'inline-flex' }}>
-				{renderTableData(portDataPreview)}
+				<RenderTableData portDataPreview={portDataPreview} />
 			</div>
 		</React.Fragment>
 	);

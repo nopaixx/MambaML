@@ -35,12 +35,13 @@ export const ScatterPointsMatrix = ({ portDataPreview }) => {
 			<div className={classes.scatterGroup}>
 				{selectedCols.length > 4 && <div>You can only select 4</div>}
 				{selectedCols.map(dataColumn => {
-					return selectedCols.map(dataColumn2 => {
+					return selectedCols.map((dataColumn2, key) => {
 						const xData = Object.values(parsedData[dataColumn]);
 						const yData = Object.values(parsedData[dataColumn2]);
 						data = generateDataPoints(xData, yData, 0);
 						return (
 							<ScatterPoints
+								key={key}
 								width={itemWidth}
 								height={itemHeight}
 								dataPoints={data.dataPoints}
