@@ -24,7 +24,12 @@ export const PortCustom = props => {
 	};
 
 	const getResultsFromNode = node => {
-		const dataPreview = node.properties.payload.result;
+		let outPorts = Object.keys(node.ports).filter(portKey => {
+			return node.ports[portKey].type === 'output';
+		});
+		const selectedNodeIndex = outPorts.indexOf(props.port.id);
+		const dataPreview =
+			node.properties.payload.result[`out${selectedNodeIndex}`];
 		store.dispatch(projectActions.loadPortPreview(dataPreview));
 	};
 	return (

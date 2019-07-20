@@ -4,10 +4,10 @@ import { DragDropState } from './Canvas/DragDropState';
 import { connect } from 'react-redux';
 import { projectActions } from '../../_actions';
 
-import Button from '@material-ui/core/Button';
-
 import { ProjectToolbar } from '../Utils/Toolbar/Toolbar';
 import './DesignComponent.css';
+
+import { DataVisualization } from './DataVisualization/DataVisualization';
 
 const DesignComponent = props => {
 	const [projectName, setProjectName] = useState('');
@@ -69,48 +69,6 @@ const DesignComponent = props => {
 		dispatch(projectActions.loadPortPreview(undefined));
 	};
 
-	const renderTableHeader = () => {
-		const { columns } = props.portDataPreview.out0;
-		let header = Object.values(JSON.parse(columns)[0]);
-		return header.map((key, index) => {
-			return (
-				<div key={index} style={{ width: 150, border: '1px solid black' }}>
-					{key.toUpperCase()}
-				</div>
-			);
-		});
-	};
-
-	const renderTableData = () => {
-		const { first100 } = props.portDataPreview.out0;
-		const { columns } = props.portDataPreview.out0;
-		const parsedColumns = JSON.parse(columns)[0];
-		const parsedFirst100 = JSON.parse(first100);
-		const headers = Object.values(parsedColumns);
-		return headers.map((head, index) => {
-			return (
-				<div key={index} style={{ width: 150, borderRight: '1px solid black' }}>
-					{Object.values(parsedFirst100[head]).map((item, index) => {
-						return (
-							<div
-								key={index}
-								style={{
-									height: 50,
-									borderBottom: '1px solid black',
-									overflow: 'scroll',
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'center',
-								}}>
-								{item}
-							</div>
-						);
-					})}
-				</div>
-			);
-		});
-	};
-
 	const {
 		actorsTree,
 		project,
@@ -144,7 +102,7 @@ const DesignComponent = props => {
 						style={{
 							width: '100vw',
 							height: '100vh',
-							backgroundColor: 'transparent',
+							backgroundColor: '#ffffffe0',
 							zIndex: 8888,
 							position: 'absolute',
 							top: 0,
@@ -155,28 +113,18 @@ const DesignComponent = props => {
 						}}>
 						<div
 							style={{
-								width: '90vw',
-								height: '90vh',
+								width: '96vw',
+								height: '96vh',
 								backgroundColor: 'white',
 								zIndex: 9999,
 								border: '1px solid black',
 								overflow: 'scroll',
 								textAlign: 'center',
 							}}>
-							<Button
-								onClick={handleCloseTable}
-								variant='outlined'
-								color='primary'>
-								Close Table
-							</Button>
-							<div>
-								<div style={{ display: 'inline-flex' }}>
-									{renderTableHeader()}
-								</div>
-								<div style={{ display: 'inline-flex' }}>
-									{renderTableData()}
-								</div>
-							</div>
+							<DataVisualization
+								portDataPreview={portDataPreview}
+								handleCloseTable={handleCloseTable}
+							/>
 						</div>
 					</div>
 				) : null}

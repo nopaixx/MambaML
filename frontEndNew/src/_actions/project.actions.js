@@ -168,12 +168,33 @@ function loadPortPreview(port) {
 		return { type: projectConstants.LOAD_PORT_PREVIEW, port };
 	}
 }
+const checkIfJSON = text => {
+	let isJSON = false;
+	if (
+		/^[\],:{}\s]*$/.test(
+			text
+				.replace(/\\["\\/bfnrtu]/g, '@')
+				.replace(
+					/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?/g,
+					']'
+				)
+				.replace(/(?:^|:|,)(?:\s*\[)+/g, '')
+		)
+	) {
+		console.log('isJSON');
+		isJSON = true;
+	}
+	return isJSON;
+};
 const checkProjectStatus = projectId => {
 	return dispatch => {
 		projectService.checkRunStatus(projectId).then(
 			projectData => {
-				const projectStatus = JSON.parse(projectData.data.status);
-				console.log('projectStatus in actions', projectStatus);
+				let projectStatus;
+				const isJSON = checkIfJSON(projectData.data.status);
+				if (isJSON) projectStatus = JSON.parse(projectData.data.status);
+				else projectStatus = projectData.data.status;
+
 				if (projectStatus.project_stat === 'PENDING') {
 					dispatch(updateBoxesStatus(projectStatus));
 					setTimeout(() => dispatch(checkProjectStatus(projectId)), 1000);
@@ -212,7 +233,7 @@ function exportProject(projectId) {
 	return dispatch => {
 		projectService.get(projectId).then(
 			project => {
-				saveJSON(project.data, 'project' + projectId + '.json');
+				saveJSON(project.data.json, 'project' + projectId + '.json');
 			},
 			error => {
 				dispatch(alertActions.error(error.toString()));
@@ -231,9 +252,9 @@ function importProject(projectId) {
 			var fr = new FileReader();
 			fr.onload = function(e) {
 				var result = JSON.parse(e.target.result);
+				console.log(result);
 				//var chartStructure = JSON.stringify(result.data.json, null, 2);
-				console.log('result', result);
-				var chartStructure = result.json;
+				var chartStructure = result;
 				const projectToSave = {
 					id: projectId,
 					name: 'dfdf',
@@ -244,11 +265,10 @@ function importProject(projectId) {
 				const projectToRender = {
 					id: projectId,
 					name: 'dfdf',
-					chartStructure: JSON.parse(chartStructure),
+					chartStructure: chartStructure,
 					frontendVersion: 'V1',
 					backendVersion: 'V1',
 				};
-				console.log('chart Structure', JSON.parse(chartStructure));
 				projectService.save(projectToSave);
 				dispatch(success(projectToRender));
 			};

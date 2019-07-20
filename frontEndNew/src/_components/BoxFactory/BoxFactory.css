@@ -24,3 +24,10 @@
 	flex-direction: column;
 	align-items: center;
 }
+
+.code-editors-admin {
+	margin-top: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: baseline;
+}
