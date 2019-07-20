@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import MaterialTable from 'material-table';
 import './Table.css';
 
-export default class MaterialTableDemo extends React.Component {
+export default class ParametersTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -16,11 +16,16 @@ export default class MaterialTableDemo extends React.Component {
 					title: 'Param Type',
 					field: 'type',
 					editComponent: props => (
-						<select name='type' onChange={e => props.onChange(e.target.value)}>
+						<select
+							name='type'
+							onChange={e => this.onParamTypeChange(e, props)}>
+							<option value='' />
 							<option value='String'>String</option>
 							<option value='int'>int</option>
 							<option value='float'>float</option>
 							<option value='list'>list</option>
+							<option value='csv'>CSV-selector</option>
+							<option value='colselector'>Col Selector</option>
 						</select>
 					),
 				},
@@ -32,30 +37,58 @@ export default class MaterialTableDemo extends React.Component {
 			data: [],
 		};
 	}
+	onParamTypeChange = (e, props) => {
+		const { value } = e.target;
+		const { specialParamSelector } = this.props;
+		if (value === 'csv') {
+			specialParamSelector(value);
+			this.setState({ savedProps: props });
+		}
+		if (value === 'colselector') {
+			specialParamSelector(value);
+			this.setState({ savedProps: props });
+		}
+		props.onChange(value);
+	};
+
 	componentDidMount() {
 		const { data } = this.props;
-		this.setState({ data: data });
+		if (data) {
+			this.setState({ data: data });
+		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		const { data } = this.props;
-		if (prevState.data !== this.props.data) {
+		const { data, dataset, selectedCols } = this.props;
+		const { savedProps } = this.state;
+		if (prevState.data !== this.props.data && this.props.data) {
 			this.setState({ data: data });
 		}
-		console.log('did update', data);
+		if (prevProps.dataset !== dataset && dataset) {
+			const newProps = { ...savedProps.rowData, type: 'csv', value: dataset };
+			savedProps.onRowDataChange(newProps);
+		}
+		if (prevProps.selectedCols !== selectedCols && selectedCols) {
+			const newProps = {
+				...savedProps.rowData,
+				type: 'colselector',
+				value: JSON.stringify(selectedCols),
+			};
+			savedProps.onRowDataChange(newProps);
+		}
 	}
 
 	addRow = newData => {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {
 				{
-					const data = this.state.data;
+					const data = this.state.data || [];
 					data.push(newData);
 					this.props.updateBoxState(data);
 					this.setState({ data }, () => resolve());
 				}
 				resolve();
-			}, 300);
+			}, 100);
 		});
 	};
 
@@ -63,14 +96,14 @@ export default class MaterialTableDemo extends React.Component {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {
 				{
-					const data = this.state.data;
+					const data = this.state.data || [];
 					const index = data.indexOf(oldData);
 					data[index] = newData;
 					this.props.updateBoxState(data);
 					this.setState({ data }, () => resolve());
 				}
 				resolve();
-			}, 300);
+			}, 100);
 		});
 	};
 
@@ -85,12 +118,11 @@ export default class MaterialTableDemo extends React.Component {
 					this.setState({ data }, () => resolve());
 				}
 				resolve();
-			}, 300);
+			}, 100);
 		});
 	};
 
 	render() {
-		console.log('table inside render', this.state.data);
 		return (
 			<MaterialTable
 				title='Params Table'

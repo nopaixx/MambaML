@@ -1,110 +1,53 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AceEditor from 'react-ace';
-import { Button as ButtonGonzalo } from '../../_components/Utils/';
 import { adminActions } from '../../_actions';
-import TextField from '@material-ui/core/TextField';
+
+import { CodeEditors } from './CodeEditorsFactory';
+import { ParamsSelector } from '../Utils/Parameters/ParameterSelector';
+import { TextDataInputs } from './TextDataInputs';
 import './BoxFactory.css';
 
-import 'brace/mode/python';
-import 'brace/theme/monokai';
-
-import MaterialTableDemo from '../../_components/Utils/Table/Table2';
-
-import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-
-const useStyles = makeStyles(theme => ({
-	button: {
-		margin: theme.spacing(1),
-	},
-	input: {
-		display: 'none',
-	},
-}));
-
-const TextEditors = ({
-	dependencies,
-	code,
-	onChangeCodeScript,
-	onChangeDependencies,
-	onCickDisplayEditor,
-	activeCodeEditor,
-}) => {
-	const classes = useStyles();
-	return (
-		<div className={'code-editors-admin'}>
-			<div className='col-md-6 editor-column'>
-				<Button
-					onClick={() => onCickDisplayEditor('Dependencies')}
-					id={'Dependencies'}
-					variant='outlined'
-					color='primary'
-					className={classes.button}>
-					Dependencies
-				</Button>
-				{activeCodeEditor['Dependencies'] ? (
-					<AceEditor
-						mode='python'
-						theme='monokai'
-						width={'350px'}
-						height={'200px'}
-						value={dependencies}
-						onChange={onChangeDependencies}
-						name='UNIQUE_ID_OF_DIV'
-						editorProps={{ $blockScrolling: true }}
-					/>
-				) : null}
-			</div>
-			<div className='col-md-6 editor-column'>
-				<Button
-					id={'PythonScript'}
-					onClick={() => onCickDisplayEditor('PythonScript')}
-					variant='outlined'
-					color='primary'
-					className={classes.button}>
-					Python Script
-				</Button>
-				{activeCodeEditor['PythonScript'] ? (
-					<AceEditor
-						mode='python'
-						theme='monokai'
-						width={'650px'}
-						height={'300px'}
-						value={code}
-						onChange={onChangeCodeScript}
-						name='UNIQUE_ID_OF_DIV'
-						editorProps={{ $blockScrolling: true }}
-					/>
-				) : null}
-			</div>
-		</div>
-	);
-};
+import { Alert } from '../Utils/Alert/Alert';
 
 class BoxFactory extends React.Component {
 	state = {
 		code: '',
 		dependencies: '',
-		activeCodeEditor: { Dependencies: false, PythonScript: false },
+		activeCodeEditor: { Dependencies: true, PythonScript: true },
 		selectedTab: 0,
+		hasChanged: false,
+		areEmptyFields: false,
+		isCsvSelectorActive: false,
 	};
 
 	onChangeCodeScript = newValue => {
 		this.setState({ code: newValue });
 	};
+
 	onChangeDependencies = newValue => {
 		this.setState({ dependencies: newValue });
 	};
 
 	handleChange = e => {
+		const { dispatch } = this.props;
+		const { hasChanged } = this.state;
 		const { name, value } = e.target;
 		this.setState({ [name]: value });
+		if (!hasChanged) {
+			this.setState({ hasChanged: true });
+			dispatch(adminActions.restartBoxFactory());
+		}
 	};
 
 	setParamsState = data => {
-		console.log('data', data);
 		this.setState({ parameters: data });
+	};
+
+	selectedDataset = dataset => {
+		if (dataset) {
+			this.setState({ selectedDataset: dataset });
+		}
 	};
 
 	handleSubmit = e => {
@@ -119,18 +62,35 @@ class BoxFactory extends React.Component {
 			friendly_name,
 			parameters,
 		} = this.state;
-		const box = {
-			friendly_name,
-			type,
-			frontendVersion: 'V1',
-			backendVersion: 'V1',
-			n_input_ports: inputPorts,
-			n_output_ports: outputPorts,
-			depen_code: dependencies,
-			python_code: code,
-			parameters: JSON.stringify(parameters),
-		};
-		dispatch(adminActions.createBox(box));
+		if (
+			type &&
+			inputPorts &&
+			outputPorts &&
+			code &&
+			dependencies &&
+			friendly_name
+		) {
+			const box = {
+				friendly_name,
+				type,
+				frontendVersion: 'V1',
+				backendVersion: 'V1',
+				n_input_ports: inputPorts,
+				n_output_ports: outputPorts,
+				depen_code: dependencies,
+				python_code: code,
+				parameters: JSON.stringify(parameters),
+			};
+			dispatch(adminActions.createBox(box));
+		} else {
+			this.setState({ areEmptyFields: true });
+		}
+	};
+
+	handleCsvSelector = () => {
+		this.setState(state => {
+			return { isCsvSelectorActive: !state.isCsvSelectorActive };
+		});
 	};
 
 	onCickDisplayEditor = id => {
@@ -145,9 +105,17 @@ class BoxFactory extends React.Component {
 	};
 
 	render() {
-		const { code, dependencies, activeCodeEditor } = this.state;
+		const {
+			code,
+			dependencies,
+			activeCodeEditor,
+			areEmptyFields,
+			isCsvSelectorActive,
+			selectedDataset,
+		} = this.state;
+		const { creatingBox, boxCreated } = this.props;
 		return (
-			<React.Fragment>
+			<div className={'box-factory-wrapper'}>
 				<div>
 					<div
 						style={{
@@ -155,72 +123,73 @@ class BoxFactory extends React.Component {
 							justifyContent: 'space-around',
 							padding: 15,
 						}}>
-						<ButtonGonzalo onClick={this.handleSubmit} label={'Create Box'} />
+						{/* {creatingBox ? (
+							<Button
+								onClick={this.handleSubmit}
+								id={'Dependencies'}
+								variant='contained'
+								color='success'>
+								Creating
+							</Button>
+						) : null} */}
+						{boxCreated ? (
+							<Button
+								onClick={this.handleSubmit}
+								id={'Dependencies'}
+								variant='contained'
+								color='secondary'>
+								Created successfully
+							</Button>
+						) : (
+							<Button
+								onClick={this.handleSubmit}
+								id={'Dependencies'}
+								variant='contained'
+								color='primary'>
+								Create Box
+							</Button>
+						)}
+						{/* {!boxCreated && !creatingBox ? (
+							<Button
+								onClick={this.handleSubmit}
+								id={'Dependencies'}
+								variant='contained'
+								color='primary'>
+								Create Box
+							</Button>
+						) : null} */}
 					</div>
-					<div className={'complete-fields-box'}>
-						<form
-							name='form'
-							onSubmit={this.handleSubmit}
-							className={'box-info-form'}>
-							<TextField
-								id='friendly_name'
-								label='Fiendly Name'
-								className={''}
-								name={'friendly_name'}
-								onChange={this.handleChange}
-								margin='normal'
-							/>
-							<TextField
-								id='type'
-								label='Type'
-								className={''}
-								name={'type'}
-								onChange={this.handleChange}
-								margin='normal'
-							/>
-							<TextField
-								id='inputPorts'
-								label='Input'
-								type='number'
-								className={''}
-								name={'inputPorts'}
-								onChange={this.handleChange}
-								margin='normal'
-							/>
-							<TextField
-								id='outputPorts'
-								label='Output'
-								type='number'
-								className={''}
-								name={'outputPorts'}
-								onChange={this.handleChange}
-								margin='normal'
-							/>
-						</form>
-						<div className={'table-wrapper'}>
-							<MaterialTableDemo updateBoxState={this.setParamsState} />
-						</div>
-					</div>
+					{areEmptyFields ? <Alert text={'There are empty fields'} /> : null}
+					<TextDataInputs handleChange={this.handleChange} />
+
+					<CodeEditors
+						dependencies={dependencies}
+						code={code}
+						onChangeCodeScript={this.onChangeCodeScript}
+						onChangeDependencies={this.onChangeDependencies}
+						onCickDisplayEditor={this.onCickDisplayEditor}
+						activeCodeEditor={activeCodeEditor}
+					/>
 				</div>
-				<TextEditors
-					dependencies={dependencies}
-					code={code}
-					onChangeCodeScript={this.onChangeCodeScript}
-					onChangeDependencies={this.onChangeDependencies}
-					onCickDisplayEditor={this.onCickDisplayEditor}
-					activeCodeEditor={activeCodeEditor}
+				<ParamsSelector
+					setParamsState={this.setParamsState}
+					specialParamSelector={this.handleCsvSelector}
+					dataset={selectedDataset}
 				/>
-			</React.Fragment>
+			</div>
 		);
 	}
 }
 
 function mapStateToProps(state) {
 	const { users, authentication } = state;
+	const { creatingBox, boxCreated } = state.admin;
 	const { user } = authentication;
 	return {
 		user,
 		users,
+		creatingBox,
+		boxCreated,
 	};
 }
 

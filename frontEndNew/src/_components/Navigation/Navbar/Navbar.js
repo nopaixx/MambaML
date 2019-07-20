@@ -2,11 +2,12 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+
+import { MenuItems } from './MenuItems';
 import Typography from '@material-ui/core/Typography';
 
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 
 import MambaLogo from '../../../logo_peque.png';
 
@@ -48,39 +49,3 @@ export default function NormalNavbar({ history }) {
 		</div>
 	);
 }
-
-const MenuItems = ({ history }) => {
-	const classes = useStyles();
-	return (
-		<div className={classes.navMenus}>
-			<Button
-				aria-controls='simple-menu'
-				aria-haspopup='true'
-				className={classes.navbarMenuBtn}
-				onClick={() => history.push('/projects')}>
-				Platfrom
-			</Button>
-			<Button
-				aria-controls='simple-menu'
-				aria-haspopup='true'
-				className={classes.navbarMenuBtn}
-				onClick={() => history.push('/pricing')}>
-				Solutions
-			</Button>
-			<Button
-				aria-controls='simple-menu'
-				aria-haspopup='true'
-				className={classes.navbarMenuBtn}
-				onClick={() => history.push('/about')}>
-				About
-			</Button>
-			<Button
-				aria-controls='simple-menu'
-				aria-haspopup='true'
-				className={classes.navbarMenuBtn}
-				onClick={() => history.push('/pricing')}>
-				Pricing
-			</Button>
-		</div>
-	);
-};

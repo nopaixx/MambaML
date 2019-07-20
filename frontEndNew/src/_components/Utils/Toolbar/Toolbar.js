@@ -45,6 +45,35 @@ const useStyles = makeStyles(theme => ({
 		paddingLeft: 20,
 		paddingRight: 20,
 	},
+	runWrapper: {
+		textAlign: 'center',
+		paddingLeft: 20,
+		paddingRight: 20,
+		display: 'flex',
+	},
+	saveWrapper: {
+		textAlign: 'center',
+		paddingLeft: 20,
+		paddingRight: 20,
+		display: 'flex',
+	},
+	exportWrapper: {
+		textAlign: 'center',
+		paddingLeft: 20,
+		paddingRight: 20,
+		display: 'flex',
+	},
+	importWrapper: {
+		textAlign: 'center',
+		paddingLeft: 20,
+		paddingRight: 20,
+		display: 'flex',
+	},
+	savedWrapper: {
+		paddingLeft: 20,
+		paddingRight: 20,
+		flexDirection: 'column',
+	},
 	iconText: {
 		fontSize: 11,
 	},
@@ -56,7 +85,7 @@ const useStyles = makeStyles(theme => ({
 		padding: 3,
 		bottom: 0,
 		backgroundColor: theme.palette.primary.contrastText,
-		zIndex: 4,
+		zIndex: 999,
 	},
 	confirmationIcon: {
 		cursor: 'pointer',
@@ -74,6 +103,11 @@ export const ProjectToolbar = ({
 	handleChangeName,
 	runFullProject,
 	projectStatus,
+	savedProject,
+	runExportProject,
+	exportStatus,
+	runImportProject,
+	importStatus,
 }) => {
 	const [isOpen, setOpen] = useState(false);
 	const classes = useStyles();
@@ -98,16 +132,52 @@ export const ProjectToolbar = ({
 						onChange={handleChangeName}
 						margin='none'
 					/>
-					<div className={classes.iconWrapper}>
-						<Icon className={classes.icon} onClick={onSaveProject}>
-							save
-						</Icon>
-						<div className={classes.iconText}>Save</div>
+					<div className={classes.saveWrapper}>
+						<div>
+							<Icon className={classes.icon} onClick={onSaveProject}>
+								save
+							</Icon>
+							<div className={classes.iconText}>Save</div>
+						</div>
+						<SaveWarapper
+							onSaveProject={onSaveProject}
+							savedProject={savedProject}
+						/>
 					</div>
-					<div className={classes.iconWrapper}>
+					<div className={classes.runWrapper}>
+						<div>
+							<Icon onClick={runFullProject} className={classes.icon}>
+								play_circle_filled
+							</Icon>
+							<div className={classes.iconText}>Run Project</div>
+						</div>
 						<LoadingWarapper
 							projectStatus={projectStatus}
 							runFullProject={runFullProject}
+						/>
+					</div>
+					<div className={classes.exportWrapper}>
+						<div>
+							<Icon onClick={runExportProject} className={classes.icon}>
+								get_app
+							</Icon>
+							<div className={classes.iconText}>Export Project</div>
+						</div>
+						<ExportingWrapper
+							exportStatus={exportStatus}
+							runExportProject={runExportProject}
+						/>
+					</div>
+					<div className={classes.importWrapper}>
+						<div>
+							<Icon onClick={runImportProject} className={classes.icon}>
+								publish
+							</Icon>
+							<div className={classes.iconText}>Import Project</div>
+						</div>
+						<ImportingWrapper
+							importStatus={importStatus}
+							runImportProject={runImportProject}
 						/>
 					</div>
 				</nav>
@@ -127,26 +197,49 @@ export const ProjectToolbar = ({
 		</React.Fragment>
 	);
 };
-
+const ImportingWrapper = ({ importStatus, runImportProject }) => {
+	return null;
+};
+const ExportingWrapper = ({ exportStatus, runExportProject }) => {
+	return null;
+};
 const LoadingWarapper = ({ projectStatus, runFullProject }) => {
 	const classes = useStyles();
-	if (projectStatus === undefined) {
+	if (!projectStatus) {
+		return null;
+	}
+	if (projectStatus.project_stat === 'OK') {
 		return (
-			<React.Fragment>
-				<Icon onClick={runFullProject} className={classes.icon}>
-					play_circle_filled
-				</Icon>
-				<div className={classes.iconText}>Play</div>
-			</React.Fragment>
-		);
-	} else if (projectStatus === 'PENDING') {
-		return (
-			<React.Fragment>
+			<div className={classes.savedWrapper}>
 				<Icon className={classes.confirmationIcon}>check_circle_outline</Icon>
-				<div className={classes.iconText}>Done</div>
-			</React.Fragment>
+				<div className={classes.iconText}>Run Successful</div>
+			</div>
+		);
+	} else if (
+		projectStatus === 'running' ||
+		projectStatus.project_stat === 'PENDING'
+	) {
+		return <ClockLoader />;
+	} else if (projectStatus.project_stat === 'ERROR') {
+		return (
+			<div className={classes.errorIcon}>
+				<Icon>error</Icon>
+			</div>
 		);
 	} else {
-		return <ClockLoader />;
+		return null;
+	}
+};
+const SaveWarapper = ({ savedProject, onSaveProject }) => {
+	const classes = useStyles();
+	if (savedProject !== true) {
+		return (
+			<div className={classes.savedWrapper}>
+				<Icon className={classes.confirmationIcon}>check_circle_outline</Icon>
+				<div className={classes.iconText}>Saved</div>
+			</div>
+		);
+	} else {
+		return null;
 	}
 };

@@ -13,27 +13,22 @@ export class SidebarClassifier extends React.Component {
 
 	filterBoxesWithoutPython = () => {
 		const { sidebarItemList } = this.props;
-		console.log('sidebarItemList', sidebarItemList);
 		const activeBoxesList = [];
 		this.setState({ activeBoxesList: sidebarItemList });
 	};
 
-	createTree2 = itemToOpen => {
-		console.log();
-	};
+	createTree2 = itemToOpen => {};
 
 	onClickBox = e => {
 		const { sidebarItemList } = this.props;
 		const { previusLevel } = this.state;
 		const boxType = e.target.id;
-		console.log(boxType);
 		let nextLevel;
 		if (!previusLevel) {
 			nextLevel = sidebarItemList[boxType];
 		} else {
 			nextLevel = previusLevel[boxType];
 		}
-		console.log('nextLevel', nextLevel);
 		this.setState({ activeBoxesList: Object.keys(nextLevel) });
 		this.setState({ previusLevel: sidebarItemList[boxType] });
 		// if (boxType.includes('Modules')) {
@@ -47,7 +42,6 @@ export class SidebarClassifier extends React.Component {
 	onClickBack = () => {
 		const { sidebarItemList } = this.props;
 		const { previusLevel } = this.state;
-		console.log('previous level', previusLevel);
 		this.setState({ activeBoxesList: Object.keys(previusLevel) });
 		//this.filterBoxesWithoutPython();
 	};
@@ -65,7 +59,6 @@ export class SidebarClassifier extends React.Component {
 				/>
 				{/* {activeBoxesList.map((item, key) => (
 					<React.Fragment>
-						{console.log('item', item)}
 
 						<SidebarItem
 							key={key}

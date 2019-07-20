@@ -8,7 +8,8 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = 'secret1234'
-    SQLALCHEMY_DATABASE_URI = "mysql://mambaml:mambaml@mysql_db/mambadb"
+    # SQLALCHEMY_DATABASE_URI = "mysql://mambaml:mambaml@mysql_db/mambadb"
+    SQLALCHEMY_DATABASE_URI = "postgres://mambaml:mambaml@postgres/mambadb"
 
 
 class ProductionConfig(Config):

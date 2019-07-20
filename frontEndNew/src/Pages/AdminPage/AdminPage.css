@@ -4,20 +4,7 @@
 	align-items: center;
 }
 
-.table-wrapper {
-	width: 70%;
-}
 .complete-fields-box {
 	justify-content: space-around;
 	display: flex;
-}
-
-.box-info-form {
-	display: flex;
-	flex-direction: column;
-	text-align: center;
-}
-
-.code-editors-admin {
-	margin-top: 10px;
 }

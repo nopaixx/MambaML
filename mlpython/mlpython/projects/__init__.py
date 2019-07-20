@@ -13,7 +13,7 @@ class Project(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-    json = db.Column(db.String(65000))
+    json = db.Column(db.String())
     frontendVersion = db.Column(db.String(10))
     backendVersion = db.Column(db.String(10))
     user_id = db.Column(
@@ -155,20 +155,48 @@ class Project(db.Model):
         status = Status_Project.query.filter(Status_Project.project_id==self.id).first()
         if status:
             status.task = task
-            status.status = 'PENDING'
+            d_json = json.loads(status.status)
+            d_json['project_stat'] = "PENDING"
+            # status.status = json.dumps({"project_stat":"PENDING"})
+            status.status = json.dumps(d_json)
             db.session.commit()
         else:
-            new = Status_Project.create(self.id, task,'PENDING')
+            new = Status_Project.create(self.id, task,json.dumps({"project_stat":"PENDING"}))
         
         # jsondata = self.json
         # jsondata = json.dump(jsondata)
         # db.session.commit()
         return self
 
+    def update_task_status(self, task, stat):
+
+        status = Status_Project.query.filter(Status_Project.project_id==self.id).first()
+        if status:
+            print("aaaaa-->", status.status)
+            j_data = json.loads(status.status)
+            if task in j_data:
+                j_data[task] = stat
+            else:
+                j_data[task] = stat
+
+            status.status = json.dumps(j_data)
+
+            db.session.commit()
+        return None
+
     def update_status(self, data, stat, error):
         status = Status_Project.query.filter(Status_Project.project_id==self.id).first()
         if status:
-            status.status = stat
+            print("aaaa-->",status.status)
+            j_data = json.loads(status.status)
+            if 'project_stat' in j_data:
+                j_data['project_stat'] = stat
+            else:
+                j_data['project_stat'] = stat
+
+            status.status = json.dumps(j_data)
+
+            # status.status = stat
             status.error = error
            # if stat == 'OK':
             self.json = data                

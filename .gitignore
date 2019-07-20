@@ -1,3 +1,4 @@
 mlpython/venv/
 mlpython/venv/lib/python3.6/site-packages/werkzeug/__pycache__/
 *.pyc
+mlpython/migrations/versions/__pycache_/

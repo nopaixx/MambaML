@@ -21,7 +21,7 @@ def upgrade():
     op.add_column('user', sa.Column('firstName', sa.String(length=30), nullable=True))
     op.add_column('user', sa.Column('lastName', sa.String(length=30), nullable=True))
     op.add_column('user', sa.Column('username', sa.String(length=50), nullable=True))
-    op.drop_index('email', table_name='user')
+    # op.drop_index('email', table_name='user')
     op.create_unique_constraint(None, 'user', ['username'])
     op.drop_column('user', 'name')
     op.drop_column('user', 'email')

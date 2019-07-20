@@ -2,9 +2,11 @@ import { projectConstants } from '../_constants';
 import { projectService } from '../_services';
 import { alertActions } from './';
 import { history } from '../_helpers';
+import { saveJSON, buildFileSelector } from './utils.global.js';
 
 export const projectActions = {
 	save,
+	unsavedProject,
 	create,
 	load,
 	get,
@@ -13,6 +15,10 @@ export const projectActions = {
 	updateChartStructure,
 	run,
 	runBox,
+	checkFirstLoadProjectStatus,
+	loadPortPreview,
+	exportProject,
+	importProject,
 };
 
 function create(
@@ -37,6 +43,7 @@ function create(
 		projectService.create(project).then(
 			project => {
 				const ID = project.data.id;
+				project.data['projectName'] = project.data.name;
 				dispatch(success(project.data));
 				history.push(`/project/${ID}`);
 			},
@@ -155,18 +162,50 @@ function load(projectId) {
 		return { type: projectConstants.LOGIN_FAILURE, error };
 	}
 }
-const checkProjectStatus = (projectId, counter) => {
+function loadPortPreview(port) {
+	return dispatch => dispatch(success(port));
+	function success(port) {
+		return { type: projectConstants.LOAD_PORT_PREVIEW, port };
+	}
+}
+const checkIfJSON = text => {
+	let isJSON = false;
+	if (
+		/^[\],:{}\s]*$/.test(
+			text
+				.replace(/\\["\\/bfnrtu]/g, '@')
+				.replace(
+					/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?/g,
+					']'
+				)
+				.replace(/(?:^|:|,)(?:\s*\[)+/g, '')
+		)
+	) {
+		console.log('isJSON');
+		isJSON = true;
+	}
+	return isJSON;
+};
+const checkProjectStatus = projectId => {
 	return dispatch => {
 		projectService.checkRunStatus(projectId).then(
 			projectData => {
-				const projectStatus = projectData.data.status;
-				if (projectStatus === 'PENDING' && counter < 5) {
-					counter++;
-					setTimeout(
-						() => dispatch(checkProjectStatus(projectId, counter)),
-						1000
-					);
-					console.log(counter);
+				let projectStatus;
+				const isJSON = checkIfJSON(projectData.data.status);
+				if (isJSON) projectStatus = JSON.parse(projectData.data.status);
+				else projectStatus = projectData.data.status;
+
+				if (projectStatus.project_stat === 'PENDING') {
+					dispatch(updateBoxesStatus(projectStatus));
+					setTimeout(() => dispatch(checkProjectStatus(projectId)), 1000);
+				} else if (projectStatus.project_stat === 'OK') {
+					dispatch(updateBoxesStatus(projectStatus));
+					dispatch(success(projectStatus));
+					dispatch(get(projectId));
+				} else if (projectStatus.project_stat === 'ERROR') {
+					dispatch(updateBoxesStatus(projectStatus));
+					dispatch(success(projectStatus));
+					dispatch(get(projectId));
 				} else {
 					dispatch(success(projectStatus));
 				}
@@ -185,13 +224,68 @@ const checkProjectStatus = (projectId, counter) => {
 		return { type: projectConstants.CHECK_PROJECT_FAILURE, error };
 	}
 };
+
+function updateBoxesStatus(boxesStatus) {
+	return { type: projectConstants.UPDATE_BOXES_STATUS_SUCCESS, boxesStatus };
+}
+
+function exportProject(projectId) {
+	return dispatch => {
+		projectService.get(projectId).then(
+			project => {
+				saveJSON(project.data.json, 'project' + projectId + '.json');
+			},
+			error => {
+				dispatch(alertActions.error(error.toString()));
+			}
+		);
+	};
+}
+function importProject(projectId) {
+	return dispatch => {
+		const id = 'importProjectSelector';
+		const selector = buildFileSelector(id);
+		selector.click();
+		selector.addEventListener('change', () => uploadFile(selector.files));
+
+		const uploadFile = files => {
+			var fr = new FileReader();
+			fr.onload = function(e) {
+				var result = JSON.parse(e.target.result);
+				console.log(result);
+				//var chartStructure = JSON.stringify(result.data.json, null, 2);
+				var chartStructure = result;
+				const projectToSave = {
+					id: projectId,
+					name: 'dfdf',
+					json: chartStructure,
+					frontendVersion: 'V1',
+					backendVersion: 'V1',
+				};
+				const projectToRender = {
+					id: projectId,
+					name: 'dfdf',
+					chartStructure: chartStructure,
+					frontendVersion: 'V1',
+					backendVersion: 'V1',
+				};
+				projectService.save(projectToSave);
+				dispatch(success(projectToRender));
+			};
+			fr.readAsText(files.item(0));
+		};
+	};
+	function success(project) {
+		return { type: projectConstants.GET_PROJECT_SUCCESS, payload: project };
+	}
+}
+
 function run(projectId) {
 	return dispatch => {
 		dispatch(request('running'));
 		let counter = 0;
 		projectService.run(projectId).then(
 			project => {
-				console.log('projectService.run', project);
 				dispatch(checkProjectStatus(projectId, counter));
 			},
 			error => {
@@ -208,6 +302,13 @@ function run(projectId) {
 		return { type: projectConstants.RUN_PROJECT_FAILURE, error };
 	}
 }
+function checkFirstLoadProjectStatus(projectId) {
+	return dispatch => {
+		let counter = 0;
+
+		dispatch(checkProjectStatus(projectId, counter));
+	};
+}
 
 function runBox(projectId, boxId) {
 	return dispatch => {
@@ -216,6 +317,7 @@ function runBox(projectId, boxId) {
 		projectService.runBox(projectId, boxId).then(
 			project => {
 				dispatch(success(project));
+				dispatch(checkProjectStatus(projectId, 0));
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -272,6 +374,15 @@ function save(
 		return { type: projectConstants.LOGIN_FAILURE, error };
 	}
 }
+function unsavedProject() {
+	return dispatch => {
+		dispatch(success());
+	};
+	function success() {
+		return { type: projectConstants.UNSAVED_PROJECT_SUCCESS };
+	}
+}
+
 function getAllActors() {
 	return dispatch => {
 		dispatch(request());
@@ -331,6 +442,7 @@ const boxFactory = ({
 	friendly_name,
 }) => {
 	const ports = {};
+	const hasChange = false;
 	for (let i = 1; i <= n_input_ports; ++i) {
 		ports[`port${i}`] = {
 			id: `port${i}`,
@@ -367,6 +479,7 @@ const boxFactory = ({
 				backendVersion,
 				parameters,
 				name: friendly_name,
+				hasChange,
 			},
 		},
 	};

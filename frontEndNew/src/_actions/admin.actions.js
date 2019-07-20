@@ -5,6 +5,7 @@ import { alertActions } from './';
 export const adminActions = {
 	createBox,
 	updateBox,
+	restartBoxFactory,
 };
 
 function createBox(box) {
@@ -23,21 +24,30 @@ function createBox(box) {
 	};
 
 	function request(box) {
-		return { type: adminConstants.SAVE_BOX_REQUEST, box };
+		return { type: adminConstants.CREATE_BOX_REQUEST, box };
 	}
 	function success(box) {
-		return { type: adminConstants.SAVE_BOX_SUCCESS, box };
+		return { type: adminConstants.CREATE_BOX_SUCCESS, box };
 	}
 	function failure(error) {
-		return { type: adminConstants.SAVE_BOX_FAILURE, error };
+		return { type: adminConstants.CREATE_BOX_FAILURE, error };
 	}
 }
+
+function restartBoxFactory() {
+	return dispatch => {
+		dispatch(success());
+	};
+	function success() {
+		return { type: adminConstants.RESTART_BOX_FACTORY_SUCCESS };
+	}
+}
+
 function updateBox(box) {
 	return dispatch => {
 		dispatch(request(box));
 		adminService.updateBox(box).then(
 			box => {
-				console.log('box', box);
 				dispatch(success(box));
 			},
 			error => {

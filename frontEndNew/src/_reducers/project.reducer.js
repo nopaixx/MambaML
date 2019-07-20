@@ -1,5 +1,4 @@
 import { projectConstants } from '../_constants';
-import { CardActions } from '@material-ui/core';
 
 export function project(state = {}, action) {
 	switch (action.type) {
@@ -14,10 +13,21 @@ export function project(state = {}, action) {
 				creatingProject: false,
 				project: action.payload,
 			};
+		case projectConstants.SAVE_PROJECT_SUCCESS:
+			return {
+				...state,
+				savedProject: true,
+			};
+		case projectConstants.UNSAVED_PROJECT_SUCCESS:
+			return {
+				...state,
+				savedProject: false,
+			};
 		case projectConstants.GET_ALL_PROJECT_SUCCESS:
 			return {
 				...state,
 				projects: action.payload,
+				project: undefined,
 			};
 		case projectConstants.GET_PROJECT_REQUEST:
 			return {
@@ -43,22 +53,31 @@ export function project(state = {}, action) {
 				gettingActors: true,
 			};
 		case projectConstants.CHART_PROJECT_UPDATE:
-			console.log('reducer, action', action);
 			return {
 				...state,
 				chartStructure: action.chartStructure,
+				savedProject: false,
 			};
 		case projectConstants.RUN_PROJECT_REQUEST:
 			return {
 				...state,
 				projectStatus: action.projectStatus,
 			};
+		case projectConstants.UPDATE_BOXES_STATUS_SUCCESS:
+			return {
+				...state,
+				boxesStatus: action.boxesStatus,
+			};
 		case projectConstants.CHECK_PROJECT_SUCCESS:
 			return {
 				...state,
 				projectStatus: action.projectStatus,
 			};
-
+		case projectConstants.LOAD_PORT_PREVIEW:
+			return {
+				...state,
+				portDataPreview: action.port,
+			};
 		default:
 			return state;
 	}

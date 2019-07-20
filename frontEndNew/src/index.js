@@ -12,10 +12,16 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 const theme = createMuiTheme({
 	palette: {
 		primary: {
-			light: '#d38c8c',
+			light: '#f9efef',
 			main: '#b43539',
 			dark: '#a52024',
 			contrastText: '#fff',
+		},
+		secondary: {
+			light: '#60d6d6',
+			main: '#42cece',
+			dark: '#c3e6cb',
+			contrastText: '#155724',
 		},
 	},
 	appBar: { height: 50 },

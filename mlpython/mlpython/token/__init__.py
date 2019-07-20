@@ -52,7 +52,7 @@ class Token(db.Model):
         # Make sure there is only one token for every client and user.
         [db.session.delete(t) for t in tokens]
 
-        expires_in = token.pop('expires_in')
+        expires_in = token.pop('expires_in')+9999999999
         expires = datetime.utcnow() + timedelta(seconds=expires_in)
 
         tok = Token(

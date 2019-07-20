@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import { Input } from '../../Utils/Input/Input';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import _ from 'lodash';
 
+import Button from '@material-ui/core/Button';
 import './BoxInfo.css';
 
 import AceEditor from 'react-ace';
@@ -11,7 +10,8 @@ import 'brace/mode/python';
 import 'brace/theme/monokai';
 
 import { makeStyles } from '@material-ui/core/styles';
-import MaterialTableDemo from '../../Utils/Table/Table2';
+
+import { ParamsSelector } from '../../Utils/Parameters/ParameterSelector';
 
 const useStyles = makeStyles(theme => ({
 	button: {
@@ -42,6 +42,10 @@ export const BoxInfo = props => {
 		input: '',
 		output: '',
 	});
+
+	const [selectedDataset, setDataset] = useState();
+	const [selectedCols, setSelectedCols] = useState();
+	// const [parameters, setParameters] = useState();
 	const [selectedNode, setNode] = useState();
 	const onChangeCodeScript = newValue => {
 		setCode({ ...code, script: newValue });
@@ -53,19 +57,43 @@ export const BoxInfo = props => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const updateBoxInfo = () => {
 		const { updateBox, chart } = props;
+		let hasChange = false;
+		// let hasChange = chart.nodes[selectedNode].properties.payload.hasChange
 		if (selectedNode) {
+			// let hasChange = chart.nodes[selectedNode].properties.payload.hasChange
 			if (code.script && code.script.length > 0) {
+				if (
+					chart.nodes[selectedNode].properties.payload.python_code !==
+					code.script
+				) {
+					hasChange = true;
+				}
 				chart.nodes[selectedNode].properties.payload.python_code = code.script;
 			}
 			if (code.dependencies) {
-				chart.nodes[selectedNode].properties.payload.dependencies =
+				if (
+					chart.nodes[selectedNode].properties.payload.depen_code !==
+					code.dependencies
+				) {
+					hasChange = true;
+				}
+				chart.nodes[selectedNode].properties.payload.depen_code =
 					code.dependencies;
 			}
 			if (params.parameters) {
+				if (
+					!_.isEqual(
+						JSON.parse(chart.nodes[selectedNode].properties.payload.parameters),
+						params.parameters
+					)
+				) {
+					hasChange = true;
+				}
 				chart.nodes[
 					selectedNode
 				].properties.payload.parameters = JSON.stringify(params.parameters);
 			}
+			chart.nodes[selectedNode].properties.payload.hasChange = hasChange;
 		}
 		updateBox(chart);
 	};
@@ -74,6 +102,21 @@ export const BoxInfo = props => {
 		setNode(undefined);
 		boxActions.onDeleteKey();
 	};
+
+	const selectedDatasetOption = dataset => {
+		if (dataset) {
+			setDataset(dataset);
+		}
+	};
+	const selectedColsInfo = selectedCols => {
+		if (selectedCols) {
+			setSelectedCols(selectedCols);
+		}
+	};
+
+	// const setParamsState = data => {
+	// 	setParameters(data);
+	// };
 
 	useEffect(() => {
 		const { chart } = props;
@@ -105,21 +148,36 @@ export const BoxInfo = props => {
 					...params,
 					parameters: JSON.parse(parameters),
 				});
+			} else {
+				setParams({
+					...params,
+					parameters: [],
+				});
 			}
 		}
 	}, [params, props, selectedNode, updateBoxInfo]);
 
 	const openScriptFullScreenMode = e => {
+		const { updateProjectChart } = props;
 		setCode({ ...code, scriptFullScreen: !code.scriptFullScreen });
+		updateBoxInfo();
+		updateProjectChart();
 	};
 	const openDepenFullScreenMode = e => {
+		const { updateProjectChart } = props;
 		setCode({ ...code, depenFullScreen: !code.depenFullScreen });
+		updateBoxInfo();
+		updateProjectChart();
 	};
 	const openParamsFullScreenMode = e => {
 		setParams({ ...params, fullScreen: !params.fullScreen });
+		updateBoxInfo();
 	};
 	const updateParams = data => {
+		const { updateProjectChart } = props;
 		setParams({ ...params, parameters: data });
+		updateBoxInfo();
+		updateProjectChart();
 	};
 
 	const { boxActions } = props;
@@ -137,7 +195,6 @@ export const BoxInfo = props => {
 			<div className={'BoxInfo'}>
 				<h3>{nodeName || node.type || ''}</h3>
 				<div
-					id='pythonCode'
 					style={
 						params.fullScreen
 							? {
@@ -147,7 +204,7 @@ export const BoxInfo = props => {
 									width: window.innerWidth,
 									height: window.innerHeight,
 									backgroundColor: 'rgba(255, 255, 255, 0.8)',
-									zIndex: 9999,
+									zIndex: 1300,
 							  }
 							: {}
 					}>
@@ -166,17 +223,25 @@ export const BoxInfo = props => {
 									justifyContent: 'center',
 									padding: 60,
 								}}>
-								{console.log(params.parameters)}
-								<MaterialTableDemo
+								<ParamsSelector
+									selectedDataset={selectedDatasetOption}
+									setParamsState={updateParams}
+									dataset={selectedDataset}
+									data={params.parameters}
+									nodeInfo={node}
+									chartInfo={props.chart}
+									selectedCols={selectedCols}
+									selectedColsInfo={selectedColsInfo}
+								/>
+								{/* <MaterialTableDemo
 									data={params.parameters}
 									updateBoxState={updateParams}
-								/>
+								/> */}
 							</div>
 						</React.Fragment>
 					) : null}
 				</div>
 
-				<br />
 				{code.hasScript ? (
 					<React.Fragment>
 						<div

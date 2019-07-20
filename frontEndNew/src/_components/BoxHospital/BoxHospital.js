@@ -1,90 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AceEditor from 'react-ace';
-import { Button as ButtonGonzalo } from '../../_components/Utils/';
 import { adminActions } from '../../_actions';
-import TextField from '@material-ui/core/TextField';
-import Dropdown from '../Utils/Dropdown/Dropdown';
-import { projectActions } from '../../_actions';
 import TreeMenu from '../Design/TreeMenu/TreeMenuList';
+
+import { TextDataInputs } from './TextDataInputs';
+import { TextEditors } from './TextEditors';
 
 import './BoxHospital.css';
 
-import 'brace/mode/python';
-import 'brace/theme/monokai';
+import ParametersTable from '../../_components/Utils/Table/ParametersTable';
 
-import MaterialTableDemo from '../../_components/Utils/Table/Table2';
-
-import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-
-const useStyles = makeStyles(theme => ({
-	button: {
-		margin: theme.spacing(1),
-	},
-	input: {
-		display: 'none',
-	},
-}));
-
-const TextEditors = ({
-	dependencies,
-	code,
-	onChangeCodeScript,
-	onChangeDependencies,
-	onCickDisplayEditor,
-	activeCodeEditor,
-}) => {
-	const classes = useStyles();
-	return (
-		<div className={'code-editors-admin'}>
-			<div className='col-md-6 editor-column'>
-				<Button
-					onClick={() => onCickDisplayEditor('Dependencies')}
-					id={'Dependencies'}
-					variant='outlined'
-					color='primary'
-					className={classes.button}>
-					Dependencies
-				</Button>
-				{activeCodeEditor['Dependencies'] ? (
-					<AceEditor
-						mode='python'
-						theme='monokai'
-						width={'350px'}
-						height={'200px'}
-						value={dependencies}
-						onChange={onChangeDependencies}
-						name='UNIQUE_ID_OF_DIV'
-						editorProps={{ $blockScrolling: true }}
-					/>
-				) : null}
-			</div>
-			<div className='col-md-6 editor-column'>
-				<Button
-					id={'PythonScript'}
-					onClick={() => onCickDisplayEditor('PythonScript')}
-					variant='outlined'
-					color='primary'
-					className={classes.button}>
-					Python Script
-				</Button>
-				{activeCodeEditor['PythonScript'] ? (
-					<AceEditor
-						mode='python'
-						theme='monokai'
-						width={'650px'}
-						height={'300px'}
-						value={code}
-						onChange={onChangeCodeScript}
-						name='UNIQUE_ID_OF_DIV'
-						editorProps={{ $blockScrolling: true }}
-					/>
-				) : null}
-			</div>
-		</div>
-	);
-};
 
 class BoxHospital extends React.Component {
 	state = {
@@ -93,10 +19,6 @@ class BoxHospital extends React.Component {
 		activeCodeEditor: { Dependencies: false, PythonScript: false },
 		selectedTab: 0,
 	};
-	// componentDidMount() {
-	// 	const { dispatch } = this.props;
-	// 	dispatch(projectActions.getAllActors());
-	// }
 
 	onChangeCodeScript = newValue => {
 		this.setState({ code: newValue });
@@ -194,80 +116,42 @@ class BoxHospital extends React.Component {
 		const { actorsTree } = this.props;
 		return (
 			<React.Fragment>
-				<Button
-					id={'PythonScript'}
-					onClick={this.handleSubmit}
-					variant='contained'
-					color='primary'>
-					Update Box
-				</Button>
-				<div className={'wrapper'}>
+				<div
+					style={{
+						display: 'flex',
+					}}>
 					<div className={'treeSelector'}>
 						<TreeMenu data={actorsTree} selectedOption={this.selectedOption} />
 					</div>
-					<form
-						name='form'
-						onSubmit={this.handleSubmit}
-						className={'box-info-form'}>
-						<TextField
-							id='friendly_name'
-							label='Fiendly Name'
-							className={''}
-							value={friendly_name || ''}
-							name={'friendly_name'}
-							onChange={this.handleChange}
-							margin='normal'
-						/>
-						<TextField
-							id='type'
-							label='Type'
-							className={''}
-							value={type || ''}
-							name={'type'}
-							onChange={this.handleChange}
-							margin='normal'
-						/>
-						<TextField
-							id='inputPorts'
-							label='Input'
-							type='number'
-							className={''}
-							name={'inputPorts'}
-							value={inputPorts || ''}
-							onChange={this.handleChange}
-							margin='normal'
-						/>
-						<TextField
-							id='outputPorts'
-							label='Output'
-							type='number'
-							className={''}
-							name={'outputPorts'}
-							value={outputPorts || ''}
-							onChange={this.handleChange}
-							margin='normal'
-						/>
-					</form>
-					<TextEditors
-						dependencies={dependencies}
-						code={code}
-						onChangeCodeScript={this.onChangeCodeScript}
-						onChangeDependencies={this.onChangeDependencies}
-						onCickDisplayEditor={this.onCickDisplayEditor}
-						activeCodeEditor={activeCodeEditor}
-					/>
-				</div>
-				<div>
-					<div
-						style={{
-							display: 'flex',
-							justifyContent: 'space-around',
-							padding: 15,
-						}}
-					/>
-					<div className={'complete-fields-box'}>
-						<div className={'table-wrapper'}>
-							<MaterialTableDemo
+					<div style={{ margin: 'auto' }}>
+						<div className={'wrapper'}>
+							<div className={'updateButton'}>
+								<Button
+									id={'PythonScript'}
+									onClick={this.handleSubmit}
+									variant='contained'
+									color='primary'>
+									Update Box
+								</Button>
+							</div>
+							<TextDataInputs
+								handleChange={this.handleChange}
+								friendly_name={friendly_name}
+								type={type}
+								inputPorts={inputPorts}
+								outputPorts={outputPorts}
+							/>
+							<TextEditors
+								dependencies={dependencies}
+								code={code}
+								onChangeCodeScript={this.onChangeCodeScript}
+								onChangeDependencies={this.onChangeDependencies}
+								onCickDisplayEditor={this.onCickDisplayEditor}
+								activeCodeEditor={activeCodeEditor}
+							/>
+						</div>
+						<div className={'complete-fields-box'}>
+							<ParametersTable
 								updateBoxState={this.setParamsState}
 								data={parameters}
 							/>

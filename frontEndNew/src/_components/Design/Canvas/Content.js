@@ -5,5 +5,4 @@ export const Content = styled.div`
 	flex-direction: column;
 	flex: 1;
 	overflow: hidden;
-	border: 1px solid #b43539;
 `;

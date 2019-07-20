@@ -11,9 +11,8 @@ services:
    - FLASK_DEBUG=true
    - rabbitmq_ampq=pyamqp://guest@rabbitmq//
    - redis_backend=redis://redis
-
   depends_on:
-   - mysql_db
+   - postgres
    - rabbitmq
    - redis
 
@@ -29,7 +28,7 @@ services:
    - rabbitmq_ampq=pyamqp://guest@rabbitmq//
    - redis_backend=redis://redis
   depends_on:
-   - mysql_db
+   - postgres
    - rabbitmq
    - redis
 
@@ -48,6 +47,16 @@ services:
   container_name: redis
   expose:
     - 6379
+ 
+ postgres:
+    image: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+        - POSTGRES_USER=mambaml
+        - POSTGRES_PASSWORD=mambaml
+        - POSTGRES_DB=mambadb
 
  mysql_db:
     image: mysql:5.7
