@@ -12,8 +12,9 @@ import HeatmapImg from '../../../Heatmap.png';
 import { ScatterPointsMatrix } from './Scatter/ScatterPointsMatrix';
 import { Heatmap } from './Heatmap/Heatmap';
 import PlotBlock from './Trial/Trial';
+import { HeatmapCanvas } from './Heatmap/heatmapCanvas';
 import { CanvasChart } from './Trial/canvasChart';
-import { CanvasScatter } from './Trial/canvasSactter';
+import { CanvasScatter } from './Trial/canvasScatter';
 import { TableData } from './TableData';
 
 export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
@@ -42,9 +43,23 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 			return (
 				<div>
 					<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
-					{/* <PlotBlock /> */}
-					{/* <CanvasChart width={960} height={500} /> */}
 					<CanvasScatter />
+				</div>
+			);
+		}
+		if (SelectedVisualization === 'bars') {
+			return (
+				<div>
+					<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
+					<CanvasChart width={960} height={500} />
+				</div>
+			);
+		}
+		if (SelectedVisualization === 'heatmapCanvas') {
+			return (
+				<div>
+					<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
+					<HeatmapCanvas />
 				</div>
 			);
 		}
@@ -52,7 +67,7 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 
 	const VisualizationTypes = () => {
 		return (
-			<div>
+			<div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
 				<div className={classes.visualizationItem}>
 					<div>
 						<div>Scatter</div>
@@ -80,10 +95,29 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 				<div className={classes.visualizationItem}>
 					<div>
 						<div>trial</div>
-						<img
+						<div
 							id={'trial'}
-							alt='trial'
-							width={'200px'}
+							style={{ width: 200, height: 200 }}
+							onClick={e => setSelectedVisualization(e.target.id)}
+						/>
+					</div>
+				</div>
+				<div className={classes.visualizationItem}>
+					<div>
+						<div>bars</div>
+						<div
+							id={'bars'}
+							style={{ width: 200, height: 200 }}
+							onClick={e => setSelectedVisualization(e.target.id)}
+						/>
+					</div>
+				</div>
+				<div className={classes.visualizationItem}>
+					<div>
+						<div>heatmapCanvas</div>
+						<div
+							id={'heatmapCanvas'}
+							style={{ width: 200, height: 200 }}
 							onClick={e => setSelectedVisualization(e.target.id)}
 						/>
 					</div>

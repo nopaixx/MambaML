@@ -1,5 +1,6 @@
 import React from 'react';
 import * as d3 from 'd3';
+import scale from 'd3-scale';
 import ReactDOM from 'react-dom';
 
 class Axis extends React.Component {
