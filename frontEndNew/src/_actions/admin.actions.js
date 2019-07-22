@@ -89,21 +89,20 @@ function importBox(){
                         var fr = new FileReader();
                         fr.onload = function(e) {
                                 var result = JSON.parse(e.target.result);
-				console.log("AL-",result.friendly_name)
 			//	const box=""
                                 //var chartStructure = JSON.stringify(result.data.json, null, 2);
 	                        const box = {
-	                                result.friendly_name,
-       	                	//        result.type,
-             		        //        result.frontendVersion: 'V1',
-        	           	//        result.backendVersion: 'V1',
-                            //		result.n_input_ports: inputPorts,
-	                     //           result.n_output_ports: outputPorts,
-       	                //	        result.depen_code: dependencies,
-              		 //               result.python_code: code,
-        	          //   	        parameters: result.parameters,
+					friendly_name: result.friendly_name,
+	       	                	type:  result.type,
+             		                frontendVersion: result.frontendVersion,
+        	           		backendVersion: result.backendVersion,
+                              		n_input_ports: result.n_input_ports,
+	                     		n_output_ports: result.n_output_ports,
+       	                		depen_code: result.depen_code,
+              		 		python_code: result.python_code,
+					parameters: result.parameters,
 	                        };
- 	        	        createBox(box);
+ 	        	        adminService.createBox(box);
                         };
                         fr.readAsText(files.item(0));
                 };
