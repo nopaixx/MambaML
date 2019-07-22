@@ -63,7 +63,34 @@ class BoxHospital extends React.Component {
 		};
 		dispatch(adminActions.updateBox(updatedBox));
 	};
+	handleExportBox = e => {
+	     const { dispatch } = this.props;
+	     e.preventDefault()
+             const {
+                        type,
+                        inputPorts,
+                        outputPorts,
+                        code,
+                        dependencies,
+                        friendly_name,
+                        parameters,
+                        id,
+                } = this.state;
+                const exportedBox = {
+                        friendly_name,
+                        type,
+                        frontendVersion: 'V1',
+                        backendVersion: 'V1',
+                        n_input_ports: inputPorts,
+                        n_output_ports: outputPorts,
+                        depen_code: dependencies,
+                        python_code: code,
+                        parameters: JSON.stringify(parameters),
+                        id,
+                };
 
+		adminActions.exportBox(exportedBox)
+	};
 	onCickDisplayEditor = id => {
 		this.setState(prevstate => {
 			return {
@@ -132,6 +159,14 @@ class BoxHospital extends React.Component {
 									variant='contained'
 									color='primary'>
 									Update Box
+								</Button>
+								<Button
+									id={'ExportBox'}
+									onClick={this.handleExportBox}
+									variant='contained'
+									color='primary'
+								>
+									Export Box
 								</Button>
 							</div>
 							<TextDataInputs

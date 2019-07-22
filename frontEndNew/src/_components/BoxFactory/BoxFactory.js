@@ -87,6 +87,15 @@ class BoxFactory extends React.Component {
 		}
 	};
 
+        handleImportBox = e => {
+                const { dispatch } = this.props;
+                e.preventDefault();
+                adminActions.importBox();
+        };
+
+
+
+
 	handleCsvSelector = () => {
 		this.setState(state => {
 			return { isCsvSelectorActive: !state.isCsvSelectorActive };
@@ -141,6 +150,7 @@ class BoxFactory extends React.Component {
 								Created successfully
 							</Button>
 						) : (
+							<div>
 							<Button
 								onClick={this.handleSubmit}
 								id={'Dependencies'}
@@ -148,6 +158,15 @@ class BoxFactory extends React.Component {
 								color='primary'>
 								Create Box
 							</Button>
+  							<Button
+                                                                onClick={this.handleImportBox}
+                                                                id={'ImportBox'}
+                                                                variant='contained'
+                                                                color='primary'>
+                                                                Import Box
+                                                        </Button>
+							</div>
+
 						)}
 						{/* {!boxCreated && !creatingBox ? (
 							<Button
