@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 const generateRandomData = () => {
 	let inputData = [];
 	let xAxis = 'A' + 0;
-	for (let i = 0; i < 100; i++) {
+	for (let i = 0; i < 1000; i++) {
 		var randomNumber = Math.random();
 		// if (i % 100) xAxis = 'A' + i;
 		xAxis = i;
@@ -89,11 +89,14 @@ export class CanvasChart extends React.Component {
 
 		context.fillStyle = 'steelblue';
 		data.forEach(d => {
+			console.log('fiilRect', x(d.x), y(d.y), x.bandwidth(), height - y(d.y));
+			console.log(d);
 			context.fillRect(x(d.x), y(d.y), x.bandwidth(), height - y(d.y));
 		});
 	}
 
 	render() {
+		console.log(this.props.width);
 		return (
 			<canvas
 				width={this.props.width}

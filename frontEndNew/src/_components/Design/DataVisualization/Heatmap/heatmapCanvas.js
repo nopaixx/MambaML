@@ -61,10 +61,9 @@ export const HeatmapCanvas = () => {
 			.scaleExtent([1, 10])
 			.on('zoom', zoomEvent);
 
-		console.log(d3.zoom().scaleExtent([1, 10]));
+		// // console.log(d3.zoom().scaleExtent([1, 10]));
 
 		d3.select(myRec.current).call(zoom);
-		console.log('canvasDim[X]', canvasDim[X]);
 		var axis = [d3.axisTop(scale[X]).ticks(20), d3.axisRight(scale[Y])];
 
 		// console.log('axis', axis);
@@ -85,7 +84,6 @@ export const HeatmapCanvas = () => {
 		// svg.on('mouseout', tip.hide); //Added
 
 		const canvas = document.getElementById('heatmapCanvas');
-		console.log(canvas);
 		var context = canvas.getContext('2d');
 		var imageObj;
 		var imageDim;
@@ -96,8 +94,28 @@ export const HeatmapCanvas = () => {
 		// Compute the pixel colors; scaled by CSS.
 		function createImageObj() {
 			imageObj = new Image();
-			var image = context.createImageData(heatmapDim[X], heatmapDim[Y]);
+			const image = context.createImageData(heatmapDim[X], heatmapDim[Y]);
+			console.log('image');
+			imageObj.onload = () => imageLoaded();
 
+			console.log(imageObj);
+
+			const imageLoaded = () => {
+				console.log('image loaded');
+				for (var y = 0, p = -1; y < heatmapDim[Y]; ++y) {
+					for (var x = 0; x < heatmapDim[X]; ++x) {
+						var c = d3.rgb(color(heatmap[y][x]));
+						image.data[++p] = c.r;
+						image.data[++p] = c.g;
+						image.data[++p] = c.b;
+						image.data[++p] = 255;
+					}
+				}
+				context.putImageData(image, 0, 0);
+
+				console.log('imageScale', imageScale);
+				console.log('imageDim', imageDim);
+			};
 			for (var y = 0, p = -1; y < heatmapDim[Y]; ++y) {
 				for (var x = 0; x < heatmapDim[X]; ++x) {
 					var c = d3.rgb(color(heatmap[y][x]));
@@ -113,8 +131,14 @@ export const HeatmapCanvas = () => {
 			imageScale = imageDim.map(function(v, i) {
 				return v / canvasDim[i];
 			});
-			console.log('imageScale', imageScale);
-			console.log('imageDim', imageDim);
+
+			// imageObj.src = canvas.toDataURL();
+			// imageDim = [imageObj.width, imageObj.height];
+			// imageScale = imageDim.map(function(v, i) {
+			// 	return v / canvasDim[i];
+			// });
+			// console.log('imageScale', imageScale);
+			// console.log('imageDim', imageDim);
 		}
 
 		function drawAxes() {
@@ -124,7 +148,6 @@ export const HeatmapCanvas = () => {
 		}
 
 		function zoomEvent() {
-			console.log('zoomEvent');
 			var transform = d3.event.transform;
 			context.save();
 			context.clearRect(0, 0, canvasDim[X], canvasDim[Y]);
@@ -146,10 +169,11 @@ export const HeatmapCanvas = () => {
 			// });
 			// context.clearRect(0, 0, canvasDim[X], canvasDim[Y]);
 			// context.drawImage(imageObj, it[X], it[Y], n[X], n[Y]);
+
 			drawAxes();
 		}
+		context.drawImage(imageObj, 0, 0);
 	}, []);
-	console.log(canvasDim);
 	return (
 		<div>
 			<canvas
