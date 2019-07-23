@@ -12,6 +12,7 @@ import HeatmapImg from '../../../Heatmap.png';
 import { ScatterPointsMatrix } from './Scatter/ScatterPointsMatrix';
 import { Heatmap } from './Heatmap/Heatmap';
 import PlotBlock from './Trial/Trial';
+import NormalHeatmap from './Heatmap/normalHeatmap';
 import { HeatmapCanvas } from './Heatmap/heatmapCanvas';
 import { CanvasChart } from './Trial/canvasChart';
 import { CanvasScatter } from './Trial/canvasScatter';
@@ -70,6 +71,14 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 				<div>
 					<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
 					<BarChartsCanvas />
+				</div>
+			);
+		}
+		if (SelectedVisualization === 'normalHeatmap') {
+			return (
+				<div>
+					<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
+					<NormalHeatmap />
 				</div>
 			);
 		}
@@ -137,6 +146,16 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 						<div>barChartCanvas</div>
 						<div
 							id={'barChartCanvas'}
+							style={{ width: 200, height: 200 }}
+							onClick={e => setSelectedVisualization(e.target.id)}
+						/>
+					</div>
+				</div>
+				<div className={classes.visualizationItem}>
+					<div>
+						<div>normalHeatmap</div>
+						<div
+							id={'normalHeatmap'}
 							style={{ width: 200, height: 200 }}
 							onClick={e => setSelectedVisualization(e.target.id)}
 						/>

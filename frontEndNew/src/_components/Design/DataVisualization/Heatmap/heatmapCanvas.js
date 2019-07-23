@@ -4,6 +4,7 @@ import scale from 'd3-scale';
 import Data from './Data.json';
 import { event as currentEvent } from 'd3-selection';
 // import {zoom } from 'd3-zoom'
+// import {zoom } from 'd3-zoom'
 
 export const HeatmapCanvas = () => {
 	const [canvasDim, setCanvasDim] = useState([900, 400]);
@@ -73,11 +74,13 @@ export const HeatmapCanvas = () => {
 				.select(myCanvas.current)
 				.append('g')
 				.attr('class', 'x axis')
-				.attr('transform', 'translate(0,' + canvasDim[Y] + ')'),
+				.attr('transform', 'translate(0,' + canvasDim[Y] + ')')
+				.call(axis[0]),
 			d3
 				.select(myCanvas.current)
 				.append('g')
-				.attr('class', 'y axis'),
+				.attr('class', 'y axis')
+				.call(axis[1]),
 		];
 
 		// svg.on('mousemove', tip.show); //Added
@@ -142,9 +145,20 @@ export const HeatmapCanvas = () => {
 		}
 
 		function drawAxes() {
-			axisElement.forEach(function(v, i) {
-				v.call(axis[i]);
-			});
+			if (d3.event) {
+				console.log(imageScale[0]);
+				console.log(d3.event.transform.rescaleX());
+				var new_x_scale = d3.event.transform.rescaleX(imageScale[0]);
+				axisElement[0]
+					.transition()
+					.duration(0)
+					.call(axis[0].scale(new_x_scale));
+			}
+			// axisElement.forEach((v, i) => {
+			// 	console.log('v', v);
+			// 	console.log(axis[i]);
+			// 	v.call(axis[i]);
+			// });
 		}
 
 		function zoomEvent() {

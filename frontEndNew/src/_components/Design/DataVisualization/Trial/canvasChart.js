@@ -4,9 +4,8 @@ import * as d3 from 'd3';
 const generateRandomData = () => {
 	let inputData = [];
 	let xAxis = 'A' + 0;
-	for (let i = 0; i < 1000; i++) {
+	for (let i = 0; i < 100; i++) {
 		var randomNumber = Math.random();
-		// if (i % 100) xAxis = 'A' + i;
 		xAxis = i;
 		inputData.push({ x: xAxis, y: randomNumber });
 	}
@@ -22,19 +21,13 @@ export class CanvasChart extends React.Component {
 		let margin = { top: 20, right: 20, bottom: 30, left: 40 },
 			width = canvas.width - margin.left - margin.right,
 			height = canvas.height - margin.top - margin.bottom;
-		console.log(width, height);
-
 		let x = d3
 			.scaleBand()
-			.rangeRound([0, width])
+			.range([0, width])
 			.padding(0.1);
-		console.log('x', x);
-
 		let y = d3.scaleLinear().rangeRound([height, 0]);
 
 		context.translate(margin.left, margin.top);
-
-		console.log('margin', margin.left, margin.right);
 
 		x.domain(data.map(d => d.x));
 		y.domain([0, d3.max(data, d => d.y)]);
@@ -89,14 +82,11 @@ export class CanvasChart extends React.Component {
 
 		context.fillStyle = 'steelblue';
 		data.forEach(d => {
-			console.log('fiilRect', x(d.x), y(d.y), x.bandwidth(), height - y(d.y));
-			console.log(d);
 			context.fillRect(x(d.x), y(d.y), x.bandwidth(), height - y(d.y));
 		});
 	}
 
 	render() {
-		console.log(this.props.width);
 		return (
 			<canvas
 				width={this.props.width}
