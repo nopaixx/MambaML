@@ -34,14 +34,14 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 				</div>
 			);
 		}
-		if (SelectedVisualization === 'heatmap') {
-			return (
-				<div>
-					<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
-					<Heatmap portDataPreview={portDataPreview} />
-				</div>
-			);
-		}
+		// if (SelectedVisualization === 'heatmap') {
+		// 	return (
+		// 		<div>
+		// 			<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
+		// 			<Heatmap portDataPreview={portDataPreview} />
+		// 		</div>
+		// 	);
+		// }
 		if (SelectedVisualization === 'trial') {
 			return (
 				<div>
@@ -54,7 +54,11 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 			return (
 				<div>
 					<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
-					<CanvasChart width={960} height={500} />
+					<CanvasChart
+						width={960}
+						height={500}
+						portDataPreview={portDataPreview}
+					/>
 				</div>
 			);
 		}

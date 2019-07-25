@@ -1,5 +1,6 @@
 import React from 'react';
 import * as d3 from 'd3';
+import { ColumnSelector } from '../Utils/ColumnSelector';
 
 const generateRandomData = () => {
 	let inputData = [];
@@ -13,7 +14,7 @@ const generateRandomData = () => {
 };
 
 export class CanvasChart extends React.Component {
-	componentDidMount() {
+	createChart = () => {
 		let data = generateRandomData();
 		let canvas = this.canvas;
 		let context = canvas.getContext('2d');
@@ -84,17 +85,32 @@ export class CanvasChart extends React.Component {
 		data.forEach(d => {
 			context.fillRect(x(d.x), y(d.y), x.bandwidth(), height - y(d.y));
 		});
+	};
+	componentDidMount() {
+		this.createChart();
 	}
+
+	handleSelectedColumns = (selectedCols, data) => {
+		console.log(data);
+		console.log('selectedCols', selectedCols);
+	};
 
 	render() {
 		return (
-			<canvas
-				width={this.props.width}
-				height={this.props.height}
-				ref={el => {
-					this.canvas = el;
-				}}
-			/>
+			<React.Fragment>
+				<ColumnSelector
+					portDataPreview={this.props.portDataPreview}
+					maxNumberCols={2}
+					selectedColsCB={this.handleSelectedColumns}
+				/>
+				<canvas
+					width={this.props.width}
+					height={this.props.height}
+					ref={el => {
+						this.canvas = el;
+					}}
+				/>
+			</React.Fragment>
 		);
 	}
 }
