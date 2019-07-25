@@ -91,8 +91,7 @@ export class CanvasChart extends React.Component {
 	}
 
 	handleSelectedColumns = (selectedCols, data) => {
-		console.log(data);
-		console.log('selectedCols', selectedCols);
+		console.log('selectedCols', data);
 	};
 
 	render() {

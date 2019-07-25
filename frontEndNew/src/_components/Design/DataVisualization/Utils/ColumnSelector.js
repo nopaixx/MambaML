@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStyles } from '../Styles';
 
 import { ColumnSelectorInput } from '../../../Utils/ColSelector/ColumnSelectorInput';
@@ -14,35 +14,32 @@ export const ColumnSelector = ({
 	const handleSelectedColumn = columnList => {
 		if (selectedCols.length >= maxNumberCols) {
 			if (columnList.length < selectedCols.length) {
+				setColSelected(columnList);
 			}
 		} else {
 			setColSelected(columnList);
+			handleDataGeneration(columnList);
 		}
 	};
-	const handleDataGeneration = (xData, yData) => {
-		const data = generateDataPoints(xData, yData, 0);
-		selectedColsCB(selectedCols, data);
+	const handleDataGeneration = columnList => {
+		columnList.map(dataColumn => {
+			return columnList.map((dataColumn2, key) => {
+				const xData = Object.values(parsedData[dataColumn]);
+				const yData = Object.values(parsedData[dataColumn2]);
+				const data = generateDataPoints(xData, yData, 0);
+				selectedColsCB(columnList, data);
+			});
+		});
 	};
+
 	const parsedData = JSON.parse(portDataPreview.first100);
 	const dataColumns = Object.values(Object.keys(parsedData));
+	//handleDataGeneration();
 	return (
-		<div>
-			<ColumnSelectorInput
-				selectedCols={selectedCols}
-				setColSelected={handleSelectedColumn}
-				inputColumns={dataColumns}
-			/>
-
-			<div className={classes.scatterGroup}>
-				{selectedCols.length > 4 && <div>You can only select 4</div>}
-				{selectedCols.map(dataColumn => {
-					return selectedCols.map((dataColumn2, key) => {
-						const xData = Object.values(parsedData[dataColumn]);
-						const yData = Object.values(parsedData[dataColumn2]);
-						handleDataGeneration(xData, yData);
-					});
-				})}
-			</div>
-		</div>
+		<ColumnSelectorInput
+			selectedCols={selectedCols}
+			setColSelected={handleSelectedColumn}
+			inputColumns={dataColumns}
+		/>
 	);
 };
