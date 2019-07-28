@@ -252,7 +252,6 @@ function importProject(projectId) {
 			var fr = new FileReader();
 			fr.onload = function(e) {
 				var result = JSON.parse(e.target.result);
-				console.log(result);
 				//var chartStructure = JSON.stringify(result.data.json, null, 2);
 				var chartStructure = result;
 				const projectToSave = {

@@ -1,11 +1,14 @@
 import { adminConstants } from '../_constants';
 import { adminService } from '../_services';
 import { alertActions } from './';
+import { saveJSON, buildFileSelector } from './utils.global.js';
 
 export const adminActions = {
 	createBox,
 	updateBox,
 	restartBoxFactory,
+	exportBox,
+	importBox
 };
 
 function createBox(box) {
@@ -66,4 +69,42 @@ function updateBox(box) {
 	function failure(error) {
 		return { type: adminConstants.UPDATE_BOX_FAILURE, error };
 	}
+}
+function exportBox(Box){
+
+        saveJSON(JSON.stringify(Box), 'box' + Box.friendly_name + '.json');
+	   	     	
+//	return null
+}
+
+function importBox(){
+	console.log("AL-2")
+	       console.log("AL---")
+                const id = 'importBoxSelector';
+                const selector = buildFileSelector(id);
+                selector.click();
+                selector.addEventListener('change', () => uploadFile(selector.files));
+		console.log("AL-import!")
+                const uploadFile = files => {
+                        var fr = new FileReader();
+                        fr.onload = function(e) {
+                                var result = JSON.parse(e.target.result);
+			//	const box=""
+                                //var chartStructure = JSON.stringify(result.data.json, null, 2);
+	                        const box = {
+					friendly_name: result.friendly_name,
+	       	                	type:  result.type,
+             		                frontendVersion: result.frontendVersion,
+        	           		backendVersion: result.backendVersion,
+                              		n_input_ports: result.n_input_ports,
+	                     		n_output_ports: result.n_output_ports,
+       	                		depen_code: result.depen_code,
+              		 		python_code: result.python_code,
+					parameters: result.parameters,
+	                        };
+ 	        	        adminService.createBox(box);
+                        };
+                        fr.readAsText(files.item(0));
+                };
+
 }
