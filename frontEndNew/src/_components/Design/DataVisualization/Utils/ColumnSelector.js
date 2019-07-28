@@ -11,6 +11,9 @@ export const ColumnSelector = ({
 }) => {
 	const classes = useStyles();
 	const [selectedCols, setColSelected] = useState([]);
+	const parsedData = JSON.parse(portDataPreview.first100);
+	const dataColumns = Object.values(Object.keys(parsedData));
+
 	const handleSelectedColumn = columnList => {
 		if (selectedCols.length >= maxNumberCols) {
 			if (columnList.length < selectedCols.length) {
@@ -22,19 +25,19 @@ export const ColumnSelector = ({
 		}
 	};
 	const handleDataGeneration = columnList => {
-		columnList.map(dataColumn => {
-			return columnList.map((dataColumn2, key) => {
-				const xData = Object.values(parsedData[dataColumn]);
-				const yData = Object.values(parsedData[dataColumn2]);
-				const data = generateDataPoints(xData, yData, 0);
-				selectedColsCB(columnList, data);
-			});
-		});
+		let data;
+		for (let i = 0; i < columnList.length; i = i + 2) {
+			const xRawData = parsedData[columnList[i]];
+			const yRawData = parsedData[columnList[i + 1]];
+			if (xRawData && yRawData) {
+				const xData = Object.values(xRawData);
+				const yData = Object.values(yRawData);
+				data = generateDataPoints(xData, yData, 0);
+			}
+		}
+		if (columnList.length === maxNumberCols) selectedColsCB(columnList, data);
 	};
 
-	const parsedData = JSON.parse(portDataPreview.first100);
-	const dataColumns = Object.values(Object.keys(parsedData));
-	//handleDataGeneration();
 	return (
 		<ColumnSelectorInput
 			selectedCols={selectedCols}

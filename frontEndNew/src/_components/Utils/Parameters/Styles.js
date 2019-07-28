@@ -23,7 +23,7 @@ export const useStyles = makeStyles(theme => ({
 	gridInputs: {
 		display: 'grid',
 		gridGap: '10px 10px',
-		gridTemplateColumns: 'repeat(4, 1fr)',
+		gridTemplateColumns: 'repeat(12, 1fr)',
 		textAlign: 'center',
 	},
 	selectedItem: {
@@ -34,7 +34,8 @@ export const useStyles = makeStyles(theme => ({
 		cursor: 'pointer',
 	},
 	gridItem: {
-		padding: 10,
+		paddingTop: 10,
+		paddingBottom: 10,
 		border: '1px solid' + theme.palette.primary.main,
 		borderRadius: 10,
 		cursor: 'pointer',

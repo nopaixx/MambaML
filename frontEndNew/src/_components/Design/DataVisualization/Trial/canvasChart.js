@@ -14,14 +14,16 @@ const generateRandomData = () => {
 };
 
 export class CanvasChart extends React.Component {
-	createChart = () => {
-		let data = generateRandomData();
+	createChart = dataInfo => {
+		const data = dataInfo.dataPoints;
 		let canvas = this.canvas;
 		let context = canvas.getContext('2d');
+		context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
 		let margin = { top: 20, right: 20, bottom: 30, left: 40 },
 			width = canvas.width - margin.left - margin.right,
 			height = canvas.height - margin.top - margin.bottom;
+
 		let x = d3
 			.scaleBand()
 			.range([0, width])
@@ -29,9 +31,8 @@ export class CanvasChart extends React.Component {
 		let y = d3.scaleLinear().rangeRound([height, 0]);
 
 		context.translate(margin.left, margin.top);
-
-		x.domain(data.map(d => d.x));
-		y.domain([0, d3.max(data, d => d.y)]);
+		x.domain(data.map(d => d[0]));
+		y.domain([0, d3.max(data, d => d[1])]);
 
 		let yTickCount = 10,
 			yTicks = y.ticks(yTickCount),
@@ -83,15 +84,20 @@ export class CanvasChart extends React.Component {
 
 		context.fillStyle = 'steelblue';
 		data.forEach(d => {
-			context.fillRect(x(d.x), y(d.y), x.bandwidth(), height - y(d.y));
+			context.fillRect(x(d[0]), y(d[1]), x.bandwidth(), height - y(d[1]));
 		});
 	};
-	componentDidMount() {
-		this.createChart();
-	}
+
+	clearCanvas = () => {
+		let canvas = this.canvas;
+		let context = canvas.getContext('2d');
+		let margin = { top: 20, right: 20, bottom: 30, left: 40 };
+		context.translate(-margin.left, -margin.top);
+	};
 
 	handleSelectedColumns = (selectedCols, data) => {
-		console.log('selectedCols', data);
+		this.createChart(data);
+		this.clearCanvas();
 	};
 
 	render() {

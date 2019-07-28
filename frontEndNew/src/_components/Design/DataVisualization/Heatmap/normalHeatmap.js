@@ -2,8 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import * as d3 from 'd3';
 
+import { ColumnSelector } from '../Utils/ColumnSelector';
+
 export default class App extends React.Component {
-	componentDidMount() {
+	createChart = () => {
 		const url =
 			'https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/global-temperature.json';
 
@@ -175,12 +177,24 @@ export default class App extends React.Component {
 					return d.interval;
 				});
 		});
+	};
+	componentDidMount() {
+		this.createChart();
 	}
+
+	handleSelectedColumns = (selectedCols, data) => {
+		console.log('selectedCols', data);
+	};
 
 	render() {
 		return (
 			<div className='container'>
 				<h1>Monthly Global Land-Surface Temperature</h1>
+				<ColumnSelector
+					portDataPreview={this.props.portDataPreview}
+					maxNumberCols={2}
+					selectedColsCB={this.handleSelectedColumns}
+				/>
 				<svg className='chart' />
 			</div>
 		);

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
+import { ColumnSelector } from '../Utils/ColumnSelector';
 
-export const CanvasScatter = () => {
+export const CanvasScatter = ({ portDataPreview }) => {
 	const height = 700;
 	const width = 1260;
 	const numPoints = 10000;
@@ -35,9 +36,9 @@ export const CanvasScatter = () => {
 		showTimeSince(startTime);
 	};
 
-	useEffect(() => {
-		renderChart();
-	}, []);
+	// useEffect(() => {
+	// 	renderChart();
+	// }, []);
 
 	const generateData = numPoints => {
 		const data = [];
@@ -50,6 +51,7 @@ export const CanvasScatter = () => {
 		return data;
 	};
 	const paintCanvas = (canvas, data) => {
+		console.log('data', data);
 		// get the canvas drawing context
 		const context = canvas.getContext('2d');
 
@@ -62,22 +64,24 @@ export const CanvasScatter = () => {
 			context.beginPath();
 
 			// paint an arc based on the datum
-			const x = d.x * canvas.width;
-			const y = d.y * canvas.height;
+			const x = d[0] * canvas.width;
+			const y = d[1] * canvas.height;
+			// const x = d.x * canvas.width;
+			// const y = d.y * canvas.height;
+			console.log(x, y);
 			context.arc(x, y, 2, 0, 2 * Math.PI);
 
 			// fill the point
 			context.fill();
 		});
 	};
-	const renderChart = () => {
+	const renderChart = data => {
 		// Get the amount of data to generate
 
 		if (isNaN(numPoints)) {
 			return;
 		}
-		console.log('numPoints', numPoints);
-		const data = generateData(numPoints);
+		// const data = generateData(numPoints);
 
 		// Make a container div for our graph elements to position themselves against
 
@@ -90,9 +94,19 @@ export const CanvasScatter = () => {
 		setLoading(false);
 		stopTimer();
 	};
+	const handleSelectedColumns = (selectedCols, data) => {
+		console.log(data);
+		renderChart(data.dataPoints);
+		// this.clearCanvas();
+	};
 
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column' }}>
+			<ColumnSelector
+				portDataPreview={portDataPreview}
+				maxNumberCols={2}
+				selectedColsCB={handleSelectedColumns}
+			/>
 			<div>
 				Number of Points:{' '}
 				<span style={{ backgroundColor: 'red', color: 'white' }}>
@@ -104,7 +118,6 @@ export const CanvasScatter = () => {
 					id='timeRendering'
 				/>
 			</div>
-			{console.log(loading)}
 			{loading ? <div>Loading...</div> : null}
 			<div>
 				<canvas id='contextCanvas' width={width} height={height} />

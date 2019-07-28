@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 
-// define your barchart as a data-array of javascript objects
-
 export const BarChartsCanvas = () => {
 	useEffect(() => {
 		var canvas = document.getElementById('canvas');

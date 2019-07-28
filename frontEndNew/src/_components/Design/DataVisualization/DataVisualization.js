@@ -16,7 +16,9 @@ import NormalHeatmap from './Heatmap/normalHeatmap';
 import { HeatmapCanvas } from './Heatmap/heatmapCanvas';
 import { CanvasChart } from './Trial/canvasChart';
 import { CanvasScatter } from './Trial/canvasScatter';
+import { D3CanvasScatter } from './Trial/d3canvasScatter';
 import { BarChartsCanvas } from './ChartsCanvas/ChartsCanvas';
+import Icon from '@material-ui/core/Icon';
 
 import { TableData } from './TableData';
 
@@ -29,31 +31,36 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 		if (SelectedVisualization === 'scatter') {
 			return (
 				<div>
-					<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
+					<Icon
+						onClick={() => setSelectedVisualization(undefined)}
+						className={classes.arrowBack}>
+						arrow_back
+					</Icon>
 					<ScatterPointsMatrix portDataPreview={portDataPreview} />
 				</div>
 			);
 		}
-		// if (SelectedVisualization === 'heatmap') {
-		// 	return (
-		// 		<div>
-		// 			<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
-		// 			<Heatmap portDataPreview={portDataPreview} />
-		// 		</div>
-		// 	);
-		// }
 		if (SelectedVisualization === 'trial') {
 			return (
 				<div>
-					<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
-					<CanvasScatter />
+					<Icon
+						onClick={() => setSelectedVisualization(undefined)}
+						className={classes.arrowBack}>
+						arrow_back
+					</Icon>
+					<D3CanvasScatter portDataPreview={portDataPreview} />
+					{/* <CanvasScatter portDataPreview={portDataPreview} /> */}
 				</div>
 			);
 		}
 		if (SelectedVisualization === 'bars') {
 			return (
 				<div>
-					<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
+					<Icon
+						onClick={() => setSelectedVisualization(undefined)}
+						className={classes.arrowBack}>
+						arrow_back
+					</Icon>
 					<CanvasChart
 						width={960}
 						height={500}
@@ -65,24 +72,36 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 		if (SelectedVisualization === 'heatmapCanvas') {
 			return (
 				<div>
-					<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
+					<Icon
+						onClick={() => setSelectedVisualization(undefined)}
+						className={classes.arrowBack}>
+						arrow_back
+					</Icon>
 					<HeatmapCanvas />
 				</div>
 			);
 		}
-		if (SelectedVisualization === 'barChartCanvas') {
-			return (
-				<div>
-					<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
-					<BarChartsCanvas />
-				</div>
-			);
-		}
+		// if (SelectedVisualization === 'barChartCanvas') {
+		// 	return (
+		// 		<div>
+		// 			<Icon
+		// 				onClick={() => setSelectedVisualization(undefined)}
+		// 				className={classes.arrowBack}>
+		// 				arrow_back
+		// 			</Icon>
+		// 			<BarChartsCanvas />
+		// 		</div>
+		// 	);
+		// }
 		if (SelectedVisualization === 'normalHeatmap') {
 			return (
 				<div>
-					<div onClick={() => setSelectedVisualization(undefined)}>Back</div>
-					<NormalHeatmap />
+					<Icon
+						onClick={() => setSelectedVisualization(undefined)}
+						className={classes.arrowBack}>
+						arrow_back
+					</Icon>
+					<NormalHeatmap portDataPreview={portDataPreview} />
 				</div>
 			);
 		}
@@ -103,7 +122,7 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 						/>
 					</div>
 				</div>
-				<div className={classes.visualizationItem}>
+				{/* <div className={classes.visualizationItem}>
 					<div>
 						<div>Heatmap</div>
 						<img
@@ -114,7 +133,7 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 							onClick={e => setSelectedVisualization(e.target.id)}
 						/>
 					</div>
-				</div>
+				</div> */}
 				<div className={classes.visualizationItem}>
 					<div>
 						<div>trial</div>
@@ -135,7 +154,7 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 						/>
 					</div>
 				</div>
-				<div className={classes.visualizationItem}>
+				{/* <div className={classes.visualizationItem}>
 					<div>
 						<div>heatmapCanvas</div>
 						<div
@@ -144,8 +163,8 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 							onClick={e => setSelectedVisualization(e.target.id)}
 						/>
 					</div>
-				</div>
-				<div className={classes.visualizationItem}>
+				</div> */}
+				{/* <div className={classes.visualizationItem}>
 					<div>
 						<div>barChartCanvas</div>
 						<div
@@ -154,7 +173,7 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 							onClick={e => setSelectedVisualization(e.target.id)}
 						/>
 					</div>
-				</div>
+				</div> */}
 				<div className={classes.visualizationItem}>
 					<div>
 						<div>normalHeatmap</div>
@@ -170,15 +189,16 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 	};
 
 	return (
-		<div>
-			<Button onClick={handleCloseTable} variant='outlined' color='primary'>
-				Close
-			</Button>
+		<div className={classes.visualizationWrapper}>
+			<Icon onClick={handleCloseTable} className={classes.closeIcon}>
+				clear
+			</Icon>
 			<Tabs
 				value={selectedTab}
 				onChange={(e, tab) => setTab(tab)}
 				indicatorColor='primary'
 				textColor='primary'
+				className={classes.tabs}
 				centered>
 				<Tab label='Data' />
 				<Tab label='Visualizations' />
@@ -188,7 +208,6 @@ export const DataVisualization = ({ portDataPreview, handleCloseTable }) => {
 			) : null}
 			{selectedTab === 1 ? (
 				<div>
-					<div>Types</div>
 					{SelectedVisualization ? (
 						<GraphVisualization />
 					) : (
