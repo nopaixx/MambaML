@@ -8,7 +8,8 @@ export const D3CanvasScatter = ({ portDataPreview }) => {
 		width = 960 - margin.left - margin.right,
 		height = 500 - margin.top - margin.bottom;
 
-	const createChart = points => {
+	const createChart = data => {
+		const points = data.dataPoints;
 		var svg = d3
 			.select('#mySvg')
 			.append('g')
@@ -16,51 +17,63 @@ export const D3CanvasScatter = ({ portDataPreview }) => {
 
 		var factory = d3.quadtree().extent([[0, 0], [width, height]]);
 
-		var x = d3.scaleLinear().range([0, width]);
-
-		var y = d3.scaleLinear().range([height, 0]);
+		var x = d3.scaleLinear().rangeRound([0, width]);
+		var y = d3.scaleLinear().rangeRound([height, 0]);
 
 		var xAxis = d3.axisBottom(x);
-		// // .orient('bottom');
-
 		var yAxis = d3.axisLeft(y);
-		// .orient('left');
 
 		var xg = svg
 			.append('g')
+			.attr('id', 'x-axis')
 			.attr('class', 'x axis')
 			.attr('transform', 'translate(0,' + height + ')');
 
-		var yg = svg.append('g').attr('class', 'y axis');
+		var yg = svg
+			.append('g')
+			.attr('id', 'y-axis')
+			.attr('class', 'y axis');
 
 		const canvas = document.getElementById('canvas');
 
 		var context = canvas.getContext('2d');
 
-		context.fillStyle = '#f0f';
+		context.fillStyle = '#b43539';
 
 		// Layer on top of canvas, example of selection details
 		const chartArea = d3.select('#body');
 
 		var highlight = chartArea
 			.append('svg')
+			.attr('id', 'circle-svg')
 			.attr('width', width)
 			.attr('height', height)
 			.append('circle')
-			.attr('r', 7)
+			.attr('r', 8)
+			.attr('fill', '#b43539')
 			.classed('hidden', true);
 
-		redraw(x, y, xAxis, yAxis, factory, xg, yg, highlight, points);
+		redraw(x, y, xAxis, yAxis, factory, xg, yg, highlight, points, data);
 	};
-	const redraw = (x, y, xAxis, yAxis, factory, xg, yg, highlight, points) => {
+	const redraw = (
+		x,
+		y,
+		xAxis,
+		yAxis,
+		factory,
+		xg,
+		yg,
+		highlight,
+		points,
+		data
+	) => {
 		// Randomize the scale
 		const canvas = document.getElementById('canvas');
 		var context = canvas.getContext('2d');
-		var scale = 1 + Math.floor(Math.random() * 10);
 
 		// Redraw axes
-		x.domain(points.map(d => d[0]));
-		y.domain([0, d3.max(points, d => d[1])]);
+		x.domain([data.xMin - data.xMin * 0.1, data.xMax * 1.1]);
+		y.domain([data.yMin - data.yMin * 0.1, data.yMax * 1.1]);
 		xg.call(xAxis);
 		yg.call(yAxis);
 
@@ -78,9 +91,14 @@ export const D3CanvasScatter = ({ portDataPreview }) => {
 
 		d3.select('#canvas').on('mousemove', function() {
 			var mouse = d3.mouse(this);
-			const closest = tree.find(x.invert(mouse[0]), y.invert(mouse[1]));
-			highlight.attr('cx', x(closest[0])).attr('cy', y(closest[1]));
+			const closest = tree.find(x.invert(mouse[0]), y.invert(mouse[1]), 0.5);
+			if (closest) {
+				highlight.attr('cx', x(closest[0])).attr('cy', y(closest[1]));
+			} else {
+				highlight.attr('cx', x(0)).attr('cy', y(0));
+			}
 		});
+
 		d3.select('#canvas').on('mouseover', function() {
 			highlight.classed('hidden', false);
 		});
@@ -89,16 +107,12 @@ export const D3CanvasScatter = ({ portDataPreview }) => {
 			highlight.classed('hidden', true);
 		});
 	};
-	// const clearCanvas = () => {
-	// 	let canvas = this.canvas;
-	// 	let context = canvas.getContext('2d');
-	// 	let margin = { top: 20, right: 20, bottom: 30, left: 40 };
-	// 	context.translate(-margin.left, -margin.top);
-	// };
-	const handleSelectedColumns = (selectedCols, data) => {
-		console.log(data.dataPoints);
-		createChart(data.dataPoints);
-		// clearCanvas();
+
+	const handleSelectedColumns = (columns, data) => {
+		if (d3.select('#x-axis').size()) d3.select('#x-axis').remove();
+		if (d3.select('#y-axis').size()) d3.select('#y-axis').remove();
+		if (d3.select('#circle-svg').size()) d3.select('#circle-svg').remove();
+		createChart(data);
 	};
 	return (
 		<React.Fragment>
