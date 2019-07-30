@@ -95,7 +95,6 @@ class BoxFactory extends React.Component {
 	};
 
 	handleImportBox = e => {
-		const { dispatch } = this.props;
 		e.preventDefault();
 		adminActions.importBox();
 	};
@@ -118,12 +117,10 @@ class BoxFactory extends React.Component {
 	};
 
 	handleStep = e => {
-		console.log(e.currentTarget);
 		const action = e.currentTarget.id;
 		switch (action) {
 			case 'next':
 				this.setState(prevState => {
-					console.log(prevState);
 					return {
 						step: prevState.step + 1,
 					};
@@ -133,6 +130,7 @@ class BoxFactory extends React.Component {
 				this.setState(prevState => {
 					return {
 						step: prevState.step - 1,
+						areEmptyFields: false,
 					};
 				});
 				break;
@@ -170,15 +168,24 @@ class BoxFactory extends React.Component {
 						Prev Step
 					</Button>
 					<div style={{ width: '90vw' }}>
-						{areEmptyFields ? <Alert text={'There are empty fields'} /> : null}
 						{step === 1 ? (
 							<Slide
 								direction='right'
 								in={step === 1}
 								mountOnEnter
 								unmountOnExit>
-								<Paper elevation={0} className={'classes.paper'}>
+								<Paper elevation={0} className={'paper'}>
 									<TextDataInputs handleChange={this.handleChange} />
+									or
+									<div style={{ width: 200 }}>
+										<Button
+											onClick={this.handleImportBox}
+											id={'ImportBox'}
+											variant='contained'
+											color='primary'>
+											Import Box From Computer
+										</Button>
+									</div>
 								</Paper>
 							</Slide>
 						) : null}
@@ -188,7 +195,7 @@ class BoxFactory extends React.Component {
 								in={step === 2}
 								mountOnEnter
 								unmountOnExit>
-								<Paper elevation={0} className={'classes.paper'}>
+								<Paper elevation={0}>
 									<CodeEditors
 										dependencies={dependencies}
 										code={code}
@@ -206,7 +213,7 @@ class BoxFactory extends React.Component {
 								in={step === 3}
 								mountOnEnter
 								unmountOnExit>
-								<Paper elevation={0} className={'classes.paper'}>
+								<Paper elevation={0}>
 									<ParamsSelector
 										setParamsState={this.setParamsState}
 										specialParamSelector={this.handleCsvSelector}
@@ -225,21 +232,23 @@ class BoxFactory extends React.Component {
 									Created successfully
 								</Button>
 							) : (
-								<div>
-									<Button
-										onClick={this.handleSubmit}
-										id={'Dependencies'}
-										variant='contained'
-										color='primary'>
-										Create Box
-									</Button>
-									<Button
-										onClick={this.handleImportBox}
-										id={'ImportBox'}
-										variant='contained'
-										color='primary'>
-										Import Box
-									</Button>
+								<div
+									style={{
+										justifyContent: 'center',
+										display: 'flex',
+										height: 200,
+									}}>
+									{areEmptyFields ? (
+										<Alert text={'There are empty fields, please fill them'} />
+									) : (
+										<Button
+											onClick={this.handleSubmit}
+											id={'Dependencies'}
+											variant='contained'
+											color='primary'>
+											Create Box
+										</Button>
+									)}
 								</div>
 							)
 						) : null}

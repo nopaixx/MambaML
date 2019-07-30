@@ -14,6 +14,14 @@
 .codeEditor {
 	margin: auto;
 }
+
+.paper {
+	display: flex;
+	flex-direction: column;
+	font-size: 30px;
+	text-align: center;
+	align-items: center;
+}
 .param-selector-wrapper {
 	display: flex;
 	align-items: flex-start;
