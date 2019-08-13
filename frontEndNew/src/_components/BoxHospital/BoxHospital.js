@@ -18,6 +18,7 @@ class BoxHospital extends React.Component {
 		dependencies: '',
 		activeCodeEditor: { Dependencies: false, PythonScript: false },
 		selectedTab: 0,
+		step: 0,
 	};
 
 	onChangeCodeScript = newValue => {
@@ -64,32 +65,31 @@ class BoxHospital extends React.Component {
 		dispatch(adminActions.updateBox(updatedBox));
 	};
 	handleExportBox = e => {
-	     const { dispatch } = this.props;
-	     e.preventDefault()
-             const {
-                        type,
-                        inputPorts,
-                        outputPorts,
-                        code,
-                        dependencies,
-                        friendly_name,
-                        parameters,
-                        id,
-                } = this.state;
-                const exportedBox = {
-                        friendly_name,
-                        type,
-                        frontendVersion: 'V1',
-                        backendVersion: 'V1',
-                        n_input_ports: inputPorts,
-                        n_output_ports: outputPorts,
-                        depen_code: dependencies,
-                        python_code: code,
-                        parameters: JSON.stringify(parameters),
-                        id,
-                };
+		e.preventDefault();
+		const {
+			type,
+			inputPorts,
+			outputPorts,
+			code,
+			dependencies,
+			friendly_name,
+			parameters,
+			id,
+		} = this.state;
+		const exportedBox = {
+			friendly_name,
+			type,
+			frontendVersion: 'V1',
+			backendVersion: 'V1',
+			n_input_ports: inputPorts,
+			n_output_ports: outputPorts,
+			depen_code: dependencies,
+			python_code: code,
+			parameters: JSON.stringify(parameters),
+			id,
+		};
 
-		adminActions.exportBox(exportedBox)
+		adminActions.exportBox(exportedBox);
 	};
 	onCickDisplayEditor = id => {
 		this.setState(prevstate => {
@@ -164,8 +164,7 @@ class BoxHospital extends React.Component {
 									id={'ExportBox'}
 									onClick={this.handleExportBox}
 									variant='contained'
-									color='primary'
-								>
+									color='primary'>
 									Export Box
 								</Button>
 							</div>

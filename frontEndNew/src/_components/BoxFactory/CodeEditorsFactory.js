@@ -44,7 +44,7 @@ export const CodeEditors = ({
 					<AceEditor
 						mode='python'
 						theme='monokai'
-						width={'48vw'}
+						width={'40vw'}
 						height={'300px'}
 						className={'codeEditor'}
 						value={code}
@@ -67,7 +67,7 @@ export const CodeEditors = ({
 					<AceEditor
 						mode='python'
 						theme='monokai'
-						width={'48vw'}
+						width={'40vw'}
 						height={'300px'}
 						className={'codeEditor'}
 						value={dependencies}

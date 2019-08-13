@@ -4,6 +4,7 @@ import { useStyles } from '../Styles';
 import { ColumnSelectorInput } from '../../../Utils/ColSelector/ColumnSelectorInput';
 import { generateDataPoints } from './generateDataPoints';
 import ScatterPoints from '../../../Utils/Charts/ScatterPoints';
+import { D3CanvasScatter } from '../Trial/d3canvasScatter';
 
 export const ScatterPointsMatrix = ({ portDataPreview }) => {
 	const classes = useStyles();

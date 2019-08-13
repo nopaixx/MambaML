@@ -6,9 +6,15 @@ import { CodeEditors } from './CodeEditorsFactory';
 import { ParamsSelector } from '../Utils/Parameters/ParameterSelector';
 import { TextDataInputs } from './TextDataInputs';
 import './BoxFactory.css';
+import { BallsSlider } from './BallsSlider';
 
 import Button from '@material-ui/core/Button';
+import Slide from '@material-ui/core/Slide';
+import Paper from '@material-ui/core/Paper';
+import Icon from '@material-ui/core/Icon';
+
 import { Alert } from '../Utils/Alert/Alert';
+import { width } from '@material-ui/system';
 
 class BoxFactory extends React.Component {
 	state = {
@@ -19,6 +25,7 @@ class BoxFactory extends React.Component {
 		hasChanged: false,
 		areEmptyFields: false,
 		isCsvSelectorActive: false,
+		step: 0,
 	};
 
 	onChangeCodeScript = newValue => {
@@ -87,14 +94,10 @@ class BoxFactory extends React.Component {
 		}
 	};
 
-        handleImportBox = e => {
-                const { dispatch } = this.props;
-                e.preventDefault();
-                adminActions.importBox();
-        };
-
-
-
+	handleImportBox = e => {
+		e.preventDefault();
+		adminActions.importBox();
+	};
 
 	handleCsvSelector = () => {
 		this.setState(state => {
@@ -113,6 +116,29 @@ class BoxFactory extends React.Component {
 		});
 	};
 
+	handleStep = e => {
+		const action = e.currentTarget.id;
+		switch (action) {
+			case 'next':
+				this.setState(prevState => {
+					return {
+						step: prevState.step + 1,
+					};
+				});
+				break;
+			case 'prev':
+				this.setState(prevState => {
+					return {
+						step: prevState.step - 1,
+						areEmptyFields: false,
+					};
+				});
+				break;
+			default:
+				break;
+		}
+	};
+
 	render() {
 		const {
 			code,
@@ -121,80 +147,121 @@ class BoxFactory extends React.Component {
 			areEmptyFields,
 			isCsvSelectorActive,
 			selectedDataset,
+			step,
 		} = this.state;
 		const { creatingBox, boxCreated } = this.props;
 		return (
 			<div className={'box-factory-wrapper'}>
-				<div>
-					<div
-						style={{
-							display: 'flex',
-							justifyContent: 'space-around',
-							padding: 15,
-						}}>
-						{/* {creatingBox ? (
-							<Button
-								onClick={this.handleSubmit}
-								id={'Dependencies'}
-								variant='contained'
-								color='success'>
-								Creating
-							</Button>
-						) : null} */}
-						{boxCreated ? (
-							<Button
-								onClick={this.handleSubmit}
-								id={'Dependencies'}
-								variant='contained'
-								color='secondary'>
-								Created successfully
-							</Button>
-						) : (
-							<div>
-							<Button
-								onClick={this.handleSubmit}
-								id={'Dependencies'}
-								variant='contained'
-								color='primary'>
-								Create Box
-							</Button>
-  							<Button
-                                                                onClick={this.handleImportBox}
-                                                                id={'ImportBox'}
-                                                                variant='contained'
-                                                                color='primary'>
-                                                                Import Box
-                                                        </Button>
-							</div>
-
-						)}
-						{/* {!boxCreated && !creatingBox ? (
-							<Button
-								onClick={this.handleSubmit}
-								id={'Dependencies'}
-								variant='contained'
-								color='primary'>
-								Create Box
-							</Button>
-						) : null} */}
+				<div
+					style={{
+						display: 'flex',
+						justifyContent: 'space-around',
+						alignItems: 'center',
+						height: '60vh',
+						marginTop: 10,
+					}}>
+					<Button
+						id={'prev'}
+						onClick={this.handleStep}
+						variant='contained'
+						color='primary'>
+						Prev Step
+					</Button>
+					<div style={{ width: '90vw' }}>
+						{step === 1 ? (
+							<Slide
+								direction='right'
+								in={step === 1}
+								mountOnEnter
+								unmountOnExit>
+								<Paper elevation={0} className={'paper'}>
+									<TextDataInputs handleChange={this.handleChange} />
+									or
+									<div style={{ width: 200 }}>
+										<Button
+											onClick={this.handleImportBox}
+											id={'ImportBox'}
+											variant='contained'
+											color='primary'>
+											Import Box From Computer
+										</Button>
+									</div>
+								</Paper>
+							</Slide>
+						) : null}
+						{step === 2 ? (
+							<Slide
+								direction='right'
+								in={step === 2}
+								mountOnEnter
+								unmountOnExit>
+								<Paper elevation={0}>
+									<CodeEditors
+										dependencies={dependencies}
+										code={code}
+										onChangeCodeScript={this.onChangeCodeScript}
+										onChangeDependencies={this.onChangeDependencies}
+										onCickDisplayEditor={this.onCickDisplayEditor}
+										activeCodeEditor={activeCodeEditor}
+									/>
+								</Paper>
+							</Slide>
+						) : null}
+						{step === 3 ? (
+							<Slide
+								direction='right'
+								in={step === 3}
+								mountOnEnter
+								unmountOnExit>
+								<Paper elevation={0}>
+									<ParamsSelector
+										setParamsState={this.setParamsState}
+										specialParamSelector={this.handleCsvSelector}
+										dataset={selectedDataset}
+									/>
+								</Paper>
+							</Slide>
+						) : null}
+						{step === 4 ? (
+							boxCreated ? (
+								<Button
+									onClick={this.handleSubmit}
+									id={'Dependencies'}
+									variant='contained'
+									color='secondary'>
+									Created successfully
+								</Button>
+							) : (
+								<div
+									style={{
+										justifyContent: 'center',
+										display: 'flex',
+										height: 200,
+									}}>
+									{areEmptyFields ? (
+										<Alert text={'There are empty fields, please fill them'} />
+									) : (
+										<Button
+											onClick={this.handleSubmit}
+											id={'Dependencies'}
+											variant='contained'
+											color='primary'>
+											Create Box
+										</Button>
+									)}
+								</div>
+							)
+						) : null}
 					</div>
-					{areEmptyFields ? <Alert text={'There are empty fields'} /> : null}
-					<TextDataInputs handleChange={this.handleChange} />
-
-					<CodeEditors
-						dependencies={dependencies}
-						code={code}
-						onChangeCodeScript={this.onChangeCodeScript}
-						onChangeDependencies={this.onChangeDependencies}
-						onCickDisplayEditor={this.onCickDisplayEditor}
-						activeCodeEditor={activeCodeEditor}
-					/>
+					<Button
+						id={'next'}
+						onClick={this.handleStep}
+						variant='contained'
+						color='primary'>
+						Next Step
+					</Button>
 				</div>
-				<ParamsSelector
-					setParamsState={this.setParamsState}
-					specialParamSelector={this.handleCsvSelector}
-					dataset={selectedDataset}
-				/>
+				<BallsSlider step={step} />
 			</div>
 		);
 	}
