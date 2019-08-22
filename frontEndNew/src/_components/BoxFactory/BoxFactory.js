@@ -4,6 +4,7 @@ import { adminActions } from '../../_actions';
 
 import { CodeEditors } from './CodeEditorsFactory';
 import { ParamsSelector } from '../Utils/Parameters/ParameterSelector';
+import { OutputSelector } from '../Utils/Parameters/OutputSelector';
 import { TextDataInputs } from './TextDataInputs';
 import './BoxFactory.css';
 import { BallsSlider } from './BallsSlider';
@@ -223,6 +224,21 @@ class BoxFactory extends React.Component {
 							</Slide>
 						) : null}
 						{step === 4 ? (
+							<Slide
+								direction='right'
+								in={step === 4}
+								mountOnEnter
+								unmountOnExit>
+								<Paper elevation={0}>
+									<OutputSelector
+										setParamsState={this.setParamsState}
+										specialParamSelector={this.handleCsvSelector}
+										dataset={selectedDataset}
+									/>
+								</Paper>
+							</Slide>
+						) : null}
+						{step === 5 ? (
 							boxCreated ? (
 								<Button
 									onClick={this.handleSubmit}

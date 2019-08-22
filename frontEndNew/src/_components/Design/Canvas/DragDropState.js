@@ -109,6 +109,10 @@ export class DragDropState extends React.Component {
 		this.setState(func(...args));
 	});
 
+	showHideMenu = node => {
+		alert('hide');
+	};
+
 	render() {
 		const { actors, updateBoxInfo, projectStatus, boxesStatus } = this.props;
 		const chart = this.state;
