@@ -39,6 +39,11 @@ const DesignComponent = props => {
 		}
 	};
 
+	const handleCloseSerializeModal = () => {
+		const { dispatch } = props;
+		dispatch(projectActions.serializeProjectModal(false));
+	};
+
 	const handleChangeName = e => {
 		setProjectName(e.target.value);
 	};
@@ -77,7 +82,10 @@ const DesignComponent = props => {
 		savedProject,
 		boxesStatus,
 		portDataPreview,
+		openSerializeModal,
 	} = props;
+
+	console.log(openSerializeModal);
 
 	if (!project || (project && project.id != projectID)) {
 		return null;
@@ -128,6 +136,35 @@ const DesignComponent = props => {
 						</div>
 					</div>
 				) : null}
+				{openSerializeModal ? (
+					<div
+						style={{
+							width: '100vw',
+							height: '100vh',
+							backgroundColor: '#ffffff4d',
+							zIndex: 8888,
+							position: 'absolute',
+							top: 0,
+							left: 0,
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+						}}>
+						<div
+							style={{
+								width: '16vw',
+								height: '16vh',
+								backgroundColor: 'white',
+								zIndex: 9999,
+								borderRadius: 10,
+								overflow: 'scroll',
+								textAlign: 'center',
+							}}>
+							<div>Heeeeey</div>
+							<div onClick={handleCloseSerializeModal}>Cancel</div>
+						</div>
+					</div>
+				) : null}
 				<ProjectToolbar
 					projectName={projectName}
 					onSaveProject={onSaveProject}
@@ -156,6 +193,7 @@ function mapStateToProps(state) {
 		savedProject,
 		boxesStatus,
 		portDataPreview,
+		openSerializeModal,
 	} = state.project;
 	return {
 		project,
@@ -167,6 +205,7 @@ function mapStateToProps(state) {
 		savedProject,
 		portDataPreview,
 		boxesStatus,
+		openSerializeModal,
 	};
 }
 

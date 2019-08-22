@@ -78,6 +78,16 @@ export function project(state = {}, action) {
 				...state,
 				portDataPreview: action.port,
 			};
+		case projectConstants.SERIALIZE_PROJECT_MODAL:
+			return {
+				...state,
+				openSerializeModal: action.open,
+			};
+		case projectConstants.SERIALIZE_PROJECT:
+			return {
+				...state,
+				portDataPreview: action.port,
+			};
 		default:
 			return state;
 	}
