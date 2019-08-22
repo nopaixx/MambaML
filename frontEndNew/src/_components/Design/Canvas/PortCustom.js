@@ -20,10 +20,12 @@ export const PortCustom = props => {
 		e.preventDefault();
 		e.stopPropagation();
 		seOpenCols(!isColsOpen);
+		console.log("AL-", props);
 		getResultsFromNode(props.node);
 	};
 
 	const getResultsFromNode = node => {
+		console.log("AL-", node)
 		let outPorts = Object.keys(node.ports).filter(portKey => {
 			return node.ports[portKey].type === 'output';
 		});
