@@ -47,17 +47,19 @@ export const PortCustom = props => {
 	};
 
 	const getResultsFromNode = node => {
-		console.log('AL-', node);
 		let outPorts = Object.keys(node.ports).filter(portKey => {
 			return node.ports[portKey].type === 'output';
 		});
 		const selectedNodeIndex = outPorts.indexOf(props.port.id);
-		const dataPreview =
-			node.properties.payload.result[`out${selectedNodeIndex}`];
-		store.dispatch(projectActions.loadPortPreview(dataPreview));
+		const dataPreviewPath = node.properties.payload;
+		if (dataPreviewPath.result) {
+			console.log('dataPreview', dataPreviewPath.result);
+			const dataPreview = dataPreviewPath.result[`out${selectedNodeIndex}`];
+			store.dispatch(projectActions.loadPortPreview(dataPreview));
+		}
 	};
+
 	const serializeProject = () => {
-		console.log(props);
 		store.dispatch(projectActions.serializeProjectModal(true));
 	};
 	return (

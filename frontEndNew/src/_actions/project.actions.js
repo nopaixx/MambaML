@@ -182,7 +182,6 @@ const checkIfJSON = text => {
 				.replace(/(?:^|:|,)(?:\s*\[)+/g, '')
 		)
 	) {
-		console.log('isJSON');
 		isJSON = true;
 	}
 	return isJSON;

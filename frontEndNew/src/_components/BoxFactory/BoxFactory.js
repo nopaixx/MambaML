@@ -26,8 +26,7 @@ class BoxFactory extends React.Component {
 		hasChanged: false,
 		areEmptyFields: false,
 		isCsvSelectorActive: false,
-
-		step: 0,
+		step: 1,
 	};
 
 	onChangeCodeScript = newValue => {
@@ -75,7 +74,6 @@ class BoxFactory extends React.Component {
 			parameters,
 			selectedOutputType,
 		} = this.state;
-		console.log('handleSubmit', selectedOutputType);
 		if (type && inputPorts && outputPorts && friendly_name) {
 			const box = {
 				friendly_name,
@@ -123,6 +121,7 @@ class BoxFactory extends React.Component {
 			case 'next':
 				this.setState(prevState => {
 					return {
+						...prevState,
 						step: prevState.step + 1,
 					};
 				});
@@ -130,6 +129,7 @@ class BoxFactory extends React.Component {
 			case 'prev':
 				this.setState(prevState => {
 					return {
+						...prevState,
 						step: prevState.step - 1,
 						areEmptyFields: false,
 					};
@@ -149,6 +149,8 @@ class BoxFactory extends React.Component {
 			isCsvSelectorActive,
 			selectedDataset,
 			step,
+			parameters,
+			selectedOutputType,
 		} = this.state;
 		const { creatingBox, boxCreated } = this.props;
 		return (
@@ -176,7 +178,10 @@ class BoxFactory extends React.Component {
 								mountOnEnter
 								unmountOnExit>
 								<Paper elevation={0} className={'paper'}>
-									<TextDataInputs handleChange={this.handleChange} />
+									<TextDataInputs
+										handleChange={this.handleChange}
+										values={this.state}
+									/>
 									or
 									<div style={{ width: 200 }}>
 										<Button
@@ -219,6 +224,7 @@ class BoxFactory extends React.Component {
 										setParamsState={this.setParamsState}
 										specialParamSelector={this.handleCsvSelector}
 										dataset={selectedDataset}
+										data={parameters}
 									/>
 								</Paper>
 							</Slide>
@@ -230,7 +236,10 @@ class BoxFactory extends React.Component {
 								mountOnEnter
 								unmountOnExit>
 								<Paper elevation={0}>
-									<OutputSelector setOutputState={this.setOutputState} />
+									<OutputSelector
+										setOutputState={this.setOutputState}
+										data={selectedOutputType}
+									/>
 								</Paper>
 							</Slide>
 						) : null}
@@ -238,7 +247,6 @@ class BoxFactory extends React.Component {
 							boxCreated ? (
 								<Button
 									onClick={this.handleSubmit}
-									id={'Dependencies'}
 									variant='contained'
 									color='secondary'>
 									Created successfully
@@ -255,7 +263,6 @@ class BoxFactory extends React.Component {
 									) : (
 										<Button
 											onClick={this.handleSubmit}
-											id={'Dependencies'}
 											variant='contained'
 											color='primary'>
 											Create Box

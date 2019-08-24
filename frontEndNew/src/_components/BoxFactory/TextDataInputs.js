@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export const TextDataInputs = ({ handleSubmit, handleChange }) => {
+export const TextDataInputs = ({ handleSubmit, handleChange, values }) => {
 	const classes = useStyles();
 
 	return (
@@ -28,6 +28,7 @@ export const TextDataInputs = ({ handleSubmit, handleChange }) => {
 					className={classes.inputText}
 					name={'friendly_name'}
 					onChange={handleChange}
+					value={values['friendly_name'] || ''}
 					margin='normal'
 				/>
 				<TextField
@@ -36,6 +37,7 @@ export const TextDataInputs = ({ handleSubmit, handleChange }) => {
 					className={classes.inputText}
 					name={'type'}
 					onChange={handleChange}
+					value={values['type'] || ''}
 					margin='normal'
 				/>
 				<TextField
@@ -45,6 +47,7 @@ export const TextDataInputs = ({ handleSubmit, handleChange }) => {
 					className={classes.inputText}
 					name={'inputPorts'}
 					onChange={handleChange}
+					value={values['inputPorts'] || ''}
 					margin='normal'
 				/>
 				<TextField
@@ -54,6 +57,7 @@ export const TextDataInputs = ({ handleSubmit, handleChange }) => {
 					className={classes.inputText}
 					name={'outputPorts'}
 					onChange={handleChange}
+					value={values['outputPorts'] || ''}
 					margin='normal'
 				/>
 			</form>
