@@ -6,6 +6,7 @@ import { history } from '../_helpers';
 import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
 import { HomePage } from '../Pages/HomePage';
+import Dashboard from '../Pages/Dashboard';
 import { HomePage2 } from '../Pages/HomePage/HomePage2';
 import { LoginPage } from '../Pages/LoginPage/LoginPage';
 import { LandingPage1 } from '../Pages/LandingPage/LandingPage1';
@@ -45,6 +46,7 @@ class App extends React.Component {
 								<Route path='/login' component={LoginPage} />
 								<Route path='/register' component={RegisterPage} />
 								<Route path='/pricing' component={PricingPage} />
+								<Route path='/dashboard' component={Dashboard} />
 							</div>
 						</Router>
 					</div>
