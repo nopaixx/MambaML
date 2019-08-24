@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import pythonLogo from '../../../python.png';
+import pythonLogo from '../../../Assets/Images/python.png';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import { ClockLoader } from '../../Utils/Loader/Loader';
