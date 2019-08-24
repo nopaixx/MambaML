@@ -182,7 +182,6 @@ const checkIfJSON = text => {
 				.replace(/(?:^|:|,)(?:\s*\[)+/g, '')
 		)
 	) {
-		console.log('isJSON');
 		isJSON = true;
 	}
 	return isJSON;
@@ -431,7 +430,6 @@ function updateChartStructure(chartStructure) {
 }
 
 function serializeProjectModal(open) {
-	console.log('ACTION serializeProjectModal');
 	return dispatch => {
 		dispatch(openModal(open));
 	};
@@ -450,6 +448,7 @@ const boxFactory = ({
 	backendVersion,
 	frontendVersion,
 	parameters,
+	outputs,
 	friendly_name,
 }) => {
 	const ports = {};
@@ -489,6 +488,7 @@ const boxFactory = ({
 				frontendVersion,
 				backendVersion,
 				parameters,
+				outputs,
 				name: friendly_name,
 				hasChange,
 			},

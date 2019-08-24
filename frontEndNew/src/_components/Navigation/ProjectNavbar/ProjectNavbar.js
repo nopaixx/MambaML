@@ -16,7 +16,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
-import MambaLogo from '../../../logo_peque.png';
+import MambaLogo from '../../../Assets/Images/logo_peque.png';
 
 const useStyles = makeStyles(theme => ({
 	appBar: {

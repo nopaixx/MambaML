@@ -34,7 +34,7 @@ export const BallsSlider = ({ step }) => {
 	for (let i = 0; i < step; i++) {
 		fullBalls.push(<div className={classes.fullBall} />);
 	}
-	for (let i = 0; i < 4 - step; i++) {
+	for (let i = 0; i < 5 - step; i++) {
 		emptyBalls.push(<div className={classes.emptyBall} />);
 	}
 

@@ -30,7 +30,11 @@ const DesignComponent = props => {
 	}, [props, projectName]);
 
 	const onSaveProject = () => {
-		const { dispatch, match, chartStructure } = props;
+		const {
+			dispatch,
+			match,
+			project: { chartStructure },
+		} = props;
 		const ID = match.params.id;
 		if (chartStructure) {
 			dispatch(
@@ -51,6 +55,7 @@ const DesignComponent = props => {
 	const runFullProject = () => {
 		const { dispatch, match } = props;
 		const projectId = match.params.id;
+		onSaveProject();
 		dispatch(projectActions.run(projectId));
 	};
 	const runExportProject = () => {
@@ -84,8 +89,6 @@ const DesignComponent = props => {
 		portDataPreview,
 		openSerializeModal,
 	} = props;
-
-	console.log(openSerializeModal);
 
 	if (!project || (project && project.id != projectID)) {
 		return null;

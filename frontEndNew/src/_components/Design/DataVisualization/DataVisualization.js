@@ -6,8 +6,8 @@ import Tab from '@material-ui/core/Tab';
 
 import Button from '@material-ui/core/Button';
 
-import Scatter from '../../../Scatter.png';
-import HeatmapImg from '../../../Heatmap.png';
+import Scatter from '../../../Assets/Images/Scatter.png';
+import HeatmapImg from '../../../Assets/Images/Heatmap.png';
 
 import { ScatterPointsMatrix } from './Scatter/ScatterPointsMatrix';
 import { Heatmap } from './Heatmap/Heatmap';

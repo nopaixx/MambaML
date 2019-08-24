@@ -56,10 +56,10 @@ def create_actor():
 
         friendly_name = request.form.get('friendly_name')
         parameters = request.form.get('parameters')
-
+        outputs = request.form.get('outputs')
         actor = Actor.create( type, frontendVersion, backendVersion,
               python_code, dependencies_code, n_input_ports, n_output_ports,
-              parameters, friendly_name)
+              parameters, friendly_name, outputs)
 
         return actor.serialized(), 200
 
@@ -91,11 +91,11 @@ def update_actor():
 
             friendly_name = request.form.get('friendly_name')
             parameters = request.form.get('parameters')
-
+            outputs = request.form.get('outputs')
             upd_actor= Actor.update(actor, type, frontendVersion, 
                     backendVersion, python_code, dependencies_code,
                     n_input_ports, n_output_ports, parameters, 
-                    friendly_name)
+                    friendly_name, outputs)
 
             return json.dumps(upd_actor.serialized()), 200
 #            return "OK", 200

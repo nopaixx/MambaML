@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 
-import MambaLogo from '../../../logo_peque.png';
+import MambaLogo from '../../../Assets/Images/logo_peque.png';
 
 const useStyles = makeStyles({
 	root: {

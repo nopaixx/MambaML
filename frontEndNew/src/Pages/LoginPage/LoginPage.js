@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	image: {
 		backgroundImage:
-			'url(https://source.unsplash.com/1600x900/?artificial-intelligence)',
+			'url(https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fwallpapersdsc.net%2Fwp-content%2Fuploads%2F2017%2F05%2FPictures-of-Black-Mamba-.png&f=1)',
 
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: 'cover',
@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	avatar: {
 		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
+		backgroundColor: theme.palette.primary.main,
 	},
 	form: {
 		width: '100%', // Fix IE 11 issue.
@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const LoginPage2 = props => {
+const LoginPage = props => {
 	const [formData, setFormData] = useState({
 		username: '',
 		password: '',
@@ -87,7 +87,6 @@ const LoginPage2 = props => {
 
 	return (
 		<Grid container component='main' className={classes.root}>
-			<CssBaseline />
 			<Grid item xs={false} sm={4} md={7} className={classes.image} />
 			<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
 				<div className={classes.paper}>
@@ -95,7 +94,7 @@ const LoginPage2 = props => {
 						<LockOutlinedIcon />
 					</Avatar>
 					<Typography component='h1' variant='h5'>
-						Sign in
+						Welcome to Mamba
 					</Typography>
 					<form className={classes.form} onSubmit={handleSubmit} noValidate>
 						<TextField
@@ -134,7 +133,7 @@ const LoginPage2 = props => {
 							variant='contained'
 							color='primary'
 							className={classes.submit}>
-							Sign In
+							Log In
 						</Button>
 						<Grid container>
 							<Grid item xs>
@@ -165,5 +164,5 @@ function mapStateToProps(state) {
 	};
 }
 
-const connectedLoginPage = connect(mapStateToProps)(LoginPage2);
-export { connectedLoginPage as LoginPage2 };
+const connectedLoginPage = connect(mapStateToProps)(LoginPage);
+export { connectedLoginPage as LoginPage };

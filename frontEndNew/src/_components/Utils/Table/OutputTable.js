@@ -1,6 +1,7 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 import './Table.css';
+import { identifier } from '@babel/types';
 
 export default class OutputTable extends React.Component {
 	constructor(props) {
@@ -29,45 +30,27 @@ export default class OutputTable extends React.Component {
 			data: [],
 		};
 	}
+
 	onParamTypeChange = (e, props) => {
 		const { value } = e.target;
-		const { specialParamSelector } = this.props;
-		if (value === 'csv') {
-			specialParamSelector(value);
-			this.setState({ savedProps: props });
-		}
-		if (value === 'colselector') {
-			specialParamSelector(value);
-			this.setState({ savedProps: props });
-		}
 		props.onChange(value);
 	};
 
 	componentDidMount() {
 		const { data } = this.props;
+		console.log('didmount', data);
 		if (data) {
 			this.setState({ data: data });
 		}
 	}
-
 	componentDidUpdate(prevProps, prevState) {
-		const { data, dataset, selectedCols } = this.props;
-		const { savedProps } = this.state;
-		if (prevState.data !== this.props.data && this.props.data) {
-			this.setState({ data: data });
+		const { data } = this.props;
+		console.log('componentDidUpdate', data);
+		if (prevState.data !== this.props.data) {
+			console.log('we are in the first if');
+			if (prevProps.data !== this.props.data) this.setState({ data: data });
 		}
-		if (prevProps.dataset !== dataset && dataset) {
-			const newProps = { ...savedProps.rowData, type: 'csv', value: dataset };
-			savedProps.onRowDataChange(newProps);
-		}
-		if (prevProps.selectedCols !== selectedCols && selectedCols) {
-			const newProps = {
-				...savedProps.rowData,
-				type: 'colselector',
-				value: JSON.stringify(selectedCols),
-			};
-			savedProps.onRowDataChange(newProps);
-		}
+		if (data === null) this.setState({ data: {} });
 	}
 
 	addRow = newData => {
@@ -117,7 +100,7 @@ export default class OutputTable extends React.Component {
 	render() {
 		return (
 			<MaterialTable
-				title='Params Table'
+				title='Output/Serialize Table'
 				columns={this.state.columns}
 				data={this.state.data}
 				editable={{

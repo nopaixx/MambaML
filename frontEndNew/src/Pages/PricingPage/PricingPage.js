@@ -57,6 +57,9 @@ const useStyles = makeStyles(theme => ({
 	cardHeader: {
 		backgroundColor: theme.palette.grey[200],
 	},
+	cardHeaderMain: {
+		backgroundColor: theme.palette.success.main,
+	},
 	cardPricing: {
 		display: 'flex',
 		justifyContent: 'center',
@@ -150,51 +153,6 @@ export function PricingPage() {
 	return (
 		<React.Fragment>
 			<CssBaseline />
-			{/* <AppBar
-				position='static'
-				color='default'
-				elevation={0}
-				className={classes.appBar}>
-				<Toolbar className={classes.toolbar}>
-					<Typography
-						variant='h6'
-						color='inherit'
-						noWrap
-						className={classes.toolbarTitle}>
-						Company name
-					</Typography>
-					<nav>
-						<Link
-							variant='button'
-							color='textPrimary'
-							href='#'
-							className={classes.link}>
-							Features
-						</Link>
-						<Link
-							variant='button'
-							color='textPrimary'
-							href='#'
-							className={classes.link}>
-							Enterprise
-						</Link>
-						<Link
-							variant='button'
-							color='textPrimary'
-							href='#'
-							className={classes.link}>
-							Support
-						</Link>
-					</nav>
-					<Button
-						href='#'
-						color='primary'
-						variant='outlined'
-						className={classes.link}>
-						Login
-					</Button>
-				</Toolbar>
-			</AppBar> */}
 			{/* Hero unit */}
 			<Container maxWidth='sm' component='main' className={classes.heroContent}>
 				<Typography
@@ -233,7 +191,11 @@ export function PricingPage() {
 									titleTypographyProps={{ align: 'center' }}
 									subheaderTypographyProps={{ align: 'center' }}
 									action={tier.title === 'Pro' ? <StarIcon /> : null}
-									className={classes.cardHeader}
+									className={
+										tier.title === 'Pro'
+											? classes.cardHeaderMain
+											: classes.cardHeader
+									}
 								/>
 								<CardContent>
 									<div className={classes.cardPricing}>

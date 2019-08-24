@@ -19,6 +19,7 @@ class Actor(db.Model):
     n_input_ports = db.Column(db.Integer())
     n_output_ports = db.Column(db.Integer())
     parameters = db.Column(db.String(25000))
+    outputs = db.Column(db.String())
 
     def serialized(self, xjson=True):
         model={
@@ -31,7 +32,8 @@ class Actor(db.Model):
             "depen_code": self.depen_code,
             "n_input_ports": self.n_input_ports,
             "n_output_ports": self.n_output_ports,
-            "parameters": self.parameters
+            "parameters": self.parameters,
+            "outputs": self.outputs
                 }
         return json.dumps(model)
 
@@ -42,7 +44,7 @@ class Actor(db.Model):
     @classmethod
     def create(cls, type, frontendVersion, backendVersion,
               python_code, dependencies_code, n_input_ports, n_output_ports,
-              parameters, friendly_name):
+              parameters, friendly_name, outputs):
 
         model = cls()
         model.type = type
@@ -54,6 +56,7 @@ class Actor(db.Model):
         model.depen_code = dependencies_code
         model.parameters = parameters
         model.friendly_name = friendly_name
+        model.outputs = outputs
         db.session.add(model)
         db.session.commit()
         return model
@@ -61,7 +64,7 @@ class Actor(db.Model):
     @classmethod
     def update(cls, model, type, frontendVersion, backendVersion,
               python_code, dependencies_code, n_input_ports, n_output_ports,
-              parameters, friendly_name):
+              parameters, friendly_name, outputs):
 
         model.type = type
         model.frontendVersion = frontendVersion
@@ -72,6 +75,7 @@ class Actor(db.Model):
         model.n_output_ports = n_output_ports
         model.parameters = parameters
         model.friendly_name = friendly_name
+        model.outputs = outputs
 #        db.session.add(model)
         db.session.commit()
         return model
@@ -87,7 +91,8 @@ class Actor(db.Model):
                             n_input_ports,
                             n_output_ports, 
                             parameters,
-                            friendly_name):
+                            friendly_name,
+                            outputs):
         
         actor = cls.query.filter(cls.friendly_name == friendly_name, 
                                  cls.frontendVersion==frontendVersion, 
@@ -96,7 +101,7 @@ class Actor(db.Model):
         if actor is None:
             cls.create(type, frontendVersion, backendVersion, python_code,
                       dependencies_code, n_input_ports, n_output_ports, parameters,
-                      friendly_name)
+                      friendly_name, outputs)
 
 
     @classmethod
@@ -117,7 +122,8 @@ class Actor(db.Model):
                 5,
                 5,
                 '{}', #parameter JSON
-                'Python Module-Python Script' # friendlyname-> Categoria-subcategorya-subcategory-nombrecaja
+                'Python Module-Python Script', # friendlyname-> Categoria-subcategorya-subcategory-nombrecaja
+                '{}'
                 )
 
         Actor.create_if_not_exist(
@@ -154,7 +160,8 @@ from sklearn.model_selection import train_test_split
                    param_url: 'https://www.google.com?q=random state sklearn'
                    }
                    ]""",
-                'Tratamiento de Datos-Manipulacion Filas-Split')
+                'Tratamiento de Datos-Manipulaicion Filas-Split',
+                '{}')
 
 
 #           'def %ID(input_1, input_2, input_3, input_4, input_5):\
