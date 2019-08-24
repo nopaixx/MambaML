@@ -102,4 +102,4 @@ function mapStateToProps(state) {
 }
 
 const connectedHomePage = connect(mapStateToProps)(LandingPage1);
-export { connectedHomePage as LandingPage };
+export { connectedHomePage as LandingPage1 };

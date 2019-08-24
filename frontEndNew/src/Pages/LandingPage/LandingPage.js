@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import NavBar from './containers/NavBar.js';
-import SectionHero from './containers/SectionHero';
-import SectionImages from './containers/SectionImages';
-import SectionCompanyInfo from './containers/SectionCompanyInfo';
-import SectionAwards from './containers/SectionAwards';
-import SectionBuisnessPlans from './containers/SectionBuisnessPlans';
-import Footer from './containers/Footer';
+import NavBar from './Components/NavBar.js';
+import SectionHero from './Components/SectionHero';
+import SectionImages from './Components/SectionImages';
+import SectionCompanyInfo from './Components/SectionCompanyInfo';
+import SectionAwards from './Components/SectionAwards';
+import SectionBuisnessPlans from './Components/SectionBuisnessPlans';
+import Footer from './Components/Footer';
 
 class LandingPage extends Component {
 	render() {
