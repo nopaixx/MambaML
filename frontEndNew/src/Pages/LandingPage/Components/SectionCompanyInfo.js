@@ -7,13 +7,13 @@ const useStyles = makeStyles(theme => ({
 		padding: '0 10vw',
 		paddingTop: '3em',
 		height: '95vw',
-		backgroundColor: theme.palette.primary.light,
+		backgroundColor: theme.palette.third.light,
 	},
 
 	intro: {
 		textAlign: 'center',
 		'& div': {
-			color: theme.palette.primary.contrastText,
+			color: theme.palette.third.contrastText,
 			fontSize: 40,
 			fontWeight: 'bold',
 			paddingBottom: '1.2vw',
@@ -75,7 +75,7 @@ const useStyles = makeStyles(theme => ({
 	highlight: {
 		display: 'flex',
 		lineHeight: '1.4em',
-		color: theme.palette.primary.contrastText,
+		color: theme.palette.third.contrastText,
 	},
 
 	tittle: {

@@ -7,7 +7,7 @@ import PLayCircleOutline from '@material-ui/icons/PlayCircleOutline';
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
-		backgroundColor: theme.palette.primary.main,
+		backgroundColor: theme.palette.third.main,
 		paddingTop: '3vw',
 		padding: '0 6vw',
 		height: '40vw',
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	button: {
 		margin: theme.spacing(1),
-		backgroundColor: theme.palette.primary.dark,
+		backgroundColor: theme.palette.third.dark,
 		height: '6em',
 		width: '12em',
 		'&:hover': {
@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
 		textAlign: 'center',
 		height: '10vw',
 		width: '10vw',
-		color: theme.palette.primary.dark,
+		color: theme.palette.third.dark,
 		'&:hover': {
 			color: 'rgb(117, 214, 250)',
 			cursor: 'pointer',

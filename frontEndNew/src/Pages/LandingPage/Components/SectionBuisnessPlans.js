@@ -1,18 +1,18 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import StartUp from '../assets/img/startup.png';
+import StartUp from '../../../Assets/Images/startup.png';
 import Arrow from '@material-ui/icons/ArrowRightAlt';
-import Head from '../assets/img/head.png';
-import Prediction from '../assets/img/prediction.png';
-import Chip from '../assets/img/chip.png';
+import Head from '../../../Assets/Images/head.png';
+import Prediction from '../../../Assets/Images/prediction.png';
+import Chip from '../../../Assets/Images/chip.png';
 
 const useStyles = makeStyles(theme => ({
 	root: {
 		flexGrow: 1,
-		padding: '6vw 8vw',
+		padding: '0vw 8vw',
 		height: '30vw',
 		maxHeight: '400px',
-		backgroundColor: theme.palette.primary.main,
+		backgroundColor: theme.palette.third.main,
 	},
 	gridContainer: {
 		display: 'grid',
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 	item1: {
 		gridRow: '1',
 		gridColumn: '1 / 2',
-		backgroundColor: theme.palette.primary.light,
+		backgroundColor: theme.palette.third.light,
 		border: '1px solid white',
 		borderRadius: '2%',
 		display: 'flex',
@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 	item2: {
 		gridRow: '1',
 		gridColumn: '2 / 3',
-		backgroundColor: theme.palette.primary.light,
+		backgroundColor: theme.palette.third.light,
 		border: '1px solid white',
 		borderRadius: '2%',
 		display: 'flex',
@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
 	item3: {
 		gridRow: '1',
 		gridColumn: '3 / 4',
-		backgroundColor: theme.palette.primary.light,
+		backgroundColor: theme.palette.third.light,
 		border: '1px solid white',
 		borderRadius: '2%',
 		display: 'flex',
@@ -83,7 +83,7 @@ const useStyles = makeStyles(theme => ({
 	item4: {
 		gridRow: '1',
 		gridColumn: '4 / 5',
-		backgroundColor: theme.palette.primary.light,
+		backgroundColor: theme.palette.third.light,
 		border: '1px solid white',
 		borderRadius: '2%',
 		display: 'flex',

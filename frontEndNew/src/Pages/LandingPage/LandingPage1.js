@@ -47,7 +47,7 @@ const LandingPage1 = props => {
 			<CssBaseline />
 			<main>
 				<div className={classes.heroContent}>
-					<Container className={classes.image}>
+					<Container>
 						<Typography
 							component='h1'
 							variant='h2'

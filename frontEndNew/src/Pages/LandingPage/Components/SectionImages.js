@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
 		padding: '0 4vw',
 		height: '30vw',
 		maxHeight: '400px',
-		backgroundColor: theme.palette.primary.main,
+		backgroundColor: theme.palette.third.main,
 	},
 	gridContainer: {
 		display: 'grid',

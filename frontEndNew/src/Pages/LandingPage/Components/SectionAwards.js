@@ -1,10 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Database from '../assets/img/server.png';
-import Digital from '../assets/img/digital.png';
-import Ai from '../assets/img/ai.png';
-import Robot from '../assets/img/robot.png';
-import Visualization from '../assets/img/visualization.png';
+import Database from '../../../Assets/Images/server.png';
+import Digital from '../../../Assets/Images/digital.png';
+import Ai from '../../../Assets/Images/ai.png';
+import Robot from '../../../Assets/Images/robot.png';
+import Visualization from '../../../Assets/Images/visualization.png';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 		position: 'relative',
 		justifyContent: 'center',
 		alignItems: 'flex-start',
-		backgroundColor: theme.palette.primary.light,
+		backgroundColor: theme.palette.third.light,
 	},
 
 	circle: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 		'&:hover': {
 			boxShadow:
 				'0 4px 8px 0 rgba(0, 0, 0, 0.6), 0 6px 20px 0 rgba(0, 0, 0, 0.58)',
-			backgroundColor: theme.palette.primary.lightText,
+			backgroundColor: theme.palette.third.lightText,
 			cursor: 'pointer',
 		},
 	},
@@ -129,7 +129,7 @@ const useStyles = makeStyles(theme => ({
 
 		// marginBottom: '40px',
 		'&:hover': {
-			backgroundColor: theme.palette.primary.lightText,
+			backgroundColor: theme.palette.third.lightText,
 			fontWeight: '700',
 			border: '2px solid black',
 			cursor: 'pointer',

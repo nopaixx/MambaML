@@ -12,7 +12,7 @@ class LandingPage extends Component {
 	render() {
 		return (
 			<div>
-				<NavBar />
+				{/* <NavBar /> */}
 				<SectionHero />
 				<SectionImages />
 				<SectionCompanyInfo />
