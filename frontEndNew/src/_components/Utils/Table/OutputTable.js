@@ -29,17 +29,9 @@ export default class OutputTable extends React.Component {
 			data: [],
 		};
 	}
+
 	onParamTypeChange = (e, props) => {
 		const { value } = e.target;
-		const { specialParamSelector } = this.props;
-		if (value === 'csv') {
-			specialParamSelector(value);
-			this.setState({ savedProps: props });
-		}
-		if (value === 'colselector') {
-			specialParamSelector(value);
-			this.setState({ savedProps: props });
-		}
 		props.onChange(value);
 	};
 
@@ -47,26 +39,6 @@ export default class OutputTable extends React.Component {
 		const { data } = this.props;
 		if (data) {
 			this.setState({ data: data });
-		}
-	}
-
-	componentDidUpdate(prevProps, prevState) {
-		const { data, dataset, selectedCols } = this.props;
-		const { savedProps } = this.state;
-		if (prevState.data !== this.props.data && this.props.data) {
-			this.setState({ data: data });
-		}
-		if (prevProps.dataset !== dataset && dataset) {
-			const newProps = { ...savedProps.rowData, type: 'csv', value: dataset };
-			savedProps.onRowDataChange(newProps);
-		}
-		if (prevProps.selectedCols !== selectedCols && selectedCols) {
-			const newProps = {
-				...savedProps.rowData,
-				type: 'colselector',
-				value: JSON.stringify(selectedCols),
-			};
-			savedProps.onRowDataChange(newProps);
 		}
 	}
 
@@ -117,7 +89,7 @@ export default class OutputTable extends React.Component {
 	render() {
 		return (
 			<MaterialTable
-				title='Params Table'
+				title='Output/Serialize Table'
 				columns={this.state.columns}
 				data={this.state.data}
 				editable={{

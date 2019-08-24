@@ -37,7 +37,7 @@ export const PortCustom = props => {
 		e.preventDefault();
 		e.stopPropagation();
 		seOpenCols(!isColsOpen);
-		console.log("AL-", props);
+		console.log('AL-', props);
 		getResultsFromNode(props.node);
 	};
 	const handleClick = e => {
@@ -47,7 +47,7 @@ export const PortCustom = props => {
 	};
 
 	const getResultsFromNode = node => {
-		console.log("AL-", node)
+		console.log('AL-', node);
 		let outPorts = Object.keys(node.ports).filter(portKey => {
 			return node.ports[portKey].type === 'output';
 		});
@@ -77,7 +77,7 @@ export const PortCustom = props => {
 			{isColsOpen ? (
 				<DropdownMenu>
 					<DropdownItem onClick={handleClickDisplayData}>Data</DropdownItem>
-					<DropdownItem onClick={serializeProject}>Serialize</DropdownItem>
+					<DropdownItem onClick={serializeProject}>Endpoint</DropdownItem>
 				</DropdownMenu>
 			) : null}
 		</>

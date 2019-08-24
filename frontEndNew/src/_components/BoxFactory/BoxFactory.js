@@ -26,6 +26,7 @@ class BoxFactory extends React.Component {
 		hasChanged: false,
 		areEmptyFields: false,
 		isCsvSelectorActive: false,
+
 		step: 0,
 	};
 
@@ -51,6 +52,9 @@ class BoxFactory extends React.Component {
 	setParamsState = data => {
 		this.setState({ parameters: data });
 	};
+	setOutputState = data => {
+		this.setState({ selectedOutputType: data });
+	};
 
 	selectedDataset = dataset => {
 		if (dataset) {
@@ -69,15 +73,10 @@ class BoxFactory extends React.Component {
 			dependencies,
 			friendly_name,
 			parameters,
+			selectedOutputType,
 		} = this.state;
-		if (
-			type &&
-			inputPorts &&
-			outputPorts &&
-			code &&
-			dependencies &&
-			friendly_name
-		) {
+		console.log('handleSubmit', selectedOutputType);
+		if (type && inputPorts && outputPorts && friendly_name) {
 			const box = {
 				friendly_name,
 				type,
@@ -88,6 +87,7 @@ class BoxFactory extends React.Component {
 				depen_code: dependencies,
 				python_code: code,
 				parameters: JSON.stringify(parameters),
+				outputs: JSON.stringify(selectedOutputType),
 			};
 			dispatch(adminActions.createBox(box));
 		} else {
@@ -230,11 +230,7 @@ class BoxFactory extends React.Component {
 								mountOnEnter
 								unmountOnExit>
 								<Paper elevation={0}>
-									<OutputSelector
-										setParamsState={this.setParamsState}
-										specialParamSelector={this.handleCsvSelector}
-										dataset={selectedDataset}
-									/>
+									<OutputSelector setOutputState={this.setOutputState} />
 								</Paper>
 							</Slide>
 						) : null}

@@ -9,6 +9,7 @@ import { TextEditors } from './TextEditors';
 import './BoxHospital.css';
 
 import ParametersTable from '../../_components/Utils/Table/ParametersTable';
+import OutputTable from '../../_components/Utils/Table/OutputTable';
 
 import Button from '@material-ui/core/Button';
 
@@ -113,6 +114,7 @@ class BoxHospital extends React.Component {
 			n_output_ports,
 			n_input_ports,
 			parameters,
+			output_type,
 			python_code,
 			depen_code,
 			id,
@@ -125,6 +127,7 @@ class BoxHospital extends React.Component {
 			dependencies: depen_code,
 			friendly_name: name,
 			parameters: JSON.parse(parameters),
+			selectedOutputType: JSON.parse(output_type),
 			id,
 		});
 	};
@@ -139,6 +142,7 @@ class BoxHospital extends React.Component {
 			dependencies,
 			parameters,
 			activeCodeEditor,
+			selectedOutputType,
 		} = this.state;
 		const { actorsTree } = this.props;
 		return (
@@ -188,6 +192,12 @@ class BoxHospital extends React.Component {
 							<ParametersTable
 								updateBoxState={this.setParamsState}
 								data={parameters}
+							/>
+						</div>
+						<div className={'complete-fields-box'}>
+							<OutputTable
+								updateBoxState={this.setParamsState}
+								data={selectedOutputType}
 							/>
 						</div>
 					</div>
