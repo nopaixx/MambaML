@@ -114,7 +114,7 @@ class BoxHospital extends React.Component {
 			n_output_ports,
 			n_input_ports,
 			parameters,
-			output_type,
+			outputs,
 			python_code,
 			depen_code,
 			id,
@@ -127,7 +127,7 @@ class BoxHospital extends React.Component {
 			dependencies: depen_code,
 			friendly_name: name,
 			parameters: JSON.parse(parameters),
-			selectedOutputType: JSON.parse(output_type),
+			selectedOutputType: JSON.parse(outputs),
 			id,
 		});
 	};
@@ -144,6 +144,7 @@ class BoxHospital extends React.Component {
 			activeCodeEditor,
 			selectedOutputType,
 		} = this.state;
+		console.log('selectedOutputType', selectedOutputType);
 		const { actorsTree } = this.props;
 		return (
 			<React.Fragment>

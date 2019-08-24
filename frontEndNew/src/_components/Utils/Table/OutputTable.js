@@ -1,6 +1,7 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 import './Table.css';
+import { identifier } from '@babel/types';
 
 export default class OutputTable extends React.Component {
 	constructor(props) {
@@ -37,9 +38,19 @@ export default class OutputTable extends React.Component {
 
 	componentDidMount() {
 		const { data } = this.props;
+		console.log('didmount', data);
 		if (data) {
 			this.setState({ data: data });
 		}
+	}
+	componentDidUpdate(prevProps, prevState) {
+		const { data } = this.props;
+		console.log('componentDidUpdate', data);
+		if (prevState.data !== this.props.data) {
+			console.log('we are in the first if');
+			if (prevProps.data !== this.props.data) this.setState({ data: data });
+		}
+		if (data === null) this.setState({ data: {} });
 	}
 
 	addRow = newData => {
