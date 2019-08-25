@@ -1,7 +1,6 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 import './Table.css';
-import { identifier } from '@babel/types';
 
 export default class OutputTable extends React.Component {
 	constructor(props) {
@@ -45,12 +44,11 @@ export default class OutputTable extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState) {
 		const { data } = this.props;
-		console.log('componentDidUpdate', data);
-		if (prevState.data !== this.props.data) {
-			console.log('we are in the first if');
-			if (prevProps.data !== this.props.data) this.setState({ data: data });
+		console.log('componentDidUpdate');
+
+		if (prevState.data !== this.props.data && data !== null) {
+			this.setState({ data: data });
 		}
-		if (data === null) this.setState({ data: {} });
 	}
 
 	addRow = newData => {
@@ -98,6 +96,7 @@ export default class OutputTable extends React.Component {
 	};
 
 	render() {
+		console.log('inside the render', this.state);
 		return (
 			<MaterialTable
 				title='Output/Serialize Table'

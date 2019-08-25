@@ -144,7 +144,6 @@ class BoxHospital extends React.Component {
 			activeCodeEditor,
 			selectedOutputType,
 		} = this.state;
-		console.log('selectedOutputType', selectedOutputType);
 		const { actorsTree } = this.props;
 		return (
 			<React.Fragment>
@@ -192,13 +191,13 @@ class BoxHospital extends React.Component {
 						<div className={'complete-fields-box'}>
 							<ParametersTable
 								updateBoxState={this.setParamsState}
-								data={parameters}
+								data={parameters || []}
 							/>
 						</div>
 						<div className={'complete-fields-box'}>
 							<OutputTable
 								updateBoxState={this.setParamsState}
-								data={selectedOutputType}
+								data={selectedOutputType || []}
 							/>
 						</div>
 					</div>
