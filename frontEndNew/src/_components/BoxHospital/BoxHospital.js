@@ -2,22 +2,49 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { adminActions } from '../../_actions';
 import TreeMenu from '../Design/TreeMenu/TreeMenuList';
+import styled from 'styled-components';
 
 import { TextDataInputs } from './TextDataInputs';
 import { TextEditors } from './TextEditors';
-
-import './BoxHospital.css';
 
 import ParametersTable from '../../_components/Utils/Table/ParametersTable';
 import OutputTable from '../../_components/Utils/Table/OutputTable';
 
 import Button from '@material-ui/core/Button';
 
+const ParamTableWrapper = styled.div`
+	margin-right: 5px;
+	width: 60%;
+`;
+const OutputTableWrapper = styled.div`
+	margin-right: 5px;
+	width: 30%;
+`;
+const TablesRow = styled.div`
+	display: flex;
+	justify-content: space-evenly;
+`;
+const BoxTreeWrapper = styled.div`
+	overflow: scroll;
+	max-height: 100vh;
+	border: 1px solid rgb(204, 204, 204);
+`;
+const UpdateButtonsWrappers = styled.div`
+	display: flex;
+	justify-content: space-around;
+	padding: 30px;
+`;
+
+const Wrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+
 class BoxHospital extends React.Component {
 	state = {
 		code: '',
 		dependencies: '',
-		activeCodeEditor: { Dependencies: false, PythonScript: false },
+		activeCodeEditor: { Dependencies: true, PythonScript: true },
 		selectedTab: 0,
 		step: 0,
 	};
@@ -93,14 +120,14 @@ class BoxHospital extends React.Component {
 		adminActions.exportBox(exportedBox);
 	};
 	onCickDisplayEditor = id => {
-		this.setState(prevstate => {
-			return {
-				activeCodeEditor: {
-					...prevstate.activeCodeEditor,
-					[id]: !prevstate.activeCodeEditor[id],
-				},
-			};
-		});
+		// this.setState(prevstate => {
+		// 	return {
+		// 		activeCodeEditor: {
+		// 			...prevstate.activeCodeEditor,
+		// 			[id]: !prevstate.activeCodeEditor[id],
+		// 		},
+		// 	};
+		// });
 	};
 	selectedOption = item => {
 		const { actorsList } = this.props;
@@ -151,27 +178,11 @@ class BoxHospital extends React.Component {
 					style={{
 						display: 'flex',
 					}}>
-					<div className={'treeSelector'}>
+					<BoxTreeWrapper>
 						<TreeMenu data={actorsTree} selectedOption={this.selectedOption} />
-					</div>
-					<div style={{ margin: 'auto' }}>
-						<div className={'wrapper'}>
-							<div className={'updateButton'}>
-								<Button
-									id={'PythonScript'}
-									onClick={this.handleSubmit}
-									variant='contained'
-									color='primary'>
-									Update Box
-								</Button>
-								<Button
-									id={'ExportBox'}
-									onClick={this.handleExportBox}
-									variant='contained'
-									color='primary'>
-									Export Box
-								</Button>
-							</div>
+					</BoxTreeWrapper>
+					<div style={{ width: '100%' }}>
+						<Wrapper>
 							<TextDataInputs
 								handleChange={this.handleChange}
 								friendly_name={friendly_name}
@@ -184,22 +195,38 @@ class BoxHospital extends React.Component {
 								code={code}
 								onChangeCodeScript={this.onChangeCodeScript}
 								onChangeDependencies={this.onChangeDependencies}
-								onCickDisplayEditor={this.onCickDisplayEditor}
-								activeCodeEditor={activeCodeEditor}
 							/>
-						</div>
-						<div className={'complete-fields-box'}>
-							<ParametersTable
-								updateBoxState={this.setParamsState}
-								data={parameters || []}
-							/>
-						</div>
-						<div className={'complete-fields-box'}>
-							<OutputTable
-								updateBoxState={this.setParamsState}
-								data={selectedOutputType || []}
-							/>
-						</div>
+						</Wrapper>
+						<TablesRow>
+							<OutputTableWrapper>
+								<OutputTable
+									updateBoxState={this.setParamsState}
+									data={selectedOutputType || []}
+								/>
+							</OutputTableWrapper>
+							<ParamTableWrapper>
+								<ParametersTable
+									updateBoxState={this.setParamsState}
+									data={parameters || []}
+								/>
+							</ParamTableWrapper>
+						</TablesRow>
+						<UpdateButtonsWrappers>
+							<Button
+								id={'ExportBox'}
+								onClick={this.handleExportBox}
+								variant='contained'
+								color='primary'>
+								Export Box
+							</Button>
+							<Button
+								id={'PythonScript'}
+								onClick={this.handleSubmit}
+								variant='contained'
+								color='primary'>
+								Update Box
+							</Button>
+						</UpdateButtonsWrappers>
 					</div>
 				</div>
 			</React.Fragment>

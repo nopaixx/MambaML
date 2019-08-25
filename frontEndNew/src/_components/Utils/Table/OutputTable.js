@@ -37,14 +37,12 @@ export default class OutputTable extends React.Component {
 
 	componentDidMount() {
 		const { data } = this.props;
-		console.log('didmount', data);
 		if (data) {
 			this.setState({ data: data });
 		}
 	}
 	componentDidUpdate(prevProps, prevState) {
 		const { data } = this.props;
-		console.log('componentDidUpdate');
 
 		if (prevState.data !== this.props.data && data !== null) {
 			this.setState({ data: data });
@@ -96,7 +94,6 @@ export default class OutputTable extends React.Component {
 	};
 
 	render() {
-		console.log('inside the render', this.state);
 		return (
 			<MaterialTable
 				title='Output/Serialize Table'

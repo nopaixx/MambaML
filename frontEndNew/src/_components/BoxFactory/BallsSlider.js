@@ -32,10 +32,10 @@ export const BallsSlider = ({ step }) => {
 	const fullBalls = [];
 	const emptyBalls = [];
 	for (let i = 0; i < step; i++) {
-		fullBalls.push(<div className={classes.fullBall} />);
+		fullBalls.push(<div key={i} className={classes.fullBall} />);
 	}
 	for (let i = 0; i < 5 - step; i++) {
-		emptyBalls.push(<div className={classes.emptyBall} />);
+		emptyBalls.push(<div key={i} className={classes.emptyBall} />);
 	}
 
 	return (

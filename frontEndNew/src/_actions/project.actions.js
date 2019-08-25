@@ -510,7 +510,6 @@ const treeConstructor = data => {
 	let finalTree = {};
 	treeArray.forEach(tree => {
 		const treeKey = Object.keys(tree);
-		console.log('AL-', treeKey);
 		if (!head.includes(treeKey[0])) {
 			head.push(treeKey[0]);
 		}
@@ -520,12 +519,10 @@ const treeConstructor = data => {
 			tree => Object.keys(tree)[0] === treehead
 		);
 		if (treesToMerge.length > 1) {
-			console.log('AL---', treesToMerge);
 			let tree2;
 			for (let i = 0; i < treesToMerge.length; i++) {
 				if (treesToMerge[i] && treesToMerge[i + 1]) {
 					tree2 = supermerge(treesToMerge[i], treesToMerge[i + 1]);
-					console.log('AL-x', tree2);
 				}
 			}
 			finalTree = { ...finalTree, ...tree2 };

@@ -11,9 +11,9 @@ export default class ParametersTable extends React.Component {
 					title: 'Name',
 					field: 'name',
 				},
-				{ title: 'Param Firendly', field: 'param_friend_name' },
+				{ title: 'Title', field: 'param_friend_name' },
 				{
-					title: 'Param Type',
+					title: 'Type',
 					field: 'type',
 					editComponent: props => (
 						<select
@@ -30,9 +30,9 @@ export default class ParametersTable extends React.Component {
 					),
 				},
 				{ title: 'Value', field: 'value' },
-				{ title: 'Param Help', field: 'param_help' },
-				{ title: 'Param Url', field: 'param_url' },
-				{ title: 'Param Rec', field: 'param_rec' },
+				{ title: 'Help', field: 'param_help' },
+				{ title: 'URL', field: 'param_url' },
+				{ title: 'Rec', field: 'param_rec' },
 			],
 			data: [],
 		};

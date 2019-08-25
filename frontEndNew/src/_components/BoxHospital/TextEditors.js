@@ -12,6 +12,17 @@ const useStyles = makeStyles(theme => ({
 	button: {
 		margin: theme.spacing(1),
 	},
+	editorTitle: {
+		fontSize: '20px',
+		background: '#272822',
+		color: 'white',
+		textAlign: 'center',
+	},
+	editorsRow: {
+		display: 'flex',
+		justifyContent: 'space-evenly',
+		margin: '20px 0 20px 0',
+	},
 }));
 
 export const TextEditors = ({
@@ -19,55 +30,36 @@ export const TextEditors = ({
 	code,
 	onChangeCodeScript,
 	onChangeDependencies,
-	onCickDisplayEditor,
-	activeCodeEditor,
 }) => {
 	const classes = useStyles();
 	return (
-		<div className={'code-editors-admin'}>
-			<div className='col-md-6 editor-column'>
-				<Button
-					onClick={() => onCickDisplayEditor('Dependencies')}
-					id={'Dependencies'}
-					variant='outlined'
-					color='primary'
-					className={classes.button}>
-					Dependencies
-				</Button>
-				{activeCodeEditor['Dependencies'] ? (
-					<AceEditor
-						mode='python'
-						theme='monokai'
-						width={'350px'}
-						height={'200px'}
-						value={dependencies}
-						onChange={onChangeDependencies}
-						name='UNIQUE_ID_OF_DIV'
-						editorProps={{ $blockScrolling: true }}
-					/>
-				) : null}
+		<div className={classes.editorsRow}>
+			<div>
+				<div className={classes.editorTitle}>Python Script</div>
+				<AceEditor
+					mode='python'
+					theme='monokai'
+					width={'751px'}
+					height={'250px'}
+					value={code}
+					onChange={onChangeCodeScript}
+					name='UNIQUE_ID_OF_DIV'
+					editorProps={{ $blockScrolling: true }}
+					showPrintMargin={false}
+				/>
 			</div>
-			<div className='col-md-6 editor-column'>
-				<Button
-					id={'PythonScript'}
-					onClick={() => onCickDisplayEditor('PythonScript')}
-					variant='outlined'
-					color='primary'
-					className={classes.button}>
-					Python Script
-				</Button>
-				{activeCodeEditor['PythonScript'] ? (
-					<AceEditor
-						mode='python'
-						theme='monokai'
-						width={'650px'}
-						height={'300px'}
-						value={code}
-						onChange={onChangeCodeScript}
-						name='UNIQUE_ID_OF_DIV'
-						editorProps={{ $blockScrolling: true }}
-					/>
-				) : null}
+			<div>
+				<div className={classes.editorTitle}>Dependencies</div>
+				<AceEditor
+					mode='python'
+					theme='monokai'
+					width={'375px'}
+					height={'250px'}
+					value={dependencies}
+					onChange={onChangeDependencies}
+					name='UNIQUE_ID_OF_DIV'
+					editorProps={{ $blockScrolling: true }}
+				/>
 			</div>
 		</div>
 	);

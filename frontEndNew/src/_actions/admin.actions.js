@@ -12,7 +12,6 @@ export const adminActions = {
 };
 
 function createBox(box) {
-	console.log('box', box);
 	return dispatch => {
 		dispatch(request(box));
 
@@ -78,13 +77,10 @@ function exportBox(Box) {
 }
 
 function importBox() {
-	console.log('AL-2');
-	console.log('AL---');
 	const id = 'importBoxSelector';
 	const selector = buildFileSelector(id);
 	selector.click();
 	selector.addEventListener('change', () => uploadFile(selector.files));
-	console.log('AL-import!');
 	const uploadFile = files => {
 		var fr = new FileReader();
 		fr.onload = function(e) {

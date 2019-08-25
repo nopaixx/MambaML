@@ -96,21 +96,14 @@ export default function NavBar(props) {
 	function handleOver(e) {
 		e.preventDefault();
 		const { id } = e.target;
-		console.log(e.target);
 		setDrop({ [id]: true });
-		console.log('The link was in.');
-		console.log(drop[id]);
 	}
 
 	function handleOut(e) {
 		e.preventDefault();
 		const { id } = e.target;
 		setDrop({ [id]: false });
-		console.log('The link was out.');
-		console.log(drop[id]);
 	}
-
-	console.log(drop);
 
 	const DropDown = props => {
 		return (

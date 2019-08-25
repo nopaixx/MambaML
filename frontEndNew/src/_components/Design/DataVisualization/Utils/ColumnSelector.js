@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useStyles } from '../Styles';
+import React, { useState } from 'react';
+// import { useStyles } from '../Styles';
 
 import { ColumnSelectorInput } from '../../../Utils/ColSelector/ColumnSelectorInput';
 import { generateDataPoints } from '../Scatter/generateDataPoints';
@@ -9,7 +9,6 @@ export const ColumnSelector = ({
 	maxNumberCols = 2,
 	selectedColsCB,
 }) => {
-	const classes = useStyles();
 	const [selectedCols, setColSelected] = useState([]);
 	const parsedData = JSON.parse(portDataPreview.first100);
 	const dataColumns = Object.values(Object.keys(parsedData));

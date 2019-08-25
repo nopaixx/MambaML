@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import NavBar from './Components/NavBar.js';
+// import NavBar from './Components/NavBar.js';
 import SectionHero from './Components/SectionHero';
 import SectionImages from './Components/SectionImages';
 import SectionCompanyInfo from './Components/SectionCompanyInfo';

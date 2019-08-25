@@ -1,5 +1,4 @@
 import React from 'react';
-import { REACT_FLOW_CHART } from '@gonzalo10/react-diagrams/';
 import styled from 'styled-components';
 
 const DEFAULT_PADDING = 0.5;
