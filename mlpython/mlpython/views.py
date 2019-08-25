@@ -7,6 +7,7 @@ import mlpython.actors.webservices
 import mlpython.companys.webservices
 import mlpython.cloud_manager.webservices
 import mlpython.status_project
+import mlpython.predict.webservices
 #from .app import app
 
 @app.route('/')

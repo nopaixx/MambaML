@@ -10,7 +10,7 @@ class Config(object):
     SECRET_KEY = 'secret1234'
     # SQLALCHEMY_DATABASE_URI = "mysql://mambaml:mambaml@mysql_db/mambadb"
     SQLALCHEMY_DATABASE_URI = "postgres://mambaml:mambaml@postgres/mambadb"
-
+    REDIS_SERVER = os.environ.get('redis_backend','None')
 
 class ProductionConfig(Config):
     DEBUG = False
