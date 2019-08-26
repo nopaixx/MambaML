@@ -19,8 +19,9 @@ export default class OutputTable extends React.Component {
 							name='type'
 							onChange={e => this.onParamTypeChange(e, props)}>
 							<option value='' />
-							<option value='sklean_model'>Sklean Model/</option>
+							<option value='sklean_model'>Sklean Model</option>
 							<option value='keras_model'>Keras Model</option>
+							<option value='gridsearch_model'>GridSearch Model</option>
 							<option value='other'>Other</option>
 						</select>
 					),

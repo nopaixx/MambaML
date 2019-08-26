@@ -382,7 +382,7 @@ function unsavedProject() {
 	}
 }
 
-function getAllActors() {
+export function getAllActors() {
 	return dispatch => {
 		dispatch(request());
 		projectService.getAllActors().then(

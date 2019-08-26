@@ -2,7 +2,7 @@ import { adminConstants } from '../_constants';
 import { adminService } from '../_services';
 import { alertActions } from './';
 import { saveJSON, buildFileSelector } from './utils.global.js';
-
+import { getAllActors } from './project.actions';
 export const adminActions = {
 	createBox,
 	updateBox,
@@ -18,6 +18,7 @@ function createBox(box) {
 		adminService.createBox(box).then(
 			box => {
 				dispatch(success(box));
+				dispatch(getAllActors());
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -52,6 +53,7 @@ function updateBox(box) {
 		adminService.updateBox(box).then(
 			box => {
 				dispatch(success(box));
+				dispatch(getAllActors());
 			},
 			error => {
 				dispatch(failure(error.toString()));

@@ -80,6 +80,7 @@ class BoxHospital extends React.Component {
 			dependencies,
 			friendly_name,
 			parameters,
+			selectedOutputType,
 			id,
 		} = this.state;
 		const updatedBox = {
@@ -92,6 +93,7 @@ class BoxHospital extends React.Component {
 			depen_code: dependencies,
 			python_code: code,
 			parameters: JSON.stringify(parameters),
+			outputs: JSON.stringify(selectedOutputType),
 			id,
 		};
 		dispatch(adminActions.updateBox(updatedBox));
@@ -206,7 +208,7 @@ class BoxHospital extends React.Component {
 						<TablesRow>
 							<OutputTableWrapper>
 								<OutputTable
-									updateBoxState={this.setParamsState}
+									updateBoxState={this.setOutputState}
 									data={selectedOutputType || []}
 								/>
 							</OutputTableWrapper>
