@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button';
 const ParamTableWrapper = styled.div`
 	margin-right: 5px;
 	width: 60%;
+	max-width: 750px;
 `;
 const OutputTableWrapper = styled.div`
 	margin-right: 5px;
@@ -64,6 +65,9 @@ class BoxHospital extends React.Component {
 	setParamsState = data => {
 		this.setState({ parameters: data });
 	};
+	setOutputState = data => {
+		this.setState({ selectedOutputType: data });
+	};
 
 	handleSubmit = e => {
 		const { dispatch } = this.props;
@@ -102,6 +106,7 @@ class BoxHospital extends React.Component {
 			dependencies,
 			friendly_name,
 			parameters,
+			selectedOutputType,
 			id,
 		} = this.state;
 		const exportedBox = {
@@ -114,6 +119,7 @@ class BoxHospital extends React.Component {
 			depen_code: dependencies,
 			python_code: code,
 			parameters: JSON.stringify(parameters),
+			outputs: JSON.stringify(selectedOutputType),
 			id,
 		};
 
