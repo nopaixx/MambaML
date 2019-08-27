@@ -6,7 +6,7 @@ import requests
 import sys
 import json
 
-
+# GET->https://predict.mambaml.com/predict/
 @app.route('/predict', methods=['GET'])
 def predict():
         predict_request = {
