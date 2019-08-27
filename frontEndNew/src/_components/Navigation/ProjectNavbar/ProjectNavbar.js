@@ -1,6 +1,5 @@
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import { history } from '../../../_helpers';
 import { connect } from 'react-redux';
 import { userActions } from '../../../_actions/user.actions';
 import AppBar from '@material-ui/core/AppBar';

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
+import { projectActions } from '../../_actions/project.actions';
+
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -14,14 +16,13 @@ import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
-import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './DashboardChart';
 import Deposits from './Deposits';
-import Projects from './Projects';
+import { Projects } from './Projects';
 
 const drawerWidth = 240;
 
@@ -104,50 +105,20 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const Dashboard = () => {
+const Dashboard = ({ dispatch, projects }) => {
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(true);
-	const handleDrawerOpen = () => {
-		setOpen(true);
-	};
+
+	useEffect(() => {
+		dispatch(projectActions.getAllProjects());
+	}, []);
 	const handleDrawerClose = () => {
-		setOpen(false);
+		setOpen(!open);
 	};
 	const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+	console.log(projects);
 	return (
 		<div className={classes.root}>
-			<CssBaseline />
-			<AppBar
-				position='absolute'
-				className={clsx(classes.appBar, open && classes.appBarShift)}>
-				<Toolbar className={classes.toolbar}>
-					<IconButton
-						edge='start'
-						color='inherit'
-						aria-label='open drawer'
-						onClick={handleDrawerOpen}
-						className={clsx(
-							classes.menuButton,
-							open && classes.menuButtonHidden
-						)}>
-						<MenuIcon />
-					</IconButton>
-					<Typography
-						component='h1'
-						variant='h6'
-						color='inherit'
-						noWrap
-						className={classes.title}>
-						Dashboard
-					</Typography>
-					<IconButton color='inherit'>
-						<Badge badgeContent={4} color='secondary'>
-							<NotificationsIcon />
-						</Badge>
-					</IconButton>
-				</Toolbar>
-			</AppBar>
 			<Drawer
 				variant='permanent'
 				classes={{
@@ -156,7 +127,7 @@ const Dashboard = () => {
 				open={open}>
 				<div className={classes.toolbarIcon}>
 					<IconButton onClick={handleDrawerClose}>
-						<ChevronLeftIcon />
+						{open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
 					</IconButton>
 				</div>
 				<Divider />
@@ -181,9 +152,10 @@ const Dashboard = () => {
 							</Paper>
 						</Grid>
 						{/* Recent Orders */}
+						{console.log(projects)}
 						<Grid item xs={12}>
 							<Paper className={classes.paper}>
-								<Projects />
+								<Projects projects={projects} />
 							</Paper>
 						</Grid>
 					</Grid>
@@ -194,10 +166,9 @@ const Dashboard = () => {
 };
 
 function mapStateToProps(state) {
-	const { alert } = state;
-	console.log(state);
+	const { projects } = state.project;
 	return {
-		alert,
+		projects,
 	};
 }
 

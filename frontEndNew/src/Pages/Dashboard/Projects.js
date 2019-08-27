@@ -64,7 +64,8 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export default function Projects() {
+export const Projects = ({ projects }) => {
+	console.log('projects', projects);
 	const classes = useStyles();
 	return (
 		<React.Fragment>
@@ -72,7 +73,7 @@ export default function Projects() {
 			<Table size='small'>
 				<TableHead>
 					<TableRow>
-						<TableCell>Date</TableCell>
+						<TableCell>Id</TableCell>
 						<TableCell>Name</TableCell>
 						<TableCell>Ship To</TableCell>
 						<TableCell>Payment Method</TableCell>
@@ -80,13 +81,13 @@ export default function Projects() {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{rows.map(row => (
+					{projects.map(row => (
 						<TableRow key={row.id}>
-							<TableCell>{row.date}</TableCell>
-							<TableCell>{row.name}</TableCell>
+							<TableCell>{row.id}</TableCell>
+							{/* <TableCell>{row.name}</TableCell>
 							<TableCell>{row.shipTo}</TableCell>
 							<TableCell>{row.paymentMethod}</TableCell>
-							<TableCell align='right'>{row.amount}</TableCell>
+							<TableCell align='right'>{row.amount}</TableCell> */}
 						</TableRow>
 					))}
 				</TableBody>
@@ -98,4 +99,4 @@ export default function Projects() {
 			</div>
 		</React.Fragment>
 	);
-}
+};
