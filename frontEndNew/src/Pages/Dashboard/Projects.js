@@ -64,11 +64,11 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export default function Orders() {
+export default function Projects() {
 	const classes = useStyles();
 	return (
 		<React.Fragment>
-			<Title>Recent Orders</Title>
+			<Title>Projects</Title>
 			<Table size='small'>
 				<TableHead>
 					<TableRow>

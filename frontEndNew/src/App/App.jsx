@@ -6,7 +6,7 @@ import { history } from '../_helpers';
 import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
 import { HomePage } from '../Pages/HomePage';
-import Dashboard from '../Pages/Dashboard';
+import { Dashboard } from '../Pages/Dashboard';
 import { HomePage2 } from '../Pages/HomePage/HomePage2';
 import { LoginPage } from '../Pages/LoginPage/LoginPage';
 import { LandingPage1 } from '../Pages/LandingPage/LandingPage1';
@@ -38,11 +38,11 @@ class App extends React.Component {
 						)}
 						<Router history={history}>
 							<div>
-								<PrivateRoute exact path='/' component={LandingPage1} />
+								<PrivateRoute exact path='/landing' component={LandingPage1} />
 								<PrivateRoute exact path='/projects' component={HomePage2} />
 								<PrivateRoute path='/project/:id' component={DesignComponent} />
 								<PrivateRoute path='/admin' component={AdminPage} />
-								<Route path='/landing' component={LandingPage} />
+								<Route exact path='/' component={LandingPage} />
 								<Route path='/login' component={LoginPage} />
 								<Route path='/register' component={RegisterPage} />
 								<Route path='/pricing' component={PricingPage} />

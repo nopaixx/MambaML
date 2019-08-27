@@ -1,16 +1,14 @@
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
+import { history } from '../../../_helpers';
+import { connect } from 'react-redux';
+import { userActions } from '../../../_actions/user.actions';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import HomeIcon from '@material-ui/icons/Home';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -84,7 +82,7 @@ const useStyles = makeStyles(theme => ({
 	logo: { width: 70, cursor: 'pointer' },
 }));
 
-export default function ProjectNavbar({ history }) {
+const ProjectNavbar = ({ history, user, users, dispatch }) => {
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -109,6 +107,11 @@ export default function ProjectNavbar({ history }) {
 		setMobileMoreAnchorEl(event.currentTarget);
 	}
 
+	const handleClickDashboard = () => {
+		history.push('/dashboard');
+		handleMenuClose();
+	};
+
 	const menuId = 'primary-search-account-menu';
 	const renderMenu = (
 		<Menu
@@ -119,9 +122,11 @@ export default function ProjectNavbar({ history }) {
 			transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 			open={isMenuOpen}
 			onClose={handleMenuClose}>
-			<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+			<MenuItem onClick={handleClickDashboard}>Dashboard</MenuItem>
 			<MenuItem onClick={handleMenuClose}>My account</MenuItem>
-			<MenuItem onClick={() => history.push('/login')}>Log out</MenuItem>
+			<MenuItem onClick={() => dispatch(userActions.logout())}>
+				Log out
+			</MenuItem>
 		</Menu>
 	);
 
@@ -239,4 +244,16 @@ export default function ProjectNavbar({ history }) {
 			{renderMenu}
 		</div>
 	);
+};
+
+function mapStateToProps(state) {
+	const { users, authentication } = state;
+	const { user } = authentication;
+	console.log(state);
+	return {
+		user,
+		users,
+	};
 }
+const connectedProjectNavbar = connect(mapStateToProps)(ProjectNavbar);
+export { connectedProjectNavbar as ProjectNavbar };
