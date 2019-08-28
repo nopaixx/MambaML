@@ -14,7 +14,11 @@ export default function Deposits() {
 	const classes = useStyles();
 	return (
 		<React.Fragment>
-			<Title>Cloud Costs</Title>
+			<Title>Real Cloud Costs</Title>
+			<Typography component='p' variant='h4'>
+				$3,024.00
+			</Typography>
+			<Title>Prediction Cloud Costs</Title>
 			<Typography component='p' variant='h4'>
 				$3,024.00
 			</Typography>

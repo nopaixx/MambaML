@@ -16,37 +16,44 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export const Projects = ({ projects }) => {
+const datasets = [
+	{ name: 'dateset1', id: 1, size: 100, format: 'csv', desc: 'very good' },
+	{ name: 'dateset2', id: 2, size: 100, format: 'csv', desc: 'very good' },
+	{ name: 'dateset3', id: 3, size: 100, format: 'csv', desc: 'very good' },
+	{ name: 'dateset4', id: 4, size: 100, format: 'csv', desc: 'very good' },
+];
+
+export const Datasets = ({}) => {
 	const classes = useStyles();
 	return (
 		<React.Fragment>
-			<Title>Projects</Title>
+			<Title>Datasets</Title>
 			<Table size='small'>
 				<TableHead>
 					<TableRow>
 						<TableCell>Id</TableCell>
 						<TableCell>Name</TableCell>
-						<TableCell>Created by</TableCell>
-						<TableCell>Backend V</TableCell>
-						<TableCell>Frontend V</TableCell>
+						<TableCell>Size</TableCell>
+						<TableCell>Format</TableCell>
+						<TableCell>Desc.</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{projects &&
-						projects.map(project => (
-							<TableRow key={project.id}>
-								<TableCell>{project.id}</TableCell>
-								<TableCell>{project.name}</TableCell>
-								<TableCell>{project.user_id}</TableCell>
-								<TableCell>{project.backendVersion}</TableCell>
-								<TableCell>{project.frontendVersion}</TableCell>
+					{datasets &&
+						datasets.map(dataset => (
+							<TableRow key={dataset.id} onClick={() => alert(dataset.id)}>
+								<TableCell>{dataset.id}</TableCell>
+								<TableCell>{dataset.name}</TableCell>
+								<TableCell>{dataset.size}</TableCell>
+								<TableCell>{dataset.format}</TableCell>
+								<TableCell>{dataset.desc}</TableCell>
 							</TableRow>
 						))}
 				</TableBody>
 			</Table>
 			<div className={classes.seeMore}>
 				<Link color='primary' href='javascript:;'>
-					See more projects
+					See more Datasets
 				</Link>
 			</div>
 		</React.Fragment>

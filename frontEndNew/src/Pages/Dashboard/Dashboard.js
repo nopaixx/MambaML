@@ -23,6 +23,7 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './DashboardChart';
 import Deposits from './Deposits';
 import { Projects } from './Projects';
+import { Datasets } from './Datasets';
 
 const drawerWidth = 240;
 
@@ -156,6 +157,11 @@ const Dashboard = ({ dispatch, projects }) => {
 						<Grid item xs={12}>
 							<Paper className={classes.paper}>
 								<Projects projects={projects} />
+							</Paper>
+						</Grid>
+						<Grid item xs={12}>
+							<Paper className={classes.paper}>
+								<Datasets projects={projects} />
 							</Paper>
 						</Grid>
 					</Grid>
