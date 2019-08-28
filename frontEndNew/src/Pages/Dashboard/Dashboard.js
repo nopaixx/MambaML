@@ -21,7 +21,9 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './DashboardChart';
+import EndpointCharts from './EndpointCharts';
 import Deposits from './Deposits';
+import Endpoints from './Endpoints';
 import { Projects } from './Projects';
 import { Datasets } from './Datasets';
 
@@ -141,6 +143,16 @@ const Dashboard = ({ dispatch, projects }) => {
 				<Container maxWidth='lg' className={classes.container}>
 					<Grid container spacing={3}>
 						{/* Chart */}
+						<Grid item xs={12} md={4} lg={3}>
+							<Paper className={fixedHeightPaper}>
+								<Endpoints />
+							</Paper>
+						</Grid>
+						<Grid item xs={12} md={8} lg={9}>
+							<Paper className={fixedHeightPaper}>
+								<EndpointCharts />
+							</Paper>
+						</Grid>
 						<Grid item xs={12} md={8} lg={9}>
 							<Paper className={fixedHeightPaper}>
 								<Chart />

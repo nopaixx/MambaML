@@ -3,6 +3,7 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { userActions } from '../../../_actions/user.actions';
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
@@ -79,6 +80,11 @@ const useStyles = makeStyles(theme => ({
 		},
 	},
 	logo: { width: 70, cursor: 'pointer' },
+	navbarMenuBtn: {
+		color: 'white',
+		fontWeight: 600,
+		fontSize: 14,
+	},
 }));
 
 const ProjectNavbar = ({ history, user, users, dispatch }) => {
@@ -206,17 +212,26 @@ const ProjectNavbar = ({ history, user, users, dispatch }) => {
 							aria-label='Home'
 							color='inherit'>
 							<HomeIcon />
-						</IconButton>
-						<IconButton aria-label='Show 4 new mails' color='inherit'>
-							<Badge badgeContent={4} color='secondary'>
-								<MailIcon />
-							</Badge>
-						</IconButton>
+						</IconButton>*/}
+						<Button
+							aria-controls='simple-menu'
+							aria-haspopup='true'
+							className={classes.navbarMenuBtn}
+							onClick={() => history.push('/projects')}>
+							Projects
+						</Button>
+						<Button
+							aria-controls='simple-menu'
+							aria-haspopup='true'
+							className={classes.navbarMenuBtn}
+							onClick={() => history.push('/dashboard')}>
+							Dashboard
+						</Button>
 						<IconButton aria-label='Show 17 new notifications' color='inherit'>
 							<Badge badgeContent={1} color='secondary'>
 								<NotificationsIcon />
 							</Badge>
-						</IconButton> */}
+						</IconButton>
 						<IconButton
 							edge='end'
 							aria-label='Account of current user'
