@@ -178,41 +178,14 @@ const ProjectNavbar = ({ history, user, users, dispatch }) => {
 		<div>
 			<AppBar position='static'>
 				<Toolbar className={classes.appBar}>
-					{/* <IconButton
-						edge='start'
-						className={classes.menuButton}
-						color='inherit'
-						aria-label='Open drawer'>
-						<MenuIcon />
-					</IconButton> */}
 					<img
-						onClick={() => history.push('/projects')}
+						onClick={() => history.push('/dashboard')}
 						className={classes.logo}
 						src={MambaLogo}
 						alt={'logo'}
 					/>
-
-					{/* <div className={classes.search}>
-						<div className={classes.searchIcon}>
-							<SearchIcon />
-						</div>
-						<InputBase
-							placeholder='Search…'
-							classes={{
-								root: classes.inputRoot,
-								input: classes.inputInput,
-							}}
-							inputProps={{ 'aria-label': 'Search' }}
-						/>
-					</div> */}
 					<div className={classes.grow} />
 					<div className={classes.sectionDesktop}>
-						{/* <IconButton
-							onClick={() => history.push('/projects')}
-							aria-label='Home'
-							color='inherit'>
-							<HomeIcon />
-						</IconButton>*/}
 						<Button
 							aria-controls='simple-menu'
 							aria-haspopup='true'

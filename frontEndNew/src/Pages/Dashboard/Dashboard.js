@@ -140,6 +140,16 @@ const Dashboard = ({ dispatch, projects }) => {
 			</Drawer>
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
+				<GridLayout
+					className='layout'
+					layout={layout}
+					cols={12}
+					rowHeight={30}
+					width={1200}>
+					<div key='a'>a</div>
+					<div key='b'>b</div>
+					<div key='c'>c</div>
+				</GridLayout>
 				<Container maxWidth='lg' className={classes.container}>
 					<Grid container spacing={3}>
 						{/* Chart */}

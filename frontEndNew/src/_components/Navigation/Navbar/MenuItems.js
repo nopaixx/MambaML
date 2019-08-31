@@ -29,8 +29,8 @@ export const MenuItems = ({ history }) => {
 				aria-controls='simple-menu'
 				aria-haspopup='true'
 				className={classes.navbarMenuBtn}
-				onClick={() => history.push('/projects')}>
-				Platfrom
+				onClick={() => history.push('/dashboard')}>
+				Dashboard
 			</Button>
 			<Button
 				aria-controls='simple-menu'
