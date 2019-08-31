@@ -7,6 +7,7 @@ import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
 import { HomePage } from '../Pages/HomePage';
 import { Dashboard } from '../Pages/Dashboard';
+import { BasicLayout } from '../Pages/Dashboard/felxibleDashboard';
 import { HomePage2 } from '../Pages/HomePage/HomePage2';
 import { LoginPage } from '../Pages/LoginPage/LoginPage';
 import { LandingPage1 } from '../Pages/LandingPage/LandingPage1';
@@ -42,11 +43,12 @@ class App extends React.Component {
 								<PrivateRoute exact path='/projects' component={HomePage2} />
 								<PrivateRoute path='/project/:id' component={DesignComponent} />
 								<PrivateRoute path='/admin' component={AdminPage} />
+								<PrivateRoute path='/dashboard' component={Dashboard} />
+								<PrivateRoute path='/dashboard2' component={BasicLayout} />
 								<Route exact path='/' component={LandingPage} />
 								<Route path='/login' component={LoginPage} />
 								<Route path='/register' component={RegisterPage} />
 								<Route path='/pricing' component={PricingPage} />
-								<Route path='/dashboard' component={Dashboard} />
 							</div>
 						</Router>
 					</div>

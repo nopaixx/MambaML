@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { projectActions } from '../../_actions/project.actions';
+import GridLayout from 'react-grid-layout';
 
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -108,6 +109,12 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
+var layout = [
+	{ i: 'a', x: 0, y: 0, w: 1, h: 2, static: true },
+	{ i: 'b', x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 },
+	{ i: 'c', x: 4, y: 0, w: 1, h: 2 },
+];
+
 const Dashboard = ({ dispatch, projects }) => {
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(true);
@@ -146,7 +153,9 @@ const Dashboard = ({ dispatch, projects }) => {
 					cols={12}
 					rowHeight={30}
 					width={1200}>
-					<div key='a'>a</div>
+					<Paper key='a' className={fixedHeightPaper}>
+						<Endpoints />
+					</Paper>
 					<div key='b'>b</div>
 					<div key='c'>c</div>
 				</GridLayout>
