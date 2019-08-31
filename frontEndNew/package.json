@@ -20,6 +20,7 @@
 		"react-ace": "^7.0.2",
 		"react-dom": "^16.8.6",
 		"react-draggable": "^3.0.5",
+		"react-grid-layout": "^0.16.6",
 		"react-json-view": "^1.19.1",
 		"react-redux": "^5.0.5",
 		"react-resizable": "^1.8.0",
