@@ -110,9 +110,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 var layout = [
-	{ i: 'a', x: 0, y: 0, w: 1, h: 2, static: true },
-	{ i: 'b', x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 },
-	{ i: 'c', x: 4, y: 0, w: 1, h: 2 },
+	{ i: 'a', x: 0, y: 0, w: 1, h: 2 },
+	{ i: 'b', x: 0, y: 1, w: 1, h: 2, minW: 2, maxW: 4 },
+	{ i: 'c', x: 0, y: 2, w: 1, h: 2 },
 ];
 
 const Dashboard = ({ dispatch, projects }) => {
@@ -145,20 +145,27 @@ const Dashboard = ({ dispatch, projects }) => {
 				<Divider />
 				<List>{secondaryListItems}</List>
 			</Drawer>
-			<main className={classes.content}>
-				<div className={classes.appBarSpacer} />
+			<div>
 				<GridLayout
 					className='layout'
 					layout={layout}
-					cols={12}
+					cols={2}
 					rowHeight={30}
-					width={1200}>
+					width={1200}
+					onLayoutChange={e => console.log('layoutChange', e)}
+					onDragStart={e => console.log('dragstart', e)}>
 					<Paper key='a' className={fixedHeightPaper}>
 						<Endpoints />
 					</Paper>
-					<div key='b'>b</div>
-					<div key='c'>c</div>
+					<Paper key='b' className={fixedHeightPaper}>
+						<Endpoints />
+					</Paper>
+					<Paper key='c' className={fixedHeightPaper}>
+						<Endpoints />
+					</Paper>
 				</GridLayout>
+			</div>
+			<main className={classes.content}>
 				<Container maxWidth='lg' className={classes.container}>
 					<Grid container spacing={3}>
 						{/* Chart */}
