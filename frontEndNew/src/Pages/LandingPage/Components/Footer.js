@@ -10,8 +10,6 @@ import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
 	footer: {
-		borderTop: `1px solid ${theme.palette.divider}`,
-		marginTop: theme.spacing(5),
 		paddingTop: theme.spacing(4),
 		paddingBottom: theme.spacing(3),
 		[theme.breakpoints.up('sm')]: {
