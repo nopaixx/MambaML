@@ -16,6 +16,8 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import MambamlBackground from '../../Assets/Images/MambaML-big.png';
+import MambamlLogo from '../../Assets/Images/MambaML.png';
 
 function MadeWithLove() {
 	return (
@@ -34,12 +36,23 @@ const useStyles = makeStyles(theme => ({
 		height: '100vh',
 	},
 	image: {
-		backgroundImage:
-			'url(https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fwallpapersdsc.net%2Fwp-content%2Fuploads%2F2017%2F05%2FPictures-of-Black-Mamba-.png&f=1)',
-
+		backgroundImage: `url(${MambamlBackground})`,
 		backgroundRepeat: 'no-repeat',
-		backgroundSize: 'cover',
-		backgroundPosition: 'center',
+		backgroundSize: 'contain',
+		backgroundPosition: 'bottom',
+		alignItems: 'center',
+		display: 'flex',
+		justifyContent: 'center',
+		marginTop: '-29vh',
+		flexDirection: 'column',
+		textAlign: 'center',
+	},
+	login: {
+		height: '70vh',
+		margin: 'auto',
+	},
+	free: {
+		fontWeight: '700',
 	},
 	paper: {
 		margin: theme.spacing(8, 4),
@@ -86,12 +99,24 @@ const LoginPage = props => {
 
 	return (
 		<Grid container component='main' className={classes.root}>
-			<Grid item xs={false} sm={4} md={7} className={classes.image} />
-			<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+			<Grid item xs={false} sm={7} md={8} className={classes.image}>
+				<Typography component='h1' variant='h1'>
+					Get Started for
+					<Typography className={classes.free} component='h1' variant='h1'>
+						free
+					</Typography>
+				</Typography>
+			</Grid>
+			<Grid
+				item
+				xs={12}
+				sm={4}
+				md={3}
+				component={Paper}
+				elevation={8}
+				square
+				className={classes.login}>
 				<div className={classes.paper}>
-					<Avatar className={classes.avatar}>
-						<LockOutlinedIcon />
-					</Avatar>
 					<Typography component='h1' variant='h5'>
 						Welcome to Mamba
 					</Typography>
@@ -152,6 +177,7 @@ const LoginPage = props => {
 					</form>
 				</div>
 			</Grid>
+			<Grid item xs={false} sm={1} md={1} />
 		</Grid>
 	);
 };
