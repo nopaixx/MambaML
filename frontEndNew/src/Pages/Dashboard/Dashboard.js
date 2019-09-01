@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { projectActions } from '../../_actions/project.actions';
@@ -110,23 +110,39 @@ const useStyles = makeStyles(theme => ({
 }));
 
 var layout = [
-	{ i: 'a', x: 0, y: 0, w: 1, h: 2 },
-	{ i: 'b', x: 0, y: 1, w: 1, h: 2, minW: 2, maxW: 4 },
-	{ i: 'c', x: 0, y: 2, w: 1, h: 2 },
+	{ i: 'a', x: 0, y: 0, w: 2, h: 7 },
+	{ i: 'b', x: 2, y: 0, w: 8, h: 7 },
+	{ i: 'c', x: 0, y: 1, w: 8, h: 7 },
+	{ i: 'd', x: 8, y: 1, w: 2, h: 7 },
+	{ i: 'e', x: 0, y: 2, w: 6, h: 10 },
+	{ i: 'f', x: 0, y: 3, w: 10, h: 10 },
 ];
 
 const Dashboard = ({ dispatch, projects }) => {
 	const classes = useStyles();
-	const [open, setOpen] = React.useState(true);
+	const [open, setOpen] = React.useState(false);
+	const [dashboardSize, setDashboardSize] = React.useState(500);
+	const [drawerSize, setDrawerSize] = React.useState(72);
+	const updateDivSize = isOpen => {
+		if (isOpen) {
+			setDashboardSize(dashboardSize - 168);
+			setDrawerSize(240);
+		} else {
+			setDashboardSize(dashboardSize + 168);
+			setDrawerSize(72);
+		}
+	};
 
 	useEffect(() => {
 		dispatch(projectActions.getAllProjects());
-	}, []);
+		const size = window.innerWidth - 92;
+		setDashboardSize(size);
+	}, [dispatch]);
 	const handleDrawerClose = () => {
 		setOpen(!open);
+		updateDivSize(!open);
 	};
 	const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-	console.log(projects);
 	return (
 		<div className={classes.root}>
 			<Drawer
@@ -145,30 +161,45 @@ const Dashboard = ({ dispatch, projects }) => {
 				<Divider />
 				<List>{secondaryListItems}</List>
 			</Drawer>
-			<div>
+
+			<div
+				id={'dashboard'}
+				style={{
+					width: dashboardSize,
+					position: 'absolute',
+					left: drawerSize,
+				}}>
 				<GridLayout
 					className='layout'
 					layout={layout}
-					cols={2}
+					cols={10}
 					rowHeight={30}
-					width={1200}
+					width={dashboardSize}
 					onLayoutChange={e => console.log('layoutChange', e)}
 					onDragStart={e => console.log('dragstart', e)}>
 					<Paper key='a' className={fixedHeightPaper}>
 						<Endpoints />
 					</Paper>
 					<Paper key='b' className={fixedHeightPaper}>
-						<Endpoints />
+						<EndpointCharts />
 					</Paper>
 					<Paper key='c' className={fixedHeightPaper}>
-						<Endpoints />
+						<Chart />
+					</Paper>
+					<Paper key='d' className={fixedHeightPaper}>
+						<Deposits />
+					</Paper>
+					<Paper key='e' className={fixedHeightPaper}>
+						<Projects projects={projects} />
+					</Paper>
+					<Paper key='f' className={fixedHeightPaper}>
+						<Datasets projects={projects} />
 					</Paper>
 				</GridLayout>
 			</div>
-			<main className={classes.content}>
+			{/* <main className={classes.content}>
 				<Container maxWidth='lg' className={classes.container}>
 					<Grid container spacing={3}>
-						{/* Chart */}
 						<Grid item xs={12} md={4} lg={3}>
 							<Paper className={fixedHeightPaper}>
 								<Endpoints />
@@ -184,13 +215,13 @@ const Dashboard = ({ dispatch, projects }) => {
 								<Chart />
 							</Paper>
 						</Grid>
-						{/* Recent Deposits */}
+						
 						<Grid item xs={12} md={4} lg={3}>
 							<Paper className={fixedHeightPaper}>
 								<Deposits />
 							</Paper>
 						</Grid>
-						{/* Recent Orders */}
+						
 						{console.log(projects)}
 						<Grid item xs={12}>
 							<Paper className={classes.paper}>
@@ -204,7 +235,7 @@ const Dashboard = ({ dispatch, projects }) => {
 						</Grid>
 					</Grid>
 				</Container>
-			</main>
+			</main> */}
 		</div>
 	);
 };

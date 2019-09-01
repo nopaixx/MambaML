@@ -236,7 +236,6 @@ const ProjectNavbar = ({ history, user, users, dispatch }) => {
 function mapStateToProps(state) {
 	const { users, authentication } = state;
 	const { user } = authentication;
-	console.log(state);
 	return {
 		user,
 		users,
