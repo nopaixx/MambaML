@@ -65,18 +65,6 @@ const useStyles = makeStyles(theme => ({
 			cursor: 'pointer',
 		},
 	},
-	icon: {
-		zIndex: '2',
-		position: 'absolute',
-		textAlign: 'center',
-		height: '10vw',
-		width: '10vw',
-		color: theme.palette.third.dark,
-		'&:hover': {
-			color: 'rgb(117, 214, 250)',
-			cursor: 'pointer',
-		},
-	},
 }));
 
 export default function CenteredGrid() {
