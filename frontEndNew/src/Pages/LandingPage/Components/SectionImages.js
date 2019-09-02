@@ -2,13 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-	root: {
-		flexGrow: 1,
-		padding: '0 4vw',
-		height: '30vw',
-		maxHeight: '400px',
-		backgroundColor: theme.palette.third.main,
-	},
+	root: {},
 	gridContainer: {
 		display: 'grid',
 		height: '100%',

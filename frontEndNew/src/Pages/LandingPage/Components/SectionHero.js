@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import PLayCircleOutline from '@material-ui/icons/PlayCircleOutline';
 import Walls from '../../../Assets/Images/wallslanding.png';
+import SectionImages from './SectionImages';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -11,7 +12,7 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: theme.palette.third.main,
 		paddingTop: '3vw',
 		padding: '0 6vw',
-		height: '40vw',
+		height: '100vh',
 	},
 	div: {
 		padding: theme.spacing(2),
@@ -64,6 +65,18 @@ const useStyles = makeStyles(theme => ({
 			cursor: 'pointer',
 		},
 	},
+	icon: {
+		zIndex: '2',
+		position: 'absolute',
+		textAlign: 'center',
+		height: '10vw',
+		width: '10vw',
+		color: theme.palette.third.dark,
+		'&:hover': {
+			color: 'rgb(117, 214, 250)',
+			cursor: 'pointer',
+		},
+	},
 }));
 
 export default function CenteredGrid() {
@@ -91,6 +104,7 @@ export default function CenteredGrid() {
 					</div>
 				</Grid>
 			</Grid>
+			<SectionImages />
 		</div>
 	);
 }
