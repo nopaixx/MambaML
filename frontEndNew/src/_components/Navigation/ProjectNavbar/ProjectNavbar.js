@@ -85,9 +85,12 @@ const useStyles = makeStyles(theme => ({
 		fontWeight: 600,
 		fontSize: 14,
 	},
+	appbar: {
+		marginLeft: 70,
+	},
 }));
 
-const ProjectNavbar = ({ history, user, users, dispatch }) => {
+const ProjectNavbar = ({ history, user, users, dispatch, dashboard }) => {
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -176,14 +179,16 @@ const ProjectNavbar = ({ history, user, users, dispatch }) => {
 
 	return (
 		<div>
-			<AppBar position='static'>
+			<AppBar position='static' className={''}>
 				<Toolbar className={classes.appBar}>
-					<img
-						onClick={() => history.push('/dashboard')}
-						className={classes.logo}
-						src={MambaLogo}
-						alt={'logo'}
-					/>
+					{dashboard ? null : (
+						<img
+							onClick={() => history.push('/dashboard')}
+							className={classes.logo}
+							src={MambaLogo}
+							alt={'logo'}
+						/>
+					)}
 					<div className={classes.grow} />
 					<div className={classes.sectionDesktop}>
 						<Button
