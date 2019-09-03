@@ -2,7 +2,8 @@ import React, { useEffect, useCallback } from 'react';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { projectActions } from '../../_actions/project.actions';
-import GridLayout from 'react-grid-layout';
+// import GridLayout from 'react-grid-layout';
+import { Responsive as ResponsiveGridLayout } from 'react-grid-layout';
 
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -33,6 +34,10 @@ const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
+	},
+	dashboard: {
+		position: 'absolute',
+		backgroundColor: theme.palette.primary.light,
 	},
 	toolbar: {
 		paddingRight: 24, // keep right padding when drawer closed
@@ -110,12 +115,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 var layout = [
-	{ i: 'a', x: 0, y: 0, w: 2, h: 7 },
-	{ i: 'b', x: 2, y: 0, w: 8, h: 7 },
-	{ i: 'c', x: 0, y: 1, w: 8, h: 7 },
-	{ i: 'd', x: 8, y: 1, w: 2, h: 7 },
+	{ i: 'a', x: 0, y: 0, w: 4, h: 7 },
+	{ i: 'b', x: 4, y: 0, w: 4, h: 7 },
+	{ i: 'c', x: 8, y: 0, w: 2, h: 7 },
+	{ i: 'd', x: 4, y: 1, w: 2, h: 7 },
 	{ i: 'e', x: 0, y: 2, w: 6, h: 10 },
 	{ i: 'f', x: 0, y: 3, w: 10, h: 10 },
+	{ i: 'g', x: 0, y: 3, w: 10, h: 10 },
 ];
 
 const Dashboard = ({ dispatch, projects }) => {
@@ -163,39 +169,51 @@ const Dashboard = ({ dispatch, projects }) => {
 			</Drawer>
 
 			<div
+				className={classes.dashboard}
 				id={'dashboard'}
 				style={{
 					width: dashboardSize,
-					position: 'absolute',
+
 					left: drawerSize,
 				}}>
-				<GridLayout
+				<ResponsiveGridLayout
 					className='layout'
-					layout={layout}
-					cols={10}
-					rowHeight={30}
-					width={dashboardSize}
-					onLayoutChange={e => console.log('layoutChange', e)}
-					onDragStart={e => console.log('dragstart', e)}>
-					<Paper key='a' className={fixedHeightPaper}>
-						<Endpoints />
-					</Paper>
-					<Paper key='b' className={fixedHeightPaper}>
+					// layout={layout}
+					// cols={10}
+					// rowHeight={30}
+					// width={dashboardSize}
+					// onLayoutChange={e => console.log('layoutChange', e)}
+					// onDragStart={e => console.log('dragstart', e)}
+					breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+					cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}>
+					<Paper
+						key='10'
+						className={fixedHeightPaper}
+						data-grid={{ w: 2, h: 3, x: 0, y: 0, minW: 2, minH: 3 }}>
 						<EndpointCharts />
 					</Paper>
-					<Paper key='c' className={fixedHeightPaper}>
+					<Paper
+						key='10'
+						className={fixedHeightPaper}
+						data-grid={{ w: 2, h: 3, x: 0, y: 0, minW: 2, minH: 3 }}>
+						<EndpointCharts />
+					</Paper>
+					<Paper key='10' className={fixedHeightPaper}>
+						<Endpoints />
+					</Paper>
+					<Paper key='10' className={fixedHeightPaper}>
 						<Chart />
 					</Paper>
-					<Paper key='d' className={fixedHeightPaper}>
+					<Paper key='e' className={fixedHeightPaper}>
 						<Deposits />
 					</Paper>
-					<Paper key='e' className={fixedHeightPaper}>
+					<Paper key='f' className={fixedHeightPaper}>
 						<Projects projects={projects} />
 					</Paper>
-					<Paper key='f' className={fixedHeightPaper}>
+					<Paper key='g' className={fixedHeightPaper}>
 						<Datasets projects={projects} />
 					</Paper>
-				</GridLayout>
+				</ResponsiveGridLayout>
 			</div>
 			{/* <main className={classes.content}>
 				<Container maxWidth='lg' className={classes.container}>

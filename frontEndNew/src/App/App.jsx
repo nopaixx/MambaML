@@ -7,7 +7,7 @@ import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
 import { HomePage } from '../Pages/HomePage';
 import { Dashboard } from '../Pages/Dashboard';
-import { BasicLayout } from '../Pages/Dashboard/felxibleDashboard';
+import BasicLayout from '../Pages/Dashboard/felxibleDashboard';
 import { HomePage2 } from '../Pages/HomePage/HomePage2';
 import { LoginPage } from '../Pages/LoginPage/LoginPage';
 import { LandingPage1 } from '../Pages/LandingPage/LandingPage1';
@@ -18,6 +18,7 @@ import { AdminPage } from '../Pages/AdminPage';
 import { DesignComponent } from '../_components/Design/DesignComponent';
 import Layout from '../_containers/Layout/Layout';
 
+// var BasicLayout = require('../Pages/Dashboard/felxibleDashboard');
 class App extends React.Component {
 	constructor(props) {
 		super(props);
