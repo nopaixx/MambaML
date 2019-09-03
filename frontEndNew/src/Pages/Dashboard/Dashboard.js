@@ -2,8 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { projectActions } from '../../_actions/project.actions';
-// import GridLayout from 'react-grid-layout';
-import { Responsive as ResponsiveGridLayout } from 'react-grid-layout';
+import GridLayout from 'react-grid-layout';
 
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -176,32 +175,24 @@ const Dashboard = ({ dispatch, projects }) => {
 
 					left: drawerSize,
 				}}>
-				<ResponsiveGridLayout
+				<GridLayout
 					className='layout'
-					// layout={layout}
-					// cols={10}
-					// rowHeight={30}
-					// width={dashboardSize}
-					// onLayoutChange={e => console.log('layoutChange', e)}
-					// onDragStart={e => console.log('dragstart', e)}
-					breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-					cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}>
-					<Paper
-						key='10'
-						className={fixedHeightPaper}
-						data-grid={{ w: 2, h: 3, x: 0, y: 0, minW: 2, minH: 3 }}>
+					layout={layout}
+					cols={10}
+					rowHeight={30}
+					width={dashboardSize}
+					onLayoutChange={e => console.log('layoutChange', e)}
+					onDragStart={e => console.log('dragstart', e)}>
+					<Paper key='a' className={fixedHeightPaper}>
 						<EndpointCharts />
 					</Paper>
-					<Paper
-						key='10'
-						className={fixedHeightPaper}
-						data-grid={{ w: 2, h: 3, x: 0, y: 0, minW: 2, minH: 3 }}>
+					<Paper key='b' className={fixedHeightPaper}>
 						<EndpointCharts />
 					</Paper>
-					<Paper key='10' className={fixedHeightPaper}>
+					<Paper key='c' className={fixedHeightPaper}>
 						<Endpoints />
 					</Paper>
-					<Paper key='10' className={fixedHeightPaper}>
+					<Paper key='d' className={fixedHeightPaper}>
 						<Chart />
 					</Paper>
 					<Paper key='e' className={fixedHeightPaper}>
@@ -213,7 +204,7 @@ const Dashboard = ({ dispatch, projects }) => {
 					<Paper key='g' className={fixedHeightPaper}>
 						<Datasets projects={projects} />
 					</Paper>
-				</ResponsiveGridLayout>
+				</GridLayout>
 			</div>
 			{/* <main className={classes.content}>
 				<Container maxWidth='lg' className={classes.container}>
