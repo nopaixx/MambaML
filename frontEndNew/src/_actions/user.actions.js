@@ -6,19 +6,16 @@ import { history } from '../_helpers';
 export const userActions = {
 	login,
 	logout,
-	// register,
-	// getAll,
-	// delete: _delete,
 };
 
 function login(username, password) {
 	return dispatch => {
-		dispatch(request({ username }));
+		dispatch(request());
 
 		userService.login(username, password).then(
 			user => {
 				dispatch(success(user));
-				history.push('/');
+				history.push('/dashboard');
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -27,8 +24,8 @@ function login(username, password) {
 		);
 	};
 
-	function request(user) {
-		return { type: userConstants.LOGIN_REQUEST, user };
+	function request() {
+		return { type: userConstants.LOGIN_REQUEST };
 	}
 	function success(user) {
 		return { type: userConstants.LOGIN_SUCCESS, user };
@@ -39,8 +36,14 @@ function login(username, password) {
 }
 
 function logout() {
-	userService.logout();
-	return { type: userConstants.LOGOUT };
+	return dispatch => {
+		userService.logout();
+		dispatch(logout());
+		history.push('/login');
+	};
+	function logout() {
+		return { type: userConstants.LOGOUT };
+	}
 }
 
 // function register(user) {

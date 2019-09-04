@@ -12,6 +12,7 @@ import 'brace/theme/monokai';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { ParamsSelector } from '../../Utils/Parameters/ParameterSelector';
+import { OutputSelector } from '../../Utils/Parameters/OutputSelector';
 
 const useStyles = makeStyles(theme => ({
 	button: {
@@ -36,6 +37,10 @@ export const BoxInfo = props => {
 	});
 	const [params, setParams] = useState({
 		parameters: [],
+		fullScreen: false,
+	});
+	const [outputsTypes, setOutputs] = useState({
+		outputsTypes: [],
 		fullScreen: false,
 	});
 	const [ports, setPorts] = useState({
@@ -93,6 +98,19 @@ export const BoxInfo = props => {
 					selectedNode
 				].properties.payload.parameters = JSON.stringify(params.parameters);
 			}
+			if (outputsTypes.outputs) {
+				if (
+					!_.isEqual(
+						JSON.parse(chart.nodes[selectedNode].properties.payload.outputs),
+						outputsTypes.outputs
+					)
+				) {
+					hasChange = true;
+				}
+				chart.nodes[selectedNode].properties.payload.outputs = JSON.stringify(
+					outputsTypes.outputs
+				);
+			}
 			chart.nodes[selectedNode].properties.payload.hasChange = hasChange;
 		}
 		updateBox(chart);
@@ -131,6 +149,7 @@ export const BoxInfo = props => {
 				n_output_ports,
 				depen_code,
 				parameters,
+				outputs,
 			} = node.properties.payload;
 			const hasScript = typeof python_code !== 'undefined';
 			setCode({
@@ -154,8 +173,20 @@ export const BoxInfo = props => {
 					parameters: [],
 				});
 			}
+			if (outputs) {
+				console.log(outputs);
+				setOutputs({
+					...outputsTypes,
+					outputs: JSON.parse(outputs),
+				});
+			} else {
+				setOutputs({
+					...outputsTypes,
+					outputs: [],
+				});
+			}
 		}
-	}, [params, props, selectedNode, updateBoxInfo]);
+	}, [outputsTypes, params, props, selectedNode, updateBoxInfo]);
 
 	const openScriptFullScreenMode = e => {
 		const { updateProjectChart } = props;
@@ -173,9 +204,19 @@ export const BoxInfo = props => {
 		setParams({ ...params, fullScreen: !params.fullScreen });
 		updateBoxInfo();
 	};
+	const openOutputsFullScreenMode = e => {
+		setOutputs({ ...outputsTypes, fullScreen: !outputsTypes.fullScreen });
+		updateBoxInfo();
+	};
 	const updateParams = data => {
 		const { updateProjectChart } = props;
 		setParams({ ...params, parameters: data });
+		updateBoxInfo();
+		updateProjectChart();
+	};
+	const updateOutputs = data => {
+		const { updateProjectChart } = props;
+		setOutputs({ ...outputsTypes, outputs: data });
 		updateBoxInfo();
 		updateProjectChart();
 	};
@@ -233,10 +274,43 @@ export const BoxInfo = props => {
 									selectedCols={selectedCols}
 									selectedColsInfo={selectedColsInfo}
 								/>
-								{/* <MaterialTableDemo
-									data={params.parameters}
-									updateBoxState={updateParams}
-								/> */}
+							</div>
+						</React.Fragment>
+					) : null}
+				</div>
+				<div
+					style={
+						outputsTypes.fullScreen
+							? {
+									position: 'absolute',
+									left: 0,
+									top: 0,
+									width: window.innerWidth,
+									height: window.innerHeight,
+									backgroundColor: 'rgba(255, 255, 255, 0.8)',
+									zIndex: 1300,
+							  }
+							: {}
+					}>
+					<Button
+						onClick={openOutputsFullScreenMode}
+						variant='outlined'
+						color='primary'
+						className={classes.button}>
+						{outputsTypes.fullScreen ? 'Close Outputs' : 'Open Outputs'}
+					</Button>
+					{outputsTypes.fullScreen ? (
+						<React.Fragment>
+							<div
+								style={{
+									display: 'flex',
+									justifyContent: 'center',
+									padding: 60,
+								}}>
+								<OutputSelector
+									setOutputState={updateOutputs}
+									data={outputsTypes.outputs}
+								/>
 							</div>
 						</React.Fragment>
 					) : null}

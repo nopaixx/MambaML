@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
 		padding: '0vw 8vw',
 		height: '30vw',
 		maxHeight: '400px',
-		backgroundColor: theme.palette.third.main,
+		backgroundColor: theme.palette.primary.main,
 	},
 	gridContainer: {
 		display: 'grid',
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 	item1: {
 		gridRow: '1',
 		gridColumn: '1 / 2',
-		backgroundColor: theme.palette.third.light,
+		backgroundColor: theme.palette.primary.light,
 		border: '1px solid white',
 		borderRadius: '2%',
 		display: 'flex',
@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 	item2: {
 		gridRow: '1',
 		gridColumn: '2 / 3',
-		backgroundColor: theme.palette.third.light,
+		backgroundColor: theme.palette.primary.light,
 		border: '1px solid white',
 		borderRadius: '2%',
 		display: 'flex',
@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
 	item3: {
 		gridRow: '1',
 		gridColumn: '3 / 4',
-		backgroundColor: theme.palette.third.light,
+		backgroundColor: theme.palette.primary.light,
 		border: '1px solid white',
 		borderRadius: '2%',
 		display: 'flex',
@@ -83,7 +83,7 @@ const useStyles = makeStyles(theme => ({
 	item4: {
 		gridRow: '1',
 		gridColumn: '4 / 5',
-		backgroundColor: theme.palette.third.light,
+		backgroundColor: theme.palette.primary.light,
 		border: '1px solid white',
 		borderRadius: '2%',
 		display: 'flex',

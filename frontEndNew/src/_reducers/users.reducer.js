@@ -3,9 +3,10 @@ import { userConstants } from '../_constants';
 export function users(state = {}, action) {
 	switch (action.type) {
 		case userConstants.LOGIN_SUCCESS:
+			console.log('reducer', action.user);
 			return {
 				loading: false,
-				user: action.user,
+				user: action.user.username,
 			};
 		case userConstants.GETALL_REQUEST:
 			return {

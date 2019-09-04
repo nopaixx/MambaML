@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => ({
 	inputText: {
 		marginRight: 10,
 	},
+	form: { justifyContent: 'center', display: 'flex' },
 }));
 
 export const TextDataInputs = ({
@@ -24,47 +25,45 @@ export const TextDataInputs = ({
 	const classes = useStyles();
 
 	return (
-		<div className={'complete-fields-box'}>
-			<form name='form' onSubmit={handleSubmit} className={'box-info-form'}>
-				<TextField
-					id='friendly_name'
-					label='Fiendly Name'
-					className={classes.inputText}
-					value={friendly_name || ''}
-					name={'friendly_name'}
-					onChange={handleChange}
-					margin='normal'
-				/>
-				<TextField
-					id='type'
-					label='Type'
-					className={classes.inputText}
-					value={type || ''}
-					name={'type'}
-					onChange={handleChange}
-					margin='normal'
-				/>
-				<TextField
-					id='inputPorts'
-					label='Input'
-					type='number'
-					className={classes.inputText}
-					name={'inputPorts'}
-					value={inputPorts || ''}
-					onChange={handleChange}
-					margin='normal'
-				/>
-				<TextField
-					id='outputPorts'
-					label='Output'
-					type='number'
-					className={classes.inputText}
-					name={'outputPorts'}
-					value={outputPorts || ''}
-					onChange={handleChange}
-					margin='normal'
-				/>
-			</form>
-		</div>
+		<form name='form' onSubmit={handleSubmit} className={classes.form}>
+			<TextField
+				id='friendly_name'
+				label='Fiendly Name'
+				className={classes.inputText}
+				value={friendly_name || ''}
+				name={'friendly_name'}
+				onChange={handleChange}
+				margin='normal'
+			/>
+			<TextField
+				id='type'
+				label='Type'
+				className={classes.inputText}
+				value={type || ''}
+				name={'type'}
+				onChange={handleChange}
+				margin='normal'
+			/>
+			<TextField
+				id='inputPorts'
+				label='Input'
+				type='number'
+				className={classes.inputText}
+				name={'inputPorts'}
+				value={inputPorts || ''}
+				onChange={handleChange}
+				margin='normal'
+			/>
+			<TextField
+				id='outputPorts'
+				label='Output'
+				type='number'
+				className={classes.inputText}
+				name={'outputPorts'}
+				value={outputPorts || ''}
+				onChange={handleChange}
+				margin='normal'
+			/>
+		</form>
 	);
 };

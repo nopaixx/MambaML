@@ -1,6 +1,6 @@
 import React from 'react';
 import * as d3 from 'd3';
-import scale from 'd3-scale';
+// import scale from 'd3-scale';
 import ReactDOM from 'react-dom';
 
 class Axis extends React.Component {
@@ -23,7 +23,7 @@ class Axis extends React.Component {
 		return (
 			<g
 				className='axis'
-				transform={this.props.axisType == 'x' ? translate : ''}
+				transform={this.props.axisType === 'x' ? translate : ''}
 			/>
 		);
 	}

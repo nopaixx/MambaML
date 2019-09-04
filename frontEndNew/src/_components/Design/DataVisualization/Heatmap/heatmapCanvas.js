@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import scale from 'd3-scale';
+// import scale from 'd3-scale';
 import Data from './Data.json';
-import { event as currentEvent } from 'd3-selection';
+// import { event as currentEvent } from 'd3-selection';
 // import {zoom } from 'd3-zoom'
 // import {zoom } from 'd3-zoom'
 
@@ -98,13 +98,9 @@ export const HeatmapCanvas = () => {
 		function createImageObj() {
 			imageObj = new Image();
 			const image = context.createImageData(heatmapDim[X], heatmapDim[Y]);
-			console.log('image');
 			imageObj.onload = () => imageLoaded();
 
-			console.log(imageObj);
-
 			const imageLoaded = () => {
-				console.log('image loaded');
 				for (var y = 0, p = -1; y < heatmapDim[Y]; ++y) {
 					for (var x = 0; x < heatmapDim[X]; ++x) {
 						var c = d3.rgb(color(heatmap[y][x]));
@@ -115,9 +111,6 @@ export const HeatmapCanvas = () => {
 					}
 				}
 				context.putImageData(image, 0, 0);
-
-				console.log('imageScale', imageScale);
-				console.log('imageDim', imageDim);
 			};
 			for (var y = 0, p = -1; y < heatmapDim[Y]; ++y) {
 				for (var x = 0; x < heatmapDim[X]; ++x) {
@@ -146,8 +139,6 @@ export const HeatmapCanvas = () => {
 
 		function drawAxes() {
 			if (d3.event) {
-				console.log(imageScale[0]);
-				console.log(d3.event.transform.rescaleX());
 				var new_x_scale = d3.event.transform.rescaleX(imageScale[0]);
 				axisElement[0]
 					.transition()

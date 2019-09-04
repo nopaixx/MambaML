@@ -14,7 +14,11 @@ export default function Deposits() {
 	const classes = useStyles();
 	return (
 		<React.Fragment>
-			<Title>Recent Deposits</Title>
+			<Title>Real Cloud Costs</Title>
+			<Typography component='p' variant='h4'>
+				$3,024.00
+			</Typography>
+			<Title>Prediction Cloud Costs</Title>
 			<Typography component='p' variant='h4'>
 				$3,024.00
 			</Typography>
@@ -22,7 +26,7 @@ export default function Deposits() {
 				on 15 March, 2019
 			</Typography>
 			<div>
-				<Link color='primary' href='javascript:;'>
+				<Link color='primary' href=''>
 					View balance
 				</Link>
 			</div>

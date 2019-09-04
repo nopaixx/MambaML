@@ -158,6 +158,8 @@ def set_status_projects():
     task = request.args.get('task', None)
 
     project = Project.query.filter(Project.id == id).first()
+
+    print("SET STATUS--------->", stat)
     if project:
         if  task is not None:
             # update particular task status

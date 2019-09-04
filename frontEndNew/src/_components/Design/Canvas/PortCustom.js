@@ -37,7 +37,6 @@ export const PortCustom = props => {
 		e.preventDefault();
 		e.stopPropagation();
 		seOpenCols(!isColsOpen);
-		console.log('AL-', props);
 		getResultsFromNode(props.node);
 	};
 	const handleClick = e => {
@@ -53,7 +52,6 @@ export const PortCustom = props => {
 		const selectedNodeIndex = outPorts.indexOf(props.port.id);
 		const dataPreviewPath = node.properties.payload;
 		if (dataPreviewPath.result) {
-			console.log('dataPreview', dataPreviewPath.result);
 			const dataPreview = dataPreviewPath.result[`out${selectedNodeIndex}`];
 			store.dispatch(projectActions.loadPortPreview(dataPreview));
 		}

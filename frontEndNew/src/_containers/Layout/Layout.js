@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './Layout.css';
 import Navbar from '../../_components/Navigation/Navbar/Navbar';
-import ProjectNavbar from '../../_components/Navigation/ProjectNavbar/ProjectNavbar';
+import { ProjectNavbar } from '../../_components/Navigation/ProjectNavbar/ProjectNavbar';
 class Layout extends Component {
 	render() {
 		const { history } = this.props;
@@ -16,8 +16,11 @@ class Layout extends Component {
 		}
 		return (
 			<React.Fragment>
-				{url.includes('project') ? (
-					<ProjectNavbar history={history} />
+				{url.includes('project') || url.includes('dashboard') ? (
+					<ProjectNavbar
+						history={history}
+						dashboard={url.includes('dashboard')}
+					/>
 				) : (
 					<Navbar history={history} />
 				)}

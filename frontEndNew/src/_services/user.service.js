@@ -35,19 +35,9 @@ function login(username, password) {
 			return fetch(`${MYUSER_URL}`, requestOptions)
 				.then(handleResponse)
 				.then(user => {
-					localStorage.setItem('user', user.data);
-					///aqui cogemos el my user con el header!
-					return user.data;
+					localStorage.setItem('user', JSON.stringify(user.data));
+					return user;
 				});
-
-			//console.log(GET_ACTORS_URL, requestOptions);
-			// fetch(
-			// 	`${GET_ACTORS_URL}?frontendVersion=V1&backendVersion=V1`,
-			// 	requestOptions
-			// )
-			// 	.then(handleResponse)
-			// 	.then(res => console.log('AAAAAAAAAAAAAAAAA', JSON.parse(res.data[0])));
-			//if get token success then try to get our data with myuser endpoint
 		});
 }
 
@@ -55,6 +45,8 @@ function logout() {
 	// remove user from local storage to log user out
 	console.log('LOGOUT');
 	localStorage.removeItem('user');
+	localStorage.removeItem('token');
+	localStorage.removeItem('refresh_token');
 }
 
 // function getAll() {

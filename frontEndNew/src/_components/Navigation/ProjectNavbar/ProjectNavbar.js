@@ -1,16 +1,14 @@
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { userActions } from '../../../_actions/user.actions';
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import HomeIcon from '@material-ui/icons/Home';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -82,9 +80,17 @@ const useStyles = makeStyles(theme => ({
 		},
 	},
 	logo: { width: 70, cursor: 'pointer' },
+	navbarMenuBtn: {
+		color: 'white',
+		fontWeight: 600,
+		fontSize: 14,
+	},
+	appbar: {
+		marginLeft: 70,
+	},
 }));
 
-export default function ProjectNavbar({ history }) {
+const ProjectNavbar = ({ history, user, users, dispatch, dashboard }) => {
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -109,6 +115,11 @@ export default function ProjectNavbar({ history }) {
 		setMobileMoreAnchorEl(event.currentTarget);
 	}
 
+	const handleClickDashboard = () => {
+		history.push('/dashboard');
+		handleMenuClose();
+	};
+
 	const menuId = 'primary-search-account-menu';
 	const renderMenu = (
 		<Menu
@@ -119,9 +130,11 @@ export default function ProjectNavbar({ history }) {
 			transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 			open={isMenuOpen}
 			onClose={handleMenuClose}>
-			<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+			<MenuItem onClick={handleClickDashboard}>Dashboard</MenuItem>
 			<MenuItem onClick={handleMenuClose}>My account</MenuItem>
-			<MenuItem onClick={() => history.push('/login')}>Log out</MenuItem>
+			<MenuItem onClick={() => dispatch(userActions.logout())}>
+				Log out
+			</MenuItem>
 		</Menu>
 	);
 
@@ -166,53 +179,37 @@ export default function ProjectNavbar({ history }) {
 
 	return (
 		<div>
-			<AppBar position='static'>
+			<AppBar position='static' className={''}>
 				<Toolbar className={classes.appBar}>
-					{/* <IconButton
-						edge='start'
-						className={classes.menuButton}
-						color='inherit'
-						aria-label='Open drawer'>
-						<MenuIcon />
-					</IconButton> */}
-					<img
-						onClick={() => history.push('/projects')}
-						className={classes.logo}
-						src={MambaLogo}
-						alt={'logo'}
-					/>
-
-					{/* <div className={classes.search}>
-						<div className={classes.searchIcon}>
-							<SearchIcon />
-						</div>
-						<InputBase
-							placeholder='Search…'
-							classes={{
-								root: classes.inputRoot,
-								input: classes.inputInput,
-							}}
-							inputProps={{ 'aria-label': 'Search' }}
+					{dashboard ? null : (
+						<img
+							onClick={() => history.push('/dashboard')}
+							className={classes.logo}
+							src={MambaLogo}
+							alt={'logo'}
 						/>
-					</div> */}
+					)}
 					<div className={classes.grow} />
 					<div className={classes.sectionDesktop}>
-						{/* <IconButton
-							onClick={() => history.push('/projects')}
-							aria-label='Home'
-							color='inherit'>
-							<HomeIcon />
-						</IconButton>
-						<IconButton aria-label='Show 4 new mails' color='inherit'>
-							<Badge badgeContent={4} color='secondary'>
-								<MailIcon />
-							</Badge>
-						</IconButton>
+						<Button
+							aria-controls='simple-menu'
+							aria-haspopup='true'
+							className={classes.navbarMenuBtn}
+							onClick={() => history.push('/projects')}>
+							Projects
+						</Button>
+						<Button
+							aria-controls='simple-menu'
+							aria-haspopup='true'
+							className={classes.navbarMenuBtn}
+							onClick={() => history.push('/dashboard')}>
+							Dashboard
+						</Button>
 						<IconButton aria-label='Show 17 new notifications' color='inherit'>
 							<Badge badgeContent={1} color='secondary'>
 								<NotificationsIcon />
 							</Badge>
-						</IconButton> */}
+						</IconButton>
 						<IconButton
 							edge='end'
 							aria-label='Account of current user'
@@ -239,4 +236,15 @@ export default function ProjectNavbar({ history }) {
 			{renderMenu}
 		</div>
 	);
+};
+
+function mapStateToProps(state) {
+	const { users, authentication } = state;
+	const { user } = authentication;
+	return {
+		user,
+		users,
+	};
 }
+const connectedProjectNavbar = connect(mapStateToProps)(ProjectNavbar);
+export { connectedProjectNavbar as ProjectNavbar };

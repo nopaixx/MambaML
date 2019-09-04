@@ -2,7 +2,7 @@ import { adminConstants } from '../_constants';
 import { adminService } from '../_services';
 import { alertActions } from './';
 import { saveJSON, buildFileSelector } from './utils.global.js';
-
+import { getAllActors } from './project.actions';
 export const adminActions = {
 	createBox,
 	updateBox,
@@ -12,13 +12,13 @@ export const adminActions = {
 };
 
 function createBox(box) {
-	console.log('box', box);
 	return dispatch => {
 		dispatch(request(box));
 
 		adminService.createBox(box).then(
 			box => {
 				dispatch(success(box));
+				dispatch(getAllActors());
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -53,6 +53,7 @@ function updateBox(box) {
 		adminService.updateBox(box).then(
 			box => {
 				dispatch(success(box));
+				dispatch(getAllActors());
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -78,13 +79,10 @@ function exportBox(Box) {
 }
 
 function importBox() {
-	console.log('AL-2');
-	console.log('AL---');
 	const id = 'importBoxSelector';
 	const selector = buildFileSelector(id);
 	selector.click();
 	selector.addEventListener('change', () => uploadFile(selector.files));
-	console.log('AL-import!');
 	const uploadFile = files => {
 		var fr = new FileReader();
 		fr.onload = function(e) {

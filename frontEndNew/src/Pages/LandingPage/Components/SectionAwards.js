@@ -5,6 +5,7 @@ import Digital from '../../../Assets/Images/digital.png';
 import Ai from '../../../Assets/Images/ai.png';
 import Robot from '../../../Assets/Images/robot.png';
 import Visualization from '../../../Assets/Images/visualization.png';
+import People from '../../../Assets/Images/landingPeople.png';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -35,6 +36,14 @@ const useStyles = makeStyles(theme => ({
 			backgroundColor: theme.palette.third.lightText,
 			cursor: 'pointer',
 		},
+	},
+	image: {
+		backgroundImage: `url(${People})`,
+		backgroundRepeat: 'no-repeat',
+		backgroundSize: 'contain',
+		backgroundPosition: 'bottom',
+		height: 360,
+		margin: '80px 0px',
 	},
 
 	item1: {
@@ -142,7 +151,7 @@ export default function CenteredGrid() {
 
 	return (
 		<div>
-			<div className={classes.root}>
+			{/* <div className={classes.root}>
 				<div className={classes.item1}>
 					<div className={classes.circle}>
 						<img src={Database} width='70%' alt='Clean' />
@@ -184,7 +193,8 @@ export default function CenteredGrid() {
 			</div>
 			<div style={{ height: '8vw' }}>
 				<div className={classes.learn}>Learn More</div>
-			</div>
+			</div> */}
+			<div className={classes.image}></div>
 		</div>
 	);
 }

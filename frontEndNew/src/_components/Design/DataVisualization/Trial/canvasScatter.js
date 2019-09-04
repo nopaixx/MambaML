@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import * as d3 from 'd3';
+import React, { useState } from 'react';
+// import * as d3 from 'd3';
 import { ColumnSelector } from '../Utils/ColumnSelector';
 
 export const CanvasScatter = ({ portDataPreview }) => {
@@ -51,7 +51,6 @@ export const CanvasScatter = ({ portDataPreview }) => {
 		return data;
 	};
 	const paintCanvas = (canvas, data) => {
-		console.log('data', data);
 		// get the canvas drawing context
 		const context = canvas.getContext('2d');
 
@@ -68,7 +67,6 @@ export const CanvasScatter = ({ portDataPreview }) => {
 			const y = d[1] * canvas.height;
 			// const x = d.x * canvas.width;
 			// const y = d.y * canvas.height;
-			console.log(x, y);
 			context.arc(x, y, 2, 0, 2 * Math.PI);
 
 			// fill the point
@@ -95,7 +93,6 @@ export const CanvasScatter = ({ portDataPreview }) => {
 		stopTimer();
 	};
 	const handleSelectedColumns = (selectedCols, data) => {
-		console.log(data);
 		renderChart(data.dataPoints);
 		// this.clearCanvas();
 	};

@@ -17,53 +17,47 @@ function createData(time, amount) {
 
 const data2 = [
 	{
-		name: '1',
-		prediction: 4000,
-		real: 2400,
-		amt: 2400,
+		name: '1:00',
+		endpoint1: 0,
+		endpoint2: 0,
+		total: 24000,
 	},
 	{
-		name: '5',
-		prediction: 3000,
-		real: 1398,
-		amt: 2210,
+		name: '5:00',
+		endpoint1: 0,
+		endpoint2: 0,
+		total: 24000,
 	},
 	{
-		name: '10',
-		prediction: 2000,
-		real: 9800,
-		amt: 2290,
+		name: '10:00',
+		endpoint1: 0,
+		endpoint2: 0,
+		endpoint3: 2290,
 	},
 	{
-		name: '15',
-		prediction: 2780,
-		real: 3908,
-		amt: 2000,
+		name: '15:00',
+		endpoint1: 2780,
+		endpoint2: 3908,
+		endpoint3: 0,
 	},
 	{
-		name: '20',
-		prediction: 1890,
-		real: 4800,
-		amt: 2181,
+		name: '20:00',
+		endpoint1: 0,
+		endpoint2: 0,
+		endpoint3: 500,
 	},
 	{
-		name: '25',
-		prediction: 2390,
-		real: 3800,
-		amt: 2500,
-	},
-	{
-		name: '30',
-		prediction: 3490,
-		real: 4300,
-		amt: 2100,
+		name: '24:00',
+		endpoint1: 0,
+		endpoint2: 5000,
+		endpoint3: 0,
 	},
 ];
 
-export default function DashboardChart() {
+export default function EndpointChart() {
 	return (
 		<React.Fragment>
-			<Title>Month</Title>
+			<Title>Day</Title>
 			<ResponsiveContainer>
 				<LineChart
 					width={500}
@@ -82,15 +76,21 @@ export default function DashboardChart() {
 					<Line
 						strokeWidth={2}
 						type='monotone'
-						dataKey='real'
-						stroke='#8884d8'
+						dataKey='endpoint1'
+						stroke='red'
 						activeDot={{ r: 8 }}
 					/>
 					<Line
-						type='monotone'
 						strokeWidth={2}
-						dataKey='prediction'
+						type='monotone'
+						dataKey='endpoint2'
 						stroke='#82ca9d'
+					/>
+					<Line
+						strokeWidth={2}
+						type='monotone'
+						dataKey='endpoint3'
+						stroke='blue'
 					/>
 				</LineChart>
 			</ResponsiveContainer>

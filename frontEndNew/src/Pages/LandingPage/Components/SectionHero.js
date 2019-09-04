@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import PLayCircleOutline from '@material-ui/icons/PlayCircleOutline';
+import Walls from '../../../Assets/Images/wallslanding.png';
+import SectionImages from './SectionImages';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -10,7 +12,7 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: theme.palette.third.main,
 		paddingTop: '3vw',
 		padding: '0 6vw',
-		height: '40vw',
+		height: '100vh',
 	},
 	div: {
 		padding: theme.spacing(2),
@@ -86,16 +88,11 @@ export default function CenteredGrid() {
 				</Grid>
 				<Grid item xs={6}>
 					<div className={classes.paper}>
-						<PLayCircleOutline className={classes.icon} />
-						<img
-							src='https://images.unsplash.com/photo-1525475711852-ed23365b4d11?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80'
-							alt='Video'
-							height='100%'
-							width='100%'
-						/>
+						<img src={Walls} alt='Video' height='100%' width='100%' />
 					</div>
 				</Grid>
 			</Grid>
+			<SectionImages />
 		</div>
 	);
 }

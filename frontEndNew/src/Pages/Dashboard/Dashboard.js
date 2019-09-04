@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import clsx from 'clsx';
+import { connect } from 'react-redux';
+import { projectActions } from '../../_actions/project.actions';
+import GridLayout from 'react-grid-layout';
+
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -13,36 +17,30 @@ import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
-import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './DashboardChart';
+import AreaChart from './AreaChart';
+import EndpointCharts from './EndpointCharts';
+import BrushBarChart from './BrushBarChart';
+import SimpleChartBar from './SimpleChartBar';
 import Deposits from './Deposits';
-import Orders from './Orders';
-
-function Copyright() {
-	return (
-		<Typography variant='body2' color='textSecondary' align='center'>
-			{'Copyright © '}
-			<Link color='inherit' href='https://material-ui.com/'>
-				Your Website
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'. Built with '}
-			<Link color='inherit' href='https://material-ui.com/'>
-				Material-UI.
-			</Link>
-		</Typography>
-	);
-}
+import Endpoints from './Endpoints';
+import { Projects } from './Projects';
+import { Datasets } from './Datasets';
+import MambaLogo from '../../Assets/Images/logo_peque.png';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
+		backgroundColor: theme.palette.primary.light,
+	},
+	dashboard: {
+		backgroundColor: theme.palette.primary.light,
 	},
 	toolbar: {
 		paddingRight: 24, // keep right padding when drawer closed
@@ -79,7 +77,7 @@ const useStyles = makeStyles(theme => ({
 		flexGrow: 1,
 	},
 	drawerPaper: {
-		position: 'relative',
+		top: 0,
 		whiteSpace: 'nowrap',
 		width: drawerWidth,
 		transition: theme.transitions.create('width', {
@@ -117,94 +115,183 @@ const useStyles = makeStyles(theme => ({
 	fixedHeight: {
 		height: 240,
 	},
+	logo: { width: 70, cursor: 'pointer' },
+	icon: {
+		height: 50,
+		backgroundColor: theme.palette.primary.main,
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	dashboardWrapper: {
+		position: 'absolute',
+		backgroundColor: theme.palette.primary.light,
+	},
 }));
 
-export default function Dashboard() {
+var layout = [
+	{ i: 'EndpointCharts', x: 0, y: 0, w: 4, h: 7 },
+	{ i: 'b', x: 4, y: 0, w: 4, h: 7 },
+	{ i: 'c', x: 8, y: 0, w: 2, h: 7 },
+	{ i: 'h', x: 0, y: 1, w: 4, h: 7 },
+	{ i: 'i', x: 4, y: 1, w: 4, h: 7 },
+	{ i: 'j', x: 8, y: 1, w: 2, h: 7 },
+	{ i: 'd', x: 0, y: 2, w: 4, h: 7 },
+	{ i: 'k', x: 4, y: 2, w: 4, h: 7 },
+	{ i: 'e', x: 8, y: 2, w: 2, h: 7 },
+	{ i: 'f', x: 0, y: 3, w: 10, h: 8 },
+	{ i: 'g', x: 0, y: 4, w: 10, h: 7 },
+];
+
+const Dashboard = ({ dispatch, projects }) => {
 	const classes = useStyles();
-	const [open, setOpen] = React.useState(true);
-	const handleDrawerOpen = () => {
-		setOpen(true);
+	const [open, setOpen] = React.useState(false);
+	const [dashboardSize, setDashboardSize] = React.useState(500);
+	const [drawerSize, setDrawerSize] = React.useState(72);
+	const updateDivSize = isOpen => {
+		if (isOpen) {
+			setDashboardSize(dashboardSize - 168);
+			setDrawerSize(240);
+		} else {
+			setDashboardSize(dashboardSize + 168);
+			setDrawerSize(72);
+		}
 	};
+
+	useEffect(() => {
+		dispatch(projectActions.getAllProjects());
+		const size = window.innerWidth - 72;
+		setDashboardSize(size);
+	}, [dispatch]);
 	const handleDrawerClose = () => {
-		setOpen(false);
+		setOpen(!open);
+		updateDivSize(!open);
 	};
 	const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
 	return (
 		<div className={classes.root}>
-			<CssBaseline />
-			<AppBar
-				position='absolute'
-				className={clsx(classes.appBar, open && classes.appBarShift)}>
-				<Toolbar className={classes.toolbar}>
-					<IconButton
-						edge='start'
-						color='inherit'
-						aria-label='open drawer'
-						onClick={handleDrawerOpen}
-						className={clsx(
-							classes.menuButton,
-							open && classes.menuButtonHidden
-						)}>
-						<MenuIcon />
-					</IconButton>
-					<Typography
-						component='h1'
-						variant='h6'
-						color='inherit'
-						noWrap
-						className={classes.title}>
-						Dashboard
-					</Typography>
-					<IconButton color='inherit'>
-						<Badge badgeContent={4} color='secondary'>
-							<NotificationsIcon />
-						</Badge>
-					</IconButton>
-				</Toolbar>
-			</AppBar>
 			<Drawer
 				variant='permanent'
 				classes={{
 					paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
 				}}
 				open={open}>
-				<div className={classes.toolbarIcon}>
-					<IconButton onClick={handleDrawerClose}>
-						<ChevronLeftIcon />
-					</IconButton>
+				<div className={classes.icon}>
+					<img className={classes.logo} src={MambaLogo} alt={'logo'} />
 				</div>
+				{/* <div className={classes.toolbarIcon}>
+					<IconButton onClick={handleDrawerClose}>
+						{open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+					</IconButton>
+				</div> */}
+
 				<Divider />
 				<List>{mainListItems}</List>
 				<Divider />
 				<List>{secondaryListItems}</List>
 			</Drawer>
-			<main className={classes.content}>
-				<div className={classes.appBarSpacer} />
+
+			<div
+				className={classes.dashboard}
+				id={'dashboard'}
+				style={{
+					width: dashboardSize,
+					marginLeft: drawerSize,
+					marginTop: 30,
+				}}>
+				<GridLayout
+					margin={[30, 30]}
+					className='layout'
+					layout={layout}
+					cols={10}
+					rowHeight={15}
+					width={dashboardSize}
+					onLayoutChange={e => console.log('layoutChange', e)}
+					onDragStart={e => console.log('dragstart', e)}>
+					<Paper key='EndpointCharts' className={fixedHeightPaper}>
+						<EndpointCharts />
+					</Paper>
+					<Paper key='b' className={fixedHeightPaper}>
+						<BrushBarChart />
+					</Paper>
+					<Paper key='c' className={fixedHeightPaper}>
+						<Endpoints />
+					</Paper>
+					<Paper key='h' className={fixedHeightPaper}>
+						<AreaChart />
+					</Paper>
+					<Paper key='i' className={fixedHeightPaper}>
+						<SimpleChartBar />
+					</Paper>
+					<Paper key='j' className={fixedHeightPaper}>
+						<Endpoints />
+					</Paper>
+					<Paper key='d' className={fixedHeightPaper}>
+						<Chart />
+					</Paper>
+					<Paper key='k' className={fixedHeightPaper}>
+						<Chart />
+					</Paper>
+					<Paper key='e' className={fixedHeightPaper}>
+						<Deposits />
+					</Paper>
+					<Paper key='f' className={fixedHeightPaper}>
+						<Projects projects={projects} />
+					</Paper>
+					<Paper key='g' className={fixedHeightPaper}>
+						<Datasets projects={projects} />
+					</Paper>
+				</GridLayout>
+			</div>
+			{/* <main className={classes.content}>
 				<Container maxWidth='lg' className={classes.container}>
 					<Grid container spacing={3}>
-						{/* Chart */}
+						<Grid item xs={12} md={4} lg={3}>
+							<Paper className={fixedHeightPaper}>
+								<Endpoints />
+							</Paper>
+						</Grid>
+						<Grid item xs={12} md={8} lg={9}>
+							<Paper className={fixedHeightPaper}>
+								<EndpointCharts />
+							</Paper>
+						</Grid>
 						<Grid item xs={12} md={8} lg={9}>
 							<Paper className={fixedHeightPaper}>
 								<Chart />
 							</Paper>
 						</Grid>
-						{/* Recent Deposits */}
+						
 						<Grid item xs={12} md={4} lg={3}>
 							<Paper className={fixedHeightPaper}>
 								<Deposits />
 							</Paper>
 						</Grid>
-						{/* Recent Orders */}
+						
+						{console.log(projects)}
 						<Grid item xs={12}>
 							<Paper className={classes.paper}>
-								<Orders />
+								<Projects projects={projects} />
+							</Paper>
+						</Grid>
+						<Grid item xs={12}>
+							<Paper className={classes.paper}>
+								<Datasets projects={projects} />
 							</Paper>
 						</Grid>
 					</Grid>
 				</Container>
-				<Copyright />
-			</main>
+			</main> */}
 		</div>
 	);
+};
+
+function mapStateToProps(state) {
+	const { projects } = state.project;
+	return {
+		projects,
+	};
 }
+
+const connectedDashboard = connect(mapStateToProps)(Dashboard);
+export { connectedDashboard as Dashboard };
