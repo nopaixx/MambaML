@@ -22,7 +22,10 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './DashboardChart';
+import AreaChart from './AreaChart';
 import EndpointCharts from './EndpointCharts';
+import BrushBarChart from './BrushBarChart';
+import SimpleChartBar from './SimpleChartBar';
 import Deposits from './Deposits';
 import Endpoints from './Endpoints';
 import { Projects } from './Projects';
@@ -34,7 +37,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
-		backgroundColor: 'red',
+		backgroundColor: theme.palette.primary.light,
 	},
 	dashboard: {
 		backgroundColor: theme.palette.primary.light,
@@ -127,13 +130,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 var layout = [
-	{ i: 'a', x: 0, y: 0, w: 4, h: 7 },
+	{ i: 'EndpointCharts', x: 0, y: 0, w: 4, h: 7 },
 	{ i: 'b', x: 4, y: 0, w: 4, h: 7 },
 	{ i: 'c', x: 8, y: 0, w: 2, h: 7 },
-	{ i: 'd', x: 4, y: 1, w: 2, h: 7 },
-	{ i: 'e', x: 0, y: 2, w: 6, h: 10 },
-	{ i: 'f', x: 0, y: 3, w: 10, h: 10 },
-	{ i: 'g', x: 0, y: 3, w: 10, h: 10 },
+	{ i: 'h', x: 0, y: 1, w: 4, h: 7 },
+	{ i: 'i', x: 4, y: 1, w: 4, h: 7 },
+	{ i: 'j', x: 8, y: 1, w: 2, h: 7 },
+	{ i: 'd', x: 0, y: 2, w: 4, h: 7 },
+	{ i: 'k', x: 4, y: 2, w: 4, h: 7 },
+	{ i: 'e', x: 8, y: 2, w: 2, h: 7 },
+	{ i: 'f', x: 0, y: 3, w: 10, h: 8 },
+	{ i: 'g', x: 0, y: 4, w: 10, h: 7 },
 ];
 
 const Dashboard = ({ dispatch, projects }) => {
@@ -183,46 +190,57 @@ const Dashboard = ({ dispatch, projects }) => {
 				<Divider />
 				<List>{secondaryListItems}</List>
 			</Drawer>
-			<div className={classes.dashboardWrapper}>
-				<div
-					className={classes.dashboard}
-					id={'dashboard'}
-					style={{
-						width: dashboardSize,
-						marginLeft: drawerSize + 20,
-						marginTop: 30,
-					}}>
-					<GridLayout
-						className='layout'
-						layout={layout}
-						cols={10}
-						rowHeight={30}
-						width={dashboardSize - 20}
-						onLayoutChange={e => console.log('layoutChange', e)}
-						onDragStart={e => console.log('dragstart', e)}>
-						<Paper key='a' className={fixedHeightPaper}>
-							<EndpointCharts />
-						</Paper>
-						<Paper key='b' className={fixedHeightPaper}>
-							<EndpointCharts />
-						</Paper>
-						<Paper key='c' className={fixedHeightPaper}>
-							<Endpoints />
-						</Paper>
-						<Paper key='d' className={fixedHeightPaper}>
-							<Chart />
-						</Paper>
-						<Paper key='e' className={fixedHeightPaper}>
-							<Deposits />
-						</Paper>
-						<Paper key='f' className={fixedHeightPaper}>
-							<Projects projects={projects} />
-						</Paper>
-						<Paper key='g' className={fixedHeightPaper}>
-							<Datasets projects={projects} />
-						</Paper>
-					</GridLayout>
-				</div>
+
+			<div
+				className={classes.dashboard}
+				id={'dashboard'}
+				style={{
+					width: dashboardSize,
+					marginLeft: drawerSize,
+					marginTop: 30,
+				}}>
+				<GridLayout
+					className='layout'
+					layout={layout}
+					cols={10}
+					rowHeight={30}
+					width={dashboardSize}
+					onLayoutChange={e => console.log('layoutChange', e)}
+					onDragStart={e => console.log('dragstart', e)}>
+					<Paper key='EndpointCharts' className={fixedHeightPaper}>
+						<EndpointCharts />
+					</Paper>
+					<Paper key='b' className={fixedHeightPaper}>
+						<BrushBarChart />
+					</Paper>
+					<Paper key='c' className={fixedHeightPaper}>
+						<Endpoints />
+					</Paper>
+					<Paper key='h' className={fixedHeightPaper}>
+						<AreaChart />
+					</Paper>
+					<Paper key='i' className={fixedHeightPaper}>
+						<SimpleChartBar />
+					</Paper>
+					<Paper key='j' className={fixedHeightPaper}>
+						<Endpoints />
+					</Paper>
+					<Paper key='d' className={fixedHeightPaper}>
+						<Chart />
+					</Paper>
+					<Paper key='k' className={fixedHeightPaper}>
+						<Chart />
+					</Paper>
+					<Paper key='e' className={fixedHeightPaper}>
+						<Deposits />
+					</Paper>
+					<Paper key='f' className={fixedHeightPaper}>
+						<Projects projects={projects} />
+					</Paper>
+					<Paper key='g' className={fixedHeightPaper}>
+						<Datasets projects={projects} />
+					</Paper>
+				</GridLayout>
 			</div>
 			{/* <main className={classes.content}>
 				<Container maxWidth='lg' className={classes.container}>

@@ -80,12 +80,18 @@ export default function DashboardChart() {
 					<Tooltip />
 					<Legend />
 					<Line
+						strokeWidth={2}
 						type='monotone'
 						dataKey='real'
 						stroke='#8884d8'
 						activeDot={{ r: 8 }}
 					/>
-					<Line type='monotone' dataKey='prediction' stroke='#82ca9d' />
+					<Line
+						type='monotone'
+						strokeWidth={2}
+						dataKey='prediction'
+						stroke='#82ca9d'
+					/>
 				</LineChart>
 			</ResponsiveContainer>
 		</React.Fragment>

@@ -74,13 +74,24 @@ export default function EndpointChart() {
 					<Tooltip />
 					<Legend />
 					<Line
+						strokeWidth={2}
 						type='monotone'
 						dataKey='endpoint1'
 						stroke='red'
 						activeDot={{ r: 8 }}
 					/>
-					<Line type='monotone' dataKey='endpoint2' stroke='#82ca9d' />
-					<Line type='monotone' dataKey='endpoint3' stroke='blue' />
+					<Line
+						strokeWidth={2}
+						type='monotone'
+						dataKey='endpoint2'
+						stroke='#82ca9d'
+					/>
+					<Line
+						strokeWidth={2}
+						type='monotone'
+						dataKey='endpoint3'
+						stroke='blue'
+					/>
 				</LineChart>
 			</ResponsiveContainer>
 		</React.Fragment>
