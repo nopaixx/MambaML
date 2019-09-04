@@ -200,10 +200,11 @@ const Dashboard = ({ dispatch, projects }) => {
 					marginTop: 30,
 				}}>
 				<GridLayout
+					margin={[30, 30]}
 					className='layout'
 					layout={layout}
 					cols={10}
-					rowHeight={30}
+					rowHeight={15}
 					width={dashboardSize}
 					onLayoutChange={e => console.log('layoutChange', e)}
 					onDragStart={e => console.log('dragstart', e)}>
