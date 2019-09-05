@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { userActions } from '../../../_actions/user.actions';
@@ -91,7 +90,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const ProjectNavbar = ({ history, user, users, dispatch, dashboard }) => {
+const ProjectNavbar = ({ history, user, users, dispatch, dashboard, url }) => {
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -238,7 +237,7 @@ const ProjectNavbar = ({ history, user, users, dispatch, dashboard }) => {
 	return (
 		<div>
 			{/* <NavBar /> */}
-			<AppDrawer />
+			<AppDrawer url={url} />
 			{renderMobileMenu}
 			{renderMenu}
 		</div>

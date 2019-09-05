@@ -125,7 +125,7 @@ export class DragDropState extends React.Component {
 					<div style={{ overflow: 'scroll', maxHeight: '90vh' }}>
 						<ResizableBox
 							className='box'
-							width={100}
+							width={150}
 							height={h}
 							axis='x'
 							handle={<span className='custom-handle custom-handle-se' />}>

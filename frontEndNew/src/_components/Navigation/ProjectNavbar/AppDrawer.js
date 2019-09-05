@@ -10,9 +10,10 @@ import MambaLogo from '../../../Assets/Images/logo_peque.png';
 const useStyles = makeStyles(theme => ({
 	drawerPaperClose: {
 		width: 80,
-		borderRight: `1px solid ${theme.palette.primary.main}`,
+		borderRight: `1px solid ${theme.palette.primary.light}`,
 		height: '100vh',
 		position: 'fixed',
+		background: theme.palette.primary.contrastText,
 	},
 	icon: {
 		height: 100,
@@ -23,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 	logo: { width: 70, cursor: 'pointer' },
 }));
 
-const AppDrawer = ({ history }) => {
+const AppDrawer = ({ url }) => {
 	const classes = useStyles();
 	return (
 		<div className={classes.drawerPaperClose}>
@@ -31,7 +32,7 @@ const AppDrawer = ({ history }) => {
 				<img className={classes.logo} src={MambaLogo} alt={'logo'} />
 			</div>
 			<Divider />
-			<MainListItems />
+			<MainListItems url={url} />
 		</div>
 	);
 };

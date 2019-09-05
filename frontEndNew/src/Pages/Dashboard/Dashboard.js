@@ -133,56 +133,22 @@ var layout = [
 
 const Dashboard = ({ dispatch, projects }) => {
 	const classes = useStyles();
-	const [open, setOpen] = React.useState(false);
-	const [dashboardSize, setDashboardSize] = React.useState(500);
-	const [drawerSize, setDrawerSize] = React.useState(72);
-	const updateDivSize = isOpen => {
-		if (isOpen) {
-			setDashboardSize(dashboardSize - 168);
-			setDrawerSize(240);
-		} else {
-			setDashboardSize(dashboardSize + 168);
-			setDrawerSize(72);
-		}
-	};
-
+	const [dashboardSize, setDashboardSize] = React.useState(1000);
 	useEffect(() => {
 		dispatch(projectActions.getAllProjects());
-		const size = window.innerWidth - 72;
+		const size = window.innerWidth - 80;
 		setDashboardSize(size);
 	}, [dispatch]);
-	const handleDrawerClose = () => {
-		setOpen(!open);
-		updateDivSize(!open);
-	};
+
 	const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 	return (
 		<div className={classes.root}>
-			<Drawer
-				variant='permanent'
-				classes={{
-					paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-				}}
-				open={open}>
-				<div className={classes.icon}>
-					<img className={classes.logo} src={MambaLogo} alt={'logo'} />
-				</div>
-				{/* <div className={classes.toolbarIcon}>
-					<IconButton onClick={handleDrawerClose}>
-						{open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-					</IconButton>
-				</div> */}
-
-				<Divider />
-				<List>{MainListItems}</List>
-			</Drawer>
-
 			<div
 				className={classes.dashboard}
 				id={'dashboard'}
 				style={{
 					width: dashboardSize,
-					marginLeft: drawerSize,
+					marginLeft: 80,
 					marginTop: 30,
 				}}>
 				<GridLayout
@@ -229,45 +195,6 @@ const Dashboard = ({ dispatch, projects }) => {
 					</Paper>
 				</GridLayout>
 			</div>
-			{/* <main className={classes.content}>
-				<Container maxWidth='lg' className={classes.container}>
-					<Grid container spacing={3}>
-						<Grid item xs={12} md={4} lg={3}>
-							<Paper className={fixedHeightPaper}>
-								<Endpoints />
-							</Paper>
-						</Grid>
-						<Grid item xs={12} md={8} lg={9}>
-							<Paper className={fixedHeightPaper}>
-								<EndpointCharts />
-							</Paper>
-						</Grid>
-						<Grid item xs={12} md={8} lg={9}>
-							<Paper className={fixedHeightPaper}>
-								<Chart />
-							</Paper>
-						</Grid>
-						
-						<Grid item xs={12} md={4} lg={3}>
-							<Paper className={fixedHeightPaper}>
-								<Deposits />
-							</Paper>
-						</Grid>
-						
-						{console.log(projects)}
-						<Grid item xs={12}>
-							<Paper className={classes.paper}>
-								<Projects projects={projects} />
-							</Paper>
-						</Grid>
-						<Grid item xs={12}>
-							<Paper className={classes.paper}>
-								<Datasets projects={projects} />
-							</Paper>
-						</Grid>
-					</Grid>
-				</Container>
-			</main> */}
 		</div>
 	);
 };
