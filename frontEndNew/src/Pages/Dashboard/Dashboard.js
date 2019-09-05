@@ -3,13 +3,12 @@ import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { projectActions } from '../../_actions/project.actions';
 import GridLayout from 'react-grid-layout';
-
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import Paper from '@material-ui/core/Paper';
-import { mainListItems, secondaryListItems } from './listItems';
+import { MainListItems } from './listItems';
 import Chart from './DashboardChart';
 import AreaChart from './AreaChart';
 import EndpointCharts from './EndpointCharts';
@@ -175,9 +174,7 @@ const Dashboard = ({ dispatch, projects }) => {
 				</div> */}
 
 				<Divider />
-				<List>{mainListItems}</List>
-				<Divider />
-				<List>{secondaryListItems}</List>
+				<List>{MainListItems}</List>
 			</Drawer>
 
 			<div

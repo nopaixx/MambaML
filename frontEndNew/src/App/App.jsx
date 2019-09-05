@@ -5,10 +5,9 @@ import { connect } from 'react-redux';
 import { history } from '../_helpers';
 import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
-import { HomePage } from '../Pages/HomePage';
 import { Dashboard } from '../Pages/Dashboard';
 import BasicLayout from '../Pages/Dashboard/felxibleDashboard';
-import { HomePage2 } from '../Pages/HomePage/HomePage2';
+import { ProjectsPage, DatasetsPage } from '../Pages/HomePage';
 import { LoginPage } from '../Pages/LoginPage/LoginPage';
 import { LandingPage1 } from '../Pages/LandingPage/LandingPage1';
 import LandingPage from '../Pages/LandingPage/LandingPage';
@@ -41,7 +40,8 @@ class App extends React.Component {
 						<Router history={history}>
 							<div>
 								<PrivateRoute exact path='/landing' component={LandingPage1} />
-								<PrivateRoute exact path='/projects' component={HomePage2} />
+								<PrivateRoute exact path='/projects' component={ProjectsPage} />
+								<PrivateRoute exact path='/datasets' component={DatasetsPage} />
 								<PrivateRoute path='/project/:id' component={DesignComponent} />
 								<PrivateRoute path='/admin' component={AdminPage} />
 								<PrivateRoute path='/dashboard' component={Dashboard} />
