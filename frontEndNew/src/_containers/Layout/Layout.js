@@ -7,10 +7,6 @@ class Layout extends Component {
 	render() {
 		const { history } = this.props;
 		let url = history.location.pathname;
-		// history.listen(location => {
-		// 	url = location.pathname;
-		// });
-		console.log(history);
 		if (url.includes('login')) {
 			return (
 				<React.Fragment>

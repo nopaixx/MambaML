@@ -29,30 +29,24 @@ class App extends React.Component {
 
 	render() {
 		const { notification } = this.props;
-		const url = history.listen(location => location);
-		console.log(url);
 		return (
-			<div>
-				<Layout history={history}>
-					<div className='designPage'>
-						<Router history={history}>
-							<Notification notification={notification}>
-								<PrivateRoute exact path='/landing' component={LandingPage1} />
-								<PrivateRoute exact path='/projects' component={ProjectsPage} />
-								<PrivateRoute exact path='/datasets' component={DatasetsPage} />
-								<PrivateRoute path='/project/:id' component={DesignComponent} />
-								<PrivateRoute path='/admin' component={AdminPage} />
-								<PrivateRoute path='/dashboard' component={Dashboard} />
-								<PrivateRoute path='/dashboard2' component={BasicLayout} />
-								<Route exact path='/' component={LandingPage} />
-								<Route path='/login' component={LoginPage} />
-								<Route path='/register' component={RegisterPage} />
-								<Route path='/pricing' component={PricingPage} />
-							</Notification>
-						</Router>
-					</div>
-				</Layout>
-			</div>
+			<Router history={history}>
+				<Notification notification={notification}>
+					<Layout history={history}>
+						<PrivateRoute exact path='/landing' component={LandingPage1} />
+						<PrivateRoute exact path='/projects' component={ProjectsPage} />
+						<PrivateRoute exact path='/datasets' component={DatasetsPage} />
+						<PrivateRoute path='/project/:id' component={DesignComponent} />
+						<PrivateRoute path='/admin' component={AdminPage} />
+						<PrivateRoute path='/dashboard' component={Dashboard} />
+						<PrivateRoute path='/dashboard2' component={BasicLayout} />
+						<Route exact path='/' component={LandingPage} />
+						<Route path='/login' component={LoginPage} />
+						<Route path='/register' component={RegisterPage} />
+						<Route path='/pricing' component={PricingPage} />
+					</Layout>
+				</Notification>
+			</Router>
 		);
 	}
 }
