@@ -13,7 +13,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-
+import { AppDrawer } from './AppDrawer';
 import MambaLogo from '../../../Assets/Images/logo_peque.png';
 
 const useStyles = makeStyles(theme => ({
@@ -90,7 +90,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const ProjectNavbar = ({ history, user, users, dispatch, dashboard }) => {
+const ProjectNavbar = ({ history, user, users, dispatch, dashboard, url }) => {
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -176,9 +176,8 @@ const ProjectNavbar = ({ history, user, users, dispatch, dashboard }) => {
 			</MenuItem>
 		</Menu>
 	);
-
-	return (
-		<div>
+	const NavBar = () => {
+		return (
 			<AppBar position='static' className={''}>
 				<Toolbar className={classes.appBar}>
 					{dashboard ? null : (
@@ -232,6 +231,13 @@ const ProjectNavbar = ({ history, user, users, dispatch, dashboard }) => {
 					</div>
 				</Toolbar>
 			</AppBar>
+		);
+	};
+
+	return (
+		<div>
+			{/* <NavBar /> */}
+			<AppDrawer url={url} />
 			{renderMobileMenu}
 			{renderMenu}
 		</div>

@@ -1,6 +1,6 @@
 import { userConstants } from '../_constants';
 import { userService } from '../_services';
-import { alertActions } from './';
+import { notificationsActions } from './';
 import { history } from '../_helpers';
 
 export const userActions = {
@@ -19,7 +19,7 @@ function login(username, password) {
 			},
 			error => {
 				dispatch(failure(error.toString()));
-				dispatch(alertActions.error(error.toString()));
+				dispatch(notificationsActions.error(error.toString()));
 			}
 		);
 	};
@@ -54,11 +54,11 @@ function logout() {
 // 			user => {
 // 				dispatch(success());
 // 				history.push('/login');
-// 				dispatch(alertActions.success('Registration successful'));
+// 				dispatch(notificationsActions.success('Registration successful'));
 // 			},
 // 			error => {
 // 				dispatch(failure(error.toString()));
-// 				dispatch(alertActions.error(error.toString()));
+// 				dispatch(notificationsActions.error(error.toString()));
 // 			}
 // 		);
 // 	};

@@ -1,26 +1,11 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { projectActions } from '../../_actions/project.actions';
 import GridLayout from 'react-grid-layout';
-
 import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import { MainListItems } from './listItems';
 import Chart from './DashboardChart';
 import AreaChart from './AreaChart';
 import EndpointCharts from './EndpointCharts';
@@ -145,58 +130,22 @@ var layout = [
 
 const Dashboard = ({ dispatch, projects }) => {
 	const classes = useStyles();
-	const [open, setOpen] = React.useState(false);
-	const [dashboardSize, setDashboardSize] = React.useState(500);
-	const [drawerSize, setDrawerSize] = React.useState(72);
-	const updateDivSize = isOpen => {
-		if (isOpen) {
-			setDashboardSize(dashboardSize - 168);
-			setDrawerSize(240);
-		} else {
-			setDashboardSize(dashboardSize + 168);
-			setDrawerSize(72);
-		}
-	};
-
+	const [dashboardSize, setDashboardSize] = React.useState(1000);
 	useEffect(() => {
 		dispatch(projectActions.getAllProjects());
-		const size = window.innerWidth - 72;
+		const size = window.innerWidth - 80;
 		setDashboardSize(size);
 	}, [dispatch]);
-	const handleDrawerClose = () => {
-		setOpen(!open);
-		updateDivSize(!open);
-	};
+
 	const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 	return (
 		<div className={classes.root}>
-			<Drawer
-				variant='permanent'
-				classes={{
-					paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-				}}
-				open={open}>
-				<div className={classes.icon}>
-					<img className={classes.logo} src={MambaLogo} alt={'logo'} />
-				</div>
-				{/* <div className={classes.toolbarIcon}>
-					<IconButton onClick={handleDrawerClose}>
-						{open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-					</IconButton>
-				</div> */}
-
-				<Divider />
-				<List>{mainListItems}</List>
-				<Divider />
-				<List>{secondaryListItems}</List>
-			</Drawer>
-
 			<div
 				className={classes.dashboard}
 				id={'dashboard'}
 				style={{
 					width: dashboardSize,
-					marginLeft: drawerSize,
+					marginLeft: 80,
 					marginTop: 30,
 				}}>
 				<GridLayout
@@ -243,45 +192,6 @@ const Dashboard = ({ dispatch, projects }) => {
 					</Paper>
 				</GridLayout>
 			</div>
-			{/* <main className={classes.content}>
-				<Container maxWidth='lg' className={classes.container}>
-					<Grid container spacing={3}>
-						<Grid item xs={12} md={4} lg={3}>
-							<Paper className={fixedHeightPaper}>
-								<Endpoints />
-							</Paper>
-						</Grid>
-						<Grid item xs={12} md={8} lg={9}>
-							<Paper className={fixedHeightPaper}>
-								<EndpointCharts />
-							</Paper>
-						</Grid>
-						<Grid item xs={12} md={8} lg={9}>
-							<Paper className={fixedHeightPaper}>
-								<Chart />
-							</Paper>
-						</Grid>
-						
-						<Grid item xs={12} md={4} lg={3}>
-							<Paper className={fixedHeightPaper}>
-								<Deposits />
-							</Paper>
-						</Grid>
-						
-						{console.log(projects)}
-						<Grid item xs={12}>
-							<Paper className={classes.paper}>
-								<Projects projects={projects} />
-							</Paper>
-						</Grid>
-						<Grid item xs={12}>
-							<Paper className={classes.paper}>
-								<Datasets projects={projects} />
-							</Paper>
-						</Grid>
-					</Grid>
-				</Container>
-			</main> */}
 		</div>
 	);
 };

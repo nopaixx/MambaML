@@ -16,11 +16,10 @@ class Layout extends Component {
 		}
 		return (
 			<React.Fragment>
-				{url.includes('project') || url.includes('dashboard') ? (
-					<ProjectNavbar
-						history={history}
-						dashboard={url.includes('dashboard')}
-					/>
+				{url.includes('projects') ||
+				url.includes('dashboard') ||
+				url.includes('datasets') ? (
+					<ProjectNavbar url={url} />
 				) : (
 					<Navbar history={history} />
 				)}
