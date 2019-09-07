@@ -6,7 +6,11 @@ import { ProjectNavbar } from '../../_components/Navigation/ProjectNavbar/Projec
 class Layout extends Component {
 	render() {
 		const { history } = this.props;
-		const url = history.location.pathname;
+		let url = history.location.pathname;
+		// history.listen(location => {
+		// 	url = location.pathname;
+		// });
+		console.log(history);
 		if (url.includes('login')) {
 			return (
 				<React.Fragment>

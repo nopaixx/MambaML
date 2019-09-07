@@ -29,6 +29,8 @@ class App extends React.Component {
 
 	render() {
 		const { notification } = this.props;
+		const url = history.listen(location => location);
+		console.log(url);
 		return (
 			<div>
 				<Layout history={history}>

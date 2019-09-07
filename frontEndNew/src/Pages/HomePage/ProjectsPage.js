@@ -95,14 +95,9 @@ const ProjectsPage = props => {
 			projectActions.create(`Project ${Math.random()}`, '{}', 'V1', 'V1')
 		);
 	};
-	const handleNotification = () => {
-		const { dispatch } = props;
-		dispatch(notificationsActions.success('hola'));
-	};
 
 	return (
 		<React.Fragment>
-			<Button onClick={handleNotification}>Notification</Button>
 			<Container className={classes.cardGrid} maxWidth='md'>
 				<div className={classes.projectsButtonsGroup}>
 					<Button

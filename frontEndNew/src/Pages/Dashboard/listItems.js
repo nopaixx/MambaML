@@ -25,8 +25,6 @@ const useStyles = makeStyles(theme => ({
 
 export const MainListItems = ({ url }) => {
 	const classes = useStyles();
-	// const url = history.location.pathname;
-	console.log(url);
 	return (
 		<ul className={classes.list}>
 			<ListItem
