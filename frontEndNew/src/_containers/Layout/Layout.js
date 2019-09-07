@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Notification } from '../../_components/Utils/Notifications';
 
 import './Layout.css';
 import Navbar from '../../_components/Navigation/Navbar/Navbar';
@@ -15,14 +16,19 @@ class Layout extends Component {
 			);
 		}
 		return (
-			<React.Fragment>
+			<>
 				{url === '/projects' || url === '/dashboard' || url === '/datasets' ? (
 					<ProjectNavbar url={url} />
 				) : (
 					<Navbar history={history} />
 				)}
-				<main>{this.props.children}</main>
-			</React.Fragment>
+				<Notification
+					notifications={this.props.notifications}
+					dispatch={this.props.dispatch}
+				/>
+
+				{this.props.children}
+			</>
 		);
 	}
 }

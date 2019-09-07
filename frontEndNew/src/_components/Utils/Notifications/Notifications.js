@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { connect } from 'react-redux';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
@@ -82,18 +81,15 @@ MySnackbarContentWrapper.propTypes = {
 	variant: PropTypes.string.isRequired,
 };
 
-const withErrorHandling = WrappedComponent => ({
-	notifications = {},
-	children,
-	dispatch,
-}) => {
-	const { isOpen = false, type, message } = notifications;
+export const Notification = ({ notifications = {}, dispatch }) => {
+	const { isOpen, type, message } = notifications;
 	const onClose = () => {
 		dispatch(notificationsActions.clear());
 	};
-	if (!isOpen && !type) return <>{children}</>;
+	console.log(notifications);
+	if (!isOpen && !type) return null;
 	return (
-		<WrappedComponent>
+		<>
 			<Snackbar
 				anchorOrigin={{
 					vertical: 'bottom',
@@ -108,21 +104,6 @@ const withErrorHandling = WrappedComponent => ({
 					message={message}
 				/>
 			</Snackbar>
-			{children}
-		</WrappedComponent>
+		</>
 	);
 };
-
-const Notification = withErrorHandling(({ children, dispatch }) => (
-	<div>{children}</div>
-));
-
-function mapStateToProps(state) {
-	const { notifications } = state;
-	return {
-		notifications,
-	};
-}
-
-const connectedNotification = connect(mapStateToProps)(Notification);
-export { connectedNotification as Notification };

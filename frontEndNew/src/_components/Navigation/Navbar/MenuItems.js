@@ -36,8 +36,8 @@ export const MenuItems = ({ history }) => {
 				aria-controls='simple-menu'
 				aria-haspopup='true'
 				className={classes.navbarMenuBtn}
-				onClick={() => history.push('/pricing')}>
-				Solutions
+				onClick={() => history.push('/projects')}>
+				Projects
 			</Button>
 			<Button
 				aria-controls='simple-menu'

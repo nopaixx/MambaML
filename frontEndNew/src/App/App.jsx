@@ -15,7 +15,6 @@ import { RegisterPage } from '../Pages/RegisterPage';
 import { AdminPage } from '../Pages/AdminPage';
 import { DesignComponent } from '../_components/Design/DesignComponent';
 import Layout from '../_containers/Layout/Layout';
-import { Notification } from '../_components/Utils/Notifications';
 
 class App extends React.Component {
 	constructor(props) {
@@ -28,33 +27,34 @@ class App extends React.Component {
 	}
 
 	render() {
-		const { notification } = this.props;
+		const { notifications, dispatch } = this.props;
 		return (
 			<Router history={history}>
-				<Notification notification={notification}>
-					<Layout history={history}>
-						<PrivateRoute exact path='/landing' component={LandingPage1} />
-						<PrivateRoute exact path='/projects' component={ProjectsPage} />
-						<PrivateRoute exact path='/datasets' component={DatasetsPage} />
-						<PrivateRoute exact path='/model/:id' component={DesignComponent} />
-						<PrivateRoute path='/admin' component={AdminPage} />
-						<PrivateRoute path='/dashboard' component={Dashboard} />
-						<PrivateRoute path='/dashboard2' component={BasicLayout} />
-						<Route exact path='/' component={LandingPage} />
-						<Route path='/login' component={LoginPage} />
-						<Route path='/register' component={RegisterPage} />
-						<Route path='/pricing' component={PricingPage} />
-					</Layout>
-				</Notification>
+				<Layout
+					history={history}
+					notifications={notifications}
+					dispatch={dispatch}>
+					<PrivateRoute exact path='/landing' component={LandingPage1} />
+					<PrivateRoute exact path='/projects' component={ProjectsPage} />
+					<PrivateRoute exact path='/datasets' component={DatasetsPage} />
+					<PrivateRoute exact path='/model/:id' component={DesignComponent} />
+					<PrivateRoute path='/admin' component={AdminPage} />
+					<PrivateRoute path='/dashboard' component={Dashboard} />
+					<PrivateRoute path='/dashboard2' component={BasicLayout} />
+					<Route exact path='/' component={LandingPage} />
+					<Route path='/login' component={LoginPage} />
+					<Route path='/register' component={RegisterPage} />
+					<Route path='/pricing' component={PricingPage} />
+				</Layout>
 			</Router>
 		);
 	}
 }
 
 function mapStateToProps(state) {
-	const { notification } = state;
+	const { notifications } = state;
 	return {
-		notification,
+		notifications,
 	};
 }
 
