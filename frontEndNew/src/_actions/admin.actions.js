@@ -1,6 +1,6 @@
 import { adminConstants } from '../_constants';
 import { adminService } from '../_services';
-import { alertActions } from './';
+import { notificationsActions } from './';
 import { saveJSON, buildFileSelector } from './utils.global.js';
 import { getAllActors } from './project.actions';
 export const adminActions = {
@@ -22,7 +22,7 @@ function createBox(box) {
 			},
 			error => {
 				dispatch(failure(error.toString()));
-				dispatch(alertActions.error(error.toString()));
+				dispatch(notificationsActions.error(error.toString()));
 			}
 		);
 	};
@@ -57,7 +57,7 @@ function updateBox(box) {
 			},
 			error => {
 				dispatch(failure(error.toString()));
-				dispatch(alertActions.error(error.toString()));
+				dispatch(notificationsActions.error(error.toString()));
 			}
 		);
 	};

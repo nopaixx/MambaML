@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import { projectActions } from '../../_actions';
+import { projectActions, notificationsActions } from '../../_actions';
 
 const useStyles = makeStyles(theme => ({
 	cardGrid: {
@@ -95,9 +95,14 @@ const ProjectsPage = props => {
 			projectActions.create(`Project ${Math.random()}`, '{}', 'V1', 'V1')
 		);
 	};
+	const handleNotification = () => {
+		const { dispatch } = props;
+		dispatch(notificationsActions.success('hola'));
+	};
 
 	return (
 		<React.Fragment>
+			<Button onClick={handleNotification}>Notification</Button>
 			<Container className={classes.cardGrid} maxWidth='md'>
 				<div className={classes.projectsButtonsGroup}>
 					<Button
@@ -119,9 +124,11 @@ const ProjectsPage = props => {
 };
 
 function mapStateToProps(state) {
-	const { users, authentication } = state;
-	const { projects } = state.project;
-	const { user } = authentication;
+	const {
+		users,
+		authentication: { user },
+		project: { projects },
+	} = state;
 	return {
 		user,
 		users,

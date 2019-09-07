@@ -1,6 +1,6 @@
 import { projectConstants } from '../_constants';
 import { projectService } from '../_services';
-import { alertActions } from './';
+import { notificationsActions } from './';
 import { history } from '../_helpers';
 import { saveJSON, buildFileSelector } from './utils.global.js';
 
@@ -50,7 +50,7 @@ function create(
 			},
 			error => {
 				dispatch(failure(error.toString()));
-				dispatch(alertActions.error(error.toString()));
+				dispatch(notificationsActions.error(error.toString()));
 			}
 		);
 	};
@@ -88,7 +88,7 @@ function get(ID) {
 			},
 			error => {
 				dispatch(failure(error.toString()));
-				dispatch(alertActions.error(error.toString()));
+				dispatch(notificationsActions.error(error.toString()));
 			}
 		);
 	};
@@ -113,7 +113,7 @@ function getAllProjects() {
 			},
 			error => {
 				dispatch(failure(error.toString()));
-				dispatch(alertActions.error(error.toString()));
+				dispatch(notificationsActions.error(error.toString()));
 			}
 		);
 	};
@@ -148,7 +148,7 @@ function load(projectId) {
 			},
 			error => {
 				dispatch(failure(error.toString()));
-				dispatch(alertActions.error(error.toString()));
+				dispatch(notificationsActions.error(error.toString()));
 			}
 		);
 	};
@@ -212,7 +212,7 @@ const checkProjectStatus = projectId => {
 			},
 			error => {
 				dispatch(failure(error.toString()));
-				dispatch(alertActions.error(error.toString()));
+				dispatch(notificationsActions.error(error.toString()));
 			}
 		);
 	};
@@ -236,7 +236,7 @@ function exportProject(projectId) {
 				saveJSON(project.data.json, 'project' + projectId + '.json');
 			},
 			error => {
-				dispatch(alertActions.error(error.toString()));
+				dispatch(notificationsActions.error(error.toString()));
 			}
 		);
 	};
@@ -289,7 +289,7 @@ function run(projectId) {
 			},
 			error => {
 				dispatch(failure(error.toString()));
-				dispatch(alertActions.error(error.toString()));
+				dispatch(notificationsActions.error(error.toString()));
 			}
 		);
 	};
@@ -320,7 +320,7 @@ function runBox(projectId, boxId) {
 			},
 			error => {
 				dispatch(failure(error.toString()));
-				dispatch(alertActions.error(error.toString()));
+				dispatch(notificationsActions.error(error.toString()));
 			}
 		);
 	};
@@ -358,7 +358,7 @@ function save(
 			},
 			error => {
 				dispatch(failure(error.toString()));
-				dispatch(alertActions.error(error.toString()));
+				dispatch(notificationsActions.error(error.toString()));
 			}
 		);
 	};
@@ -400,7 +400,7 @@ export function getAllActors() {
 			},
 			error => {
 				dispatch(failure(error.toString()));
-				dispatch(alertActions.error(error.toString()));
+				dispatch(notificationsActions.error(error.toString()));
 			}
 		);
 	};

@@ -12,6 +12,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import { makeStyles } from '@material-ui/core/styles';
+import { notificationsActions } from '../../../_actions';
 
 const variantIcon = {
 	success: CheckCircleIcon,
@@ -78,11 +79,19 @@ MySnackbarContentWrapper.propTypes = {
 	className: PropTypes.string,
 	message: PropTypes.string,
 	onClose: PropTypes.func,
-	variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
+	variant: PropTypes.string.isRequired,
 };
 
-const withErrorHandling = WrappedComponent => ({ notifications, children }) => {
-	const { isOpen, onClose, type, text } = notifications;
+const withErrorHandling = WrappedComponent => ({
+	notifications = {},
+	children,
+	dispatch,
+}) => {
+	const { isOpen = false, type, message } = notifications;
+	const onClose = () => {
+		dispatch(notificationsActions.clear());
+	};
+	if (!isOpen && !type) return <>{children}</>;
 	return (
 		<WrappedComponent>
 			<Snackbar
@@ -91,21 +100,22 @@ const withErrorHandling = WrappedComponent => ({ notifications, children }) => {
 					horizontal: 'left',
 				}}
 				open={isOpen}
-				autoHideDuration={100000}
+				autoHideDuration={10000}
 				onClose={onClose}>
 				<MySnackbarContentWrapper
 					onClose={onClose}
 					variant={type}
-					message={text}
+					message={message}
 				/>
 			</Snackbar>
-
 			{children}
 		</WrappedComponent>
 	);
 };
 
-const Notification = withErrorHandling(({ children }) => <div>{children}</div>);
+const Notification = withErrorHandling(({ children, dispatch }) => (
+	<div>{children}</div>
+));
 
 function mapStateToProps(state) {
 	const { notifications } = state;
