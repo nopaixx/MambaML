@@ -68,7 +68,7 @@ const ProjectsCards = ({ projects }) => {
 					</CardContent>
 					<CardActions>
 						<Button size='small' color='primary'>
-							<RouterLink to={`/project/${project.id}`}>
+							<RouterLink to={`/dataset/${project.id}`}>
 								Load Project
 							</RouterLink>
 						</Button>

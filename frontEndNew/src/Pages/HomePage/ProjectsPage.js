@@ -65,9 +65,7 @@ const ProjectsCards = ({ projects }) => {
 					</CardContent>
 					<CardActions>
 						<Button size='small' color='primary'>
-							<RouterLink to={`/project/${project.id}`}>
-								Load Project
-							</RouterLink>
+							<RouterLink to={`/model/${project.id}`}>Load Project</RouterLink>
 						</Button>
 						<Button size='small' color='primary'>
 							Edit
@@ -95,7 +93,6 @@ const ProjectsPage = props => {
 			projectActions.create(`Project ${Math.random()}`, '{}', 'V1', 'V1')
 		);
 	};
-
 	return (
 		<React.Fragment>
 			<Container className={classes.cardGrid} maxWidth='md'>

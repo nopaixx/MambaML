@@ -29,7 +29,7 @@ const ProjectsList = ({ projects, handleLoadProject }) => {
 				<ProjectCard />
 				<ProjectBox key={key}>
 					{project.name}
-					<Link to={`/project/${project.id}`}>Load Project</Link>
+					<Link to={`/model/${project.id}`}>Load Project</Link>
 				</ProjectBox>
 			</React.Fragment>
 		);
@@ -57,7 +57,7 @@ class HomePage extends React.Component {
 	render() {
 		const { user, projects } = this.props;
 		return (
-			<div className="col-md-6 col-md-offset-3">
+			<div className='col-md-6 col-md-offset-3'>
 				<h1>Hi {user.username}!</h1>
 				<p>You're logged into MambaML!!</p>
 				<h3>Projects:</h3>
@@ -67,7 +67,7 @@ class HomePage extends React.Component {
 				/>
 				<Button onClick={this.handleCreateProject} label={'Create Project'} />
 				<p className={'mt-3'}>
-					<Link to="/login">Logout</Link>
+					<Link to='/login'>Logout</Link>
 				</p>
 			</div>
 		);

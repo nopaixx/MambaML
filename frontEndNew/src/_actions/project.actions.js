@@ -46,7 +46,7 @@ function create(
 				const ID = project.data.id;
 				project.data['projectName'] = project.data.name;
 				dispatch(success(project.data));
-				history.push(`/project/${ID}`);
+				history.push(`/model/${ID}`);
 			},
 			error => {
 				dispatch(failure(error.toString()));
@@ -144,7 +144,7 @@ function load(projectId) {
 		projectService.create(project).then(
 			project => {
 				dispatch(success(project));
-				history.push(`/project/${project.id}`);
+				history.push(`/model/${project.id}`);
 			},
 			error => {
 				dispatch(failure(error.toString()));

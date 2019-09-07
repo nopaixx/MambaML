@@ -7,7 +7,7 @@ class Layout extends Component {
 	render() {
 		const { history } = this.props;
 		let url = history.location.pathname;
-		if (url.includes('login')) {
+		if (url === '/login') {
 			return (
 				<React.Fragment>
 					<main>{this.props.children}</main>
@@ -16,9 +16,7 @@ class Layout extends Component {
 		}
 		return (
 			<React.Fragment>
-				{url.includes('projects') ||
-				url.includes('dashboard') ||
-				url.includes('datasets') ? (
+				{url === '/projects' || url === '/dashboard' || url === '/datasets' ? (
 					<ProjectNavbar url={url} />
 				) : (
 					<Navbar history={history} />
