@@ -1,7 +1,6 @@
 import React from 'react';
 import { Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import { history } from '../_helpers';
 import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
@@ -16,7 +15,7 @@ import { RegisterPage } from '../Pages/RegisterPage';
 import { AdminPage } from '../Pages/AdminPage';
 import { DesignComponent } from '../_components/Design/DesignComponent';
 import Layout from '../_containers/Layout/Layout';
-
+import { Notification } from '../_components/Utils/Notifications';
 // var BasicLayout = require('../Pages/Dashboard/felxibleDashboard');
 class App extends React.Component {
 	constructor(props) {
@@ -29,7 +28,7 @@ class App extends React.Component {
 	}
 
 	render() {
-		const { alert } = this.props;
+		const { alert, notification } = this.props;
 		return (
 			<div>
 				<Layout history={history}>
@@ -38,7 +37,7 @@ class App extends React.Component {
 							<div className={`alert ${alert.type}`}>{alert.message}</div>
 						)}
 						<Router history={history}>
-							<div>
+							<Notification notification={notification}>
 								<PrivateRoute exact path='/landing' component={LandingPage1} />
 								<PrivateRoute exact path='/projects' component={ProjectsPage} />
 								<PrivateRoute exact path='/datasets' component={DatasetsPage} />
@@ -50,7 +49,7 @@ class App extends React.Component {
 								<Route path='/login' component={LoginPage} />
 								<Route path='/register' component={RegisterPage} />
 								<Route path='/pricing' component={PricingPage} />
-							</div>
+							</Notification>
 						</Router>
 					</div>
 				</Layout>
@@ -60,9 +59,10 @@ class App extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const { alert } = state;
+	const { alert, notification } = state;
 	return {
 		alert,
+		notification,
 	};
 }
 
