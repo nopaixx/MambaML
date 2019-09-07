@@ -176,7 +176,6 @@ class BoxHospital extends React.Component {
 			outputPorts,
 			dependencies,
 			parameters,
-			activeCodeEditor,
 			selectedOutputType,
 		} = this.state;
 		const { actorsTree } = this.props;

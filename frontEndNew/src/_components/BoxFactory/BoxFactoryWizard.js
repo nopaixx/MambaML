@@ -12,7 +12,6 @@ import { BallsSlider } from './BallsSlider';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import Paper from '@material-ui/core/Paper';
-import Icon from '@material-ui/core/Icon';
 
 import { Alert } from '../Utils/Alert/Alert';
 

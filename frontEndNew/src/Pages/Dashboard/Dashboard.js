@@ -136,6 +136,9 @@ const Dashboard = ({ dispatch, projects }) => {
 		const size = window.innerWidth - 80;
 		setDashboardSize(size);
 	}, [dispatch]);
+	window.onresize = e => {
+		setDashboardSize(e.target.innerWidth - 80);
+	};
 
 	const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 	return (
@@ -154,9 +157,7 @@ const Dashboard = ({ dispatch, projects }) => {
 					layout={layout}
 					cols={10}
 					rowHeight={15}
-					width={dashboardSize}
-					onLayoutChange={e => console.log('layoutChange', e)}
-					onDragStart={e => console.log('dragstart', e)}>
+					width={dashboardSize}>
 					<Paper key='EndpointCharts' className={fixedHeightPaper}>
 						<EndpointCharts />
 					</Paper>

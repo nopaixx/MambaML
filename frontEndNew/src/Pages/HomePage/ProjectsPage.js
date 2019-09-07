@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import { projectActions, notificationsActions } from '../../_actions';
+import { projectActions } from '../../_actions';
 
 const useStyles = makeStyles(theme => ({
 	cardGrid: {
