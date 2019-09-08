@@ -1,3 +1,11 @@
+TODO:
+
+- [] better the design of the navabar
+- [] better the design of the landing page (a lot)
+- [] better the design of the charts module and make it more easily accesible
+- [] create charts visualizations for the datasets withiout needing to open a project just a quick
+  visualization
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
