@@ -464,7 +464,7 @@ export const BoxInfo = props => {
 				</div>
 				<div>
 					Params:
-					{params.parameters
+					{Array.isArray(params.parameters) && params.parameters
 						? params.parameters.map((param, key) => {
 								return (
 									<div
