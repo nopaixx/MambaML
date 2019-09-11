@@ -86,8 +86,9 @@ export const Notification = ({ notifications = {}, dispatch }) => {
 	const onClose = () => {
 		dispatch(notificationsActions.clear());
 	};
-	console.log(notifications);
+
 	if (!isOpen && !type) return null;
+
 	return (
 		<>
 			<Snackbar
