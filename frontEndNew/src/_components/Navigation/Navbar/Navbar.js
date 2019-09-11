@@ -64,6 +64,7 @@ const useStyles = makeStyles(theme => ({
 		marginLeft: 70,
 	},
 	menu: {
+		position: 'absolute',
 		right: 16,
 	},
 }));
@@ -103,10 +104,10 @@ const Navbar = ({ history, user, users, dispatch, dashboard, url }) => {
 		<Menu
 			className={classes.menu}
 			anchorEl={anchorEl}
-			// anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+			anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
 			id={menuId}
 			keepMounted
-			// transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+			transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 			open={isMenuOpen}
 			onClose={handleMenuClose}>
 			<MenuItem onClick={handleClickDashboard}>Dashboard</MenuItem>
@@ -121,10 +122,10 @@ const Navbar = ({ history, user, users, dispatch, dashboard, url }) => {
 	const renderMobileMenu = (
 		<Menu
 			anchorEl={mobileMoreAnchorEl}
-			// anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+			anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
 			id={mobileMenuId}
 			keepMounted
-			// transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+			transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 			open={isMobileMenuOpen}
 			onClose={handleMobileMenuClose}>
 			<MenuItem>

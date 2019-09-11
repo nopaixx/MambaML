@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 
 import Button from '@material-ui/core/Button';
+import Collapse from '@material-ui/core/Collapse';
+import Icon from '@material-ui/core/Icon';
+
 import './BoxInfo.css';
 
 import AceEditor from 'react-ace';
@@ -13,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { ParamsSelector } from '../../Utils/Parameters/ParameterSelector';
 import { OutputSelector } from '../../Utils/Parameters/OutputSelector';
+import JsonTable from '../../Utils/Table/JsonTable';
 
 const useStyles = makeStyles(theme => ({
 	button: {
@@ -47,6 +51,9 @@ export const BoxInfo = props => {
 		input: '',
 		output: '',
 	});
+	const [isConfigOpen, setConfigState] = useState(false);
+	const [isJsonOpen, setJsonStatus] = useState(false);
+	const [jsonParamData, setJsonParamData] = useState(false);
 
 	const [selectedDataset, setDataset] = useState();
 	const [selectedCols, setSelectedCols] = useState();
@@ -174,7 +181,6 @@ export const BoxInfo = props => {
 				});
 			}
 			if (outputs) {
-				console.log(outputs);
 				setOutputs({
 					...outputsTypes,
 					outputs: JSON.parse(outputs),
@@ -227,202 +233,294 @@ export const BoxInfo = props => {
 	const node = props.chart.nodes[selected];
 	let nodeName;
 
+	const OutputsTypesComponent = () => {
+		return (
+			<div
+				style={
+					outputsTypes.fullScreen
+						? {
+								position: 'absolute',
+								left: 0,
+								top: 0,
+								width: window.innerWidth,
+								height: window.innerHeight,
+								backgroundColor: 'rgba(255, 255, 255, 0.8)',
+								zIndex: 1300,
+						  }
+						: {}
+				}>
+				<Button
+					onClick={openOutputsFullScreenMode}
+					variant='outlined'
+					color='primary'
+					className={classes.button}>
+					{outputsTypes.fullScreen ? 'Close Outputs' : 'Open Outputs'}
+				</Button>
+				{outputsTypes.fullScreen ? (
+					<React.Fragment>
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'center',
+								padding: 60,
+							}}>
+							<OutputSelector
+								setOutputState={updateOutputs}
+								data={outputsTypes.outputs}
+							/>
+						</div>
+					</React.Fragment>
+				) : null}
+			</div>
+		);
+	};
+
+	const CodeScriptComponent = () => {
+		return (
+			<div
+				id='pythonCode'
+				style={
+					code.scriptFullScreen
+						? {
+								position: 'absolute',
+								left: 0,
+								top: 0,
+								width: window.innerWidth,
+								height: window.innerHeight,
+								backgroundColor: 'rgba(255, 255, 255, 0.8)',
+								zIndex: 9999,
+						  }
+						: {}
+				}>
+				<Button
+					onClick={openScriptFullScreenMode}
+					variant='outlined'
+					color='primary'
+					className={classes.button}>
+					{code.scriptFullScreen ? 'Close Python Code' : 'Open Python Code'}
+				</Button>
+				{code.scriptFullScreen ? (
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+						}}>
+						<AceEditor
+							mode='python'
+							theme='monokai'
+							width={'80vw'}
+							height={'80vh'}
+							value={code.script}
+							onChange={onChangeCodeScript}
+							name='UNIQUE_ID_OF_DIV'
+							editorProps={{ $blockScrolling: true }}
+						/>
+					</div>
+				) : null}
+			</div>
+		);
+	};
+
+	const PythonCodeComponent = () => {
+		return (
+			<div
+				id='pythonCode'
+				style={
+					code.depenFullScreen
+						? {
+								position: 'absolute',
+								left: 0,
+								top: 0,
+								width: window.innerWidth,
+								height: window.innerHeight,
+								backgroundColor: 'rgba(255, 255, 255, 0.8)',
+								zIndex: 9999,
+						  }
+						: {}
+				}>
+				<Button
+					onClick={openDepenFullScreenMode}
+					variant='outlined'
+					color='primary'
+					className={classes.button}>
+					{code.depenFullScreen ? 'Close Dependecies' : 'Open Dependecies'}
+				</Button>
+				{code.depenFullScreen ? (
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+						}}>
+						<AceEditor
+							id={'pythonDepen'}
+							mode='python'
+							theme='monokai'
+							width={'80vw'}
+							height={'80vh'}
+							value={code.dependencies}
+							onChange={onChangeDependencies}
+							name='UNIQUE_ID_OF_DIV'
+							editorProps={{ $blockScrolling: true }}
+						/>
+					</div>
+				) : null}
+			</div>
+		);
+	};
+
+	const ParamsComponent = () => {
+		return (
+			<div
+				style={
+					params.fullScreen
+						? {
+								position: 'absolute',
+								left: 0,
+								top: 0,
+								width: window.innerWidth,
+								height: window.innerHeight,
+								backgroundColor: 'rgba(255, 255, 255, 0.8)',
+								zIndex: 1300,
+						  }
+						: {}
+				}>
+				<Button
+					onClick={openParamsFullScreenMode}
+					variant='outlined'
+					color='primary'
+					className={classes.button}>
+					{params.fullScreen ? 'Close Params' : 'Open Params'}
+				</Button>
+				{params.fullScreen ? (
+					<React.Fragment>
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'center',
+								padding: 60,
+							}}>
+							<ParamsSelector
+								selectedDataset={selectedDatasetOption}
+								setParamsState={updateParams}
+								dataset={selectedDataset}
+								data={params.parameters}
+								nodeInfo={node}
+								chartInfo={props.chart}
+								selectedCols={selectedCols}
+								selectedColsInfo={selectedColsInfo}
+							/>
+						</div>
+					</React.Fragment>
+				) : null}
+			</div>
+		);
+	};
+
+	const ConfigMenu = () => {
+		return (
+			<>
+				<ParamsComponent />
+				<OutputsTypesComponent />
+				{code.hasScript ? (
+					<>
+						<CodeScriptComponent />
+						<PythonCodeComponent />
+					</>
+				) : null}
+			</>
+		);
+	};
+	// const handleClickJson = param => {
+	// 	setJsonStatus(true);
+	// 	const jsonData = JSON.parse(param.value);
+	// 	const newData = [];
+	// 	const newColumns = [];
+	// 	jsonData.forEach(item1 => {
+	// 		const jsonKeys = Object.keys(item1);
+	// 		jsonKeys.forEach(item => {
+	// 			console.log('item', item);
+	// 			newData.push({ [item]: jsonData[item] });
+	// 			newColumns.push({ title: item, filed: item });
+	// 		});
+	// 	});
+	// 	console.log('handleClickJson', newData);
+	// 	setJsonParamData({ newData, newColumns });
+	// };
+
 	if (node && node.properties.payload.name) {
 		const nodeSplitName = node.properties.payload.name.split('-');
 		nodeName = nodeSplitName[nodeSplitName.length - 1];
 	}
+
 	if (node) {
 		return (
 			<div className={'BoxInfo'}>
-				<h3>{nodeName || node.type || ''}</h3>
+				<div>
+					<h3>{nodeName || node.type || ''}</h3>
+				</div>
+				<div>
+					Params:
+					{params.parameters.map(param => {
+						return (
+							<div style={{ display: 'flex', flexDirection: 'column' }}>
+								<input value={param.param_friend_name} />
+								{/* {param.type === 'json' ? (
+									<div onClick={() => handleClickJson(param)}>
+										{param.value}
+									</div>
+								) : ( */}
+								<input value={param.value} />
+								{/* )} */}
+							</div>
+						);
+					})}
+				</div>
 				<div
 					style={
-						params.fullScreen
+						isJsonOpen
 							? {
 									position: 'absolute',
-									left: 0,
-									top: 0,
-									width: window.innerWidth,
-									height: window.innerHeight,
+									left: '20vw',
+									top: '20vh',
 									backgroundColor: 'rgba(255, 255, 255, 0.8)',
 									zIndex: 1300,
 							  }
 							: {}
 					}>
+					{isJsonOpen ? (
+						<JsonTable
+							data={jsonParamData.newData}
+							columns={jsonParamData.newColumns}
+						/>
+					) : null}
+				</div>
+				<div>
+					<div>
+						<div onClick={() => setConfigState(!isConfigOpen)}>
+							Advance settings
+							<Icon>
+								{isConfigOpen ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}
+							</Icon>
+						</div>
+						<Collapse in={isConfigOpen}>
+							<ConfigMenu />
+						</Collapse>
+					</div>
 					<Button
-						onClick={openParamsFullScreenMode}
+						onClick={handleDeleteBox}
+						variant='contained'
+						color='primary'
+						className={classes.button}>
+						Delete
+					</Button>
+					<Button
+						onClick={updateBoxInfo}
 						variant='outlined'
 						color='primary'
 						className={classes.button}>
-						{params.fullScreen ? 'Close Params' : 'Open Params'}
+						Update
 					</Button>
-					{params.fullScreen ? (
-						<React.Fragment>
-							<div
-								style={{
-									display: 'flex',
-									justifyContent: 'center',
-									padding: 60,
-								}}>
-								<ParamsSelector
-									selectedDataset={selectedDatasetOption}
-									setParamsState={updateParams}
-									dataset={selectedDataset}
-									data={params.parameters}
-									nodeInfo={node}
-									chartInfo={props.chart}
-									selectedCols={selectedCols}
-									selectedColsInfo={selectedColsInfo}
-								/>
-							</div>
-						</React.Fragment>
-					) : null}
 				</div>
-				<div
-					style={
-						outputsTypes.fullScreen
-							? {
-									position: 'absolute',
-									left: 0,
-									top: 0,
-									width: window.innerWidth,
-									height: window.innerHeight,
-									backgroundColor: 'rgba(255, 255, 255, 0.8)',
-									zIndex: 1300,
-							  }
-							: {}
-					}>
-					<Button
-						onClick={openOutputsFullScreenMode}
-						variant='outlined'
-						color='primary'
-						className={classes.button}>
-						{outputsTypes.fullScreen ? 'Close Outputs' : 'Open Outputs'}
-					</Button>
-					{outputsTypes.fullScreen ? (
-						<React.Fragment>
-							<div
-								style={{
-									display: 'flex',
-									justifyContent: 'center',
-									padding: 60,
-								}}>
-								<OutputSelector
-									setOutputState={updateOutputs}
-									data={outputsTypes.outputs}
-								/>
-							</div>
-						</React.Fragment>
-					) : null}
-				</div>
-
-				{code.hasScript ? (
-					<React.Fragment>
-						<div
-							id='pythonCode'
-							style={
-								code.scriptFullScreen
-									? {
-											position: 'absolute',
-											left: 0,
-											top: 0,
-											width: window.innerWidth,
-											height: window.innerHeight,
-											backgroundColor: 'rgba(255, 255, 255, 0.8)',
-											zIndex: 9999,
-									  }
-									: {}
-							}>
-							<Button
-								onClick={openScriptFullScreenMode}
-								variant='outlined'
-								color='primary'
-								className={classes.button}>
-								{code.scriptFullScreen
-									? 'Close Python Code'
-									: 'Open Python Code'}
-							</Button>
-							{code.scriptFullScreen ? (
-								<div
-									style={{
-										display: 'flex',
-										justifyContent: 'center',
-									}}>
-									<AceEditor
-										mode='python'
-										theme='monokai'
-										width={'80vw'}
-										height={'80vh'}
-										value={code.script}
-										onChange={onChangeCodeScript}
-										name='UNIQUE_ID_OF_DIV'
-										editorProps={{ $blockScrolling: true }}
-									/>
-								</div>
-							) : null}
-						</div>
-						<div
-							id='pythonCode'
-							style={
-								code.depenFullScreen
-									? {
-											position: 'absolute',
-											left: 0,
-											top: 0,
-											width: window.innerWidth,
-											height: window.innerHeight,
-											backgroundColor: 'rgba(255, 255, 255, 0.8)',
-											zIndex: 9999,
-									  }
-									: {}
-							}>
-							<Button
-								onClick={openDepenFullScreenMode}
-								variant='outlined'
-								color='primary'
-								className={classes.button}>
-								{code.depenFullScreen
-									? 'Close Dependecies'
-									: 'Open Dependecies'}
-							</Button>
-							{code.depenFullScreen ? (
-								<div
-									style={{
-										display: 'flex',
-										justifyContent: 'center',
-									}}>
-									<AceEditor
-										id={'pythonDepen'}
-										mode='python'
-										theme='monokai'
-										width={'80vw'}
-										height={'80vh'}
-										value={code.dependencies}
-										onChange={onChangeDependencies}
-										name='UNIQUE_ID_OF_DIV'
-										editorProps={{ $blockScrolling: true }}
-									/>
-								</div>
-							) : null}
-						</div>
-					</React.Fragment>
-				) : (
-					''
-				)}
-				<Button
-					onClick={handleDeleteBox}
-					variant='contained'
-					color='primary'
-					className={classes.button}>
-					Delete
-				</Button>
-				<Button
-					onClick={updateBoxInfo}
-					variant='outlined'
-					color='primary'
-					className={classes.button}>
-					Update
-				</Button>
 			</div>
 		);
 	} else {

@@ -24,6 +24,7 @@ export default class ParametersTable extends React.Component {
 							<option value='int'>int</option>
 							<option value='float'>float</option>
 							<option value='list'>list</option>
+							<option value='json'>json</option>
 							<option value='csv'>CSV-selector</option>
 							<option value='colselector'>Col Selector</option>
 						</select>
@@ -53,6 +54,7 @@ export default class ParametersTable extends React.Component {
 
 	componentDidMount() {
 		const { data } = this.props;
+		console.log(data);
 		if (data) {
 			this.setState({ data: data });
 		}

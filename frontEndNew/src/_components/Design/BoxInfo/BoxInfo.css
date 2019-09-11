@@ -3,4 +3,7 @@
 	text-align: center;
 	border: 1px solid #b43539;
 	overflow-y: scroll;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
