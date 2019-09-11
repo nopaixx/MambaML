@@ -257,7 +257,7 @@ function importProject(projectId) {
 				const projectToSave = {
 					id: projectId,
 					name: 'dfdf',
-					json: chartStructure,
+					json: JSON.stringify(chartStructure),
 					frontendVersion: 'V1',
 					backendVersion: 'V1',
 				};

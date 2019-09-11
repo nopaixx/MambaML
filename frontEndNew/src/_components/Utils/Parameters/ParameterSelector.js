@@ -21,7 +21,7 @@ export const ParamsSelector = ({
 		if (value === 'csv') setCsvSelected(!isCsvSelectorActive);
 		if (value === 'colselector') setColSelectorStatus(!isCsvSelectorActive);
 	};
-	if (selectedColsInfo && selectedDataset) {
+	if (selectedColsInfo || selectedDataset) {
 		return (
 			<div className={'param-selector-wrapper'}>
 				<div className={'table-wrapper'}>

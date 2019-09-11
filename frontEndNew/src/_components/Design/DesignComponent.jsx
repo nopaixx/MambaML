@@ -59,7 +59,7 @@ const DesignComponent = props => {
 		const projectId = match.params.id;
 		dispatch(projectActions.exportProject(projectId));
 	};
-	const runImportProject = () => {
+	const runImportProject = project => {
 		const { dispatch, match } = props;
 		const projectId = match.params.id;
 		dispatch(projectActions.importProject(projectId));

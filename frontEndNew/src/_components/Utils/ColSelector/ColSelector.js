@@ -54,7 +54,12 @@ export const ColSelector = ({
 			}
 		}
 	}
-	if (!inputColumns) return null;
+	if (!inputColumns) {
+		console.log(
+			'There are not input columns to select maybe you need to run the project'
+		);
+		return null;
+	}
 	return (
 		<Dialog
 			open={isColSelectorOpen}

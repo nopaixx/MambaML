@@ -126,7 +126,7 @@ const LoadingWarapper = ({
 	} else if (boxStatus === 'ERROR') {
 		return (
 			<React.Fragment>
-				<Tooltip title={error} placement='bottom-start'>
+				<Tooltip title={error || 'error'} placement='bottom-start'>
 					<Icon className={classes.confirmationIcon}>error</Icon>
 				</Tooltip>
 			</React.Fragment>

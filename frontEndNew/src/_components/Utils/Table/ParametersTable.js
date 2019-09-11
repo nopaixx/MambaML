@@ -88,7 +88,7 @@ export default class ParametersTable extends React.Component {
 					this.setState({ data }, () => resolve());
 				}
 				resolve();
-			}, 100);
+			}, 0);
 		});
 	};
 
@@ -103,7 +103,7 @@ export default class ParametersTable extends React.Component {
 					this.setState({ data }, () => resolve());
 				}
 				resolve();
-			}, 100);
+			}, 0);
 		});
 	};
 
@@ -118,7 +118,7 @@ export default class ParametersTable extends React.Component {
 					this.setState({ data }, () => resolve());
 				}
 				resolve();
-			}, 100);
+			}, 0);
 		});
 	};
 
