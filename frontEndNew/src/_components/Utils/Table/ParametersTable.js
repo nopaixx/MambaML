@@ -54,12 +54,10 @@ export default class ParametersTable extends React.Component {
 
 	componentDidMount() {
 		const { data } = this.props;
-		console.log(data);
 		if (data) {
 			this.setState({ data: data });
 		}
 	}
-
 	componentDidUpdate(prevProps, prevState) {
 		const { data, dataset, selectedCols } = this.props;
 		const { savedProps } = this.state;
@@ -70,7 +68,7 @@ export default class ParametersTable extends React.Component {
 			const newProps = { ...savedProps.rowData, type: 'csv', value: dataset };
 			savedProps.onRowDataChange(newProps);
 		}
-		if (prevProps.selectedCols !== selectedCols && selectedCols) {
+		if (selectedCols) {
 			const newProps = {
 				...savedProps.rowData,
 				type: 'colselector',
@@ -129,7 +127,7 @@ export default class ParametersTable extends React.Component {
 			<MaterialTable
 				title='Params Table'
 				columns={this.state.columns}
-				data={this.state.data}
+				data={Object.keys(this.state.data).length ? this.state.data : []}
 				editable={{
 					onRowAdd: newData => this.addRow(newData),
 					onRowUpdate: (newData, oldData) =>
