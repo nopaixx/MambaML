@@ -447,6 +447,10 @@ export const BoxInfo = props => {
 	// 	setJsonParamData({ newData, newColumns });
 	// };
 
+	const handleChangeParam = value => {
+		params.parameters.forEach(param => {});
+	};
+
 	if (node && node.properties.payload.name) {
 		const nodeSplitName = node.properties.payload.name.split('-');
 		nodeName = nodeSplitName[nodeSplitName.length - 1];
@@ -460,20 +464,27 @@ export const BoxInfo = props => {
 				</div>
 				<div>
 					Params:
-					{params.parameters.map(param => {
-						return (
-							<div style={{ display: 'flex', flexDirection: 'column' }}>
-								<input value={param.param_friend_name} />
-								{/* {param.type === 'json' ? (
+					{params.parameters
+						? params.parameters.map((param, key) => {
+								return (
+									<div
+										key={key}
+										style={{ display: 'flex', flexDirection: 'column' }}>
+										<input
+											value={param.param_friend_name}
+											onChange={handleChangeParam}
+										/>
+										{/* {param.type === 'json' ? (
 									<div onClick={() => handleClickJson(param)}>
 										{param.value}
 									</div>
 								) : ( */}
-								<input value={param.value} />
-								{/* )} */}
-							</div>
-						);
-					})}
+										<input value={param.value} />
+										{/* )} */}
+									</div>
+								);
+						  })
+						: null}
 				</div>
 				<div
 					style={
