@@ -12,8 +12,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-broker = os.environ['rabbitmq_ampq']
-backend = os.environ['redis_backend']
+broker = os.environ.get('rabbitmq_ampq','none')
+backend = os.environ.get('redis_backend', 'none')
 
 app.config.update(
     CELERY_BROKER_URL=broker,
