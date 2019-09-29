@@ -42,3 +42,4 @@ sklearn
 boto3
 psycopg2
 bz2file==0.98
+

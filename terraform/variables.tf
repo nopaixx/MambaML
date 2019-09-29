@@ -7,7 +7,7 @@ variable "app_name"{
 
 variable "aws_region" {
   description = "The AWS region things are created in"
-  default     = "us-west-2"
+  default     = "us-east-1"
 }
 
 variable "ecs_task_execution_role_name" {

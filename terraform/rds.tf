@@ -1,7 +1,7 @@
 
 resource "aws_db_subnet_group" "default" {
   name       = "rdssubnet"
-  subnet_ids = aws_subnet.private.*.id
+  subnet_ids = aws_subnet.public.*.id
 
   tags = {
     Name = "My DB subnet group"

@@ -17,7 +17,7 @@ data "template_file" "mambaml_app" {
 }
 
 resource "aws_ecs_task_definition" "app" {
-  family                   = "mambaml-task-3"
+  family                   = "mambaml-task-4"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
@@ -35,7 +35,7 @@ resource "aws_ecs_service" "main" {
 
   network_configuration {
     security_groups  = [aws_security_group.ecs_tasks.id]
-    subnets          = aws_subnet.private.*.id
+    subnets          = aws_subnet.public.*.id
     assign_public_ip = true
   }
 

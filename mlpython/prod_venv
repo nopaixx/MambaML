@@ -1,4 +1,4 @@
 export rabbitmq_ampq=pyamqp://guest@rabbitmq//
 export redis_backend=redis://redis:6379/0
 export FLASK_APP=mlpython
-export DB_URI=postgres://mambaloger:mambapwd@terraform-20190915172757014800000001.curnnyzgg9ri.us-west-2.rds.amazonaws.com:5432/mambadb
+export DB_URI=postgres://mambaloger:mambapwd@terraform-20190929101514550300000003.cy7bc5hhuyjx.us-east-1.rds.amazonaws.com:5432/mambadb

@@ -1,2 +1,2 @@
 .terraform/plugins/
-.tfstate*
+*.tfstate*
