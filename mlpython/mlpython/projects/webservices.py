@@ -183,3 +183,32 @@ def get_project_internal():
 
         return 'Not found', 404
 
+
+@app.route('/projects/get_endpoint', methods=['GET'])
+def get_endpoint():
+    userLogged = User.get_authorized()
+    return userLogged.company.api_token, 200
+
+
+@app.route('/projects/predict', methods=['GET'])
+def predict_model():
+    long_token = request.args.get('token')
+    project_id = request.args.get('project_id')
+    box = request.args.get('box')
+    project_id = str(69)
+    box = '2bbd5b59-2635-4e34-b3cc-3f2e15d86af5'
+    from .runcode import run_celery_project
+    from .runcode import getOutput
+    #    def run_celery_project(allboxes, project_id, task, host, saver_host):
+    response = True
+    allboxes = None
+    allboxes = run_celery_project(allboxes, project_id, box, 'http://127.0.0.1:8081', '127.0.0.1', response)
+    print(allboxes, file=sys.stderr)
+    ret = getOutput(allboxes, box, 0)
+
+    return ret, 200
+
+    # necessitamso leer el proyecto
+    # necessitamos cargar las cajas
+    # necessitamos buscar la caja de predecir
+    # necesstiamos simplemente hacer un run

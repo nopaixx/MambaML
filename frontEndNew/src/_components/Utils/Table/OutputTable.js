@@ -22,6 +22,7 @@ export default class OutputTable extends React.Component {
 							<option value='sklean_model'>Sklearn Model</option>
 							<option value='keras_model'>Keras Model</option>
 							<option value='gridsearch_model'>GridSearch Model</option>
+							<option value='pickle'>Pickle Model</option>
 							<option value='other'>Other</option>
 						</select>
 					),

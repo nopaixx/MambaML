@@ -1,5 +1,5 @@
 
-export const url = 'http://mambaml-load-balancer-981667628.us-east-1.elb.amazonaws.com:8081'
+export const url = 'http://127.0.0.1:8081'
 
 export const TOKEN_URL = `${url}/token`;
 

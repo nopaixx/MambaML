@@ -19,6 +19,8 @@ class Company(db.Model):
     admin_name = db.Column(db.String(50))
     aws_key = db.Column(db.String(255))
     aws_secret = db.Column(db.String(255))
+    api_token = db.Column(db.String())
+
     def serialize(self):
         model={}
         model['id'] = self.id
@@ -29,6 +31,7 @@ class Company(db.Model):
         model['phone'] = self.phone
         model['email'] = self.email
         model['admin_name'] = self.admin_name
+        model['api_token'] = self.api_token
 
         return jsonify(model)
 
@@ -46,6 +49,7 @@ class Company(db.Model):
         model.admin_name = admin_name
         model.aws_key = aws_key
         model.aws_secret = aws_secret
+        model.api_token = 'API_LONG_TOKEN_123456789'
         db.session.add(model)
         db.session.commit()
         return model

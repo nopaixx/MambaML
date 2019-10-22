@@ -8,7 +8,7 @@ from ..users import User
 from flask import request
 from celery import chain
 from celery import group
-import pandas as pd
+# import pandas as pd
 import numpy as np
 import requests
 import sys

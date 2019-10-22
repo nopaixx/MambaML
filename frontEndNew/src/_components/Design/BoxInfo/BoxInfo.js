@@ -232,8 +232,10 @@ export const BoxInfo = props => {
 		nodeName = nodeSplitName[nodeSplitName.length - 1];
 	}
 	if (node) {
+		console.log("AL-->", node)
 		return (
 			<div className={'BoxInfo'}>
+				<h3>  {node.id} </h3>
 				<h3>{nodeName || node.type || ''}</h3>
 				<div
 					style={

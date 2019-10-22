@@ -200,6 +200,5 @@ class Project(db.Model):
             status.error = error
            # if stat == 'OK':
             self.json = data                
-            print("aaa", status)
             db.session.commit()
         return None

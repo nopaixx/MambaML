@@ -2,7 +2,7 @@ import os
 from mlpython.app import celery
 from ..projects import Project
 import json
-import pandas as pd
+# import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
 import traceback

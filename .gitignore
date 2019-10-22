@@ -3,3 +3,6 @@ mlpython/venv/lib/python3.6/site-packages/werkzeug/__pycache__/
 /mlpython/migrations/versions/__pycache__/*.pyc
 mlpython/migrations/versions/__pycache_/
 /frontEndNew/public/public_datasets/
+*.joblib
+mlpython/venv2/
+mlpython/venv3/

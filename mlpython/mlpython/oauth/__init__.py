@@ -25,6 +25,4 @@ provider._validator = RequestValidator()
 @provider.token_handler
 #@crossdomain(origin='*') 
 def access_token(*args, **kwargs):
-    print(kwargs, file=sys.stdout)
-    print(args, file=sys.stdout)
     return None
