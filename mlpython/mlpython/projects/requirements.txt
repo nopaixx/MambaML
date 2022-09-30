@@ -41,7 +41,7 @@ numpy
 scikit-learn==0.21.3
 boto3
 xgboost
-joblib==0.13.2
+joblib==1.2.0
 redis==3.3.8
 nltk
 tensorflow==1.14.0
